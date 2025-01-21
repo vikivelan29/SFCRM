@@ -23,6 +23,8 @@ import CASE_LEAD_ID from '@salesforce/schema/Case.Lead__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
+import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
+import ONEABC_BU from '@salesforce/label/c.ABCD_ONEABC_BU';
 import BU_TO_HIDE_EBOT_FEEDBACK from '@salesforce/label/c.BUsToHideEbotFeedbackInRecat';
 
 
@@ -42,7 +44,6 @@ import updateCaseRecord from '@salesforce/apex/ASF_RecategoriseCaseController.up
 import updateRequestedCCC from '@salesforce/apex/ASF_RecategoriseCaseController.updateRequestedCCC';
 import fetchCCCDetails from '@salesforce/apex/ASF_RecategoriseCaseController.fetchCCCDetails';
 import callEbotFeedbackApi from '@salesforce/apex/ABCL_EBotFeedback.callEbotFeedbackApi';
-import BU_TO_HIDE_EBOT_FEEDBACK from '@salesforce/label/c.BUsToHideEbotFeedbackInRecat';
 
 
 
@@ -137,6 +138,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     currentUserFullName = '';
     selectedType;
     selectedSubType;
+    overallSLA = '';
     recategorizeEnabled;
     approvalPending;
     sendBotFeedback = true;
@@ -203,6 +205,10 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.showBotFeedback = true;
             }
             this.businessUnit = getFieldValue(data, CASE_BU_FIELD);
+            if(this.businessUnit === ONEABC_BU || this.businessUnit === ABCD_BU){
+                this.bProceedToRecategorisation = true;
+                this.isAssetChange = false;
+            }
             this.originalCCCValue = getFieldValue(data,CCC_FIELD);
             this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_LAN_NUMBER);
             //if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU || getFieldValue(data, CASE_BU_FIELD) == ABSLAMC_BU){
@@ -213,13 +219,13 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
                 this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_POLICY_NUMBER);
             }
-            this.selectLan = lanLabels[this.businessUnit].SELECT_PRODUCT != null? lanLabels[this.businessUnit].SELECT_PRODUCT : lanLabels["DEFAULT"].SELECT_PRODUCT;
-            this.asstCols = lanLabels[this.businessUnit].ASSET_COLUMNS != null? lanLabels[this.businessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
-            this.assetSearchPlaceholder = lanLabels[this.businessUnit].PRODUCT_SEARCH_PLACEHOLDER != null? lanLabels[this.businessUnit].PRODUCT_SEARCH_PLACEHOLDER : lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
-            this.eligibleWithNewCustomerCSTSMsg = lanLabels[this.businessUnit].CASE_ELIGIBLE_WITH_NEW_CTST_MSG != null? lanLabels[this.businessUnit].CASE_ELIGIBLE_WITH_NEW_CTST_MSG : lanLabels["DEFAULT"].CASE_ELIGIBLE_WITH_NEW_CTST_MSG;
-            this.noneligibleWithNewCustomerCSTMsg = lanLabels[this.businessUnit].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG != null? lanLabels[this.businessUnit].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : lanLabels["DEFAULT"].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG;
-            this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
-            
+            this.selectLan = lanLabels[this.businessUnit]?.SELECT_PRODUCT || lanLabels["DEFAULT"].SELECT_PRODUCT;
+            this.asstCols = lanLabels[this.businessUnit]?.ASSET_COLUMNS || lanLabels["DEFAULT"].ASSET_COLUMNS;
+            this.assetSearchPlaceholder = lanLabels[this.businessUnit]?.PRODUCT_SEARCH_PLACEHOLDER || lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
+            this.eligibleWithNewCustomerCSTSMsg = lanLabels[this.businessUnit]?.CASE_ELIGIBLE_WITH_NEW_CTST_MSG || lanLabels["DEFAULT"].CASE_ELIGIBLE_WITH_NEW_CTST_MSG;
+            this.noneligibleWithNewCustomerCSTMsg = lanLabels[this.businessUnit]?.CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG || lanLabels["DEFAULT"].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG;
+            this.cols = lanLabels[this.businessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
+
         } else if (error) {
             console.error('Error loading record', error);
         }
@@ -291,8 +297,12 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         this.isNotSelected = true;
         this.showIssueType = false;
         let isthisNotAssetRelated = this.getIsAssetValue();
- 
-        getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: isthisNotAssetRelated, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB })
+        const inpArg = new Map();
+
+        inpArg['accountLOB'] = this.businessUnit;
+        let strInpArg = JSON.stringify(inpArg);
+
+        getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: isthisNotAssetRelated, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB, inpArg: strInpArg })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
@@ -704,6 +714,12 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         if(this.businessUnit === ABSLI_BU && this.currentIssueType){
             updatedOldCCCIdFields = updatedOldCCCIdFields +' - '+this.currentIssueType;
         }
+        if(this.businessUnit === 'ABHI' && this.overallSLA){
+            const d = new Date(this.overallSLA); 
+            const formatter = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const formattedDate = formatter.format(d);
+            updatedOldCCCIdFields = updatedOldCCCIdFields +' - '+formattedDate;
+        }
         fields[OLDCCCIDFIELDS.fieldApiName] = updatedOldCCCIdFields;
         // VIRENDRA - ADDED BELOW CHECKS FOR REPARENTING - 
         //console.log('this.accountId --> '+this.accountId);
@@ -981,6 +997,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.selectedSubType = caseparsedObject.Sub_Type_Text__c;
             this.currentUserFullName = this.oldCaseDetails.currentUserName;
             this.currentIssueType = caseparsedObject.Issue_Type__c;
+            this.overallSLA = caseparsedObject.Overall_Case_Closure_SLA__c;
             if(caseparsedObject.Account != null && caseparsedObject.Account != undefined){
                 if(caseparsedObject.Account.Client_Code__c != undefined && caseparsedObject.Account.Client_Code__c != null){
                     this.caseAccountClientCode = caseparsedObject.Account.Client_Code__c;

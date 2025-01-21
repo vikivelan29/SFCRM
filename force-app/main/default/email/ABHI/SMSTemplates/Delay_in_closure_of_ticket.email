@@ -1,0 +1,12 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p>Dear Customer,<br />
+We would like to inform you that we are currently experiencing a delay in processing your Service Request No. {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}. We sincerely apologize for any inconvenience this may have caused. Our goal is to resolve your request within&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} days.<br />
+Thank you for your patience.<br />
+Regards,<br />
+ABHI</p>
+</body>
+</html>

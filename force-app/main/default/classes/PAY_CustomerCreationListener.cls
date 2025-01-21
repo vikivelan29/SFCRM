@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 01-16-2025
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public without sharing class PAY_CustomerCreationListener {
     public static final Schema.SObjectField clientCodeField = Account.Fields.Client_Code__c;
     public static final Schema.SObjectField lob_clientCodeField = Account.Fields.LOB_Client_Code__c;

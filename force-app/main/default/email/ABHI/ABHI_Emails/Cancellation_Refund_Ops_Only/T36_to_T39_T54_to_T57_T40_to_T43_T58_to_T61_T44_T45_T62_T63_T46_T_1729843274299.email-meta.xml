@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>T36 to T39 , T54 to T57__T40 to T43 , T58 to T61__T44 &amp; T45 , T62 &amp; T63__T46 &amp; T47 , T64 &amp; T65_FLC_Refund not Processed_KYC or Bank Rejection.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>T36 to T39 , T54 to T57__T40 to T43 , T58 to T61__T44 &amp; T45 , T62 &amp; T63__T46 &amp; T</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Additional Information / Documents needed for initiating Refund for Policy No. {{{Case.LAN__c}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

@@ -1,0 +1,103 @@
+<!--
+  @description       : 
+  @author            : aditya.jawadekar@salesforce.com
+  @group             : 
+  @last modified on  : 11-21-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log
+  Ver   Date         Author                       Modification
+  1.0  28-10-2024  aditya.jawadekar@salesforce.com   PR1030924-701
+-->
+<template>
+    <lightning-card>
+        <div slot="title">
+            <lightning-button-icon slot="actions" icon-name="action:new_case" size="small" class="slds-var-m-right_x-small" variant="brand"></lightning-button-icon>
+            Search old Cases
+        </div>
+        <div class = "slds-var-m-around_medium">
+            <template if:true={isLoading}>
+                <div class="slds-backdrop" role="presentation"></div>
+
+                <div class="slds-fade-in-open  slds-modal_large">
+                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                </div>
+            </template>
+            <lightning-layout class = "slds-var-m-bottom_large" multiple-rows>
+                <lightning-layout-item size="3" class="slds-var-m-right_x-small">
+                    <div class = "slds-var-m-bottom_small">
+                        <lightning-combobox name = "Select member" label = "Select member" value = {selectedMember} placeholder = "Select member"
+                            options = {memberOptions} onchange = {handleMemberChange} disabled={disabled}> 
+                        </lightning-combobox>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="slds-var-m-right_x-small">
+                    <div class = "slds-var-m-bottom_small">
+                        <lightning-input type="email" name="emailId" value={emailId} onchange={handleEmailChange}
+                        label="Email" class="inpFieldCheckValidity" placeholder="Enter email"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="slds-var-m-right_x-small">
+                    <div class = "slds-var-m-bottom_small">
+                        <lightning-input type="tel" name="phoneNo" value={phoneNo} onchange={handlePhoneChange} pattern="[0-9]{10}"
+                        label="Phone Number" class="inpFieldCheckValidity" placeholder="Enter phone number" ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="slds-var-m-right_x-small">
+                    <div class = "slds-var-m-bottom_small">
+                        <lightning-input type="text" name="msdCaseNumber" value={msdCaseNumber} onchange={handleCaseInput}
+                        label="Case Number" class="inpFieldCheckValidity" placeholder="Enter MSD-CRM Case Number"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="slds-var-m-right_x-small">
+                    <div class = "slds-var-m-bottom_small">
+                        <lightning-combobox name = "Select policy number" label = "Select policy number" value = {selectedAsset} placeholder = "Select policy number"
+                            options = {options} onchange = {handleChange} disabled={disabled}> 
+                        </lightning-combobox>
+                    </div> 
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="slds-var-m-right_x-small">
+                    <div class = "slds-var-m-bottom_small">
+                        <lightning-input type="text" name="arcPolicyNo" value={arcPolicyNo} onchange={handleArchPolicyChange}
+                        label="Archived policy number" class="inpFieldCheckValidity" placeholder="Enter archived policy number"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="slds-var-m-right_x-small">
+                    <lightning-input type="date" name="Startdate" value={startDate} onchange={startDateChange}
+                        label="Start Date" class="inpFieldCheckValidity" format = 'YYYY-MM-dd' disabled={disabled} >
+                    </lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="slds-var-m-right_x-small">
+                    <lightning-input type="date" name="Enddate" value={endDate} onchange={endDateChange} min={startDate}
+                        label="End Date" message-when-range-underflow="Please Choose a date more than start date"
+                        class="inpFieldCheckValidity" format = 'YYYY-MM-dd' disabled={disabled} >
+                    </lightning-input>
+                </lightning-layout-item>
+            </lightning-layout>
+            <div class="slds-align_absolute-center">
+                <lightning-button class="slds-var-m-around_small" label = "Reset" title = "reset" onclick = {resetSearch} variant = "neutral" disabled={disabled} >
+                </lightning-button>
+                <lightning-button class="slds-var-m-around_small" label = "Search" title = "Search" onclick = {fetchLegacyCases} variant = "brand" disabled={disabled} >
+                </lightning-button>
+            </div>
+        </div>
+        
+        <div lwc:if = {displayTable}>
+            <div class = "slds-var-p-vertical_medium slds-text-heading_medium">
+                Case List
+            </div>
+
+            <c-abfl_-data-table-with-pagination columns={columns}
+															table-data={data} page-size = {label.pageSize}
+                                                            onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
+        </div>
+        <div lwc:if = {displayError}>
+            {errorMessage}
+        </div>
+    
+
+        <template lwc:if = {showChildTable}>
+            <c-abfl_base_view_screen api_id = {apiName} payload-info = {payloadInfo}></c-abfl_base_view_screen>
+        </template>
+
+    </lightning-card>
+</template>

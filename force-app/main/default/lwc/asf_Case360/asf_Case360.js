@@ -267,7 +267,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     ResolvedReasonsRequired = ResolvedReasonsRequired;  
 
     get eligibleForBU(){
-        return !(this.caseBusinessUnit == 'ABSLI');
+        return !(this.caseBusinessUnit == 'ABSLI' || this.caseBusinessUnit == 'ONEABC');
     }
 
     get showResolvedReasons(){

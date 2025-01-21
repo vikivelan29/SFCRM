@@ -1,0 +1,14 @@
+{
+ "ResponseObj": [
+   {
+     "Code": "1001",
+     "Message": " Refund Details Failure"
+   }
+ ],
+ "ReceiptObj": [
+   {
+     "ReceiptNumber": " ",
+     "RefundDetails": []
+            }
+          ]
+        }

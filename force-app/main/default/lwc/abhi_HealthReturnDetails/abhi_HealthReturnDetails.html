@@ -1,0 +1,55 @@
+<template>
+    <lightning-card variant="narrow">
+        <div>
+            <template if:true={isLoading}>
+                <lightning-spinner class="slds-m-top_x-small" alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+            <template if:true={showTitle}>
+                <div class="slds-grid">
+                    <div class="slds-col_bump-right">
+                        <h3 slot="title"><b>{label.healthReturnViewTitle}</b></h3>
+                    </div>
+                    <div>
+                        <lightning-button-icon class="slds-m-right_xx-small" onclick={handleRefresh}
+                            icon-name="utility:refresh" size="medium"
+                            alternative-text="Refresh"></lightning-button-icon>
+                    </div>
+                </div>
+            </template>
+            <template if:true={displayError}>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium"
+                    style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small"
+                        class="slds-m-right_small"></lightning-icon>
+                    <span style="font-size: 0.90rem;">{displayError}</span>
+                </div>
+            </template>
+            <template if:true={healthReturnData}>
+                <div class="slds-card slds-m-top_medium">
+                    <c-abfl_-data-table-with-pagination columns={healthReturnColumns} table-data={healthReturnAggData}
+                        page-size={label.pageSize} onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
+                </div>
+
+            </template>
+        </div>
+        <div>
+            <template if:true={showTitle}>
+                <h3 slot="title"><b>{label.healthReturnHeader}</b></h3>
+            </template>
+            <template if:true={displayError}>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium"
+                    style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small"
+                        class="slds-m-right_small"></lightning-icon>
+                    <span style="font-size: 0.90rem;">{displayError}</span>
+                </div>
+            </template>
+            <template if:true={healthReturnData}>
+                <div class="slds-card slds-m-top_medium">
+                    <c-abfl_-data-table-with-pagination columns={columns} table-data={healthReturnData}
+                        page-size={label.pageSize} onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

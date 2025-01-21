@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Case$CaseNumber</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedDate</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Policy_No__c</field>
+    </columns>
+    <columns>
+        <field>Case$Created_By_User_formula__c</field>
+    </columns>
+    <columns>
+        <field>Case$Description</field>
+    </columns>
+    <columns>
+        <field>Case$Type_Text__c</field>
+    </columns>
+    <columns>
+        <field>Case$Sub_Type_Text__c</field>
+    </columns>
+    <columns>
+        <field>Case$Nature__c</field>
+    </columns>
+    <columns>
+        <field>Case$ClosedDate</field>
+    </columns>
+    <columns>
+        <field>Case.SR_SLA_Histories__r$Actioned_By__c</field>
+    </columns>
+    <columns>
+        <field>Case.SR_SLA_Histories__r$Current_Owner__c</field>
+    </columns>
+    <columns>
+        <field>CDF1</field>
+    </columns>
+    <columns>
+        <field>Case.SR_SLA_Histories__r$Stage__c</field>
+    </columns>
+    <columns>
+        <field>Case.SR_SLA_Histories__r$CreatedDate</field>
+    </columns>
+    <columns>
+        <field>Case.SR_SLA_Histories__r$LastModifiedBy</field>
+    </columns>
+    <columns>
+        <field>Case.SR_SLA_Histories__r$FromStage__c</field>
+    </columns>
+    <columns>
+        <field>Case$Source__c</field>
+    </columns>
+    <columns>
+        <field>Case$Case_Assigned_Team__c</field>
+    </columns>
+    <columns>
+        <field>Case$Customer_name_formula__c</field>
+    </columns>
+    <customDetailFormulas>
+        <calculatedFormula>if(or(Case.CCC_External_Id__c = &quot;ABHI_Endorsement_Request10&quot;,
+Case.CCC_External_Id__c = &quot;ABHI_Endorsement_Request15&quot;,
+Case.CCC_External_Id__c = &quot;ABHI_Endorsement_Request9&quot;,
+Case.CCC_External_Id__c = &quot;ABHI_Request_CCC_3&quot;,
+Case.CCC_External_Id__c = &quot;ABHI_Request_CCC_Reimbursement&quot;,
+Case.CCC_External_Id__c = &quot;ABHI_Endorsement_Request16&quot;,
+Case.CCC_External_Id__c = &quot;ABHI_Endorsement_Request4&quot;,
+Case.CCC_External_Id__c = &quot;ABHI_Endorsement_Request5&quot;,
+Case.CCC_External_Id__c = &quot;ABHI_Endorsement_Request7&quot;,
+Case.CCC_External_Id__c = &quot;ABHI_Endorsement_Request8&quot;,
+Case.CCC_External_Id__c = &quot;ABHI_Endorsement_Request2&quot;,
+Case.CCC_External_Id__c = &quot;ABHI_Endorsement_Request6&quot;,
+Case.CCC_External_Id__c = &quot;ABHI_Endorsement_Request11&quot;
+),&quot;True&quot;,&quot;False&quot;)</calculatedFormula>
+        <dataType>Text</dataType>
+        <developerName>CDF1</developerName>
+        <label>is STP Flow</label>
+        <scale>2</scale>
+    </customDetailFormulas>
+    <description>FTR Cases</description>
+    <filter>
+        <booleanFilter>1 AND 2 AND (3 OR 4 OR 9) AND 5 AND 6 AND 7 AND 8</booleanFilter>
+        <criteriaItems>
+            <column>Case$Business_Unit__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>ABHI</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Stage__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>Resolved</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.SR_SLA_Histories__r$FromStage__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>Open</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.SR_SLA_Histories__r$FromStage__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Nature__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Request</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Source__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.SR_SLA_Histories__r$is_Running_Record__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$CCC_External_Id__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$ABHI_Case_Detail__c.Inward_Number__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>FTR Cases</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>ABHI_Cases_with_Case_SLA_History__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>false</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
+    <sortColumn>Case.SR_SLA_Histories__r$CreatedDate</sortColumn>
+    <sortOrder>Desc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>Case$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>T16_PR_Refund not Processed_KYC or Bank Rejection</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Final Reminder for Additional Information / Documents concerning refund for Application / Proposal No. {{{Case.Proposal_Number__c}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

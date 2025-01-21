@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Patient_Name__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <inlineHelpText>Please enter CM- to view list of available Patients</inlineHelpText>
+    <label>Patient Name</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Customer_Member_Mapping__c.Policy_Number__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.Policy__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Customer_Member_Mapping__c.Policy_Number__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Customer_Member_Mapping__c</referenceTo>
+    <relationshipLabel>ABHI Case Details (Patient Name)</relationshipLabel>
+    <relationshipName>ABHI_Case_Details1</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
