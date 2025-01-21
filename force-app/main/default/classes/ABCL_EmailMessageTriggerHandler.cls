@@ -18,8 +18,8 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         ASF_EmailMessageHelper.checkAndReopenClosedCases(newItems);
         
         RNWL_EmailMessageTriggerHandler.validateEmailCount(newItems);
-        
-      //  for(EmailMessage em : (List<EmailMessage>)newItems){
+
+//  for(EmailMessage em : (List<EmailMessage>)newItems){
             //System.debug('ASF - emailmessage before'+em);
         //}
     }
@@ -59,7 +59,7 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         // US- PR970457-575(ABWM chat originated cases) WEALTHCHATGENERATED CASES UPDATE SUPPLIED EMAIL WHICH IS ETRACTED FROM EMAIL BODY
         ABFL_WealthChatGeneratedCases.execute(newEmails.values());
         ABSLIG_SendCaseCreationEmail.sendEmailOnCaseCreation(newEmails.values());
-        //EY ABML Code Add
+//EY ABML Code Add
         ABML_SendCaseCreationEmail.sendEmailOnABMLCaseCreation((List<EmailMessage>)newEmails.values());
         // ABFL_EmailCase_Logic.updateIncomingEmailCount(sEMIds);
         if(sEMIds.size()>0){

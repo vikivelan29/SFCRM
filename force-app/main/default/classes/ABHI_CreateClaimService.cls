@@ -105,6 +105,7 @@ global with sharing class ABHI_CreateClaimService {
                   }
                        //claim.name = claimNumber;
                     claim.ClaimExternalId__c = claimNumber;
+                    claim.Policy_Number_Text__c = policyNumber;
                               claimsToProcess.add(claim);
                     }                    
                 } 

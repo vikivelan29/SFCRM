@@ -3,7 +3,7 @@
     <fullName>ABML_Primary_DP_ID__c</fullName>
     <externalId>false</externalId>
     <label>Primary DP ID</label>
-    <length>10</length>
+    <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Text</type>

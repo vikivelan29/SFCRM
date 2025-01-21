@@ -118,6 +118,8 @@ public with sharing class ASF_CustomerAndProspectSearch {
             if(prospectRecord.Sales_Prospect__c == true){
                 if(prospectRecord.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU) {
                     prospectRecord.RecordTypeId = abslamcSalesProspectRTId;
+                }else if(prospectRecord.Business_Unit__c == ABHI_Constants.ABHI) {
+                    prospectRecord.RecordTypeId = serviceProspectRTId;
                 }
                 else {
                     prospectRecord.RecordTypeId = salesProspectRTId;

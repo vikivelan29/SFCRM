@@ -3,7 +3,7 @@
     <fullName>ABML_Investor_Type__c</fullName>
     <externalId>false</externalId>
     <label>Investor Type</label>
-    <length>50</length>
+    <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Text</type>

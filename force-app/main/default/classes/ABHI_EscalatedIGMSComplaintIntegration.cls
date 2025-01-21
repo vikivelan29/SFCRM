@@ -21,7 +21,7 @@ public with sharing class ABHI_EscalatedIGMSComplaintIntegration implements ASF_
         }
         for (Case caseRecord : caseRecords) {
             System.debug('comlaintstatus'+caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c);
-         	ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+            ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABHI_Constants.SUCCESS;
             result.response = ABSLI_Constants.EVALUATION_SUCCESS;            
             if(caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '6'){
@@ -66,7 +66,7 @@ public with sharing class ABHI_EscalatedIGMSComplaintIntegration implements ASF_
         Map<String,List<Case>> mIGMSStatusRelatedCases = new Map<String,List<Case>>();
         mIGMSStatusRelatedCases.put('ESC', new List<Case>());
         mIGMSStatusRelatedCases.put('REOP', new List<Case>());
-		Map<Id, String> caseStageMap = new Map<Id, String>();
+        Map<Id, String> caseStageMap = new Map<Id, String>();
         
         List<Case> caseRecords = new List<Case>();
         for (Case caseRec : caseRecs) {
@@ -230,8 +230,8 @@ public with sharing class ABHI_EscalatedIGMSComplaintIntegration implements ASF_
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
             this.Complaint_Status_Id = '5';
-            this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
-            this.Escalated_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+            this.Status_Change_Date = ABHI_IGMSIntegrationHelper.todayString;
+            this.Escalated_Date = ABHI_IGMSIntegrationHelper.todayString;
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
             this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_UPDATE;
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;

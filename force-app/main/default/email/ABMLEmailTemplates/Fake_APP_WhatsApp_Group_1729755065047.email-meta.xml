@@ -4,6 +4,7 @@
     <encodingKey>UTF-8</encodingKey>
     <name>Fake APP/WhatsApp Group</name>
     <style>none</style>
+    <subject>Fake APP/WhatsApp Group</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
