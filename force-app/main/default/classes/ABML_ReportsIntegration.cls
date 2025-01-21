@@ -4,6 +4,7 @@
 *@Created Date :  25-October-2024
 *@Last Modified:  25-November-2024
 *@description  :  Class for ABML SOA,SOT and Contract Note Report Integration
+//Added by ABML EY Team
 *********************************************************/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABML_ReportsIntegration{
@@ -134,9 +135,9 @@ public with sharing class ABML_ReportsIntegration{
         ABML_Daily_Report_Sender__c objReportSender = [SELECT Email__c from ABML_Daily_Report_Sender__c WHERE Name = 'ordWideAddress' LIMIT 1];
         OrgWideEmailAddress orgWideEmail = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE Address =:objReportSender.Email__c  LIMIT 1]; 
         // Added for template
-        Id templateId1 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Report_Integration_Email_Template_1733123089274' LIMIT 1].Id;
-        Id templateId2 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_SOT_Email_Template_1733145673611' LIMIT 1].Id;
-        Id templateId3 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Contract_Note_Email_Template_1733145822012' LIMIT 1].Id;
+        Id templateId1 = [SELECT Id FROM EmailTemplate WHERE Name = 'ABML SOA Email Template' LIMIT 1].Id;
+        Id templateId2 = [SELECT Id FROM EmailTemplate WHERE Name = 'ABML SOT Email Template' LIMIT 1].Id;
+        Id templateId3 = [SELECT Id FROM EmailTemplate WHERE Name = 'ABML Contract Note Email Template' LIMIT 1].Id;
 
         Contact contactRec;
         if(!Test.isRunningtest()){
@@ -248,8 +249,12 @@ public with sharing class ABML_ReportsIntegration{
     
     @AuraEnabled(cacheable=true)
     public static date getAccountActiveDate(String clientCode){
-        Account activeDate = [Select Id,Client_Code__c, Active_Date__c from Account where Client_Code__c =:clientCode limit 1];
+        system.debug('clientCode is ::: '+clientCode);
+        Account activeDate = [Select Id,Client_Code__c, Active_Date__c from Account where Client_Code__c =:clientCode 
+                              And Business_Unit__c ='ABML' limit 1];
+        system.debug('activeDate 1 is ::: '+activeDate);
         if(activeDate.Active_Date__c!=null){
+            system.debug('activeDate 2 is ::: '+activeDate.Active_Date__c);
             return activeDate.Active_Date__c;
         }else{
             return null; 
