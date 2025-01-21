@@ -19,6 +19,10 @@
                 <behavior>Required</behavior>
                 <field>Location__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Alternate_SPOC__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -28,10 +32,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>SPOC__c</field>
-            </layoutItems>
-			<layoutItems>
-                <behavior>Edit</behavior>
-                <field>Alternate_SPOC__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
