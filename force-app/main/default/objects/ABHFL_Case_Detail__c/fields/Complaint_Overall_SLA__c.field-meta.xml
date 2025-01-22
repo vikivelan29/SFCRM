@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Complaint_Overall_SLA__c</fullName>
-    <encryptionScheme>None</encryptionScheme>
-    <description>It is carrying overall case sla of complaint case after recategorization</description>
+    <description>It is carrying an overall case sla of complaint case after recategorization</description>
     <externalId>false</externalId>
     <label>Complaint Overall SLA</label>
     <required>false</required>
