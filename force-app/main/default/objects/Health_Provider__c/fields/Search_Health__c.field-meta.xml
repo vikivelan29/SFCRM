@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Complaint_RCA__c</fullName>
+    <encryptionScheme>None</encryptionScheme>
     <description>This is field where we are carrying multiple complaint fields for reference to user</description>
     <externalId>false</externalId>
     <label>Search Health</label>
