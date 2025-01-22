@@ -73,11 +73,19 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_PayableChargeMissing').Message__c;              
         }
 		
-		//Condition added for PR970457-2649
-        if(caseRecord.Stage__c=='Open' && caseRecord.CCC_External_Id__c =='REFCL001' && caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c == 'No' && caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL && (caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c =='less than 3 months' || caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c =='more than 3 months') ){
-            result.status = ABHFL_Constants.ERROR;
-            result.response = Custom_Messages__mdt.getInstance('ABHFL_No_Payment_Link_REFCL001_Open_Stag').Message__c;              
+	//START -- Condition added for PR970457-2649
+        if(caseRecord.Stage__c=='Open' && caseRecord.CCC_External_Id__c =='REFCL001' && caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL ){
+            if(caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c == 'No' && (caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c =='less than 3 months' || caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c =='more than 3 months') ){
+            	result.status = ABHFL_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('ABHFL_No_Payment_Link_REFCL001_Open_Stag').Message__c;              
+            }
+            else if(String.isBlank(caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c) || String.isBlank(caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c) || String.isBlank(caseRecord.Description)){
+            	result.status = ABHFL_Constants.ERROR;
+            	result.response = 'Please complete the required fields';
+            }
+            
         }
+	//END -- Condition added for PR970457-2649
 		
         if(String.isBlank(caseRecord.Asset.Loan_ID__c)) {
             result.status = ABHFL_Constants.ERROR;
