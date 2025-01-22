@@ -3,7 +3,7 @@
     <fullName>ABML_Branch_Zone__c</fullName>
     <externalId>false</externalId>
     <label>Branch Zone</label>
-    <length>150</length>
+    <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>

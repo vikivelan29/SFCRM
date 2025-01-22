@@ -421,7 +421,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
-            <value></value>
+            <value>test</value>
         </criteriaItems>
         <criteriaItems>
             <column>Case$Parent</column>
@@ -435,7 +435,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
-            <value></value>
+            <value>Test</value>
         </criteriaItems>
         <criteriaItems>
             <column>Case$Parent</column>

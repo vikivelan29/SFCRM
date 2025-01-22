@@ -123,7 +123,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                                 healthArray = JSON.parse(data[key]).Response;
                                 if(healthArray){
                                     healthArray.forEach((item) => {
-                                        if(this.account.Client_Code__c == item.vchClientCode){
+                                        if(this.account.MMI_Customer_ID__c == item.vchClientCode){
                                             this.heathRetrn = item;
                                             this.healthFlag = true;
                                             this.balanceHR = (this.heathRetrn.TotalHealthReturnsTM - this.heathRetrn.TotalHealthReturnsTMBurnt).toFixed(1);
@@ -146,7 +146,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                                 fitnessArray = JSON.parse(data[key]).Response;
                                 if(fitnessArray){
                                     fitnessArray.forEach((item) => {
-                                        if(this.account.Client_Code__c == item.vchClientCode){
+                                        if(this.account.MMI_Customer_ID__c == item.vchClientCode){
                                             this.fitnessData = item;   
                                             this.fitnessFlag = true;                 
                                         }

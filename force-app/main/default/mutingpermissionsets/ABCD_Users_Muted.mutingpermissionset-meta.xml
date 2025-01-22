@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MutingPermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>HideCaseWithProspect</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>ShowSalesProspect</name>
+    </customPermissions>
+    <label>ABCD Users Muted</label>
+    <tabSettings>
+        <tab>Health_Intent__c</tab>
+        <visibility>Available</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Payment_Customer_Search</tab>
+        <visibility>Available</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Search_Kavach_Customer_Policy_details</tab>
+        <visibility>Available</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>standard-Knowledge</tab>
+        <visibility>Available</visibility>
+    </tabSettings>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>EditCaseComments</name>
+    </userPermissions>
+</MutingPermissionSet>

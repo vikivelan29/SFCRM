@@ -7,7 +7,7 @@
 *@description :  Helper class for ABCL_SurveyResponseTriggerHandler
 *********************************************************/
 public without sharing class ABCL_SurveyResponseHelper {
-    public static final List<String> LINE_OF_BUSINESS = new List<String>{'ABFL','ABWM', 'ABSLAMC'};
+    public static final List<String> LINE_OF_BUSINESS = new List<String>{'ABFL','ABWM', 'ABSLAMC','ONEABC','ABCD'};
         /****************************************************************************************************************
          * @function - associateCustomerAndAsset
          * @description - Invoked from the ABCL_SurveyResponseTriggerHandler class to associate customer/asset with survery response
@@ -23,8 +23,8 @@ public without sharing class ABCL_SurveyResponseHelper {
             Map<Integer,String> iHashLANVsLob = new Map<Integer,String>();
             Map<Id,Case> mCaseDetails = new Map<Id,Case>();
             
-            
-            /* Scenario 1 - Client Code, Case # and LAN # is provided.
+             
+                        /* Scenario 1 - Client Code, Case # and LAN # is provided.
 * Scenario 2 - Client Code, Case # provided, LAN # not provided --> Do not map Asset.
 * Scenario 3 - Case # provided, Client Code and LAN not provided --> Map Customer from Case and do not map Asset.
 * Scenario 4 - Case # and LAN provided, Client Code not provided --> Map Customer from Case #.

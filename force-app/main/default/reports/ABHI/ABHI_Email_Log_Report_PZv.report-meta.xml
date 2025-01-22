@@ -26,6 +26,9 @@
         <field>Case.EmailMessages$MessageDate</field>
     </columns>
     <columns>
+        <field>Case.EmailMessages$Incoming</field>
+    </columns>
+    <columns>
         <field>Case.EmailMessages$Status</field>
     </columns>
     <columns>
@@ -56,14 +59,13 @@
     <columns>
         <field>Case$Winning_Email__c</field>
     </columns>
+    <columns>
+        <field>Case$Status</field>
+    </columns>
+    <columns>
+        <field>Case$Stage__c</field>
+    </columns>
     <filter>
-        <criteriaItems>
-            <column>Case.EmailMessages$MessageDate</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>greaterThan</operator>
-            <value>12/3/2023 12:00 AM</value>
-        </criteriaItems>
         <criteriaItems>
             <column>Case$Business_Unit__c</column>
             <columnToColumn>false</columnToColumn>
@@ -75,8 +77,8 @@
             <column>Case$Winning_Email__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>notEqual</operator>
-            <value>test</value>
+            <operator>equals</operator>
+            <value>care.healthinsurance@adityabirlacapital.com</value>
         </criteriaItems>
         <criteriaItems>
             <column>Case$Owner</column>
@@ -85,12 +87,19 @@
             <operator>notEqual</operator>
             <value>Dummy</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Case.EmailMessages$MessageDate</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>greaterThan</operator>
+            <value>12/3/2024 12:00 AM</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
         <field>Case$CaseNumber</field>
-        <sortOrder>Asc</sortOrder>
+        <sortOrder>Desc</sortOrder>
     </groupingsDown>
     <name>ABHI Email Log Report</name>
     <params>
@@ -102,8 +111,10 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>false</showSubTotals>
+    <sortColumn>Case.EmailMessages$MessageDate</sortColumn>
+    <sortOrder>Desc</sortOrder>
     <timeFrameFilter>
-        <dateColumn>Case$Case_SLA_Threshold_1__c</dateColumn>
+        <dateColumn>Case$CreatedDate</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>

@@ -75,11 +75,11 @@
             <value>Email,Branch,Social Media,Others</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Case.Stage__c</column>
+            <column>STATUS</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Open</value>
+            <value>New</value>
         </criteriaItems>
         <criteriaItems>
             <column>Case.Business_Unit__c</column>

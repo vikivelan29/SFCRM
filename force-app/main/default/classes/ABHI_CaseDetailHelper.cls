@@ -112,7 +112,7 @@ public with sharing class ABHI_CaseDetailHelper {
         Map<String, Case> mapofCaseDetailToReopenedCase = new Map<String, Case>();
         if(triggerContext == 'AfterASFCodeInAfterUpdate') {
             for(Case caseRec : abhiNewCaseList) {
-                if(caseRec.Business_Unit__c == 'ABHI' && caseRec.Stage__c == 'Resolved' && caseRec.Reopened__c == FALSE) {
+                if(caseRec.Business_Unit__c == 'ABHI' && caseRec.Stage__c == 'Resolved' && caseRec.Reopened__c == FALSE && mapOfIdToOldCase.get(caseRec.Id).Stage__c != 'Resolved') {
                     abhiCaseDetIdsResolved.add(caseRec.ABHI_Case_Detail__c);
                     mapofCaseDetailToResolvedCase.put(caseRec.ABHI_Case_Detail__c, caseRec);
                 } 
@@ -128,7 +128,7 @@ public with sharing class ABHI_CaseDetailHelper {
                 Case cs = mapofCaseDetailToResolvedCase.get(abhiCaseDet.Id);
                  if(cs != null) {
                      abhiCaseDet.Case_Closed_Resolution_Comments__c = abhiCaseDet.Resolution_Comments__c;
-                     abhiCaseDet.Case_Closed_Resolved_By__c = cs.OwnerText__c;
+                     abhiCaseDet.Case_Closed_Resolved_By__c = mapOfIdToOldCase.get(cs.Id).OwnerText__c;
                      abhiCaseDetList.add(abhiCaseDet);
                  }
             }
