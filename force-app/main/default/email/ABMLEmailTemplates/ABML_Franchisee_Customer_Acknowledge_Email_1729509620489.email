@@ -2,11 +2,11 @@
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;"><span style="font-size:11pt"><span style="line-height:107%"><span style="font-family:Calibri,sans-serif"><span lang="EN-IN" style="font-family:&quot;EYInterstate Light&quot;">Hi&nbsp;{{{Case.Contact.Name}}}</span><span lang="EN-IN" style="font-family:&quot;Times New Roman&quot;,serif">,</span><br />
+<body style="height: auto; min-height: auto;"><span style="font-size:10px;"><span style="font-family:Times New Roman,Times New Roman,Times,serif;"><span style="line-height:107%"><span lang="EN-IN">Hi&nbsp;{{{Case.Contact.Name}}},</span><br />
 <br />
-<span lang="EN-IN" style="font-family:&quot;EYInterstate Light&quot;">Thank you for getting in touch with us.<br />
+<span lang="EN-IN">Thank you for getting in touch with us.<br />
 <br />
-This is an automated response to your Request for</span></span></span></span>{{{Case.Type}}}<span style="font-size:11pt"><span style="line-height:107%"><span style="font-family:Calibri,sans-serif"><span lang="EN-IN" style="font-family:&quot;EYInterstate Light&quot;">. &nbsp;Please note your interaction id is </span></span></span></span>{{{Case.CaseNumber}}}<span style="font-size:11pt"><span style="line-height:107%"><span style="font-family:Calibri,sans-serif"><span lang="EN-IN" style="font-family:&quot;EYInterstate Light&quot;"> with respect to trading account no </span></span></span></span>{{{Case.AssetId}}}.&nbsp;<span style="font-size:11pt"><span style="line-height:107%"><span style="font-family:Calibri,sans-serif"><span lang="EN-IN" style="font-family:&quot;EYInterstate Light&quot;">The same will be responded on&nbsp;</span></span></span></span>{{{ABML_Case_Detail__c.TAT_Deadline__c}}}<span style="font-size:11pt"><span style="line-height:107%"><span style="font-family:Calibri,sans-serif"><span lang="EN-IN" style="font-family:&quot;EYInterstate Light&quot;">.<br />
+This is an automated response to your Request for</span></span>{{{Case.Type}}}<span style="line-height:107%"><span lang="EN-IN">. &nbsp;Please note your interaction id is </span></span>{{{Case.CaseNumber}}}<span style="line-height:107%"><span lang="EN-IN"> with respect to trading account no </span></span>{{{Case.AssetId}}}.&nbsp;<span style="line-height:107%"><span lang="EN-IN">The same will be responded on&nbsp;</span></span>{{{ABML_Case_Detail__c.TAT_Deadline__c}}}<span style="line-height:107%"><span lang="EN-IN">.<br />
 <br />
 We request you not to reply on this system generated mail.<br />
 <br />

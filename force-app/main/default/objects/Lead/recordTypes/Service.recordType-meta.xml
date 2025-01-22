@@ -88,6 +88,10 @@
             <fullName>Wellness</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABCD</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Employment_Type__c</picklist>

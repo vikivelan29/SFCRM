@@ -40,23 +40,25 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
             String errorMessage = 'Please update the mandatory fields first';
             boolean bErrorOccured = false;
             System.debug('description>>>'+caseRecord.Description);
+            if ((caseRecord.Technical_Source__c == 'Email' && !String.valueOf(caseRecord.OwnerId).startsWith('00G')) || caseRecord.Technical_Source__c != 'Email') {
             // if(caseRecord.ABHI_Case_Detail__r.Patient_Name__c == null || caseRecord.ABHI_Case_Detail__r.Patient_Name__c == '') {
-            if(String.isBlank(caseRecord.Description)){
-                bErrorOccured = true;
-            }         
-            if(bErrorOccured){
-                errorMessage = errorMessage.removeEnd(', ');
-                result.response = errorMessage;
+                if(caseRecord.Technical_Source__c != 'API' && String.isBlank(caseRecord.Description)){
+                    bErrorOccured = true;
+                }         
+                if(bErrorOccured){
+                    errorMessage = errorMessage.removeEnd(', ');
+                    result.response = errorMessage;
+                    resultMap.put(caseRecord.Id, result);
+                } 
+                else{
+                    result.status = ABHI_Constants.SUCCESS;
+                    result.response = 'Evaluation Success';
+                }
                 resultMap.put(caseRecord.Id, result);
-            } 
-            else{
-                result.status = ABHI_Constants.SUCCESS;
-                result.response = 'Evaluation Success';
             }
-            resultMap.put(caseRecord.Id, result);
         }
-        system.debug('resultMap---->'+resultMap);
-        return resultMap;
+            system.debug('resultMap---->'+resultMap);
+            return resultMap;
     }
 
     /**
@@ -245,7 +247,7 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
              else if (caseInteg.Status__c == ABHI_Constants.FAILURE) {
              	Case caseRecord = ABHI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);                
                 List<sObject> dmlRecords = new List<sObject>();
-					caseRecord.MoveToNext__c  = true;
+                    caseRecord.Stage__c ='In Progress';
                     dmlRecords.add(caseRecord);
                     Database.SaveResult[] results = Database.update(dmlRecords, true);     
             }
@@ -269,26 +271,26 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
         ReimbursementRequest requestWrapper = new ReimbursementRequest();
         PreAuthObjWrapper patInst = new PreAuthObjWrapper();
         patInst.Policy_Number = caseRecord.Asset.Policy_No__c;
-        patInst.FamilyId = caseRecord.ABHI_Case_Detail__r.Member_Id__c;
-        patInst.Cover_code = caseRecord.ABHI_Case_Detail__r.Cover_Name__r.Cover_Code__c;
-        patInst.Cover_Name = caseRecord.ABHI_Case_Detail__r.Cover_Name__r.Cover_Name__c;
-        patInst.Hospital_Name = caseRecord.ABHI_Case_Detail__r.Hospital__r.Provider_Name__c;
-        patInst.Hospital_Code = caseRecord.ABHI_Case_Detail__r.Hospital__r.Provider_Code__c;
-        patInst.Date_of_Admission = caseRecord.ABHI_Case_Detail__r.Date_of_Admission__c.format('MM/dd/yyyy');
-        patInst.Time_of_Admission = caseRecord.ABHI_Case_Detail__r.Date_of_Admission__c.format('hh:mm');
-        patInst.Date_of_Discharge = caseRecord.ABHI_Case_Detail__r.Date_of_Discharge__c.format('MM/dd/yyyy');
-        patInst.Time_of_Discharge = caseRecord.ABHI_Case_Detail__r.Date_of_Discharge__c.format('hh:mm');
+        patInst.FamilyId = caseRecord.ABHI_Case_Detail__c!=null && caseRecord.ABHI_Case_Detail__r.Member_Id__c!=null?caseRecord.ABHI_Case_Detail__r.Member_Id__c:null;
+        patInst.Cover_code = caseRecord.ABHI_Case_Detail__c!=null && caseRecord.ABHI_Case_Detail__r.Cover_Name__r.Cover_Code__c!=null?caseRecord.ABHI_Case_Detail__r.Cover_Name__r.Cover_Code__c:null;
+        patInst.Cover_Name = caseRecord.ABHI_Case_Detail__c!=null && caseRecord.ABHI_Case_Detail__r.Cover_Name__r.Cover_Name__c!=null?caseRecord.ABHI_Case_Detail__r.Cover_Name__r.Cover_Name__c:null;
+        patInst.Hospital_Name = caseRecord.ABHI_Case_Detail__c!=null && caseRecord.ABHI_Case_Detail__r.Hospital__r.Provider_Name__c!=null?caseRecord.ABHI_Case_Detail__r.Hospital__r.Provider_Name__c:null;
+        patInst.Hospital_Code = caseRecord.ABHI_Case_Detail__c!=null && caseRecord.ABHI_Case_Detail__r.Hospital__r.Provider_Code__c!=null?caseRecord.ABHI_Case_Detail__r.Hospital__r.Provider_Code__c:null;
+        patInst.Date_of_Admission = caseRecord.ABHI_Case_Detail__c!=null && caseRecord.ABHI_Case_Detail__r.Date_of_Admission__c!=null?caseRecord.ABHI_Case_Detail__r.Date_of_Admission__c.format('MM/dd/yyyy'):null;
+        patInst.Time_of_Admission = caseRecord.ABHI_Case_Detail__c!=null && caseRecord.ABHI_Case_Detail__r.Date_of_Admission__c!=null?caseRecord.ABHI_Case_Detail__r.Date_of_Admission__c.format('hh:mm'):null;
+        patInst.Date_of_Discharge = caseRecord.ABHI_Case_Detail__c!=null && caseRecord.ABHI_Case_Detail__r.Date_of_Discharge__c!=null?caseRecord.ABHI_Case_Detail__r.Date_of_Discharge__c.format('MM/dd/yyyy'):null;
+        patInst.Time_of_Discharge = caseRecord.ABHI_Case_Detail__c!=null && caseRecord.ABHI_Case_Detail__r.Date_of_Discharge__c!=null?caseRecord.ABHI_Case_Detail__r.Date_of_Discharge__c.format('hh:mm'):null;
         Datetime now = Datetime.now();
         patInst.Document_Received_Date = now.format('MM/dd/yyyy');
         patInst.Document_Received_Time = now.format('hh:mm');
-        patInst.Patient_Name = caseRecord.ABHI_Case_Detail__r.Patient_Name__r.Member_Name__c;
-        patInst.Claim_Amount = String.valueOf(caseRecord.ABHI_Case_Detail__r.Claim_Amount__c);
+        patInst.Patient_Name = caseRecord.ABHI_Case_Detail__c!=null && caseRecord.ABHI_Case_Detail__r.Patient_Name__c!=null && caseRecord.ABHI_Case_Detail__r.Patient_Name__r.Member_Name__c !=null?caseRecord.ABHI_Case_Detail__r.Patient_Name__r.Member_Name__c:null;
+        patInst.Claim_Amount = caseRecord.ABHI_Case_Detail__c!=null?String.valueOf(caseRecord.ABHI_Case_Detail__r.Claim_Amount__c):null;
         patInst.Intimation_Type = caseRecord.Type_Text__c;
         patInst.Claim_Intimation_Through = 'CRM';
         patInst.Claim_Intimation_Source = 'CRM';
         patInst.Source_System_Code = 'CRM';
-        patInst.Other_Ind = caseRecord.ABHI_Case_Detail__r.Hospital__r.Provider_Name__c == 'Others' ? 'Yes' : 'No';
-        patInst.Hospital_Nm = caseRecord.ABHI_Case_Detail__r.Hospital_Name__c!=null?caseRecord.ABHI_Case_Detail__r.Hospital_Name__c:caseRecord.ABHI_Case_Detail__r.Hospital__r.Provider_Name__c;
+        patInst.Other_Ind = caseRecord.ABHI_Case_Detail__c!=null && caseRecord.ABHI_Case_Detail__r.Hospital__c!=null && caseRecord.ABHI_Case_Detail__r.Hospital__r.Provider_Name__c!=null?caseRecord.ABHI_Case_Detail__r.Hospital__r.Provider_Name__c == 'Others' ? 'Yes' : 'No':'';
+        patInst.Hospital_Nm = caseRecord.ABHI_Case_Detail__c!=null && caseRecord.ABHI_Case_Detail__r.Hospital_Name__c!=null?caseRecord.ABHI_Case_Detail__r.Hospital_Name__c:caseRecord.ABHI_Case_Detail__r.Hospital__r.Provider_Name__c;
         PreexistingObjWrapper peoInst = new PreexistingObjWrapper();
         peoInst.Preexisting_Deases = '';
         peoInst.Status = '';

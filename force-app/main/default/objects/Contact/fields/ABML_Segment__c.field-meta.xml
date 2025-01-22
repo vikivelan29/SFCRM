@@ -3,7 +3,7 @@
     <fullName>ABML_Segment__c</fullName>
     <externalId>false</externalId>
     <label>Segment</label>
-    <length>100</length>
+    <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Text</type>

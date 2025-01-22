@@ -387,8 +387,8 @@ export const lanLabels = {
         CREATE_SALES_PROSPECT: 'Create Service Prospect',
 
     },
-	//Added by Praneeth for CTST columns of Case Category for ABML
-    ABML: {
+      //Added by Praneeth for CTST columns of Case Category for ABML
+      ABML: {
         
         CREATE_CASE_WITH_FA: "Products not available for ABML",
         PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /LAN# /PAN#",
@@ -397,10 +397,10 @@ export const lanLabels = {
         CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect Tagging",
         CTST_COLS: [
             { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-            { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                        { label: 'Type', fieldName: 'Type__c', type: 'text' },
             { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
         ],
-        
+
     },
     ABWM: {
         SELECT_PRODUCT: "Select LAN",
@@ -413,7 +413,86 @@ export const lanLabels = {
         FA_VALIDATION_MESSAGE: "Please select Loan Account Number to process Case type search",
         FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with LAN"
-    }  , 
+    },
+    ABCD: {
+        CTST_COLS: [
+            { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+            { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+            { label: 'Business Unit', fieldName: 'Business_Unit__c', type: 'text' },
+            { label: 'Type', fieldName: 'Type__c', type: 'text' },
+            { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+        ],
+        SELECT_PRODUCT: "Select LAN",
+        PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /LAN# /PAN#",
+        CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and LAN combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
+        CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and LAN combination. We recommend selecting the right Case Type Sub Type for the case ?',
+        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect/LAN Tagging",
+        RELATE_DUP_LAN_ERRORMSG: "Parent case should belong to same LAN as current case",
+        CREATE_SR_WITH_FA: "Create Case with LAN",
+        FA_VALIDATION_MESSAGE: "Please select Loan Account Number to process Case type search",
+        FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
+        CREATE_CASE_WITH_FA: "Create Case with LAN",
+        ACCOUNT_COLUMNS: [{
+            label: 'Id',
+            fieldName: 'recordId',
+            type: 'text',
+            fixedWidth: 1,
+            hideLabel: true,
+            hideDefaultActions: true
+        },
+        {
+            label: 'Customer Name',
+            fieldName: 'name',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Business Unit',
+            fieldName: 'accBu',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Email ID',
+            fieldName: 'emailId',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Mobile Number',
+            fieldName: 'mobile',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Client Code',
+            fieldName: 'clientCode',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'PAN Number',
+            fieldName: 'pan',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Type',
+            fieldName: 'objectType',
+            type: 'text',
+            initialWidth: 180
+        }
+        ] 
+    },
+    ONEABC: {
+        CTST_COLS: [
+            { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+            { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+            { label: 'Business Unit', fieldName: 'Business_Unit__c', type: 'text' },
+            { label: 'Type', fieldName: 'Type__c', type: 'text' },
+            { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+        ],
+    },
     ABSLAMC : {
         ASSET_COLUMNS:[{
             label: 'Id',
@@ -580,7 +659,7 @@ export const lanLabels = {
         FA_VALIDATION_MESSAGE: "Please select Contract Number to process Case type search",
         FA_MANDATORY_PREFRAMEWORK: "Please tag Contract to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with Contract"
-    } 
+    }      
   };
 
   // Rajendra Singh Nagar: PR1030924-209 - Start
@@ -588,9 +667,9 @@ export const lanLabels = {
       Wellness: {
           OPTSLBLS: [{"label":"Email","value":"Email"},{"label":"SMS","value":"SMS"}]
         },
-		// Added by Saravpreet(To remove SMS option for ABML BU)
+        // Added by Saravpreet(To remove SMS option for ABML BU)
       ABML: {
             OPTSLBLS: [{"label":"Email","value":"Email"}]
-          }
+          }   
     };
     // Rajendra Singh Nagar: PR1030924-209 - End

@@ -30,6 +30,16 @@
     <columns>
         <field>Case$Origin</field>
     </columns>
+    <columns>
+        <field>CDF1</field>
+    </columns>
+    <customDetailFormulas>
+        <calculatedFormula>Activity.CreatedDate</calculatedFormula>
+        <dataType>DateTime</dataType>
+        <developerName>CDF1</developerName>
+        <label>time</label>
+        <scale>2</scale>
+    </customDetailFormulas>
     <description>A report on Activity based on “Logging a Call” for ABHI Cases</description>
     <filter>
         <booleanFilter>1 AND 2 AND NOT (3 AND 4) AND 5 AND 6 AND 7 AND 8 AND 9</booleanFilter>

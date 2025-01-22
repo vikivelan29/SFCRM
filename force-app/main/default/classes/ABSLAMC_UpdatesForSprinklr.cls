@@ -7,6 +7,9 @@
 public with sharing class ABSLAMC_UpdatesForSprinklr implements ASF_IntegrationInvocable {
     
     public static Map<Id, String> caseLatestNotesMap = new Map<Id, String>();
+    Map<Id, Case> caseMap = new Map<Id, Case>();
+    Map<Id, List<ASF_Case_Integration__c>> caseIntegrationMap = new Map<Id, List<ASF_Case_Integration__c>>();
+
 /***************************************************************************************************************    
     * @LOB - ABSLAMC
     * @Function - getCaseRec
@@ -15,7 +18,27 @@ public with sharing class ABSLAMC_UpdatesForSprinklr implements ASF_IntegrationI
     * @Description - get case record with the case Id with all the fields which need to be populated in the request
 *****************************************************************************************************************/
     
+    public void getCaseMapHelper(Set<Id> caseIds){
+        caseMap = new Map<Id, Case>();
+        
+        for(Case caseRecord : [ SELECT CaseNumber, CCC_External_Id__c, Description, Source__c, Business_Unit__c, Nature__c, LAN__c,Stage__c,
+        Pending_Clarification__c, Sprinklr_Case_Reference_Number__c, Notes_from_Sprinklr__c, Latest_Notes__c,Type_Text__c,Sub_Type_Text__c,Overall_Case_Closure_SLA__c
+        FROM Case
+        WHERE Id IN :caseIds]){
+            caseMap.put(caseRecord.Id, caseRecord);
+        }
+    }
+
     public Case getCaseRec(String caseId){
+        if(caseMap.containsKey(caseId)){
+            return caseMap.get(caseId);
+        }
+        else{
+            return getCaseRecFallback(caseId);
+        }
+    }
+
+    public Case getCaseRecFallback(String caseId){
         
         Case caseRecord = [SELECT CaseNumber, CCC_External_Id__c, Description, Source__c, Business_Unit__c, Nature__c, LAN__c,Stage__c,
                            Pending_Clarification__c, Sprinklr_Case_Reference_Number__c, Notes_from_Sprinklr__c, Latest_Notes__c,Type_Text__c,Sub_Type_Text__c,Overall_Case_Closure_SLA__c
@@ -72,6 +95,30 @@ public with sharing class ABSLAMC_UpdatesForSprinklr implements ASF_IntegrationI
         return response;
 
     }
+
+
+
+    public void getCaseIntegrationMap(Set<Id> caseIds){
+        caseIntegrationMap = new Map<Id, List<ASF_Case_Integration__c>>();
+
+        for(ASF_Case_Integration__c caseInt : [SELECT Id, Status__c, Case__c 
+                                                FROM ASF_Case_Integration__c
+                                                WHERE  Case__c IN :caseIds
+                                                AND Integration_Ext_Id__c = 'Sprinklr-UpdateCase API' 
+                                                AND Type__c = 'SPRINKLR' WITH SECURITY_ENFORCED]){
+
+            List<ASF_Case_Integration__c> caseIntegrationRecordsTemp = new List<ASF_Case_Integration__c>();
+            if(caseIntegrationMap.containsKey(caseInt.Case__c)){
+                caseIntegrationRecordsTemp = caseIntegrationMap.get(caseInt.Case__c);
+            }
+            caseIntegrationRecordsTemp.add(caseInt);
+            caseIntegrationMap.put(caseInt.Case__c, caseIntegrationRecordsTemp);
+        }
+            
+        
+    }
+
+
 /****************************************************************************************************************
     * @LOB - ABSLAMC
     * @Function - callSprinklerApi
@@ -85,11 +132,12 @@ public with sharing class ABSLAMC_UpdatesForSprinklr implements ASF_IntegrationI
         Case caseRecord = getCaseRec(caseId);
         String businessUnit = caseRecord.Business_Unit__c;
         String originalLatestNotes = String.isNotBlank(caseLatestNotesMap.get(caseId)) ? caseLatestNotesMap.get(caseId) : ''; 
-        List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c 
-                                                                FROM ASF_Case_Integration__c
-                                                                WHERE  Case__c =:caseRecord.Id
-                                                                AND Integration_Ext_Id__c = 'Sprinklr-UpdateCase API' 
-                                                                AND Type__c = 'SPRINKLR' WITH SECURITY_ENFORCED];
+
+        List<ASF_Case_Integration__c> existingCaseIntRecords = new List<ASF_Case_Integration__c>();
+
+        if(caseIntegrationMap.containsKey(caseId)){
+            existingCaseIntRecords = caseIntegrationMap.get(caseId);
+        }
 
         if(existingCaseIntRecords.size()>0){
         	for(ASF_Case_Integration__c cInt : existingCaseIntRecords){
@@ -170,6 +218,13 @@ public with sharing class ABSLAMC_UpdatesForSprinklr implements ASF_IntegrationI
         
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
        Map<Id, ASF_IntegrationsController.IntegrationWrapper> mapOfAsfInt = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+        Set<Id> caseIds = new Set<Id>();
+
+        for(Case tempCaseRecord : caseRecs){
+            caseIds.add(tempCaseRecord.Id);
+        }
+        getCaseMapHelper(caseIds);
+
        for(case cs : caseRecs){
          mapOfAsfInt.put(cs.Id,evaluate(cs));   
         }
@@ -177,7 +232,15 @@ public with sharing class ABSLAMC_UpdatesForSprinklr implements ASF_IntegrationI
     
     }
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){
-       Map<Id, ASF_IntegrationsController.IntegrationWrapper> mapOfAsfInt = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> mapOfAsfInt = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+        
+        Set<Id> caseIds = new Set<Id>();
+
+        for(Case tempCaseRecord : caseRecs){
+            caseIds.add(tempCaseRecord.Id);
+        }
+        getCaseMapHelper(caseIds);
+        
         for(case cs : caseRecs){
             for(ASF_Integration__c asfInt : integs.get(cs.id)){
                 if(asfInt.Processing_Class__c == 'ABSLAMC_UpdatesForSprinklr'){
