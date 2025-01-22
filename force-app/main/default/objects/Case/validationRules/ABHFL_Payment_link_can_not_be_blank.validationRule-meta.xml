@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABHFL_Payment_link_can_not_be_blank</fullName>
+    <active>true</active>
+    <description>When:
+Payment Required? Yes
+Last Retention Approval: less than 3 months
+Payment link can not be blank while moving a case to Resolved</description>
+    <errorConditionFormula>AND(ISPICKVAL(Business_Unit__c, &apos;ABHFL&apos;), ISBLANK(ABHFL_Case_Detail__r.Payment_Link__c),   ISPICKVAL(ABHFL_Case_Detail__r.Last_Retention_Approval__c,&apos;less than 3 months&apos;),
+ISPICKVAL(ABHFL_Case_Detail__r.Send_Payment_Link__c, &apos;Yes&apos;),
+ISPICKVAL( Stage__c , &apos;Resolved&apos;))</errorConditionFormula>
+    <errorMessage>You cannot close the case without payment link generated.</errorMessage>
+</ValidationRule>
