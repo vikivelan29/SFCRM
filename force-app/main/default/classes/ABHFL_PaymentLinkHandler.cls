@@ -75,6 +75,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
 		
 	//START -- Condition added for PR970457-2649
         if(caseRecord.Stage__c=='Open' && caseRecord.CCC_External_Id__c =='REFCL001' && caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL ){
+            system.debug('Inside payment link issue for FCL');
             if(caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c == 'No' && (caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c =='less than 3 months' || caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c =='more than 3 months') ){
             	result.status = ABHFL_Constants.ERROR;
             	result.response = Custom_Messages__mdt.getInstance('ABHFL_No_Payment_Link_REFCL001_Open_Stag').Message__c;              
