@@ -92,6 +92,7 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
             }
         }
 
+        
         ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
         update existingCaseIntegrations;
         ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
