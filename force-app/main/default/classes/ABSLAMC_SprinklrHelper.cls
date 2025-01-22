@@ -156,7 +156,7 @@ public class ABSLAMC_SprinklrHelper {
                            ABCD_UpdatesForSprinklr.caseLatestNotesMap.clear();
                            ABCD_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
                        }
-					             else if(caseRec.Business_Unit__c == 'ABHI'){
+                        else if(caseRec.Business_Unit__c == 'ABHI'){
                            ABHI_UpdatesForSprinklr.caseLatestNotesMap.clear();
                            ABHI_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
                        }

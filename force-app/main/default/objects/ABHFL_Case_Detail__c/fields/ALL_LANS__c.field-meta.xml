@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ALL_LANS__c</fullName>
-    <description>It will contain all LAN which are associated with current case&apos;s account.</description>
+    <description>It will contain all LAN which are associated with current case&apos;s account. Adding this field to add into Email template</description>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <label>ALL LANS</label>

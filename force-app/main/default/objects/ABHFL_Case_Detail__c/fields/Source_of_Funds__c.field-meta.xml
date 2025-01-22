@@ -41,6 +41,16 @@
                 <default>false</default>
                 <label>Loan Cancellation</label>
             </value>
+            <value>
+                <fullName>Settlement</fullName>
+                <default>false</default>
+                <label>Settlement</label>
+            </value>
+            <value>
+                <fullName>Auction</fullName>
+                <default>false</default>
+                <label>Auction</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

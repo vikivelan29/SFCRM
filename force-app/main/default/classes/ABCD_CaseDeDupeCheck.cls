@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 12-27-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public class ABCD_CaseDeDupeCheck {
 	 public static void runDuplicateCheck(Object newItems, Object oldItems){
         List<Case> newList = new List<Case>();
@@ -46,19 +53,10 @@ public class ABCD_CaseDeDupeCheck {
                 }
             }
         }
-        for(Case c : oldList){
-            if(mLobToChannelToQueue.containsKey(c.Business_Unit__c)){
-                if(mLobToChannelToQueue.get(c.Business_Unit__c).containsKey(c.Technical_Source__c)){
-                    if(!mChannelVsCasesOld.containsKey(c.Business_Unit__c)){
-                        mChannelVsCasesOld.put(c.Business_Unit__c,new List<Case>());
-                    }
-                    mChannelVsCasesOld.get(c.Business_Unit__c).add(c);
-                }
-            }
-        } 
+         
         for(String key : mChannelVsCases.keySet()){
             if(key == 'ONEABC'){
-                duplicateCheck(mChannelVsCases.get(key), mChannelVsCasesOld.get(key));
+                duplicateCheck(mChannelVsCases.get(key), oldList);
             }
         } 
    }
@@ -120,7 +118,7 @@ public class ABCD_CaseDeDupeCheck {
                     for(Case accountCase : mAccountIdVsCases.get(dupeCase.AccountId)){
                         if(dupeCase.CCC_External_Id__c == accountCase.CCC_External_Id__c){
                             if(oldList != null && !oldList.isEmpty()){
-                            	Case oldCase = oldCasesMap.get(accountCase.Id);
+                            	Case oldCase = oldCasesMap.get(accountCase.Id); 
                                 if(oldCase.Preframework_to_Framework_FromUI__c == false && accountCase.Preframework_to_Framework_FromUI__c == true){
                                   	accountCase.addError('Duplicate Case found. Case # '+dupeCase.CaseNumber);  
                                 }

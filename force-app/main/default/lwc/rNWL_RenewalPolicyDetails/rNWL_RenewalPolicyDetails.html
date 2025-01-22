@@ -334,7 +334,12 @@
                                     <span class="slds-form-element__label">Email</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {account.Office_Email__c}
+                                            <template if:true={account.PersonEmail}>
+                                                {account.PersonEmail}
+                                            </template>
+                                            <template if:false={account.PersonEmail}>
+                                                {account.Office_Email__c}
+                                            </template>
                                         </div>
                                     </div>
                                 </div>

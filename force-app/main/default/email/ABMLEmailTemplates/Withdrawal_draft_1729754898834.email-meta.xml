@@ -4,6 +4,7 @@
     <encodingKey>UTF-8</encodingKey>
     <name>Withdrawal draft</name>
     <style>none</style>
+    <subject>Withdrawal draft</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

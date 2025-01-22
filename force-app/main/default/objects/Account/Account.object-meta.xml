@@ -253,6 +253,17 @@
     </profileSearchLayouts>
     <profileSearchLayouts>
         <fields>ACCOUNT.NAME</fields>
+        <fields>Business_Unit__c</fields>
+        <fields>PC_TITLE</fields>
+        <fields>ACCOUNT.PHONE1</fields>
+        <fields>Client_Code__c</fields>
+        <fields>PC_EMAIL</fields>
+        <fields>State__c</fields>
+        <fields>PC_BIRTHDATE</fields>
+        <profileName>ABCD Base Profile</profileName>
+    </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>ACCOUNT.NAME</fields>
         <fields>PC_TITLE</fields>
         <fields>ACCOUNT.PHONE1</fields>
         <fields>Client_Code__c</fields>

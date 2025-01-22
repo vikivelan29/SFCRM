@@ -336,6 +336,14 @@
         <fields>CONTACT.PHONE3</fields>
         <profileName>Wellness CRM Base Profile</profileName>
     </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>FULL_NAME</fields>
+        <fields>Business_Unit__c</fields>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>CONTACT.PHONE1</fields>
+        <fields>CONTACT.EMAIL</fields>
+        <profileName>ABCD Base Profile</profileName>
+    </profileSearchLayouts>
     <searchLayouts>
         <customTabListAdditionalFields>FULL_NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>

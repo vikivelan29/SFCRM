@@ -1,0 +1,56 @@
+.custom-scroll-allow {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+}
+
+.slider {
+    overflow: hidden;
+    overflow-y: auto;
+    height: 10rem;
+}
+
+.slider::-webkit-scrollbar {
+    width: 5px;
+    pointer-events: auto;
+}
+
+/* Track */
+.slider::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(243, 242, 242);
+    border-radius: 10px;
+}
+
+/* Handle */
+.slider::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 8px;
+}
+
+/* Handle on hover */
+.slider::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+}
+
+.card {
+    color: black;
+    border-radius: 0.625rem;
+    font-family: Helvetica;
+}
+
+.headtext {
+    font-size: 0.75rem;
+    font-family: Helvetica;
+}
+
+.box-borders {
+    border-bottom-right-radius: 0.625rem;
+    border-bottom-left-radius: 0.625rem;
+    border-left: solid;
+    border-bottom: solid;
+    border-right: solid;
+    border-color: #991010;
+    border-width: thin;
+}

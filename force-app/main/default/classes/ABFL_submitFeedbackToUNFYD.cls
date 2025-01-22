@@ -6,10 +6,11 @@
 *@description  :  Feedback will be sent to UNFYD via platform event
 *********************************************************/
 public with sharing class ABFL_submitFeedbackToUNFYD {
+    @AuraEnabled
     public static void sendUNFYDFeedback(String caseId){
         Map<String, String> fieldsMap = New Map<String, String>();
         List<ASF_Case_Integration__c> caseIntegrationList= New List<ASF_Case_Integration__c>();
-        Case caseRecord=[Select Id,CaseNumber,Type_Text__c,Sub_Type_Text__c,Nature__c,eBOT_Email_Draft__c FROM Case where Id=:caseId LIMIT 1];
+        Case caseRecord=[Select Id,CaseNumber,Type_Text__c,Sub_Type_Text__c,Nature__c,eBOT_Email_Draft__c,Business_Unit__c FROM Case where Id=:caseId LIMIT 1];
         ABFL_Case_Detail__c caseDetails=[Select Id,Ebot_Feedback__c,Case__c From ABFL_Case_Detail__c where Case__r.Id =:caseRecord.Id LIMIT 1];
         if(caseRecord!= null && caseDetails!=null){
             
@@ -24,16 +25,14 @@ public with sharing class ABFL_submitFeedbackToUNFYD {
                 insert caseIntegrationList;
             }
             
+            ASF_Case_Integration__c newCaseIntRec = [Select Id, Name from ASF_Case_Integration__c where id=:caseInt.Id AND Type__c = 'FEEDBACK' Limit 1];
+            
             fieldsMap.put('Case_Number__c',caseRecord.CaseNumber);
-            if(caseDetails.Ebot_Feedback__c.contains('Incorrect Categorization')){
-                fieldsMap.put('Nature__c',caseRecord.Nature__c);
-            	fieldsMap.put('Type__c',caseRecord.Type_Text__c);
-            	fieldsMap.put('Subtype__c',caseRecord.Sub_Type_Text__c);
-            }else{
-                fieldsMap.put('Nature__c','');
-                fieldsMap.put('Type__c','');
-            	fieldsMap.put('Subtype__c','');
-            }
+            fieldsMap.put('Case_Integration_ID__c',newCaseIntRec.Name);
+			fieldsMap.put('Integration_Name__c','unfyd feedback');
+            fieldsMap.put('Nature__c',caseRecord.Nature__c);
+            fieldsMap.put('Type__c',caseRecord.Type_Text__c);
+            fieldsMap.put('Subtype__c',caseRecord.Sub_Type_Text__c);
             fieldsMap.put('Ebot_Feedback__c',getFormattedMultiSelectValues(caseDetails.Ebot_Feedback__c));
             //fieldsMap.put('Description__c','Yes');
             if(String.isNotBlank(caseRecord.eBOT_Email_Draft__c)){
@@ -43,7 +42,7 @@ public with sharing class ABFL_submitFeedbackToUNFYD {
                 fieldsMap.put('Email_Response_Modified__c','No');
                 fieldsMap.put('Modified_Email_Response__c','');
             }
-            
+            fieldsMap.put('Business_Unit__c',caseRecord.Business_Unit__c);
             //Publish the platform event
             Database.SaveResult eventResult = ABHFL_CasePlatformEventHandler.publishPlatformEvent('CRM_to_UNFYD_Feedback_Event__e', fieldsMap);
         }

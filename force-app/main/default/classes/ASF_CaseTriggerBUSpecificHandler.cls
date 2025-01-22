@@ -19,7 +19,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABFL_CreateCaseProspectHelper.beforeInsertMethod(mapOfBUToCases.get(businessUnit));
                 }
                 else if(businessUnit == 'ABHFL'){
-                    ABHFL_CTSTHelper.skipOpenStageforAPIcases(mapOfBUToCases.get(businessUnit));
+                    ABHFL_CTSTHelper.skipOpenStageforAPIcases(mapOfBUToCases.get(businessUnit)); // Added changes for PR970457-2388 and PR970457-2288
                 }
                 else if(businessUnit == 'ABSLI'){
                     ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert(mapOfBUToCases.get(businessUnit));
@@ -55,7 +55,10 @@ public class ASF_CaseTriggerBUSpecificHandler {
                         }
                          ABHI_IGMSHelperMethods.associateAssetIgms(mapOfBUToCases.get(businessUnit));
                          ABHI_IGMSHelperMethods.associateCustomerForAPIFromPhoneNumber(mapOfBUToCases.get(businessUnit));
-                    } 
+                    }
+                    if(businessUnit == 'ONEABC'){
+                        ABCD_CaseDeDupeCheck.runDuplicateCheck(mRecordTypeVsCases.get(frameworkRTId), new List<Case>());
+                    }
                 }
                 ABCL_CommonCLass commonCLssObj = new ABCL_CommonCLass();
                 commonCLssObj.prepopulateCaseFlds(mRecordTypeVsCases.get(frameworkRTId));
@@ -179,6 +182,15 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
                     abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToCases, (Map<Id, Case>)oldItems, 'AfterASFCodeBeforeUpdate'); 
                     ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                    abhiBusinessLogicHlprClass.populateCustomerTextOnManualCase(mapOfBUToCases.get(businessUnit), (Map<Id, Case>)oldItems); 
+
+                }
+                else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
+                    ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                }
+                if(businessUnit == 'ONEABC'){
+                    ABCD_BeforeUpdateAfterASFTriggerLogic.executeBeforeLogic(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                    ABCD_CaseDeDupeCheck.runDuplicateCheck(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
             }
         }
@@ -197,8 +209,11 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }else if(businessUnit == 'ABHI'){
                     ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                }else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
+                    ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
             }      
+
         }
     }
     
@@ -247,6 +262,9 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     //PR1030924-219: calculate Billable Time on Case
                     MCRM_CaseHelper.calculateBillableTimeOnCaseClose((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
                 }
+                else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
+                    ABCD_AfterUpdateLogic.executeAfterInsertLogic((List<Case>)mapOfBUToCases.get(businessUnit),(Map<Id,Case>)oldItems);
+                }
             }
             ABCL_InvokeOneABC.evaluateCasesForOneABC(new Map<Id, Case>(mRecordTypeVsCases.get(frameworkRTId)), (Map<Id, Case>) oldItems);
         }
@@ -266,7 +284,9 @@ public class ASF_CaseTriggerBUSpecificHandler {
         }
         
     }
-    
+
+
+
     public void beforeUpdateInteractionCases(Map<Id,Case> newItems, Map<Id, Case> oldItems){
         
         Map<String,List<Case>> mapOfBUToCases = getBUSpecificCaseRecords((List<Case>)newItems.values());

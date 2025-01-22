@@ -70,10 +70,26 @@
                         <valueListItems>
                             <value>ChangeOwnerOne</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND (2 OR 3 OR 4)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Created_by_ONEABC__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>ABCD</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>ONEABC</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -142,10 +158,21 @@
                         <valueListItems>
                             <value>Case.Customer_Tagging</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.CCC_External_Id__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>ONEABC_Sprinklr_01</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.AmIOwner__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -243,19 +270,6 @@
                         <operator>CONTAINS</operator>
                         <rightValue>Payments</rightValue>
                     </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Business_Unit__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>ABHFL</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhfl_MultipleLan</componentName>
-                <identifier>c_abhfl_MultipleLan</identifier>
-                <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Business_Unit__c}</leftValue>
                         <operator>EQUAL</operator>
@@ -929,6 +943,32 @@
                 <identifier>lst_dynamicRelatedList2</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Case.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>CaseArticles</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer4</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-3321d559-8bb3-4425-b8f9-4b909222f04e</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1263,6 +1303,100 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SuppliedName</fieldItem>
+                <identifier>RecordSuppliedNameField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SuppliedEmail</fieldItem>
+                <identifier>RecordSuppliedEmailField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SuppliedPhone</fieldItem>
+                <identifier>RecordSuppliedPhoneField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABCD_Case_Detail__r.Social_Media__c</fieldItem>
+                <identifier>RecordABCD_Case_Detail_rSocial_Media_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-54a0ccfa-d695-459a-8d63-10c92d336fb1</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sprinklr_Case_Reference_Number__c</fieldItem>
+                <identifier>RecordSprinklr_Case_Reference_Number_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Notes_from_Sprinklr__c</fieldItem>
+                <identifier>RecordNotes_from_Sprinklr_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABCD_Case_Detail__r.Other__c</fieldItem>
+                <identifier>RecordABCD_Case_Detail_rOther_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-e47a0c84-34eb-46d1-832c-1547039c1a8b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-54a0ccfa-d695-459a-8d63-10c92d336fb1</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column7</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-e47a0c84-34eb-46d1-832c-1547039c1a8b</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-4a2b9871-261a-4511-9d5a-1bc94a42f2a1</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
                 <fieldItem>Record.ABSLAMC_Case_Detail__r.CAMS_Ticket_Reference_Number__c</fieldItem>
                 <identifier>RecordABSLAMC_Case_Detail_rCAMS_Ticket_Reference_Number_cField</identifier>
             </fieldInstance>
@@ -1324,44 +1458,6 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-7d1260be-1a4f-4951-902c-1edb11559ef9</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Sprinklr_Case_Reference_Number__c</fieldItem>
-                <identifier>RecordSprinklr_Case_Reference_Number_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Notes_from_Sprinklr__c</fieldItem>
-                <identifier>RecordNotes_from_Sprinklr_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-54a0ccfa-d695-459a-8d63-10c92d336fb1</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-54a0ccfa-d695-459a-8d63-10c92d336fb1</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column7</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-4a2b9871-261a-4511-9d5a-1bc94a42f2a1</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1637,6 +1733,47 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
+                    <value>Facet-4a2b9871-261a-4511-9d5a-1bc94a42f2a1</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Sprinklr Fields</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection6</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND (2 OR 3 OR 4)</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Source__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Social Media</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABSLAMC</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ONEABC</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABCD</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
                     <value>Facet-7d1260be-1a4f-4951-902c-1edb11559ef9</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1728,37 +1865,6 @@
                         <leftValue>{!Record.Business_Unit__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Wellness</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-4a2b9871-261a-4511-9d5a-1bc94a42f2a1</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Sprinklr Fields</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection6</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Source__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Social Media</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Business_Unit__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>ABSLAMC</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -1928,7 +2034,7 @@
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection3</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND (2 OR 3 OR 4 OR 5 OR 6)</booleanFilter>
+                    <booleanFilter>1 AND (2 OR 3 OR 4 OR 5 OR 6 OR 7 OR 8)</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Recategorisation_Reason__c}</leftValue>
                         <operator>NE</operator>
@@ -1957,6 +2063,16 @@
                         <leftValue>{!Record.Business_Unit__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Wellness</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ONEABC</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABCD</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

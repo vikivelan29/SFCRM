@@ -549,13 +549,13 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.selectedCccBu;
         }
         
-        const caseRecordforVal = { apiName: CASE_OBJECT.objectApiName, fields: caseRecord };
+         const caseRecordforVal = { apiName: CASE_OBJECT.objectApiName, fields: caseRecord };
 
         caseRecord["sobjectType"] = "Case"; 
         this.noAutoCommValue = [];
 
-        this.loaded = false;
-        console.log('validation--'+selected.Validation_method_during_creation__c);
+        // this.loaded = false;
+        //console.log('validation--'+selected.Validation_method_during_creation__c);
         if(selected.Validation_method_during_creation__c){
             console.log('invoking validator');
             let methodName = selected.Validation_method_during_creation__c;
@@ -570,8 +570,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 return;
             }
             console.log('ending validator');
-        }
-        this.loaded = false;
+        } 
+       // this.loaded = false;
+       
         
         createProspectCase({ caseToInsert: caseRecord, caseExtnRecord: caseExtnRecord, prospectRecord: leadRecord })
             .then(result => {
@@ -610,11 +611,11 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 console.log('tst225572' + JSON.stringify(error));
                 this.loaded = true;
                 this.disableCreateBtn = false;
-                this.resetFields();
-                this.showError('error', 'Oops! Error occured', error);
+                //this.resetFields();
+                this.showError('error', 'Oops! Error occured', error); 
 
 
-            })
+            }) 
 
 
     }

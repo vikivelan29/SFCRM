@@ -61,6 +61,9 @@
         <aggregateTypes>Sum</aggregateTypes>
         <field>Case.Created_by_ONEABC__c</field>
     </columns>
+    <columns>
+        <field>Case.Track_Id__c</field>
+    </columns>
     <filter>
         <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>

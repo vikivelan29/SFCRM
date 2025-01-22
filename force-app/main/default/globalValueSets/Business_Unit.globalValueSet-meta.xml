@@ -55,6 +55,11 @@
         <default>false</default>
         <label>ABML</label>
     </customValue>
+    <customValue>
+        <fullName>ONEABC</fullName>
+        <default>false</default>
+        <label>ONEABC</label>
+    </customValue>
     <masterLabel>Business Unit</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

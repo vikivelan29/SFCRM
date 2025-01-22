@@ -48,8 +48,13 @@ public with sharing class ABCD_LitmusIntegration {
                 if(cccIdToRecordsMap.containsKey(caseRecord.CCC_External_Id__c)){
                     ASF_Case_Category_Config__c cccRecord = cccIdToRecordsMap.get(caseRecord.CCC_External_Id__c);
                     if(cccRecord.Litmus_Trigger__c == true){
-                        accountIds.add(caseRecord.AccountId);
-                        prospectIds.add(caseRecord.Lead__c);
+                        if(caseRecord.AccountId != null){
+                            accountIds.add(caseRecord.AccountId);
+                        }
+                        if(caseRecord.Lead__c != null){
+                            prospectIds.add(caseRecord.Lead__c);
+                        }
+                        
                         eligibleCases.add(caseRecord);
                     }
                 }
@@ -91,7 +96,7 @@ public with sharing class ABCD_LitmusIntegration {
        
             for (Case litmusCase : litmusApiCasesList) {
                 if (litmusCase.ABCD_Case_Detail__c != null) {
-                    caseDetailIds.add(litmusCase.ABCD_Case_Detail__c);
+                    caseDetailIds.add(litmusCase.ABCD_Case_Detail__c); 
                 }
             }
    
@@ -174,7 +179,8 @@ public with sharing class ABCD_LitmusIntegration {
                 objRequest.tag_case_category = caseRecord.Nature__c;
                 objRequest.tag_lobuid = caseRecord.Account.PAN__c != null ? caseRecord.Account.PAN__c :'';
                 objRequest.tag_agent_name = caseRecord.CreatedBy.Name;
-                objRequest.app_id = 'll4w_touchpoint';
+                objRequest.app_id = System.Label.ABCD_LitmusAppId;
+                objRequest.tag_business_unit = caseRecord.Business_Unit__c;
                 wrapper.objRequest = objRequest;
                 
                 caseIdLitmusWrapper.put(caseRecord.Id,objRequest);
@@ -253,5 +259,6 @@ public with sharing class ABCD_LitmusIntegration {
 		public String UDP4;
 		public String UDP5;
 		public String LogRefId;
+        public String tag_business_unit;
     }
 }

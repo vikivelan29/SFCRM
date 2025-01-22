@@ -15,6 +15,11 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
 
     list<String> litmusAllowedSourcesList =  allowedSources.split(';');
     list<String> litmusAllowedCallerTypesList = allowedCallertType.split(';');
+
+    Map<Id, Account> accountMap = new Map<Id, Account>();
+    Map<Id, Case> caseMap = new Map<Id, Case>();
+    Map<String, ASF_Case_Category_Config__c> cccExternalCaseCategoryMap = new Map<String, ASF_Case_Category_Config__c>();
+    Map<Id, List<ASF_Case_Integration__c>> caseIntegrationMap = new Map<Id, List<ASF_Case_Integration__c>>();
     
     /****************************************************************************************************************
     * @LOB - ABSLAMC
@@ -26,7 +31,7 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         retriving the case whose status is not 
     *****************************************************************************************************************/
 
-    public boolean isAllCasesClosed(String caseId, String accountId){
+    public boolean isAllCasesClosedFallBack(String caseId, String accountId){
         List<Account> accountWithCases = [SELECT id, 
                                         (SELECT id, CaseNumber, Status,CCC_External_Id__c, Source__c
                                         FROM Cases 
@@ -40,7 +45,54 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         return false;
     }
 
+    public void getRelatedAccounts(Set<Id> accountIds){
+        accountMap = new Map<Id, Account>();
+
+        for(Account acc : [SELECT Id, (SELECT Id, CaseNumber, Status,CCC_External_Id__c, Source__c FROM Cases WHERE Stage__c NOT IN (:ABSLAMC_Constants.RESOLVED_STAGE, :ABSLAMC_Constants.UNRESOLVED_STAGE)) FROM Account WHERE Id IN :accountIds]){
+            accountMap.put(acc.Id, acc);
+        }
+
+    }
+
+    public boolean isAllCasesClosed(Id caseId, Id accountId){
+        Integer count = 0;
+        if(accountMap.containsKey(accountId)){
+            Account acc = accountMap.get(accountId);
+            for(Case caseRecord : acc.Cases){
+                if(caseRecord.Id != caseId){
+                    count++;
+                }
+            }
+        }
+        else{
+            return isAllCasesClosedFallBack(caseId, accountId);
+        }
+        return count == 0 ? true :false;
+    }
+
+    public void getCaseMapHelper(Set<Id> caseIds){
+        caseMap = new Map<Id, Case>();
+        
+        for(Case caseRecord : [SELECT AccountId, Account.Name, Account.RecordType.Name, Account.PersonMobilePhone, Account.Phone, Account.PersonEmail, Account.Office_Email__c, Account.isPersonAccount,
+        Account.PAN__c, Account.ARN_Number__c,
+        CaseNumber, ABSLAMC_Case_Detail__r.Caller_Type__c, CCC_External_Id__c, Type_Text__c, Sub_Type_Text__c, Source__c, Business_Unit__c, Nature__c,
+        createdBy.Name, createdDate, ClosedDate, owner.name, LAN__c, FTR__c, Ageing_Number_Of_Days__c, Status, Stage__c, isClosed,LOB__c,Channel__c, CreatedById, OnCreateCloseSR__c
+        FROM Case
+        WHERE Id IN :caseIds]){
+            caseMap.put(caseRecord.Id, caseRecord);
+        }
+    }
+
     public Case getCaseRec(String caseId){
+        if(caseMap.containsKey(caseId)){
+            return caseMap.get(caseId);
+        }
+        else{
+            return getCaseRecFallback(caseId);
+        }
+    }
+
+    public Case getCaseRecFallback(String caseId){
         Case caseRecord = [
             SELECT AccountId, Account.Name, Account.RecordType.Name, Account.PersonMobilePhone, Account.Phone, Account.PersonEmail, Account.Office_Email__c, Account.isPersonAccount,
                     Account.PAN__c, Account.ARN_Number__c,
@@ -52,7 +104,23 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         return caseRecord;
     }
 
+    public void getCCCMapHelper(Set<String> cccExternalIds){
+        cccExternalCaseCategoryMap = new Map<String, ASF_Case_Category_Config__c>();
+        for(ASF_Case_Category_Config__c temp : [SELECT Litmus_Trigger__c, Litmus_Project__c, Overall_Case_Closure_SLA__c, CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :cccExternalIds AND Litmus_Trigger__c = true WITH SECURITY_ENFORCED]){
+            cccExternalCaseCategoryMap.put(temp.CCC_External_Id__c, temp);
+        }
+    }
+
     public ASF_Case_Category_Config__c getCCC(String cccExternalId){
+        if(cccExternalCaseCategoryMap.containsKey(cccExternalId)){
+            return cccExternalCaseCategoryMap.get(cccExternalId);
+        }
+        else{
+            return getCCCFallback(cccExternalId);
+        }
+    }
+
+    public ASF_Case_Category_Config__c getCCCFallback(String cccExternalId){
         list<ASF_Case_Category_Config__c> cccList = [
             SELECT Litmus_Trigger__c, Litmus_Project__c, Overall_Case_Closure_SLA__c, CCC_External_Id__c
             FROM ASF_Case_Category_Config__c
@@ -115,6 +183,24 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         return response;
     }
 
+    public void getCaseIntegrationMap(Set<Id> caseIds){
+        caseIntegrationMap = new Map<Id, List<ASF_Case_Integration__c>>();
+
+        for(ASF_Case_Integration__c caseInt : [SELECT Id, Status__c, Case__c FROM ASF_Case_Integration__c
+                                            WHERE Case__c IN :caseIds
+                                            AND Integration_Ext_Id__c = 'ABSLAMC Litmus Api' and Type__c = 'Litmus' WITH SECURITY_ENFORCED]){
+
+            List<ASF_Case_Integration__c> caseIntegrationRecordsTemp = new List<ASF_Case_Integration__c>();
+            if(caseIntegrationMap.containsKey(caseInt.Case__c)){
+                caseIntegrationRecordsTemp = caseIntegrationMap.get(caseInt.Case__c);
+            }
+            caseIntegrationRecordsTemp.add(caseInt);
+            caseIntegrationMap.put(caseInt.Case__c, caseIntegrationRecordsTemp);
+        }
+            
+        
+    }
+
 
     // @Description - Callout for Litmus Integration.
     public void callLitmusApi(ASF_Integration__c integrtn, String caseId) {
@@ -122,9 +208,11 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         Case caseRecord = getCaseRec(caseId); 
         ASF_Case_Category_Config__c cccRec = caseRecord!=null ?  getCCC(caseRecord.CCC_External_Id__c) : null;
 
-        List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
-                                                               WHERE Case__c =:caseRecord.Id
-                                                               AND Integration_Ext_Id__c = 'ABSLAMC Litmus Api' and Type__c = 'Litmus' WITH SECURITY_ENFORCED];
+        List<ASF_Case_Integration__c> existingCaseIntRecords = new List<ASF_Case_Integration__c>();
+
+        if(caseIntegrationMap.containsKey(caseId)){
+            existingCaseIntRecords = caseIntegrationMap.get(caseId);
+        }
 
         if(existingCaseIntRecords.size()>0){
         	for(ASF_Case_Integration__c cInt : existingCaseIntRecords){
@@ -242,6 +330,10 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> integrationWrapperMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
         List<Case> newList = new List<Case>();
         Set<Id> userIds = new Set<Id>();
+        Set<Id> accountIds = new Set<Id>();
+        Set<String> cccExternalIds = new Set<String>();
+        Set<Id> caseIds = new Set<Id>();
+
         for(Case cs : caseRecs){
             userIds.add(cs.CreatedById);
         }
@@ -252,8 +344,23 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         for(Case cs : caseRecs){
             if(!(cs.OnCreateCloseSR__c == true && String.isNotBlank(userMap.get(cs.CreatedById).FederationIdentifier) && userMap.get(cs.CreatedById).FederationIdentifier == dataSyncUsrFedId)){
                 newList.add(cs);
+                if(cs.AccountId!= null){
+                    accountIds.add(cs.AccountId);
+                    
+                }
+                if(cs.CCC_External_Id__c!= null){
+                    cccExternalIds.add(cs.CCC_External_Id__c);
+                }
+                if(cs.Id!= null){
+                    caseIds.add(cs.Id);
+                }
             }
         }
+
+        getRelatedAccounts(accountIds);
+        getCCCMapHelper(cccExternalIds);
+        getCaseMapHelper(caseIds);
+
         for(case cs : newList){
             integrationWrapperMap.put(cs.Id,evaluate(cs));   
         }
@@ -262,6 +369,28 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
 
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){
        Map<Id, ASF_IntegrationsController.IntegrationWrapper> integrationWrapperMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+
+       Set<Id> accountIds = new Set<Id>();
+       Set<String> cccExternalIds = new Set<String>();
+       Set<Id> caseIds = new Set<Id>();
+
+       for(Case cs : caseRecs){
+            if(cs.AccountId!= null){
+                accountIds.add(cs.AccountId);
+                
+            }
+            if(cs.CCC_External_Id__c!= null){
+                cccExternalIds.add(cs.CCC_External_Id__c);
+            }
+            if(cs.Id!= null){
+                caseIds.add(cs.Id);
+            }
+        }
+
+        getRelatedAccounts(accountIds);
+        getCCCMapHelper(cccExternalIds);
+        getCaseMapHelper(caseIds);
+
         for(case cs : caseRecs){
             for(ASF_Integration__c asfIntObj : integs.get(cs.id)){
                 if(asfIntObj.Processing_Class__c == 'ABSLAMC_LitmusSurveyApi'){

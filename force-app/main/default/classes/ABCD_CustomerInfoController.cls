@@ -76,7 +76,7 @@ public without sharing class ABCD_CustomerInfoController {
                     accountToInsert.PersonMobilePhone = customerData.mobileNumber;
                     accountToInsert.PersonEmail = customerData.emailId;
                     accountToInsert.PAN__c = customerData.pan;
-                    accountToInsert.PersonBirthdate = Date.valueof(customerData.dob);
+                    accountToInsert.PersonBirthdate = String.isNotBlank(customerData.dob)?Date.valueof(customerData.dob):null;
                     accountToInsert.Line_of_Business__c = System.Label.ABCD_Business_Unit;
                     accountToInsert.Business_Unit__c = System.Label.ABCD_Business_Unit;
                     accountToInsert.Line_of_Business__pc = System.Label.ABCD_Business_Unit;
