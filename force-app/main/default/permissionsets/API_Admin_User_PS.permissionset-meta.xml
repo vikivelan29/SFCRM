@@ -2426,11 +2426,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Last_Retention_Approval__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABFL_Location_Master__c.SPOC__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3657,6 +3652,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Waiver_Refund_Done__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Last_Retention_Approval__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
