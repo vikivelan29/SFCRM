@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Alternate_SPOC__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Assignment logic for Foreclosure (FC) and Non-FC cases</description>
+    <externalId>false</externalId>
+    <label>Alternate SPOC</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>ABFL_Location_Masters1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

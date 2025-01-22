@@ -9,6 +9,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     
     public final List<String> digitalSources = new List<String>{'Welcome BOT', 'Voice Bot', 'WhatsApp', 'Chatbot', 'Customer Portal', 'Email'};
     public final List<String> offlineSources = new List<String>{'Branch', 'Call Center', 'Internal Usage', 'Social Media'};
+    public static Map<String, Boolean> mEvaluateRunInteg = new Map<String, Boolean>();
     
     Map<Id, String> emailTemplateMap = new Map<Id, String>();
     Map<Id, String> smsMetadataMap = new Map<Id, String>();
@@ -163,9 +164,10 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
                 // }
                 Case updatedCase = new Case(Id=caseRecord.Id);
                 updatedCase.MoveToNext__c = true;
-                result.updatedCase = updatedCase;
+                //result.updatedCase = updatedCase;
                 result.status = ABHFL_Constants.ERROR;
                 result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failed_Digital').Message__c;
+                update updatedCase;
             }
             else
             {	
@@ -261,15 +263,24 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     }
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
-
+		ASF_IntegrationsController.IntegrationWrapper resultVal = new ASF_IntegrationsController.IntegrationWrapper();
 		Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
-            for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                if(integ.Processing_Class__c == 'ABHFL_WelcomeKitIntegration'){
-                    intIds.add(integ.External_Id__c);
+            if(mEvaluateRunInteg.containsKey(caseRec.Id+'-WelcomeKitIntegration')){
+                Case updatedCase = new Case(Id=caseRec.Id);
+                updatedCase.MoveToNext__c = true;
+                resultVal.updatedCase = updatedCase;
+                resultVal.status = ABHFL_Constants.ERROR;
+                resultMap.put(caseRec.Id,resultVal);
+            }
+            else{
+              	for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                	if(integ.Processing_Class__c == 'ABHFL_WelcomeKitIntegration'){
+                    	intIds.add(integ.External_Id__c);
                 }
             }
         }
+   }
 
         List<ASF_Case_Integration__c> existingCaseIntegrations = new List<ASF_Case_Integration__c>();
         for(ASF_Case_Integration__c caseInt : [SELECT Id, Status__c, Case__c, Integration_Ext_Id__c FROM ASF_Case_Integration__c
