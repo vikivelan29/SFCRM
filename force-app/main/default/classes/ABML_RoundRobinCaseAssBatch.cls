@@ -12,7 +12,7 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
     public Database.QueryLocator start(Database.BatchableContext bc)
     {
         String query = 'SELECT Id, OwnerId, Owner.Name, Status, Business_Unit__c, Source__c FROM Case';
-        query += ' WHERE Status != \'Closed\' AND Business_Unit__c = \'ABML\' AND Source__c = \'Email\'';	
+        query += ' WHERE Status = \'New\' AND Business_Unit__c = \'ABML\' AND Source__c = \'Email\'';	
         System.debug(query);
         return Database.getQueryLocator(query);
     }
