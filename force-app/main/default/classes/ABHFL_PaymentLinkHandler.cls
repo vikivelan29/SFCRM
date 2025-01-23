@@ -18,6 +18,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         Case caseRecord = [SELECT Id,Description,AccountId, Account.Phone,Account.PersonMobilePhone,Asset.Loan_ID__c,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,
                             ABHFL_Case_Detail__r.Payable_Charges__c, ABHFL_Case_Detail__r.Send_Payment_Link__c, CCC_External_Id__c,Stage__c,ABHFL_Case_Detail__r.Last_Retention_Approval__c
                            FROM Case WHERE Id =: caseRec.Id]; //Fields added for PR970457-2649
+
 		List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
         List<Doc_Charge__mdt> docChargMdtLst = [SELECT id, CCC_External_Id__c FROM Doc_Charge__mdt WHERE Payment_Required__c = true];
 
