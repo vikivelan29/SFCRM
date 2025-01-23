@@ -128,7 +128,7 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
                     String applicationnumber = '';
                     String caseRemarks = '';
                     String caseOwner = '';
-                    String url1 = caseRecord.ABSLI_Case_Detail__r.Document_Url__c;              // yrl1,url2 parameters value added by Yogesh for (PR970457-2791). also added this parameter as an argument for making requestwrapper.  
+                    String url1 = caseRecord.ABSLI_Case_Detail__r.Document_Url__c;              // url1,url2 parameters value added by Yogesh for (PR970457-2791). also added this parameter as an argument for making requestwrapper.  
                     String url2 = caseRecord.ABSLI_Case_Detail__r.Document_Url_Additional__c;
                     if(String.isNotblank(caseRecord.AssetId)/*caseRecord.AssetId != null && caseRecord.AssetId != ''*/){
                          applicationnumber = String.valueOf(caseRecord.Asset.Application_Number__c);
