@@ -1842,6 +1842,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+	<editable>true</editable>
+	<field>ABHFL_Case_Detail__c.Last_Retention_Approval__c</field>
+	<readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Payment__c.Realization_Status__c</field>
         <readable>true</readable>
