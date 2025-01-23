@@ -101,8 +101,8 @@
 		<members>Lead.SFLMS_Status__c</members>
 		<members>Lead.SFLMS_Status_Change_Date__c</members>
 		<members>PE_Logger__c.LOB__c</members>
-		<members>STG_Customer__c.Birthdate__c</members>
-		<members>STG_Customer__c.PAN_No__c</members>
+		<!--<members>STG_Customer__c.Birthdate__c</members>
+		<members>STG_Customer__c.PAN_No__c</members>-->
 		<members>User.Business_Unit__c</members>
 		<members>User.Team__c</members>
 		<members>LOBVsAPIChannels__mdt.Line_Of_Business__c</members>
