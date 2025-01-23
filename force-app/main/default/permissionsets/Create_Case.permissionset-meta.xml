@@ -5077,16 +5077,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>STG_Customer__c.Birthdate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>STG_Customer__c.PAN_No__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Survey_Response__c.Customer_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
