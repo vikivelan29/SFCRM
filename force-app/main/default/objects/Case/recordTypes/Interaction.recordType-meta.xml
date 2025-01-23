@@ -85,6 +85,10 @@
             <fullName>Wellness</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ONEABC</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Calling_Source__c</picklist>
@@ -1707,10 +1711,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Others</fullName>
             <default>false</default>
         </values>
@@ -2057,6 +2057,26 @@
         </values>
         <values>
             <fullName>WhatsApp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch Servicing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GRO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operations %26 Servicing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social</fullName>
             <default>false</default>
         </values>
     </picklistValues>

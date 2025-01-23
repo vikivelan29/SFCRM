@@ -92,6 +92,7 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
             }
         }
 
+        
         ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
         update existingCaseIntegrations;
         ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
@@ -128,7 +129,9 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
                     String applicationnumber = '';
                     String caseRemarks = '';
                     String caseOwner = '';
-                    String url1 = caseRecord.ABSLI_Case_Detail__r.Document_Url__c;              //
+
+                    String url1 = caseRecord.ABSLI_Case_Detail__r.Document_Url__c;              // Added parameters value for url1 and url2 by Yogesh for (PR970457-2791). Also added url1 and url2 as an argument in requestwrapper making method.
+
                     String url2 = caseRecord.ABSLI_Case_Detail__r.Document_Url_Additional__c;
                     if(String.isNotblank(caseRecord.AssetId)/*caseRecord.AssetId != null && caseRecord.AssetId != ''*/){
                          applicationnumber = String.valueOf(caseRecord.Asset.Application_Number__c);
