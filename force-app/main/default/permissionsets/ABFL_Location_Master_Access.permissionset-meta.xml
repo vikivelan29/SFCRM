@@ -7,11 +7,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-    <editable>true</editable>
-        <field>ABFL_Location_Master__c.Alternate_SPOC__c</field>
-        <readable>true</readable>
-        </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>ABCLLogRecording__c.Data__c</field>
         <readable>false</readable>
@@ -6071,6 +6066,11 @@
         <field>User.managerGroupId__c</field>
         <readable>false</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Location_Master__c.Alternate_SPOC__c</field>
+        <readable>true</readable>
+		</fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABFL Location Master Access</label>
     <objectPermissions>
