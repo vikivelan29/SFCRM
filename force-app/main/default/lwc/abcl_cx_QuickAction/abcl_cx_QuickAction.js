@@ -10,7 +10,7 @@ import PREFERREDLANGUAGE_FIELD from '@salesforce/schema/Account.Language_Prefere
 import PHONE_FIELD from '@salesforce/schema/Account.Phone';
 import LOB_FIELD from '@salesforce/schema/Account.Business_Unit__c';
 import ABCL_CX_PREFERRED_LANGUAGE_ACCOUNT from '@salesforce/label/c.ABCL_CX_Preferred_language';
-import getEmailTemplates from '@salesforce/apex/ABCL_CX_SendCommunication.getEmailTemplates';
+//import getEmailTemplates from '@salesforce/apex/ABCL_CX_SendCommunication.getEmailTemplates';
 import { getObjectInfo } from "lightning/uiObjectInfoApi";
 import getListOfContact from '@salesforce/apex/ASF_SMSCommunicationParser.getListOfContact';
 import getListOfTemplate from '@salesforce/apex/ASF_SMSCommunicationParser.getListOfTemplate';
