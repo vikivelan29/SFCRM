@@ -1,8 +1,9 @@
 <template>
 
     <div class="slds-text-align_right">
-        <lightning-button variant="brand" label={withoutFALabel} onclick={showModalForCreateCaseWithOutAsset}
-            title="Successful action" class="slds-m-left_x-small"></lightning-button>
+        <!--Button attributes has been updated for cx360-->
+        <lightning-button variant={buttonVariant} label={withoutFALabel} onclick={showModalForCreateCaseWithOutAsset}
+            title="Successful action" class="slds-m-left_x-small lightning-childbutton"></lightning-button>
     </div>
     
     <div if:true={showSpinner}><lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner></div>

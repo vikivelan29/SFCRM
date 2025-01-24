@@ -1,0 +1,51 @@
+<template>
+    <div class="card">
+        <div class="slds-grid slds-border_bottom">
+
+            <div class='slds-col slds-size_1-of-2 slds-p-around_xx-small slds-m-left_small'
+                style="padding-top: 5px;width: fit-content">
+                <lightning-icon icon-name="action:user" alternative-text="User Icon" size="small"></lightning-icon>
+            </div>
+            <div class='slds-col slds-size_1-of-2 slds-p-bottom_x-small slds-p-left_x-small' style="padding-top: 10px;">
+                <div class="slds-grid slds-wrap">
+                    <div class='slds-col slds-size_1-of-1'>
+                        <b>Customer Information</b>
+                    </div>
+
+                    <div class='slds-col slds-size_1-of-1 slds-p-top_xx-small'>
+                        <p>{title} {name}</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="slider">
+            <div class="slds-grid slds-wrap slds-p-left_small slds-p-vertical_small">
+            <template for:each={fields} for:item="field">
+                <div key={field.label} class="slds-col slds-size_1-of-2 slds-p-left_small slds-p-vertical_xx-small">
+                    <p>{field.label}</p>
+                <p class="sfdc-data">{field.value}</p>
+                </div>
+                    <!--template lwc:if={field.clickable}>
+                        <div key={field.label} class="slds-col slds-size_1-of-2 slds-p-left_small slds-p-vertical_xx-small">
+                            <div onclick={navigateToAccDetails} class="clickable">
+                                <p>{field.label}</p>
+                                <p class="sfdc-data">{field.value}</p>
+                            </div>
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <div key={field.label} class="slds-col slds-size_1-of-2 slds-p-left_small slds-p-vertical_xx-small">
+                            <p>{field.label}</p>
+                        <p class="sfdc-data">{field.value}</p>
+                        </div>
+                    </template-->
+
+                
+            </template>
+        </div>
+        </div>
+    </div>
+</template>

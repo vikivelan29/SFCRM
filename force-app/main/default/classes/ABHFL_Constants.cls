@@ -25,6 +25,7 @@ public with sharing class ABHFL_Constants {
     public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
     //Amortization Subtype External Id
     public static final String Amort_CCC_EXTERNALID = 'hfl004';
+    //New Constants has been added for 360x
     //SOA Subtype
     public static final String SOA_CCC_EXTERNALID = 'hfl073';
     //IC Subtype External Id
@@ -35,6 +36,8 @@ public with sharing class ABHFL_Constants {
     public static final String WK_CCC_EXTERNALID = 'RSTAWEITHFC';
     //LOD Subtype External Id
     public static final String LOD_CCC_EXTERNALID = 'hfl042';
+    //Language Preference External Id
+    public static final String LANG_CC_EXTERNALID = 'CCC-00001111';
     //Generic Constants
     public static final String SUCCESS = 'Success';
     public static final String ERROR = 'Error';

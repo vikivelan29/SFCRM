@@ -1,0 +1,92 @@
+.custom-scroll-allow {
+  overflow-y: scroll;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+}
+
+.slider {
+  cursor: auto;
+  overflow: hidden;
+  overflow-y: auto;
+  height: 13rem;
+}
+
+.slider::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.slider::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(243, 242, 242);
+  ;
+  border-radius: 10px;
+}
+
+/* Handle */
+.slider::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Handle on hover */
+.slider::-webkit-scrollbar-thumb:hover {
+  background: #C7222A;
+  cursor: pointer;
+}
+
+.card {
+  background-color: white;
+  color: black;
+  font-family: Anek Latin;
+  border-radius: 0.25rem; 
+  padding: 0px;
+  border-color: gray;
+}
+
+
+.sfdc-data {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #C7222A;
+  font-family: Anek Latin;
+}
+
+.logo {
+  width: 20px;
+  height: 20px;
+}
+
+/**
+.box-borders {
+  border-bottom-right-radius: 0.625rem;
+  border-bottom-left-radius: 0.625rem;
+  border-left: solid;
+  border-bottom: solid;
+  border-right: solid;
+  border-color: #C7222A;
+  border-width: thin;
+}**/
+
+.smiley-utility-icon {
+  --sds-c-icon-color-foreground-default: #C7222A;
+}
+
+.hwc-header-icon {
+  --sds-c-icon-color-foreground-default: #FFD65C;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+@keyframes blink {
+  0%, 100% {opacity: 1;}
+  50% {opacity: 0;}
+}
+
+.blinking-text {
+  animation: blink 1s linear infinite;
+}

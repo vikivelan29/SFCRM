@@ -1,0 +1,95 @@
+<template>
+    <div class="card slds-theme_shade" style="padding: 0px">
+        <div style="background-color: #C7222A; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem;"
+            class="slds-p-left_small slds-p-top_xx-small slds-p-bottom_xx-small slds-border_bottom">
+            <lightning-formatted-text style="color: white; font-size:0.9rem; font-family: Anek Latin"
+                value="All LOB's Holdings">
+            </lightning-formatted-text>
+
+        </div>
+        <div class="slider" style="height: fit-content;">
+
+            <div class="slds-grid slds-gutters slds-p-left_xx-small slds-p-right_xx-small" style="width: 15rem">
+                <template if:true={hasFinanceAssets}>
+                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
+                        <img src={abcl_FinanceLogo} class="logotile clickable" style="border: #C7222A 1px solid;"/>
+                    </div>
+                </template>
+                <template if:true={hasHealthInsurance}>
+                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
+                        <img src={abcl_healthInsuranceLogo} class="logotile clickable" style="border: #C7222A 1px solid;"/>
+                    </div>
+                </template>
+                <template if:true={hasHomeLoan}>
+                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
+                        <img src={abcl_homeLoanLogo} class="logotile clickable" style="border: #C7222A 1px solid;"/>
+                    </div>
+                </template>
+                <template if:true={hasLifeInsurance}>
+                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
+                        <img src={abcl_LifeInsuranceLogo} class="logotile clickable" style="border: #C7222A 1px solid;"/>
+                    </div>
+                </template>
+                <template if:true={hasMutualFunds}>
+                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
+                        <img src={abcl_AMC} class="logotile clickable" style="border: #C7222A 1px solid;"/>
+                    </div>
+                </template>
+                <template if:true={hasSecurities}>
+                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
+                        <img src={abcl_securitiesLogo} class="logotile clickable" style="border: #C7222A 1px solid;"/>
+                    </div>
+                </template>
+                <template if:true={hasDigital}>
+                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
+                        <img src={abcl_DigitalLogo} class="logotile clickable" style="border: #C7222A 1px solid;"/>
+                    </div>
+                </template>
+                <!--template if:true={hasFinanceAssets}>
+                    <div
+                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
+                        <img src={abcl_FinanceLogo} class="loblogo" />
+                    </div>
+                </template>
+                <template if:true={hasHealthInsurance}>
+                    <div
+                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
+                        <img src={abcl_healthInsuranceLogo} class="loblogo" />
+                    </div>
+                </template>
+                <template if:true={hasHomeLoan}>
+                    <div
+                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
+                        <div>
+                            <img src={abcl_homeLoanLogo} class="loblogo" />
+                        </div>
+                    </div>
+                </template>
+                <template if:true={hasLifeInsurance}>
+                    <div
+                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
+                        <img src={abcl_LifeInsuranceLogo} class="loblogo" />
+                    </div>
+                </template>
+                <template if:true={hasMutualFunds}>
+                    <div
+                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
+                        <img src={abcl_AMC} class="loblogo" />
+                    </div>
+                </template>
+                <template if:true={hasSecurities}>
+                    <div
+                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
+                        <img src={abcl_securitiesLogo} class="loblogo" />
+                    </div>
+                </template>
+                <template if:true={hasDigital}>
+                    <div
+                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
+                        <img src={abcl_DigitalLogo} class="loblogo" />
+                    </div>
+                </template-->
+            </div>
+        </div>
+    </div>
+</template>

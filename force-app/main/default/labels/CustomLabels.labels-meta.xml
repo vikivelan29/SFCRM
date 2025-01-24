@@ -1864,4 +1864,11 @@
         <shortDescription>Payment Report Fraud</shortDescription>
         <value>payments_indi_21,payments_indi_213,payments_indi_193</value>
     </labels>
+    <labels>
+        <fullName>ABCL_CX_Preferred_language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL CX Preferred language</shortDescription>
+        <value>Bengali,English,Gujrati,Hindi,Kannnada,Marathi,Oriya,Punjabi,Tamil,Telegu</value>
+    </labels>
 </CustomLabels>
