@@ -49,6 +49,7 @@
 		<members>ABCL_SurveyResponseHelper</members>
 		<members>Asf_NpsIndicatiorController</members>
 		<members>ABCD_UpdatesForSprinklrTest</members>
+		<members>ABFL_validateResolveStageTest</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -124,6 +125,7 @@
 		<members>ONEABC_Acc_Error_Non_ABCD_Customer</members>
         <members>ABSLAMC_SprinklrUpdateSpecificBUs</members>
 		<members>ABCD_LitmusAppId</members>
+		<members>ABCD_TrackId_Source</members>
 		<name>CustomLabel</name>
 	</types>
 	<types>
@@ -322,7 +324,7 @@
 	</types>
 	<types>
 		<members>OneABCReports/QRC1</members>
-		<members>OneABCReports/Lead_Report</members>
+		<members>OneABCReports/Lead_Report_ONEABC</members>
 		<members>OneABCReports/Litmus_Report</members>
 		<name>Report</name>
 	</types>

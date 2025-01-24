@@ -80,5 +80,14 @@ Public class ABFL_validateResolveStageTest {
      	System.assertEquals('Error',retCls2.Status);
     	
     }
+    @IsTest
+    static void testABFLSOQL(){
+       Case caseRec = [SELECT Id, Stage__c, Business_Unit__c,IRDAI_Token_Number__c,IsClosed,CCC_External_Id__c,AccountId,OwnerId FROM Case LIMIT 1];
+       User currentUser = [SELECT Id, Name, Email, Business_Unit__c, Phone FROM User WHERE Id = :UserInfo.getUserId()];
+       ASF_Case_Stage_Config__c stgconfig = ABFL_SOQL_Case.getStageConfig(caseRec.CCC_External_Id__c);
+       System.assertEquals(null,stgconfig.Default_Queue__c);
+       String userBU = ABFL_SOQL_Case.getOnwerBU(caseRec.OwnerId);
+       System.assertEquals(currentUser.Business_Unit__c,userBU);
+   }
     
 }
