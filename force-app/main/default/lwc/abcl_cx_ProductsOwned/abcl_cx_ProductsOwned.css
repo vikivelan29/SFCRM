@@ -1,0 +1,115 @@
+.custom-card {
+  border: 1px solid black;
+  display: block;
+  border-radius: 5%
+}
+
+
+.custom-scroll-allow {
+  overflow-y: scroll;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+}
+
+.slider {
+  cursor: auto;
+  overflow: hidden;
+  overflow-y: auto;
+  height: 15rem;
+}
+
+.slider::-webkit-scrollbar {
+  width: 5px;
+  height: 10rem;
+}
+
+/* Track */
+.slider::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(243, 242, 242);
+  ;
+  border-radius: 10px;
+}
+
+/* Handle */
+.slider::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Handle on hover */
+.slider::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
+  cursor: pointer;
+}
+
+.card {
+  color: black;
+  font-family: Anek Latin;
+  height: 17rem;
+  border-radius: 0.25rem;
+  
+}
+
+.headtext {
+  font-size: 0.75rem;
+  font-family: Anek Latin;
+}
+
+.box-borders {
+  border-bottom-right-radius: 0.625rem;
+  border-bottom-left-radius: 0.625rem;
+  border-left: solid;
+  border-bottom: solid;
+  border-right: solid;
+  border-color: #C7222A;
+  border-width: thin;
+}
+
+.slds-box {
+  padding: 0px;
+  border-radius: 0.5rem;
+  /* Rounded corners */
+}
+
+.asset-details {
+  font-size: 12px;
+  /* Adjust font size */
+  margin: 0;
+}
+
+.checkbox-label {
+  font-weight: bold;
+}
+
+.slds-button {
+  font-size: 18px;
+  background-color: white;
+  color: #C7222A;
+}
+
+.slds-button_brand,
+.slds-button--brand {
+  --slds-c-button-color-background: white;
+  --slds-c-button-color-border: white;
+  --slds-c-button-text-color: #C7222A;
+}
+
+.clickable {
+  cursor: pointer !important;
+}
+.clickable-checkbox {
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.2s ease; /* Optional: hover effect */
+}
+
+.clickable-checkbox:hover {
+    background-color: #f3f3f3; /* Optional: change background color on hover */
+}
+
+.clickable-checkbox lightning-input {
+    pointer-events: none; /* Ensure the lightning-input itself does not block clicks on the parent */
+}

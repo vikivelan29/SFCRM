@@ -1,6 +1,6 @@
 /*********************************************************
 *Class        :  ABCL_cx360Controller
-*Author       :  Nikhil Patewar(EY)
+*Author       :  Nikhil Patewar
 *Description  :  Backend Controller for Customer 360 data and actions
 *********************************************************/
 public with sharing class ABCL_cx360Controller {
@@ -35,144 +35,222 @@ public with sharing class ABCL_cx360Controller {
     }
     
     @AuraEnabled
-    public static Boolean createCases(String customerId,String lanId,Boolean createSOACase,Boolean createRSCase,Boolean createICCase,Boolean createPICCase, Boolean createNDCCase, Boolean createWKCase, Boolean createLODCase){
+    public static List<caseStatusWrapper> createCases(String customerId,String lanId,List<String> docs){
+        List<caseStatusWrapper> statusWrapper = New List<caseStatusWrapper>();
         try{
-            List<caseStatusWrapper> statusWrapper = New List<caseStatusWrapper>();
-            Boolean casesCreated=false;
-            Account acc=[Select Id,Business_Unit__c from Account Where Id=:customerId];
-            Asset asset=[Select Id,Loan_Disbursement_Status__c, Disbursed_Amount__c, Status, Name, LAN__c,LOB__c,Loan_Type__c,DA_Transaction__c,Sanction_Amount__c,VAN__c from Asset Where AccountId=:customerId AND Id=:lanId];
-            if(createSOACase==true){
-                caseStatusWrapper soaCase= new caseStatusWrapper();
-                soaCase.documentName='SOA';
-                soaCase.status=ABHFL_Constants.SUCCESS;
+            Asset asset=[Select Id,Loan_Start_Date__c,Loan_Disbursement_Status__c, Disbursed_Amount__c, Status, Name, LAN__c,LOB__c,Loan_Type__c,DA_Transaction__c,Sanction_Amount__c,VAN__c from Asset Where AccountId=:customerId AND Id=:lanId];
+            if(docs.contains('SOA')){
                 system.debug('Inside SOA case creation');
-                ASF_Case_Category_Config__c caseCatConfig = [Select Id, Type__c,Sub_Type__c,CCC_External_Id__c,Business_Unit__c,Nature__c from ASF_Case_Category_Config__c Where CCC_External_Id__c=:ABHFL_Constants.SOA_CCC_EXTERNALID];
-                //Insert case
-                Case caseCreated= insertCase(ABHFL_Constants.SOA_CCC_EXTERNALID,caseCatConfig,customerId,lanId);
+                caseStatusWrapper response= new caseStatusWrapper();
+                response.documentName='SOA';
+                response.status=ABHFL_Constants.ERROR;
                 
                 //Insert ABHFL_Case_Details__c
-                createCaseDetail(caseCreated,asset,ABHFL_Constants.SOA_CCC_EXTERNALID);
+                caseStatusWrapper caseDetailsCreatedWrapper=createCaseDetail(asset,ABHFL_Constants.SOA_CCC_EXTERNALID);
+                response.newCaseDetail=caseDetailsCreatedWrapper.newCaseDetail;
+                response.status=caseDetailsCreatedWrapper.status;
+                response.message=caseDetailsCreatedWrapper.message;
                 
-                //call SOAIntegration
-                //Get Integration details
-                ASF_Integration__c integ=getAllIntegrationDetails(ABHFL_Constants.SOA_CCC_EXTERNALID,'Open','ABHFL_SOAIntegration');
-                system.debug('ASF Integ record>>'+integ);
-                //Call Evaluate and run method of the processing class
-                ASF_IntegrationsController.IntegrationWrapper resultWrapper=ASF_IntegrationsController.runIntegration(integ,caseCreated);
-                system.debug('result wrapper>>'+resultWrapper);
-                if(resultWrapper.status == ABHFL_Constants.SUCCESS){
-                    casesCreated=true;
+                //Insert case
+                caseStatusWrapper caseCreatedWrapper;
+                if(response.status==ABHFL_Constants.SUCCESS){
+                    caseCreatedWrapper= insertCase(response.newCaseDetail.Id,ABHFL_Constants.SOA_CCC_EXTERNALID,customerId,lanId);
+                    response.newCase=caseCreatedWrapper.newCase;
+                    response.status=caseCreatedWrapper.status;
+                    response.message=caseCreatedWrapper.message;
+                    system.debug('SOA response>>'+response);
+                    statusWrapper.add(response);
                 }
+                
+                //Get Integration details
+                if(response.status==ABHFL_Constants.SUCCESS && response.newCase!=null){
+                    ASF_Integration__c integ=getAllIntegrationDetails(ABHFL_Constants.SOA_CCC_EXTERNALID,'Open','ABHFL_SOAIntegration');
+                    ASF_IntegrationsController.IntegrationWrapper resultWrapper=ASF_IntegrationsController.runIntegration(integ,caseCreatedWrapper.newCase);
+                    system.debug('result wrapper>>'+resultWrapper);
+                }/** DELETE ABHFL record created if there is an issue while creating an case
+else if( response.newCaseDetail !=null && (response.newCase=='')){
+Delete response.newCaseDetail.Id;
+}**/
             }
-            if(createRSCase==true){
+            if(docs.contains('RS')){
                 system.debug('Inside RS case creation');
-                ASF_Case_Category_Config__c caseCatConfig = [Select Id, Type__c,Sub_Type__c,CCC_External_Id__c,Business_Unit__c,Nature__c from ASF_Case_Category_Config__c Where CCC_External_Id__c=:ABHFL_Constants.Amort_CCC_EXTERNALID];
-                //Insert case
-                Case caseCreated= insertCase(ABHFL_Constants.Amort_CCC_EXTERNALID,caseCatConfig,customerId,lanId);
+                caseStatusWrapper response= new caseStatusWrapper();
+                response.documentName='Repayment Schedule';
+                response.status=ABHFL_Constants.ERROR;
                 
                 //Insert ABHFL_Case_Details__c
-                createCaseDetail(caseCreated,asset,ABHFL_Constants.Amort_CCC_EXTERNALID);
+                caseStatusWrapper caseDetailsCreatedWrapper=createCaseDetail(asset,ABHFL_Constants.Amort_CCC_EXTERNALID);
+                response.newCaseDetail=caseDetailsCreatedWrapper.newCaseDetail;
+                response.status=caseDetailsCreatedWrapper.status;
+                response.message=caseDetailsCreatedWrapper.message;
+                
+                //Insert case
+                caseStatusWrapper caseCreatedWrapper;
+                if(response.status==ABHFL_Constants.SUCCESS){
+                    caseCreatedWrapper= insertCase(response.newCaseDetail.Id,ABHFL_Constants.Amort_CCC_EXTERNALID,customerId,lanId);
+                    response.newCase=caseCreatedWrapper.newCase;
+                    response.status=caseCreatedWrapper.status;
+                    response.message=caseCreatedWrapper.message;
+                    statusWrapper.add(response);
+                }
                 
                 //call RCIntegration
-                //Get Integration details
-                ASF_Integration__c integ=getAllIntegrationDetails(ABHFL_Constants.Amort_CCC_EXTERNALID,'Open','ABHFL_AmortizationIntegration');
-                system.debug('ASF Integ record>>'+integ);
-                //Call Evaluate and run method of the processing class
-                ASF_IntegrationsController.IntegrationWrapper resultWrapper=ASF_IntegrationsController.runIntegration(integ,caseCreated);
-                system.debug('result wrapper>>'+resultWrapper);
-                if(resultWrapper.status == ABHFL_Constants.SUCCESS){
-                    casesCreated=true;
+                if(response.status==ABHFL_Constants.SUCCESS && response.newCase!=null){
+                    ASF_Integration__c integ=getAllIntegrationDetails(ABHFL_Constants.Amort_CCC_EXTERNALID,'Open','ABHFL_AmortizationIntegration');
+                    ASF_IntegrationsController.IntegrationWrapper resultWrapper=ASF_IntegrationsController.runIntegration(integ,caseCreatedWrapper.newCase);
+                    system.debug('result wrapper>>'+resultWrapper);
                 }
+                
             }
-            if(createICCase==true){
+            if(docs.contains('IC')){
                 system.debug('Inside IC case creation');
-                ASF_Case_Category_Config__c caseCatConfig = [Select Id, Type__c,Sub_Type__c,CCC_External_Id__c,Business_Unit__c,Nature__c from ASF_Case_Category_Config__c Where CCC_External_Id__c=:ABHFL_Constants.IC_CCC_EXTERNALID];
-                
-                //Insert case
-                Case caseCreated= insertCase(ABHFL_Constants.IC_CCC_EXTERNALID,caseCatConfig,customerId,lanId);
+                caseStatusWrapper response= new caseStatusWrapper();
+                response.documentName='IC';
+                response.status=ABHFL_Constants.ERROR;
                 
                 //Insert ABHFL_Case_Details__c
-                createCaseDetail(caseCreated,asset,ABHFL_Constants.IC_CCC_EXTERNALID);
+                caseStatusWrapper caseDetailsCreatedWrapper=createCaseDetail(asset,ABHFL_Constants.IC_CCC_EXTERNALID);
+                response.newCaseDetail=caseDetailsCreatedWrapper.newCaseDetail;
+                response.status=caseDetailsCreatedWrapper.status;
+                response.message=caseDetailsCreatedWrapper.message;
                 
-                //call IcIntegration
+                //Insert case
+                caseStatusWrapper caseCreatedWrapper;
+                if(response.status==ABHFL_Constants.SUCCESS){
+                    caseCreatedWrapper = insertCase(response.newCaseDetail.Id,ABHFL_Constants.IC_CCC_EXTERNALID,customerId,lanId);
+                    response.newCase=caseCreatedWrapper.newCase;
+                    response.status=caseCreatedWrapper.status;
+                    response.message=caseCreatedWrapper.message;
+                    system.debug('IC response >>'+response);
+                    statusWrapper.add(response);
+                }
+                
                 //Get Integration details
-                ASF_Integration__c integ=getAllIntegrationDetails(ABHFL_Constants.IC_CCC_EXTERNALID,'Open','ABHFL_ICAndPIC_Integration');
-                system.debug('ASF Integ record>>'+integ);
-                
-                //Call Evaluate and run method of the processing class
-                ASF_IntegrationsController.IntegrationWrapper resultWrapper=ASF_IntegrationsController.runIntegration(integ,caseCreated);
-                system.debug('result wrapper>>'+resultWrapper);
-                if(resultWrapper.status == ABHFL_Constants.SUCCESS){
-                    casesCreated=true;
+                if(response.status==ABHFL_Constants.SUCCESS && response.newCase!=null){
+                    ASF_Integration__c integ=getAllIntegrationDetails(ABHFL_Constants.IC_CCC_EXTERNALID,'Open','ABHFL_ICAndPIC_Integration');
+                    ASF_IntegrationsController.IntegrationWrapper resultWrapper=ASF_IntegrationsController.runIntegration(integ,caseCreatedWrapper.newCase);
+                    system.debug('result wrapper>>'+resultWrapper);
                 }
             }
-            if(createPICCase==true){
-                ASF_Case_Category_Config__c caseCatConfig = [Select Id, Type__c,Sub_Type__c,CCC_External_Id__c,Business_Unit__c,Nature__c from ASF_Case_Category_Config__c Where CCC_External_Id__c=:ABHFL_Constants.PIC_CCC_EXTERNALID];
-                
-                //Insert case
-                Case caseCreated= insertCase(ABHFL_Constants.PIC_CCC_EXTERNALID,caseCatConfig,customerId,lanId);
+            if(docs.contains('PIC')){
+                caseStatusWrapper response= new caseStatusWrapper();
+                response.documentName='IC';
+                response.status=ABHFL_Constants.ERROR;
                 
                 //Insert ABHFL_Case_Details__c
-                createCaseDetail(caseCreated,asset,ABHFL_Constants.PIC_CCC_EXTERNALID);
+                caseStatusWrapper caseDetailsCreatedWrapper=createCaseDetail(asset,ABHFL_Constants.PIC_CCC_EXTERNALID);
+                response.newCaseDetail=caseDetailsCreatedWrapper.newCaseDetail;
+                response.status=caseDetailsCreatedWrapper.status;
+                response.message=caseDetailsCreatedWrapper.message;
+                
+                //Insert case
+                caseStatusWrapper caseCreatedWrapper;
+                if(response.status==ABHFL_Constants.SUCCESS){
+                    caseCreatedWrapper= insertCase(response.newCaseDetail.Id,ABHFL_Constants.PIC_CCC_EXTERNALID,customerId,lanId);
+                    response.newCase=caseCreatedWrapper.newCase;
+                    response.status=caseCreatedWrapper.status;
+                    response.message=caseCreatedWrapper.message;
+                    system.debug('PIC response>>'+response);
+                    statusWrapper.add(response);
+                }
+                
                 //call PICIntegration
+                if(response.status==ABHFL_Constants.SUCCESS && response.newCase!=null){
+                    ASF_Integration__c integ=getAllIntegrationDetails(ABHFL_Constants.PIC_CCC_EXTERNALID,'Open','ABHFL_ICAndPIC_Integration');
+                    ASF_IntegrationsController.IntegrationWrapper resultWrapper=ASF_IntegrationsController.runIntegration(integ,caseCreatedWrapper.newCase);
+                    system.debug('result wrapper>>'+resultWrapper);
+                }
             }
-            if(createNDCCase==true){
+            if(docs.contains('NDC')){
                 system.debug('Inside NDC case creation');
-                ASF_Case_Category_Config__c caseCatConfig = [Select Id, Type__c,Sub_Type__c,CCC_External_Id__c,Business_Unit__c,Nature__c from ASF_Case_Category_Config__c Where CCC_External_Id__c=:ABHFL_Constants.NDC_CCC_EXTERNALID];
-                
-                //Insert case
-                Case caseCreated= insertCase(ABHFL_Constants.NDC_CCC_EXTERNALID,caseCatConfig,customerId,lanId);
+                caseStatusWrapper response= new caseStatusWrapper();
+                response.documentName='NDC';
+                response.status=ABHFL_Constants.ERROR;
                 
                 //Insert ABHFL_Case_Details__c
-                createCaseDetail(caseCreated,asset,ABHFL_Constants.NDC_CCC_EXTERNALID);
+                caseStatusWrapper caseDetailsCreatedWrapper=createCaseDetail(asset,ABHFL_Constants.NDC_CCC_EXTERNALID);
+                response.newCaseDetail=caseDetailsCreatedWrapper.newCaseDetail;
+                response.status=caseDetailsCreatedWrapper.status;
+                response.message=caseDetailsCreatedWrapper.message;
                 
+                //Insert case
+                caseStatusWrapper caseCreatedWrapper;
+                if(response.status==ABHFL_Constants.SUCCESS){
+                    caseCreatedWrapper= insertCase(response.newCaseDetail.Id,ABHFL_Constants.NDC_CCC_EXTERNALID,customerId,lanId);
+                    response.newCase=caseCreatedWrapper.newCase;
+                    response.status=caseCreatedWrapper.status;
+                    response.message=caseCreatedWrapper.message;
+                    system.debug('NDC response>>'+response);
+                    statusWrapper.add(response);
+                }
                 //call NDCIntegration
-                //Get Integration details
-                ASF_Integration__c integ=getAllIntegrationDetails(ABHFL_Constants.NDC_CCC_EXTERNALID,'Open','ABHFL_NDCSTPHandler');
-                system.debug('ASF Integ record>>'+integ);
-                
-                //Call Evaluate and run method of the processing class
-                ASF_IntegrationsController.IntegrationWrapper resultWrapper=ASF_IntegrationsController.runIntegration(integ,caseCreated);
-                system.debug('result wrapper>>'+resultWrapper);
-                if(resultWrapper.status == ABHFL_Constants.SUCCESS){
-                    casesCreated=true;
+                if(response.status==ABHFL_Constants.SUCCESS && response.newCase!=null){
+                    ASF_Integration__c integ=getAllIntegrationDetails(ABHFL_Constants.NDC_CCC_EXTERNALID,'Open','ABHFL_NDCSTPHandler');
+                    ASF_IntegrationsController.IntegrationWrapper resultWrapper=ASF_IntegrationsController.runIntegration(integ,caseCreatedWrapper.newCase);
+                    system.debug('result wrapper>>'+resultWrapper);
                 }
-                
             }
-            if(createWKCase==true){
+            if(docs.contains('WK')){
                 system.debug('Inside WK case creation');
-                ASF_Case_Category_Config__c caseCatConfig = [Select Id, Type__c,Sub_Type__c,CCC_External_Id__c,Business_Unit__c,Nature__c from ASF_Case_Category_Config__c Where CCC_External_Id__c=:ABHFL_Constants.WK_CCC_EXTERNALID];
-                
-                //Insert case
-                Case caseCreated= insertCase(ABHFL_Constants.WK_CCC_EXTERNALID,caseCatConfig,customerId,lanId);
+                caseStatusWrapper response= new caseStatusWrapper();
+                response.documentName='Welcome Kit';
+                response.status=ABHFL_Constants.ERROR;
                 
                 //Insert ABHFL_Case_Details__c
-                createCaseDetail(caseCreated,asset,ABHFL_Constants.WK_CCC_EXTERNALID);
+                caseStatusWrapper caseDetailsCreatedWrapper=createCaseDetail(asset,ABHFL_Constants.WK_CCC_EXTERNALID);
+                response.newCaseDetail=caseDetailsCreatedWrapper.newCaseDetail;
+                response.status=caseDetailsCreatedWrapper.status;
+                response.message=caseDetailsCreatedWrapper.message;
                 
-                //call WKIntegration
-                //Get Integration details
-                ASF_Integration__c integ=getAllIntegrationDetails(ABHFL_Constants.WK_CCC_EXTERNALID,'Open','ABHFL_WelcomeKitIntegration');
-                system.debug('ASF Integ record>>'+integ);
-                
-                //Call Evaluate and run method of the processing class
-                ASF_IntegrationsController.IntegrationWrapper resultWrapper=ASF_IntegrationsController.runIntegration(integ,caseCreated);
-                system.debug('result wrapper>>'+resultWrapper);
-                if(resultWrapper.status == ABHFL_Constants.SUCCESS){
-                    casesCreated=true;
-                }
-                
-            }
-            if(createLODCase==true){
-                system.debug('Inside SOA case creation');
-                ASF_Case_Category_Config__c caseCatConfig = [Select Id, Type__c,Sub_Type__c,CCC_External_Id__c,Business_Unit__c,Nature__c from ASF_Case_Category_Config__c Where CCC_External_Id__c=:ABHFL_Constants.LOD_CCC_EXTERNALID];
                 //Insert case
-                Case caseCreated= insertCase(ABHFL_Constants.LOD_CCC_EXTERNALID,caseCatConfig,customerId,lanId);
-                
+                caseStatusWrapper caseCreatedWrapper;
+                if(response.status==ABHFL_Constants.SUCCESS){
+                    caseCreatedWrapper=insertCase(response.newCaseDetail.Id,ABHFL_Constants.WK_CCC_EXTERNALID,customerId,lanId);
+                    response.newCase=caseCreatedWrapper.newCase;
+                    response.status=caseCreatedWrapper.status;
+                    response.message=caseCreatedWrapper.message;
+                    system.debug('WK response>>'+response);
+                    statusWrapper.add(response);
+                }
+                //call WKIntegration
+                if(response.status==ABHFL_Constants.SUCCESS && response.newCase!=null){
+                    ASF_Integration__c integ=getAllIntegrationDetails(ABHFL_Constants.WK_CCC_EXTERNALID,'Open','ABHFL_WelcomeKitIntegration');
+                    ASF_IntegrationsController.IntegrationWrapper resultWrapper=ASF_IntegrationsController.runIntegration(integ,caseCreatedWrapper.newCase);
+                    system.debug('result wrapper>>'+resultWrapper);
+                }
             }
-            return casesCreated;
+            if(docs.contains('LOD')){
+                system.debug('Inside LOD case creation');
+                caseStatusWrapper response= new caseStatusWrapper();
+                response.documentName='List of Documents';
+                response.status=ABHFL_Constants.ERROR;
+                
+                //Insert ABHFL_Case_Details__c
+                caseStatusWrapper caseDetailsCreatedWrapper=createCaseDetail(asset,ABHFL_Constants.LOD_CCC_EXTERNALID);
+                response.newCaseDetail=caseDetailsCreatedWrapper.newCaseDetail;
+                response.status=caseDetailsCreatedWrapper.status;
+                response.message=caseDetailsCreatedWrapper.message;
+                
+                //Insert case
+                caseStatusWrapper caseCreatedWrapper;
+                if(response.status==ABHFL_Constants.SUCCESS){
+                    caseCreatedWrapper= insertCase(response.newCaseDetail.Id,ABHFL_Constants.LOD_CCC_EXTERNALID,customerId,lanId);
+                    response.newCase=caseCreatedWrapper.newCase;
+                    response.status=caseCreatedWrapper.status;
+                    response.message=caseCreatedWrapper.message;
+                    system.debug('LOD Response>>'+response);
+                    statusWrapper.add(response); 
+                }
+            }
+            
         }catch(Exception e){
-            throw new AuraHandledException(e.getMessage());
+            caseStatusWrapper response= New caseStatusWrapper();
+            response.status=ABHFL_Constants.ERROR;
+            response.message='Case/s could not be created, due to error -'+e.getMessage();
+            statusWrapper.add(response);
         }
+        system.debug('Final response for LWC>>>'+statusWrapper);
+        return statusWrapper;
     }
     
     @AuraEnabled
@@ -192,26 +270,85 @@ public with sharing class ABCL_cx360Controller {
     }
     
     @AuraEnabled(cacheable=true)
-    public static List<String> getFieldSetFields(String objectName, String fieldSetName) {
-        List<String> fieldSetFields = new List<String>();
+    public static List<Map<String, String>> getFieldSetFieldsAndValues(String objectName, String fieldSetName, Id recordId) {
+        List<Map<String, String>> fieldList = new List<Map<String, String>>();
         
         try {
+            // Get the object describe
             Schema.SObjectType objectType = Schema.getGlobalDescribe().get(objectName);
             if (objectType != null) {
+                // Get the field set
                 Schema.FieldSet fieldSet = objectType.getDescribe().fieldSets.getMap().get(fieldSetName);
                 if (fieldSet != null) {
+                    // Create a list of field API names
+                    List<String> fieldApiNames = new List<String>();
                     for (Schema.FieldSetMember field : fieldSet.getFields()) {
-                        fieldSetFields.add(field.getFieldPath());
+                        fieldApiNames.add(field.getFieldPath());
+                    }
+                    
+                    // Query the record data
+                    String queryString = 'SELECT ' + String.join(fieldApiNames, ',') + ',City__c'+
+                        ' FROM ' + objectName + ' WHERE Id = :recordId';
+                    SObject record = Database.query(queryString);
+                    
+                    // Iterate through fields in the order defined in the Field Set
+                    for (Schema.FieldSetMember field : fieldSet.getFields()) {
+                        Schema.DescribeFieldResult fieldDescribe = Schema.getGlobalDescribe()
+                            .get(objectName)
+                            .getDescribe()
+                            .fields
+                            .getMap()
+                            .get(field.getFieldPath())
+                            .getDescribe();
+                        
+                        Map<String, String> fieldInfo = new Map<String, String>();
+                        fieldInfo.put('label', fieldDescribe.getLabel());
+                        fieldInfo.put('value', String.valueOf(record.get(field.getFieldPath())));
+                        //Updates to the labels
+                        object fieldLabel = fieldDescribe.getLabel();
+                        if(String.valueOf(field.getFieldPath())=='PersonGenderIdentity'){
+                        	fieldInfo.put('label', 'Gender');    
+                        }
+                        if(String.valueOf(field.getFieldPath())=='Phone'){
+                        	fieldInfo.put('label', 'Phone Number');    
+                        }
+                        if(String.valueOf(field.getFieldPath())=='PAN__c'){
+                        	fieldInfo.put('label', 'PAN Number');    
+                        }
+                        if(String.valueOf(field.getFieldPath())=='PersonBirthdate'){
+                        	fieldInfo.put('label', 'DOB/DOC');    
+                        }
+                        if(String.valueOf(field.getFieldPath())=='State__c'){
+                        	fieldInfo.put('label', 'State, City');
+                            List<String> addressStrings = New List<String>();
+                            addressStrings.add(String.valueOf(record.get('State__c')));
+                            addressStrings.add(String.valueOf(record.get('City__c')));
+                            system.debug('addressStrings'+addressStrings);
+                            if(addressStrings.size()>1){
+                                fieldInfo.put('value', String.join(addressStrings, ', '));
+                            }else if(addressStrings.size()==1){
+                                fieldInfo.put('value', String.valueOf(addressStrings[0]));
+                            }
+                            system.debug('Map>>'+fieldInfo);
+                        }
+                        // Handle datetime to date
+                        Object fieldValue = record.get(field.getFieldPath());
+                        if (fieldValue instanceof Datetime) {
+                            fieldInfo.put('value', ((Datetime)fieldValue).date().format());
+                        } else if (fieldDescribe.getType() == Schema.DisplayType.DATE) {
+                            fieldInfo.put('value', String.valueOf(fieldValue));
+                        }
+                        fieldList.add(fieldInfo);
                     }
                 } else {
-                    throw new AuraHandledException('Field set not found: ' + fieldSetName);
+                    throw new AuraHandledException('Field Set not found: ' + fieldSetName);
                 }
             }
         } catch (Exception e) {
-            throw new AuraHandledException('Error fetching field set fields: ' + e.getMessage());
+            throw new AuraHandledException('Error fetching Field Set fields and values: ' + e.getMessage());
         }
         
-        return fieldSetFields;
+        return fieldList;
     }
     
     @AuraEnabled(cacheable=true)
@@ -232,50 +369,69 @@ public with sharing class ABCL_cx360Controller {
     }
     
     @AuraEnabled
-    public static Case insertCase(String cccExternalId,ASF_Case_Category_Config__c caseCatConfig,String customerId,String lanId){
+    public static caseStatusWrapper insertCase(String caseDetailId,String cccExternalId,String customerId,String lanId){
+        caseStatusWrapper responseWrapper= New caseStatusWrapper();
         try{
+            system.debug('Inside case creation method');
+            ASF_Case_Category_Config__c caseCatConfig = [Select Id, Type__c,Sub_Type__c,CCC_External_Id__c,Business_Unit__c,Nature__c from ASF_Case_Category_Config__c Where CCC_External_Id__c=:cccExternalId];
             Case caseRecord = new Case();
             caseRecord.Subject=caseCatConfig.Sub_Type__c +' - Required';
             caseRecord.Description=caseCatConfig.Sub_Type__c +' - Required';
-            caseRecord.CCC_External_Id__c=ABHFL_Constants.SOA_CCC_EXTERNALID;
+            caseRecord.CCC_External_Id__c=cccExternalId;
             caseRecord.Nature__c=caseCatConfig.Nature__c;
+            caseRecord.Type_Text__c=caseCatConfig.Type__c;
+            caseRecord.Sub_Type_Text__c=caseCatConfig.Sub_Type__c;
             caseRecord.AccountId=customerId;
             caseRecord.AssetId = lanId;
-            caseRecord.Source__c= 'Inbound call';
+            //caseRecord.Source__c= 'Inbound call';
             caseRecord.Business_Unit__c=ABHFL_Constants.BUSINESS_UNIT_ABHFL;
-            //caseRecord.RecordTypeId=
+            caseRecord.Stage__c='Open';
+            caseRecord.Case_Stage_Change_Date__c = system.now();
+            caseRecord.RecordTypeId=ASF_Constants.RT_FRAMEWORK;
+            caseRecord.ABHFL_Case_Detail__c=caseDetailId;
             if(Schema.sObjectType.Case.isCreateable()){
                 Insert caseRecord;   
             }
+            Case newCase=[Select Id,CaseNumber from Case where Id=:caseRecord.Id Limit 1];
             system.debug('careated case>>'+caseRecord.Id);
-            return [Select Id,CaseNumber from Case where Id=:caseRecord.Id];
-        }catch(Exception e){
-            throw new AuraHandledException(e.getMessage());
+            responseWrapper.newCase = newCase;
+            responseWrapper.status=ABHFL_Constants.SUCCESS;
+            
+        }catch(DmlException e){
+            system.debug('Issue is:'+e.getMessage());
+            responseWrapper.status=ABHFL_Constants.ERROR;
+            responseWrapper.message=e.getMessage();
+            
         }
-        
+        return responseWrapper;
     }
     
     @AuraEnabled
-    public static void createCaseDetail(Case c,Asset asset,String cccExternalId){
+    public static caseStatusWrapper createCaseDetail(Asset asset,String cccExternalId){
+        caseStatusWrapper response= New caseStatusWrapper();
+        system.debug('Inside ABHFL case creation');
         try{
             ABHFL_Case_Detail__c caseDetails = new ABHFL_Case_Detail__c();
             caseDetails.From_Date__c=asset.Loan_Start_Date__c;
             caseDetails.To_Date__c=System.Today();
             caseDetails.STP_Request_Type__c = ABHFL_Constants.EMAIL;
-            caseDetails.Case__r.Id=c.Id;
             if(cccExternalId==ABHFL_Constants.IC_CCC_EXTERNALID){
-                caseDetails.Financial_Year__c=getCurrentFinancialYear(ABHFL_Constants.IC_CCC_EXTERNALID);
+                caseDetails.Financial_Year__c=getCurrentFinancialYear(cccExternalId);
             }else if(cccExternalId==ABHFL_Constants.PIC_CCC_EXTERNALID){
-                caseDetails.Financial_Year__c=getCurrentFinancialYear(ABHFL_Constants.PIC_CCC_EXTERNALID);
+                caseDetails.Financial_Year__c=getCurrentFinancialYear(cccExternalId);
             }
             if(Schema.sObjectType.ABHFL_Case_Detail__c.isCreateable()){
                 Insert caseDetails;
             }
-            system.debug('careated ABHFL casedeatils>>'+[select Id,From_Date__c,To_Date__c from ABHFL_Case_Detail__c where id=:caseDetails.Id]);
-            
-        }catch(Exception e){
-            throw new AuraHandledException(e.getMessage());
+            system.debug('careated ABHFL casedeatils>>'+[select Id,From_Date__c,To_Date__c,Financial_Year__c from ABHFL_Case_Detail__c where id=:caseDetails.Id]);
+            response.newCaseDetail = [select Id,From_Date__c,To_Date__c,Financial_Year__c from ABHFL_Case_Detail__c where id=:caseDetails.Id];
+            response.status=ABHFL_Constants.SUCCESS;
+        }catch(DmlException e){
+            system.debug('Issue is:'+e.getMessage());
+            response.status=ABHFL_Constants.ERROR;
+            response.message=e.getMessage();
         }
+        return response;
     }
     
     public static String getCurrentFinancialYear(String cccExternalId) {
@@ -292,6 +448,73 @@ public with sharing class ABCL_cx360Controller {
         return financialYear;
     }
     
+    @AuraEnabled(cacheable=true)
+    public static List<accountDetailsWrapper> getAccountDetails(String customerId,String businessUnit){
+        system.debug('Account Id:>>'+customerId+', BU:>> '+businessUnit);
+        try {
+            List<accountDetailsWrapper> accDetails = New List<accountDetailsWrapper>();
+            Map<String,Schema.SObjectField> mfields = Schema.Account.SObjectType.getDescribe().fields.getMap();
+            system.debug('1');
+            List<ABCL_CX_360_Account_Details_Field_Map__mdt> fieldMap = [SELECT Id,Business_Unit__c,Field_List__c ,Field_Section__c FROM ABCL_CX_360_Account_Details_Field_Map__mdt WHERE Business_Unit__c =: businessUnit WITH SYSTEM_MODE];
+            system.debug('fieldMap>>'+fieldMap);
+            String AccountInfoFields;
+            String AccountAddressFields;
+            String AccountEmploymentFields;
+            for(ABCL_CX_360_Account_Details_Field_Map__mdt fm:fieldMap){
+                if(fm.Field_Section__c=='Account Information'){
+                    AccountInfoFields=(fm.Field_List__c);
+                }
+                if(fm.Field_Section__c=='Address Details'){
+                    AccountAddressFields=(fm.Field_List__c);
+                }
+                if(fm.Field_Section__c=='Employment Details'){
+                    AccountEmploymentFields=(fm.Field_List__c);
+                }
+            }
+            system.debug('AccountInfoFields>>'+AccountInfoFields);
+            system.debug('AccountAddressFields>>'+AccountAddressFields);
+            system.debug('AccountEmploymentFields>>'+AccountEmploymentFields);
+            String fields;
+            if(String.isNotBlank(AccountInfoFields)){
+                fields=AccountInfoFields;
+            }
+            if(String.isNotBlank(AccountAddressFields)){
+                fields=fields+','+AccountAddressFields;
+            }
+            if(String.isNotBlank(AccountEmploymentFields)){
+                fields=fields+','+AccountEmploymentFields;
+            }
+            system.debug('fields to Query>>'+fields);
+            system.debug('Fields:'+fields);
+            String query = 'SELECT Id,' + fields + ' FROM Account WHERE Id = :customerId';
+            Account account = Database.query(query);
+            system.debug('account>>>'+account);
+            List<String> fieldList = fields.split(',');
+            for (String field : fieldList) {
+                system.debug('In final FOR');
+                accountDetailsWrapper fieldwrapper = new accountDetailsWrapper();
+                fieldwrapper.fieldAPIName=field;
+                fieldwrapper.fieldLabel=String.Valueof(mfields.get(field).getDescribe().getLabel());
+                fieldwrapper.fieldValue=String.valueOf(account.get(field));
+                if(AccountInfoFields.contains(field)){
+                    fieldwrapper.fieldSection='Account Information';
+                }
+                if(AccountAddressFields.contains(field)){
+                    fieldwrapper.fieldSection='Address Details';
+                }
+                if(AccountEmploymentFields.contains(field)){
+                    fieldwrapper.fieldSection='Employment Details';
+                }
+                system.debug('fieldwrapper>>'+fieldwrapper);
+                accDetails.add(fieldwrapper);
+            }
+            system.debug('final accDetails>>'+accDetails);
+            return accDetails;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    
     public class caseStatusWrapper{
         @AuraEnabled
         public String documentName;
@@ -303,5 +526,16 @@ public with sharing class ABCL_cx360Controller {
         public Case newCase;
         @AuraEnabled
         public ABHFL_Case_Detail__c newCaseDetail;
+    }
+    
+    public class accountDetailsWrapper{
+        @AuraEnabled
+        public String fieldAPIName;
+        @AuraEnabled
+        public String fieldLabel;
+        @AuraEnabled
+        public String fieldValue;
+        @AuraEnabled
+        public String fieldSection;
     }
 }
