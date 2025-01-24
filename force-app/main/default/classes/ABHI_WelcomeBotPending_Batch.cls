@@ -30,7 +30,7 @@ global class ABHI_WelcomeBotPending_Batch implements Database.Batchable<sObject>
                       Policy_Number__r.Account.State__c, Policy_Number__r.Channel__c, Policy_Number__r.Source__c
                       from Dispositions__c  
                       WHERE Status__c = 'Pending' AND Call_Type__c = :Label.ABHI_WelcomeBot
-                      AND CreatedDate < N_DAYS_AGO:2 ]);
+                      ORDER BY CreatedDate DESC ]);
         return scope;
 	}
     
@@ -58,6 +58,7 @@ global class ABHI_WelcomeBotPending_Batch implements Database.Batchable<sObject>
                                                   //2 maps: 1 if ignore all true map of product name+plan name & serviceId
                                                   //else: mapProductDetService
                                                   if(welcome.Ignore_All_Fields__c && !mapProductNameService.containsKey(welcome.Plan_Name__c + welcome.ProductName__c)) {
+                                                      welcome.Plan_Name__c = String.isEmpty(welcome.Plan_Name__c)?'':welcome.Plan_Name__c;
                                                       mapProductNameService.put(welcome.Plan_Name__c + welcome.ProductName__c, welcome.Service_Id__c);
                                                   }
                                                   if(!mapProductDetService.containskey(key)) {
@@ -79,13 +80,16 @@ global class ABHI_WelcomeBotPending_Batch implements Database.Batchable<sObject>
                     if(mapProductNameService.containsKey(dispositions.Policy_Number__r.Plan_Name__c + dispositions.Policy_Number__r.ProductName__c)) {
                         botRequest.serviceId = mapProductNameService.get(dispositions.Policy_Number__r.Plan_Name__c + dispositions.Policy_Number__r.ProductName__c);
                     }
+                    else if(mapProductNameService.containsKey(dispositions.Policy_Number__r.ProductName__c)) {
+                        botRequest.serviceId = mapProductNameService.get(dispositions.Policy_Number__r.ProductName__c);
+                    }
                     else {
                         key = dispositions.Policy_Number__r.Plan_Name__c + dispositions.Policy_Number__r.ProductName__c +dispositions.Policy_Number__r.Account.CMP_OPD__c+dispositions.Policy_Number__r.Account.Chronic_care__c+ dispositions.Policy_Number__r.Account.Is_Chronic__c;         
                     	botRequest.serviceId = mapProductDetService.get(key); 
                     }
                     botRequest.msisdn = dispositions.Policy_Number__r.Account.IsPersonAccount?dispositions.Policy_Number__r.Account.PersonMobilePhone:dispositions.Policy_Number__r.Account.Phone;
                     botRequest.language = 'en';
-                    botRequest.group_or_retail = dispositions.Policy_Number__r.PolicyType__c;
+                    botRequest.group_or_retail = dispositions.Policy_Number__r.PolicyType__c == 'Retail'?dispositions.Policy_Number__r.PolicyType__c?.toUppercase():'GROUP';
                     botRequest.policy_holder_name = dispositions.Policy_Number__r.Account.Name;
                     botRequest.policy_type = dispositions.Policy_Number__r.PolicyType__c;
                     botRequest.policy_number = dispositions.Policy_Number__r.Policy_No__c;
