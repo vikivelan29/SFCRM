@@ -4,30 +4,18 @@ import getQuickActions from '@salesforce/apex/ABCL_cx360Controller.getQuickActio
 import createCases from '@salesforce/apex/ABCL_cx360Controller.createCases';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
-
-
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import createCasesForLAN from '@salesforce/apex/ABCL_CX_LanguagePreference.createCases';
 import PREFERREDLANGUAGE_FIELD from '@salesforce/schema/Account.Language_Preference__c';
 import PHONE_FIELD from '@salesforce/schema/Account.Phone';
 import LOB_FIELD from '@salesforce/schema/Account.Business_Unit__c';
-
-
 import ABCL_CX_PREFERRED_LANGUAGE_ACCOUNT from '@salesforce/label/c.ABCL_CX_Preferred_language';
 import getEmailTemplates from '@salesforce/apex/ABCL_CX_SendCommunication.getEmailTemplates';
 import { getObjectInfo } from "lightning/uiObjectInfoApi";
 import getListOfContact from '@salesforce/apex/ASF_SMSCommunicationParser.getListOfContact';
 import getListOfTemplate from '@salesforce/apex/ASF_SMSCommunicationParser.getListOfTemplate';
-
-import getTemplate from '@salesforce/apex/ABCL_CX_Send_SMS.getTemplate';
+//import getTemplate from '@salesforce/apex/ABCL_CX_Send_SMS.getTemplate';
 const ACCOUNT_FIELDS = ['Account.Business_Unit__c','Account.Phone'];
-
-
-
-
-
-
-
 export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElement) {
     @api recordId;
     objectApiName='Account';// need to change to @api---Shagun
