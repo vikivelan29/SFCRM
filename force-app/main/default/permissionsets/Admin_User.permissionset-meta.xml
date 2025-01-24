@@ -633,6 +633,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Location_Master__c.Alternate_SPOC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.ARR__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1614,6 +1619,26 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABSLI_Case_Detail__c.Voucher_Approval_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.API_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.API_Error_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.API_Response_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.API_Request__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
