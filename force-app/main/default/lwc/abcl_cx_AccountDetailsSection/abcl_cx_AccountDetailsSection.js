@@ -53,10 +53,10 @@ export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(Light
         // Determine the field set name based on the Business Unit
         switch (this.businessUnit) {
             case 'ABFL':
-                fieldSetName = 'ABFL_CX360_Fields';
+                fieldSetName = 'ABHFL_CX360_Fields';
                 break;
             default:
-                fieldSetName = 'ABFL_CX360_Fields';
+                fieldSetName = 'ABHFL_CX360_Fields';
         }
         // Call Apex method to get field set fields
         getFieldSetFields({ objectName, fieldSetName, recordId: this.recordId })
