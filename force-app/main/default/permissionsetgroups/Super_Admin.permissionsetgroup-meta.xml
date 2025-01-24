@@ -3,6 +3,7 @@
     <description>All LOB Admin</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Super Admin</label>
+    <permissionSets>ABCD_User</permissionSets>
     <permissionSets>ABFL_User_PS</permissionSets>
     <permissionSets>ABHFL_User_PS</permissionSets>
     <permissionSets>ABSLI_User</permissionSets>
@@ -10,5 +11,7 @@
     <permissionSets>Create_Case</permissionSets>
     <permissionSets>Manage_Case_Config</permissionSets>
     <permissionSets>Payment_User_PS</permissionSets>
+    <permissionSets>Wellness_Admin_User</permissionSets>
+    <permissionSets>Wellness_CRM_User_PS</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

@@ -80,6 +80,10 @@
                 <fullName>ABML</fullName>
                 <default>false</default>
             </values>
+            <values>
+                <fullName>ABCD</fullName>
+                <default>false</default>
+            </values>
         </picklistValues>
         <picklistValues>
             <picklist>Employment_Type__c</picklist>
@@ -2693,4 +2697,237 @@
                 <default>false</default>
             </values>
         </picklistValues>
+        <picklistValues>
+        <picklist>Function__c</picklist>
+        <values>
+            <fullName>ABFL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABHFL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABML</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLAMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deposits</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DigiGold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Forex</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gold Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Motor Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NPS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tax</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VAS</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Product_Category__c</picklist>
+        <values>
+            <fullName>Base</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Child</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credit Card</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credit Score</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Currency%2C Card %26 Wire Transfer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Debt</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Demat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deposits</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DigiGold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EQUITY</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FOF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fixed Deposits</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Four Wheeler</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gold Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Home Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hybrid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ITR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ITR Filing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insta PL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lease Rental Discounting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NPS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Personal Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pocket Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portfolio Consolidator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retirement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Savings</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Solutions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spend Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stocks SIP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Super top</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tax</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Term</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Travel Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Two wheeler</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ULIP</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+     <picklistValues>
+        <picklist>ONEABC_Lead_Source__c</picklist>
+        <values>
+            <fullName>Consult Us</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social Media</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
     </RecordType>

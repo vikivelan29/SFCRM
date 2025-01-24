@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Line_of_Business__c</fullName>
@@ -84,6 +83,11 @@
                 <fullName>ABML</fullName>
                 <default>false</default>
                 <label>ABML</label>
+            </value>
+            <value>
+                <fullName>ABCD</fullName>
+                <default>false</default>
+                <label>ABCD</label>
             </value>
             <value>
                 <fullName>Corporate</fullName>
