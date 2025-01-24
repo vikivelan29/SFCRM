@@ -231,16 +231,16 @@
         <name>Facet-082b1c0d-142c-4ec8-9c54-5732ead7ccbf</name>
         <type>Facet</type>
     </flexiPageRegions>
-    <flexiPageRegions>
+    <!--flexiPageRegions>
         <itemInstances>
-            <!--componentInstance>
+            <componentInstance>
                 <componentName>abcl_cx_relationValueTabs</componentName>
                 <identifier>c_abcl_cx_relationValueTabs</identifier>
-            </componentInstance-->
+            </componentInstance>
         </itemInstances>
         <name>Facet-eb5f1ec1-b05b-4354-9d1f-b2af184ed6d4</name>
         <type>Facet</type>
-    </flexiPageRegions>
+    </flexiPageRegions-->
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
@@ -633,7 +633,7 @@
                 <identifier>flexipage_tab3</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
+        <!--itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
@@ -646,7 +646,7 @@
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab2</identifier>
             </componentInstance>
-        </itemInstances>
+        </itemInstances-->
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
