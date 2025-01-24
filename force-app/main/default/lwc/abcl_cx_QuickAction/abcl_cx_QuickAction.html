@@ -1,50 +1,34 @@
 <template>
-    <div class="card slds-theme_shade box-borders" style="padding: 0px">
+    <div class="card slds-theme_shade" style="padding: 0px">
         <!--Header-->
-        <div style="background-color: #991010; border-radius: 1px; border-top-left-radius: 0.625rem; border-top-right-radius: 0.625rem;"
-            class="slds-p-left_small slds-p-top_small slds-p-bottom_small slds-border_bottom headtext">
-            <lightning-formatted-text style="color: white; font-size:1rem; font-family: Helvetica" value="Quick Action">
+        <div style="background-color: #C7222A; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem;"
+            class="slds-p-left_small slds-p-top_xx-small slds-p-bottom_xx-small slds-border_bottom">
+            <lightning-formatted-text style="color: white; font-size:0.9rem; font-family: Anek Latin"
+                value="Quick Actions">
             </lightning-formatted-text>
         </div>
         <!--Menu Options-->
         <div class="slider">
             <template if:true={showNoQuickActionMessage}>
-                <p style="color:#991010;" class="slds-align--absolute-center slds-p-top_large"><b>Quick Actions are not configured</b></p>
+                <p style="color:#991010;" class="slds-align--absolute-center slds-p-top_large"><b>Quick Actions are not
+                        configured</b></p>
             </template>
             <template for:each={quickActions} for:item="action">
-                <div key={action.MasterLabel} class="slds-grid slds-box slds-box_x-small slds-grid_align-start slds-gutters slds-p-left_medium slds-m-around_xx-small"
-                data-action={action.MasterLabel} style="background-color: #ffffff;" onclick={handleActionsSelect}>
-                <p style="color:#991010;"><lightning-icon icon-name={action.Icon_Name__c} alternative-text={action.MasterLabel} class="slds-m-left_x-small"
-                        size="x-small"></lightning-icon> &nbsp; <b>{action.MasterLabel}</b></p>
-            </div>
+                <div key={action.MasterLabel}
+                    class="slds-grid slds-box slds-box_x-small slds-grid_align-start slds-gutters slds-m-left_x-small slds-m-right_x-small slds-m-top_xx-small slds-m-bottom_xx-small purple-icon clickable"
+                    data-action={action.MasterLabel} style="background-color: #ffffff;" onclick={handleActionsSelect}>
+                    <p style="color:#991010;"><lightning-icon icon-name={action.Icon_Name__c}
+                            alternative-text={action.MasterLabel} class="slds-m-left_x-small"
+                            size="x-small"></lightning-icon> &nbsp; <b>{action.MasterLabel}</b></p>
+                </div>
             </template>
-            <!--div class="slds-grid slds-box slds-box_x-small slds-grid_align-start slds-gutters slds-p-left_medium slds-m-around_xx-small"
-                style="background-color: #ffffff;" onclick={pifaClick}>
-                <p style="color:#991010;"><lightning-icon icon-name="standard:lightning_component"
-                        alternative-text="PIFA" size="x-small"></lightning-icon> &nbsp; <b>PIFA</b></p>
-            </div>
-            <div class="slds-grid slds-box slds-box_x-small slds-grid_align-start slds-gutters slds-p-left_medium slds-m-around_xx-small"
-                style="background-color: #ffffff;" onclick={sendSMSClick}>
-                <p style="color:#991010;"><lightning-icon icon-name="standard:sms" alternative-text="Send SMS"
-                        size="x-small"></lightning-icon> &nbsp; <b>Send SMS</b></p>
-            </div>
-            <div class="slds-grid slds-box slds-box_x-small slds-grid_align-start slds-gutters slds-p-left_medium slds-m-around_xx-small"
-                style="background-color: #ffffff;" onclick={oneClickDoc}>
-                <p style="color:#991010;"><lightning-icon icon-name="standard:expense_report_entry"
-                        alternative-text="One Click Docs" size="xx-small"></lightning-icon> &nbsp; <b>One Click Docs</b>
-                </p>
-            </div>
-            <div class="slds-grid slds-box slds-box_x-small slds-grid_align-start slds-gutters slds-p-left_medium slds-m-around_xx-small"
-                style="background-color: #ffffff;" onclick={pddStatusClick}>
-                <p style="color:#991010;"><lightning-icon icon-name="standard:entitlement" alternative-text="PDD Status"
-                        size="x-small"></lightning-icon> &nbsp; <b>PDD Status</b></p>
-            </div-->
         </div>
     </div>
 
+    <!-- Modal for One Click Doc -->
     <template if:true={showOneClickDoc}>
         <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
-            class="slds-modal slds-fade-in-open slds-modal_large">
+            class="slds-modal slds-fade-in-open slds-modal_large" style="font-family: Anek Latin;">
             <div class="slds-modal__container">
                 <button class="slds-button slds-button_icon slds-modal__close" onclick={closeModalPopUp}>
                     <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
@@ -59,19 +43,15 @@
                     <!--MODAL Boday-->
                     <!--Asset Table-->
                     <template if:true={showNoLANsError}>
-                        <p style="color:#991010;" class="slds-align--absolute-center"><b>No LANs Present</b></p>
+                        <p style="color:#C7222A;" class="slds-align_absolute-center"><b>No LANs Present</b></p>
                     </template>
                     <template if:true={showLANs}>
                         <div class="slds-p-around_small" style="max-height: 300px;">
-                            <lightning-datatable 
-                                    key-field="Id" 
-                                    data={relatedLANs} 
-                                    columns={lanColumns}
-                                    onrowselection={handleLANSelect} 
-                                    max-row-selection="1">
-                                </lightning-datatable>
+                            <lightning-datatable key-field="Id" data={relatedLANs} columns={lanColumns}
+                                onrowselection={handleLANSelect} max-row-selection="1">
+                            </lightning-datatable>
                         </div>
-                        
+
                         <!--Checkboxes for docs-->
                         <div class="slds-grid slds-wrap slds-gutters slds-p-around_large">
                             <!--Row 1-->
@@ -93,7 +73,8 @@
                                     </div>
                                     <div class="slds-col slds-size_1-of-3 slds-text-align_right">
                                         <lightning-input type="checkbox" class="slds-m-right_x-small"
-                                            onchange={handleRepaymentScheSelect} checked={isRCChecked}></lightning-input>
+                                            onchange={handleRepaymentScheSelect}
+                                            checked={isRCChecked}></lightning-input>
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +136,7 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <!--Submit Button-->
                         <div class="slds-align--absolute-center slds-p-bottom_medium">
                             <lightning-button variant="brand" label="Create a Case" title="Create a Case"
@@ -163,11 +144,150 @@
                             </lightning-button>
                         </div>
                     </template>
-                    
+                    <template if:true={showSpinner}>
+                        <div class="slds-is-relative slds-m-around_large slds-align_absolute-center"
+                            style="height: 200px;">
+                            <lightning-spinner alternative-text="Loading..." variant="brand">
+                            </lightning-spinner>
+                        </div>
+                    </template>
                 </div>
             </div>
 
         </section>
         <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+
+    <!-- Modal for Send SMS -->
+    <template if:true={showSMSButton}>
+
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-04"
+            class="slds-modal slds-fade-in-open slds-modal_large" style="font-family: Anek Latin;">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close" onclick={closeModalPopUp}>
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-04" class="slds-modal__title slds-hyphenate" tabindex="-1">Send Communication
+                    </h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-4">
+                    <!--MODAL Boday-->
+                    <!--Asset Table-->
+                    <template if:true={showNoLANsError}>
+                        <p style="color:#C7222A;" class="spinner-overlay"><b>No LANs Present</b></p>
+                    </template>
+                    <template if:true={showLANs}>
+                        <div class="slds-p-around_small" style="max-height: 300px;">
+                            <lightning-datatable key-field="Id" data={relatedLANs} columns={lanColumns}
+                                onrowselection={handleLANSelect} max-row-selection="1">
+                            </lightning-datatable>
+                        </div>
+                    </template>
+
+                    <!--template lwc:if={showContact.showTemplate}>
+                                <div class="slds-col slds-grid slds-grid_vertical"-->
+
+                    <lightning-combobox name="emailSelector" label="Select Email Template"
+                        placeholder="Choose an email template" options={emailTemplates} value={selectedRecords}
+                        onchange={handleEmailChange}>
+                    </lightning-combobox>
+                    <div if:true={showPreview} class="preview-area">
+                        <lightning-card title="Message Preview">
+                            <div class="slds-m-around_medium">
+                                <!-- Preview message -->
+                                <div class="slds-m-top_medium">
+                                    <p class="slds-box slds-theme_default">
+                                        {previewMessage}
+                                    </p>
+                                </div>
+
+                            </div>
+                        </lightning-card>
+                    </div>
+
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning-button variant="brand" label="Send" onclick={sendSMSButton}>
+                    </lightning-button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModalPopUp}
+                        aria-label="Cancel">Cancel</button>
+
+                </div>
+            </div>
+
+            <!--/div-->
+            <!--div class="slds-modal__footer">
+                    <lightning-button
+                            variant="brand"
+                            label="Send"
+                            onclick={sendSMSButton}
+                            >
+                        </lightning-button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModalPopUp} aria-label="Cancel">Cancel</button>
+                    
+                </div-->
+            <!--/div-->
+
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+
+    <!--Language Preference Section-->
+    <template if:true={showLanguageButton}>
+
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-03"
+            class="slds-modal slds-fade-in-open" style="font-family: Anek Latin;">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close" onclick={closeModalPopUp}>
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-03" class="slds-modal__title slds-hyphenate" tabindex="-1">Language Preference
+                    </h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                    <div class="form-container">
+                        <div class="form-row">
+                            <label for="currentLang" class="slds-form-element__label">Current Preferred Language</label>
+                            <input type="text" id="currentLang" class="slds-input custom-border" value={currentLanguage}
+                                readonly />
+                        </div>
+                        <div class="form-row">
+                            <label for="newLang" class="slds-form-element__label">New Preferred Language</label>
+                            <select id="newLang" class="slds-select" onchange={handleLanguageChange}>
+                                <option value="">-- Select Language --</option>
+                                <template for:each={languages} for:item="lang">
+                                    <option key={lang} value={lang}>{lang}</option>
+                                </template>
+                            </select>
+                        </div>
+                        <template if:true={selectedlanguage}>
+                            <div class="slds-scrollable_x">
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning-button variant="brand" label="Create Case" onclick={createCasesForLAN}
+                        disabled={isButtonDisabled}>
+                    </lightning-button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModalPopUp}
+                        aria-label="Cancel">Cancel</button>
+                    <!--template if:false={isButtonDisabled}>
+                    <button class="slds-button slds-button_brand" onclick={handleCreateCase}>Create Case</button>
+                    </template-->
+
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+
     </template>
 </template>

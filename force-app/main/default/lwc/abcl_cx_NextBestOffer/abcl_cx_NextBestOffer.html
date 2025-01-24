@@ -1,0 +1,53 @@
+<template>
+    <div class="card" style="padding: 0px">
+        
+        <!-- Spinner container -->
+        <div if:true={showSpinner} class="spinner-container slds-spinner_container">
+            <!--<div class="slds-spinner slds-spinner_medium slds-spinner_brand"></div>-->
+            <div class="slds-spinner_container">
+                <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </div>
+        <div style="background-color: #C7222A; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem;"
+            class="slds-p-left_small slds-p-top_xx-small slds-p-bottom_xx-small slds-border_bottom">
+            <div class="slds-grid">
+                <div class="slds-col">
+                    <lightning-formatted-text style="color: white; font-size:0.9rem; font-family: Anek Latin"
+                        value="Next Best Offer">
+                    </lightning-formatted-text>
+                </div>
+                <div class="slds-col slds-text-align_right">
+                    <lightning-icon icon-name="utility:refresh" style="padding-left: 140px;" class="white-utility-icon slds-m-right_small clickable"
+                        onclick={odpAlerts} alternative-text="refresh" title="Refresh" size="x-small"></lightning-icon>
+                </div>
+            </div>
+        </div>
+        <div class="slider" style="height: fit-content;">
+            <div class="lgc-bg">
+                <div if:false={showErrorMessage} class="bullet-points">
+                    <ul>
+                        <template for:each={responseMessage} for:item="res">
+                            <li key={res.messageText}>
+                                <lightning-formatted-rich-text value={res.messageText}></lightning-formatted-rich-text>
+                            </li>
+                        </template>
+                    </ul>
+                    <template if:false={responseMessage}>
+                        <div class="slds-p-around_xx-small">
+                            There is no ODP Alert available.
+                        </div>
+                    </template>
+                </div>
+                <br />
+                <div if:true={showErrorMessage} class="error-message slds-p-around_xx-small">
+                    Error - {responseMessage.body.message}
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</template>

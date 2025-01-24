@@ -20,6 +20,7 @@ public with sharing class Asf_NpsIndicatiorController {
         counts.put('openCases', [SELECT COUNT() FROM Case WHERE AccountID =: accountId and IsClosed = False]);
         counts.put('escalatedCases', [SELECT COUNT() FROM Case WHERE AccountID =: accountId and IsClosed = False and IsEscalated = true]);
         counts.put('complaintCases', [SELECT COUNT() FROM Case WHERE AccountID =: accountId and IsClosed = False and Nature__c = 'Complaint']);
+        counts.put('slaBreached', [SELECT COUNT() FROM Case WHERE AccountID =: accountId and IsClosed = False and SLA_Broken__c = true]);
         system.debug('countsasc '+counts);
         return counts;
     }

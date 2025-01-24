@@ -1,0 +1,65 @@
+<template>
+    <div class="card" style="padding: 0px">
+        <div style="background-color: #C7222A; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem;"
+            class="slds-p-left_small slds-p-top_xx-small slds-p-bottom_xx-small slds-border_bottom">
+            <lightning-formatted-text style="color: white; font-size:0.9rem; font-family: Anek Latin"
+                value="Customer Consent / Opt in">
+            </lightning-formatted-text>
+        </div>
+
+        <div class="slider" style="height: fit-content;">
+            <div class="slds-grid slds-p-horizontal_xx-small slds-p-vertical_xx-small">
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-p-around_xx-small slds-grid slds-align-items-center">
+                        <!--lightning-icon icon-name="standard:whatsapp" alternative-text="WhatsApp"
+                            size="medium"></lightning-icon-->
+                        <img src={whatsappLogo} style="height: 32px; width: 32px;"/>
+                        <span class="slds-p-left_x-small">
+                            <p>WhatsApp</p>
+                            <p><span class="sfdc-data">{whatappOptIn}</span></p>
+                        </span>
+                    </div>
+
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-p-around_xx-small slds-grid slds-align-items-center">
+                        <!--lightning-icon icon-name="standard:product_consumed" alternative-text="Service"
+                            size="medium"></lightning-icon-->
+                        <img src={serviceappLogo} style="border: #C7222A 1px solid;border-radius:0.4rem;height: 32px; width: 32px;"/>
+                        <span class="slds-p-left_x-small">
+                            <p>Service App</p>
+                            <p><span class="sfdc-data">{serviceOptIn}</span></p>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="slds-grid slds-p-horizontal_xx-small slds-p-vertical_xx-small">
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-p-around_xx-small slds-grid slds-align-items-center">
+                        <!--lightning-icon icon-name="standard:agent_home" alternative-text="ABC"
+                            size="medium"></lightning-icon-->
+                        <img src={abcLogo} style="height: 32px; width: 32px;"/>
+                        <span class="slds-p-left_x-small">
+                            <p>ABC</p>
+                            <p><span class="sfdc-data">{abcOptIn}</span></p>
+                        </span>
+                    </div>
+
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-p-around_xx-small slds-grid slds-align-items-center">
+                        <!--lightning-icon icon-name="standard:crypto_transaction_envelope_item"
+                            alternative-text="Cross Sell" size="medium"></lightning-icon-->
+                        <img src={crossappLogo} style="border: #C7222A 1px solid;border-radius:0.4rem;height: 32px; width: 32px;"/>
+                        <span class="slds-p-left_x-small">
+                            <p>Cross Sell</p>
+                            <p><span class="sfdc-data">{crossSellOptIn}</span></p>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

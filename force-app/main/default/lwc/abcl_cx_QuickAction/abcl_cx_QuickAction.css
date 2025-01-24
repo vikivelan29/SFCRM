@@ -7,9 +7,10 @@
 }
 
 .slider {
+    cursor: auto;
     overflow: hidden;
     overflow-y: auto;
-    height: 10rem;
+    height: 9rem;
 }
 
 .slider::-webkit-scrollbar {
@@ -27,23 +28,21 @@
 .slider::-webkit-scrollbar-thumb {
     background: gray;
     border-radius: 8px;
+    cursor: pointer
 }
 
 /* Handle on hover */
 .slider::-webkit-scrollbar-thumb:hover {
     background: #b30000;
+    cursor: pointer;
 }
 
 .card {
     color: black;
-    border-radius: 0.625rem;
-    font-family: Helvetica;
+    border-radius: 0.25rem;
+    font-family: Anek Latin;
 }
 
-.headtext {
-    font-size: 0.75rem;
-    font-family: Helvetica;
-}
 
 .box-borders {
     border-bottom-right-radius: 0.625rem;
@@ -51,6 +50,30 @@
     border-left: solid;
     border-bottom: solid;
     border-right: solid;
-    border-color: #991010;
+    border-color: #C7222A;
     border-width: thin;
 }
+
+.spinner-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10; /* Make sure the spinner appears above content */
+}
+
+.purple-icon {
+    --sds-c-icon-color-foreground: white;
+    --sds-c-icon-color-background: #7C2279;
+}
+
+.custom-border {
+    border: 1px solid #100d0c; /* Add a black border */
+    border-radius: 1.5px;       /* Optional: smooth the edges */
+    padding: 0.5rem;
+    height: 1.5em;          /* Optional: adjust padding for spacing */
+}
+
+.clickable {
+    cursor: pointer;
+  }

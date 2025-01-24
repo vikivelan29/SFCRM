@@ -1,0 +1,30 @@
+<aura:component implements="lightning:recordHomeTemplate" description='4 cols'>
+    <aura:attribute name="header" type="Aura.Component[]"/>
+    <aura:attribute name = "y1" type = "Aura.Component[]" />  
+    <aura:attribute name = "y2" type = "Aura.Component[]" /> 
+    <aura:attribute name = "z1" type = "Aura.Component[]" />  
+    <aura:attribute name = "z2" type = "Aura.Component[]" /> 
+    <aura:attribute name = "z3" type = "Aura.Component[]" />  
+    <aura:attribute name = "z4" type = "Aura.Component[]" />   
+    <aura:attribute name = "z5" type = "Aura.Component[]" />   
+
+    <table>  
+        <tr cellpadding = "8" cellspacing = "8" style="vertical-align:top;">  
+            <td width="25%" class="slds-p-around--xx-small">{!v.z1}</td>  
+            <td width="25%" class="slds-p-around--xx-small">{!v.z2}</td>  
+            <td width="25%" class="slds-p-around--xx-small">{!v.z3}</td>  
+            <td width="25%" class="slds-p-around--xx-small">{!v.z4}</td> 
+        </tr>  
+    </table>  
+    
+   
+    <lightning:layout >
+        <lightning:layoutItem  class="layout1 slds-p-around--xx-small">
+            {!v.y2}
+        </lightning:layoutItem>
+        <lightning:layoutItem  class="layout2 slds-p-around--xx-small" >
+            {!v.y1}
+        </lightning:layoutItem>
+     
+    </lightning:layout>
+</aura:component>

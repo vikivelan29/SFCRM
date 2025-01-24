@@ -1,0 +1,97 @@
+<template>
+    <div class="card" style="padding: 0px;">
+        <div style="background-color: #C7222A; border-radius: 1px; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem;"
+            class="slds-p-left_small slds-p-top_xx-small slds-p-bottom_xx-small slds-border_bottom">
+            <lightning-formatted-text style="color: white; font-size:0.9rem; font-family: Anek Latin" value="Communication">
+            </lightning-formatted-text>
+        </div>
+        <div class="slider" style="height: fit-content;">
+            <div class="slds-tabs_default">
+                <ul class="slds-tabs_default__nav" role="tablist">
+                    <li class="slds-tabs_default__item slds-is-active" title="Interaction" role="presentation">
+                        <a class="slds-tabs_default__link" href="#" role="tab" tabindex="0" aria-selected="true"
+                            aria-controls="tab-default-1" id="tab-default-1__item">Interaction</a>
+                    </li>
+                    <li class="slds-tabs_default__item" title="Lifecycle" role="presentation">
+                        <a class="slds-tabs_default__link" href="#" role="tab" tabindex="-1" aria-selected="false"
+                            aria-controls="tab-default-2" id="tab-default-2__item">Lifecycle</a>
+                    </li>
+                    <li class="slds-tabs_default__item" title="Promotional" role="presentation">
+                        <a class="slds-tabs_default__link" href="#" role="tab" tabindex="-1" aria-selected="false"
+                            aria-controls="tab-default-3" id="tab-default-3__item">Promotional</a>
+                    </li>
+                </ul>
+                <div id="tab-default-1" class="slds-tabs_default__content slds-show" role="tabpanel"
+                    aria-labelledby="tab-default-1__item">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Opportunity Name">Channel</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Account Name">Purpose</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Close Date">Date</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Stage">Status</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="slds-hint-parent">
+                                <th data-label="Opportunity Name" scope="row">
+                                    <div class="slds-truncate" title="Email">Email</div>
+                                </th>
+                                <td data-label="Account Name">
+                                    <div class="slds-truncate" title="Cloudhub">NACH Reminder</div>
+                                </td>
+                                <td data-label="Close Date">
+                                    <div class="slds-truncate" title="4/14/2015">4/14/2015</div>
+                                </td>
+                                <td data-label="Prospecting">
+                                    <div class="slds-truncate" title="Prospecting">Sent</div>
+                                </td>
+                            </tr>
+                            <tr class="slds-hint-parent">
+                                <th data-label="Opportunity Name" scope="row">
+                                    <div class="slds-truncate" title="Email">SMS</div>
+                                </th>
+                                <td data-label="Account Name">
+                                    <div class="slds-truncate" title="Cloudhub">Language Change</div>
+                                </td>
+                                <td data-label="Close Date">
+                                    <div class="slds-truncate" title="4/14/2015">4/14/2020</div>
+                                </td>
+                                <td data-label="Prospecting">
+                                    <div class="slds-truncate" title="Prospecting">Sent</div>
+                                </td>
+                            </tr>
+                            <tr class="slds-hint-parent">
+                                <th data-label="Opportunity Name" scope="row">
+                                    <div class="slds-truncate" title="Email">Email</div>
+                                </th>
+                                <td data-label="Account Name">
+                                    <div class="slds-truncate" title="Cloudhub">Refund</div>
+                                </td>
+                                <td data-label="Close Date">
+                                    <div class="slds-truncate" title="4/14/2015">4/14/2020</div>
+                                </td>
+                                <td data-label="Prospecting">
+                                    <div class="slds-truncate" title="Prospecting">Sent</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                </div>
+                <div id="tab-default-2" class="slds-tabs_default__content slds-hide" role="tabpanel"
+                    aria-labelledby="tab-default-2__item">Item Two Content</div>
+                <div id="tab-default-3" class="slds-tabs_default__content slds-hide" role="tabpanel"
+                    aria-labelledby="tab-default-3__item">Item Three Content</div>
+            </div>
+        </div>
+    </div>
+    </template>
