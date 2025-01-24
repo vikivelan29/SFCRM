@@ -3144,6 +3144,7 @@
     <tabs>standard-Dashboard</tabs>
     <tabs>abml_List_View_Tab</tabs>
     <tabs>Bulk_Case_Close</tabs>
+    <tabs>Search_Kavach_Customer_Policy_details</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>ABCL_Service_Console_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -3174,7 +3175,10 @@
         <mappings>
             <tab>Payment_Customer_Search</tab>
         </mappings>
-                <mappings>
+        <mappings>
+            <tab>Search_Kavach_Customer_Policy_details</tab>
+        </mappings>
+        <mappings>
             <tab>standard-Account</tab>
         </mappings>
         <mappings>
