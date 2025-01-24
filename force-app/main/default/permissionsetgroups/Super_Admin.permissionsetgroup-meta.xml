@@ -11,5 +11,7 @@
     <permissionSets>Create_Case</permissionSets>
     <permissionSets>Manage_Case_Config</permissionSets>
     <permissionSets>Payment_User_PS</permissionSets>
+    <permissionSets>Wellness_Admin_User</permissionSets>
+    <permissionSets>Wellness_CRM_User_PS</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
