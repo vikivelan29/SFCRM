@@ -441,12 +441,12 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         console.log("SMS sent");
         this.showSMSButton=true;
          this.getProductsOwned();
-        this.getEmailTemplates();
+        //this.getEmailTemplates();
         //this.createFormData(data);
         
     }
 
-  
+        /**
         @wire(getEmailTemplates)
         getEmailTemplates({ data, error }) {
             if (data) {
@@ -462,7 +462,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
             } else if (error) {
                 console.error('Error fetching email templates: ', error);
             }
-        }
+        }**/
 
     handleEmailChange(event) {
         try {
