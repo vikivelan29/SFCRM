@@ -1,0 +1,15 @@
+<design:component >
+    <flexipage:template >  
+           
+    <flexipage:region name="header" defaultWidth="Medium"/> 
+    
+    <flexipage:region name = "y1" defaultwidth = "Medium"/> 
+    <flexipage:region name = "y2" defaultwidth = "Medium"/> 
+  
+    <flexipage:region name = "z1" defaultwidth = "Medium"/> 
+    <flexipage:region name = "z2" defaultwidth = "Medium"/> 
+    <flexipage:region name = "z3" defaultwidth = "Medium"/> 
+    <flexipage:region name = "z4" defaultwidth = "Medium"/> 
+    <flexipage:region name = "z5" defaultwidth = "Medium"/> 
+</flexipage:template>  
+</design:component>

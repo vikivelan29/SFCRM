@@ -1,0 +1,46 @@
+<template>
+    <div class="card slds-theme_shade" style="padding: 0px">
+        <div style="background-color: #C7222A; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem;"
+            class="slds-p-left_small slds-p-top_xx-small slds-p-bottom_xx-small slds-border_bottom">
+            <lightning-formatted-text style="color: white; font-size:0.9rem; font-family: Anek Latin"
+                        value="Open Case Indicator">
+                    </lightning-formatted-text>
+        </div>
+        <div style="height: fit-content;">
+            <div class="slds-grid slds-gutters slds-p-left_small">
+                <div
+                    class="slds-col slds-size_1-of-4 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box indicator">
+                    <div class="slds-align_absolute-center indicator-number" value={showOpenCase}>{showOpenCase}
+                    </div>
+                    <div class="sub-text">Open Cases</div>
+
+                </div>
+                <div
+                    class="slds-col slds-size_1-of-4 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box indicator">
+                    <div class="slds-align_absolute-center indicator-number" value={showOpenComplaintCase}>
+                        {showOpenComplaintCase}</div>
+                    <div class="sub-text">Complaints</div>
+
+                </div>
+                <div
+                    class="slds-col slds-size_1-of-4 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box indicator">
+                    <div class="slds-align_absolute-center indicator-number" value={showEscalatedCases}>
+                        {showEscalatedCases}</div>
+                    <div class="sub-text">Escalated Cases</div>
+
+                </div>
+
+                <div
+                    class="slds-col slds-size_1-of-4 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box indicator">
+                    <div class="slds-align_absolute-center indicator-number" value={showSLABreachedCases}>
+                        {showSLABreachedCases}</div>
+                    <div class="sub-text">SLA Breached</div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</template>

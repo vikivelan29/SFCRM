@@ -1,0 +1,74 @@
+.custom-scroll-allow {
+  overflow-y: scroll;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+}
+
+.slider {
+  cursor: auto;
+  overflow: hidden;
+  overflow-y: auto;
+  height: 13rem;
+}
+
+.slider::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.slider::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(243, 242, 242);
+  ;
+  border-radius: 10px;
+}
+
+/* Handle */
+.slider::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+.slider::-webkit-scrollbar-thumb:hover {
+  background: #C7222A;
+}
+
+.card {
+  background-color: white;
+  color: black;
+  font-family: Anek Latin;
+  border-radius: 0.25rem;
+  border-color:gray ;
+}
+
+.sub-text {
+  font-size: 8px;
+  font-weight: bold;
+  padding-top: 5px;
+  text-align: center;
+}
+
+.indicator-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #C7222A;
+}
+
+.sfdc-data {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #C7222A;
+  font-family: Anek Latin;
+}
+
+.box-borders {
+  border-bottom-right-radius: 0.625rem;
+  border-bottom-left-radius: 0.625rem;
+  border-left: solid;
+  border-bottom: solid;
+  border-right: solid;
+  border-color: #C7222A;
+  border-width: thin;
+}

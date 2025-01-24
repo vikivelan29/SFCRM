@@ -65,7 +65,9 @@ export default class Asf_CurrentHoldings extends LightningElement {
     withoutFALabel = WithoutFA;
     ABHI_PolicyRequiredErrMsgLabel = ABHI_PolicyRequiredErrMsg;
     showAssetTableForLob = true;
-    
+    //Cx360 properties
+    @api buttonVariant;
+    buttonStlye;
      /****************************************************
      * @Description - Method to the executes on page load.     
     *****************************************************/
@@ -86,6 +88,13 @@ export default class Asf_CurrentHoldings extends LightningElement {
             this.showError = true;
             this.addErrorLog(error.message);
 
+        }
+        //CX360 button update
+        console.log('Variant>>',this.buttonVariant);
+        if(this.buttonVariant =='neutral'){
+            this.buttonVariant= 'neutral';
+        }else{
+            this.buttonVariant='brand';
         }
    }
 
@@ -154,6 +163,16 @@ export default class Asf_CurrentHoldings extends LightningElement {
         this.assetId = '';
         //this.template.querySelector('lightning-datatable').selectedRows=[];
         this.showCreateCaseModal = false;
+    }
+
+    //Block updates the css for Create case button for cx360
+    renderedCallback() {
+        const button = this.template.querySelector('.lightning-childbutton');
+        console.log('Button details:>',button);
+        if(button && this.buttonVariant =='neutral'){
+            button.classList.add('buttonStlye');
+            console.log('New class>>',button.classList);
+        }
     }
     
 }

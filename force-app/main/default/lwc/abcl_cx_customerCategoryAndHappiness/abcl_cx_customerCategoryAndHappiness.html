@@ -1,0 +1,101 @@
+<template>
+    <div class="card">
+        <div style="background-color: #C7222A; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem;"
+            class="slds-p-left_small slds-p-top_xx-small slds-p-bottom_xx-small slds-border_bottom">
+            <div class="slds-grid">
+                <div class="slds-col">
+                    <lightning-formatted-text style="color: white; font-size:0.9rem; font-family: Anek Latin"
+                        value="Customer Category & Happiness">
+
+                    </lightning-formatted-text>
+                </div>
+                <div class="slds-col slds-text-align_right">
+                    <template if:true={showHNI}>
+                        <lightning-icon icon-name="utility:opportunity" alternative-text="HNI" title="HNI Customer"
+                        class="slds-m-right_small hwc-header-icon blinking-text" size="x-small"></lightning-icon>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <div class="slider box-borders" style="height: fit-content;">
+            <div class="slds-grid slds-p-horizontal_xx-small slds-p-top_x-small">
+                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small">
+                    <p>Customer Since</p>
+                    <p class="sfdc-data">{customerSince}</p>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small">
+                    <p>Employment Type</p>
+                    <p class="sfdc-data">{employmenttype}</p>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-p-horizontal_xx-small slds-p-top_x-small">
+                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small">
+                    <p><strong>HWC</strong>
+                        <template if:true={showHWC}>
+                            <img style="border: #C7222A 1px solid;height: 32px;width: 32px;" src={hwcLogo} alt="HWC Logo" class="slds-m-left_small"/>
+                            <!--lightning-icon icon-name="standard:workforce_engagement" alternative-text="HWC"
+                                class="slds-m-left_small" size="medium"></lightning-icon-->
+                        </template>
+                    </p>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small">
+                    <p><strong>NPS</strong>
+                        <template if:true={showUndefinedNPS}>
+                            <lightning-icon icon-name="utility:close" alternative-text="NPS"
+                                class="slds-m-left_small smiley-utility-icon clickable" size="medium" onclick={navigateTOSurveyResponse}></lightning-icon>
+                        </template>
+                        <template if:true={showSadNPS}>
+                            <lightning-icon icon-name="utility:sentiment_negative" alternative-text="NPS"
+                                class="slds-m-left_small smiley-utility-icon clickable" size="medium" onclick={navigateTOSurveyResponse}></lightning-icon>
+                        </template>
+                        <template if:true={showNeutralNPS}>
+                            <lightning-icon icon-name="utility:sentiment_neutral" alternative-text="NPS"
+                                class="slds-m-left_small smiley-utility-icon clickable" size="medium" onclick={navigateTOSurveyResponse}></lightning-icon>
+                        </template>
+                        <template if:true={showSatisfactoryNPS}>
+                            <lightning-icon icon-name="utility:close" alternative-text="NPS"
+                                class="slds-m-left_small smiley-utility-icon clickable" size="medium" onclick={navigateTOSurveyResponse}></lightning-icon>
+                        </template>
+                    </p>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-p-top_x-small slds-p-bottom_x-small slds-p-horizontal_xx-small">
+                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small">
+                    <strong>Social Profile</strong>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small">
+                    <a href={facebooklink} target="_blank" class="slds-button slds-button_icon slds-m-right_xx-small">
+                        <img class="logo" src={facebookLogo} alt="Facebook Logo" />
+                    </a>
+                    <a href={xlink} target="_blank" class="slds-button slds-button_icon slds-m-right_xx-small">
+                        <img class="logo" src={xLogo} alt="X Logo" />
+                    </a>
+                    <a href={linkedinlink} target="_blank" class="slds-button slds-button_icon slds-m-right_xx-small">
+                        <img class="logo" src={linkedInLogo} alt="LinkedIn Logo" />
+                    </a>
+                    <a href={instagramlink} target="_blank" class="slds-button slds-button_icon">
+                        <img class="logo" src={instagramLogo} alt="Instagram Logo" />
+                    </a>
+                </div>
+                <!--p><strong>Social Profile</strong> &nbsp; &nbsp;
+                    <a href={facebooklink} target="_blank" class="slds-button slds-button_icon slds-m-right_small">
+                        <img class="logo" src={facebookLogo} alt="Facebook Logo" />
+                    </a>
+                    <a href={xlink} target="_blank" class="slds-button slds-button_icon slds-m-right_small">
+                        <img class="logo" src={xLogo} alt="X Logo" />
+                    </a>
+                    <a href={linkedinlink} target="_blank" class="slds-button slds-button_icon slds-m-right_small">
+                        <img class="logo" src={linkedInLogo} alt="LinkedIn Logo" />
+                    </a>
+                    <a href={instagramlink} target="_blank" class="slds-button slds-button_icon">
+                        <img class="logo" src={instagramLogo} alt="Instagram Logo" />
+                    </a>
+                </p-->
+
+            </div>
+        </div>
+    </div>
+</template>
