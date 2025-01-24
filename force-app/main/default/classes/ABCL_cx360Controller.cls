@@ -448,6 +448,7 @@ Delete response.newCaseDetail.Id;
         return financialYear;
     }
     
+    /**
     @AuraEnabled(cacheable=true)
     public static List<accountDetailsWrapper> getAccountDetails(String customerId,String businessUnit){
         system.debug('Account Id:>>'+customerId+', BU:>> '+businessUnit);
@@ -514,7 +515,7 @@ Delete response.newCaseDetail.Id;
             throw new AuraHandledException(e.getMessage());
         }
     }
-    
+    **/
     public class caseStatusWrapper{
         @AuraEnabled
         public String documentName;
