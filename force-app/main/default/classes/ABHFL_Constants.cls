@@ -24,20 +24,7 @@ public with sharing class ABHFL_Constants {
     //NDC Subtype
     public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
     //Amortization Subtype External Id
-    public static final String Amort_CCC_EXTERNALID = 'hfl004';
-    //New Constants has been added for 360x
-    //SOA Subtype
-    public static final String SOA_CCC_EXTERNALID = 'hfl073';
-    //IC Subtype External Id
-    public static final String IC_CCC_EXTERNALID = 'hfl037';
-    //PIC Subtype External Id
-    public static final String PIC_CCC_EXTERNALID = 'hfl078';
-    //Welcome Kit Subtype
-    public static final String WK_CCC_EXTERNALID = 'RSTAWEITHFC';
-    //LOD Subtype External Id
-    public static final String LOD_CCC_EXTERNALID = 'hfl042';
-    //Language Preference External Id
-    public static final String LANG_CC_EXTERNALID = 'CCC-00001111';
+    public static final String Amort_CCC_EXTERNALID = 'hfl004';   
     //Generic Constants
     public static final String SUCCESS = 'Success';
     public static final String ERROR = 'Error';
@@ -142,8 +129,6 @@ public with sharing class ABHFL_Constants {
     public static String LowerNature='Complaint';
     public static final List<String> HigherNature = new List<String>{'Request','Query'};
 
-
-
     //Constants for Statement Of Account
     public static String SOA_INTEGRATION_NAME = 'SOA_API';
     public static final String SOA_SOURCE = 'CRM';
@@ -158,7 +143,6 @@ public with sharing class ABHFL_Constants {
     public static String DSRA_LIEN_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String ESCROW_STATEMENT_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String NOC_REQUIRED_EMAIL = 'Sharing_NOC_copy_with_customer_on_receipt_of_payment_1707970074046';
-    public static String ADDRESSCHANGE_REJECTION_EMAIL = 'ABHFL_AddressChange_Status_Email_1727254483228';
     //Constants for SMS.
     public static String ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_w_payment_Link_SL';
     public static String ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_wo_Payment_Link_SL';
@@ -166,14 +150,15 @@ public with sharing class ABHFL_Constants {
     public static String DSRA_LIEN_SMS = 'ABHFL_Query_Case_Closure';
     public static String ESCROW_STATEMENT_SMS = 'ABHFL_Query_Case_Closure';
     public static String NOC_REQUIRED_SMS = 'ABHFL_NOC_Required';
-    public static String ADDRESSCHANGE_REJECTION_SMS = 'ABHFL_AddressChange_SMS_1727259602449';
     
     //CCC External Id Constants
     public static String GST_INVOICE_ID = 'HFCRARGI';
     public static String DSRA_LIEN_ID = 'AC123470';
     public static String ESCROW_STATEMENT_ID = 'hfl029';
     public static String NOC_REQUIRED_ID = 'hfl050';
-    public static final List<String> ALLLANCTSTs = new List<String>{'hfl045','hfl023'};
+
+
+    
 
     @AuraEnabled(cacheable=true)
     public static ABHFL_Constants getAllConstants() {
