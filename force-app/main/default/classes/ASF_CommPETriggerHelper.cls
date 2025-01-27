@@ -187,13 +187,7 @@ public without sharing class ASF_CommPETriggerHelper {
             msg.setTargetObjectId(con.Id);
             msg.setTreatTargetObjectAsRecipient(true);	
            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){
-              if(con.Email==null ||String.isBlank(con.Email)){
-                     msg.setTargetObjectId(defaultContactId);
-                }
                  if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
-		     if(con.Email!=null){
-                         toAddressesForCriticalGrp.add(con.Email);
-                     }
                     toAddressesForCriticalGrp.add(con.Email);
         			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
                      msg.setToAddresses(toAddressesForPayments);
@@ -279,23 +273,15 @@ public without sharing class ASF_CommPETriggerHelper {
      * @param prospect The lead associated with the email.
      * @return Messaging.SingleEmailMessage The generated email message.
      */
-   private static Messaging.SingleEmailMessage getMessageGenerated(Contact con, Case cRec, Id eTempId, Id owdID, Boolean isAttachment, Lead prospect){
+    private static Messaging.SingleEmailMessage getMessageGenerated(Contact con, Case cRec, Id eTempId, Id owdID, Boolean isAttachment, Lead prospect){
         Messaging.SingleEmailMessage msg = getMessageCommonVariables(con,prospect,cRec,isAttachment,owdID);
-        //Mrinal changes for ABHFL content update starts
-        String htmlBody;
-        String abhflTemplateId = System.Label.ABHFL_EmailId_RequestClosure_Template_Id;
-        if(eTempId == abhflTemplateId){
-            Messaging.SingleEmailMessage msgTemp = updateEmailContent(cRec);
-            msg.setToAddresses(msgTemp.getToAddresses());
-            msg.htmlBody = msgTemp.htmlBody;
-        }
-        //Mrinal changes for ABHFL content update ends
+
         msg.setTemplateId(eTempId);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
         if(msg.getOrgWideEmailAddressId() == null){
-           msg.setOrgWideEmailAddressId(owdID); 
-        }        
+          msg.setOrgWideEmailAddressId(owdID);          
+        }
         return msg;
     }
 
@@ -442,18 +428,19 @@ public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
                         else if(mAccountIdContactId.containsKey(cRec.AccountId)){
                             
                             for(Contact con : mAccountIdContactId.get(cRec.AccountId)){
-                                if(con.Email != null){
+                                if(con.Email != null ){
                                     //Added another parameter pLog.Is_Attachment__c to check if attachment needs to be sent or not
                                     Messaging.SingleEmailMessage msg = getMessageGenerated(con, cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
                                     emails.add(msg); 
                                     mIdxVsPELoggerId.put(iCounter,pLog.Id);
                                     iCounter++;
                                 }
-                               if(cRec.Business_Unit__c=='Payments' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c) && con.Email == null){
+                                if(cRec.Business_Unit__c=='Payments' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)&& con.Email == null){
+                                    system.debug('@@@@In Shagun new Prod Issue FIX');
                                      Messaging.SingleEmailMessage msg = getMessageGenerated(con, cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
-                                     emails.add(msg); 
-                                     mIdxVsPELoggerId.put(iCounter,pLog.Id);
-                                     iCounter++;
+                                    emails.add(msg); 
+                                    mIdxVsPELoggerId.put(iCounter,pLog.Id);
+                                    iCounter++;
                                 }
                             }
                         }
