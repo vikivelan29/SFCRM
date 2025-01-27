@@ -1685,7 +1685,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABML E2C</shortDescription>
-        <value>bhc.test-v@adityabirlacapital.com:ABML_ack_1733892391736</value>
+        <value>abm.franchiseecare@adityabirlacapital.com:ABML_ack_1736099067286,abm.obt@adityabirlacapital.com:ABML_ack_1736099067286,bhc@adityabirlacapital.com:ABML_ack_1736099067286,abm-chen.premiumdesk@adityabirlacapital.com:ABML_ack_1736099067286,abml.corporateagent@adityabirlacapital.com:ABML_ack_1736099067286,abm.cybersecurity@adityabirlacapital.com:ABML_ack_1736099067286,abml.tradingapps@adityabirlacapital.com:ABML_ack_1736099067286,care.stocksandsecurities@adityabirlacapital.com:ABML_ack_1736099067286,ceo.stocksandsecurities@adityabirlacapital.com:ABML_ack_1736099067286,dpcare.stocksandsecurities@adityabirlacapital.com:ABML_ack_1736099067286,stoptrade.stocksandsecurities@adityabirlacapital.com:ABML_ack_1736099067286</value>
     </labels>
 	<labels>
         <fullName>ABML_ReportMessage2</fullName>
