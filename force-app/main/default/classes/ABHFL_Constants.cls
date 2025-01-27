@@ -173,7 +173,7 @@ public with sharing class ABHFL_Constants {
     public static String DSRA_LIEN_ID = 'AC123470';
     public static String ESCROW_STATEMENT_ID = 'hfl029';
     public static String NOC_REQUIRED_ID = 'hfl050';
-    public static final List<String> ALLLANCTSTs = new List<String>{'hfl045','hfl023'};
+    public static final List<String> ALLLANCTSTs = new List<String>{'hfl045','hfl023'}; // added for PR970457-2288 by Yogesh
 
     @AuraEnabled(cacheable=true)
     public static ABHFL_Constants getAllConstants() {
