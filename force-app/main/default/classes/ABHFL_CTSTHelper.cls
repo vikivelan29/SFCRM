@@ -44,23 +44,44 @@ public without sharing class ABHFL_CTSTHelper {
         }
     }
 
-//This is changes related to CR[PR970457-2388,PR970457-2288] made by Yogesh
-//skipOpenStageforAPIcases: It will impact cases which created from API for mentioned CTSTs
-//This method applicable to ABHFL BU only. It is used to skip open stage at the time of case creation through API. 
-public static void skipOpenStageforAPIcases(List < Case > caseList) {
-    Set < String > caseDetailIds = new Set < String > ();
-    Map < String, ABHFL_Case_Detail__c > caseToDetailMap = new Map < String, ABHFL_Case_Detail__c > ();
-    List < Case > updatedcases = new List <
-        case >();
-    // List of valid subTypes
-    List < String > validSubTypes = new List < String > {
-        'hfl003',
-        'hfl045',
-        'hfl023'
-    };
-    for (Case caseRec: caseList) {
-        if (caseRec.Business_Unit__c == 'ABHFL' && validSubTypes.contains(caseRec.CCC_External_Id__c)) {
-            caseDetailIds.add(caseRec.ABHFL_Case_Detail__c);
+    
+    // Jira: PR970457-2474
+ // Changes is done by Yogesh(EY) ABCL
+ // This method will check duplicate for all cases of recategorization(Except for Complaint to Request OR Complaint to query nature).
+ public static void runDuplicateCheckForRecat(List < Case > caseList, Map < Id, Case > oldCaseMap) {
+
+    List < ASF_Case_Category_Config__c > caseCategoryConfigsForAcc = new List < ASF_Case_Category_Config__c > ();
+    Map < String, List < Case >> accIdVsCases = new Map < String, List < Case >> ();
+    Map < String, List < Case >> lanVsCases = new Map < String, List < Case >> ();
+    Map < String, Set < Id >> cccVsAccIds = new Map < String, Set < Id >> ();
+    List < ABHFL_Case_Detail__c > lstcse = new List < ABHFL_Case_Detail__c > ();
+    Set < String > cccIdsForAcc = new Set < String > ();
+    Set < Id > detailids = new Set < Id > ();
+    Map < Id, Case > IdvsCase = new Map < Id, Case > ();
+    RecordType FrameworkRecType = [select id, Name, SobjectType from RecordType where Name = 'Framework'
+        and SobjectType = 'Case'
+        LIMIT 1
+    ];
+    
+    Boolean condsatisfy = true;
+    for (Case cse: caseList) {
+        detailids.add(oldCaseMap.get(cse.Id).ABHFL_Case_Detail__c);
+    }
+    Map < Id, ABHFL_Case_Detail__c > csedetailmap = new Map < Id, ABHFL_Case_Detail__c > ([Select Id, Grievance_Type__c, Complaint_Type__c, Correct_Type__c, Correct_Sub_Type__c, Error__c, Action_Taken__c, Short_VOC__c,Complaint_Recategorization__c,Final_resolution__c from ABHFL_Case_Detail__c Where Id IN: detailids]);
+    for (Case c: caseList) { 
+        
+        system.debug('c.Recategorisation_Reason__c---->'+c.Recategorisation_Reason__c);
+        system.debug('oldCaseMap.get(c.Id).Recategorisation_Reason__c---->'+oldCaseMap.get(c.Id).Recategorisation_Reason__c);
+        system.debug('oldCaseMap.get(c.Id).RecordTypeId---'+oldCaseMap.get(c.Id).RecordTypeId);
+        if (c.Business_Unit__c == 'ABHFL' && c.Recategorisation_Reason__c != oldCaseMap.get(c.Id).Recategorisation_Reason__c && oldCaseMap.get(c.Id).Nature__c == ABHFL_Constants.LowerNature && ABHFL_Constants.HigherNature.contains(c.Nature__c) && oldCaseMap.get(c.Id).RecordTypeId == FrameworkRecType.Id)
+        {
+            condsatisfy = false;
+            //c.No_Auto_Communication__c = 'Email;SMS'; // commented as a fix for PR970457-2474
+            ABHFL_Case_Detail__c csedetail = new ABHFL_Case_Detail__c(Id = c.ABHFL_Case_Detail__c);
+            csedetail.Complaint_Overall_SLA__c = oldCaseMap.get(c.Id).Overall_Case_Closure_SLA__c;
+            csedetail.Complaint_RCA__c = 'Grievance Type :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Grievance_Type__c + ';' + 'Complaint Type :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Complaint_Type__c + ';' + '\n' + 'Correct Type :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Correct_Type__c + ';' + 'Correct Sub Type :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Correct_Sub_Type__c + ';' + '\n' + 'Short VOC :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Short_VOC__c + ';' + 'Action Taken :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Action_Taken__c + ';' + '\n' + 'Error :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Error__c  + ';'+ 'Final Resolution :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Final_resolution__c + ';';
+            csedetail.Complaint_Recategorization__c = true;
+            lstcse.add(csedetail);
         }
     }
     if (!caseDetailIds.isEmpty()) {
@@ -89,6 +110,11 @@ public static void skipOpenStageforAPIcases(List < Case > caseList) {
         }
     }
 }
+ 
+// Jira: PR970457-2474
+ // Changes is done by Yogesh(EY) ABCL
+ // This method will update owner as a user who is recategorizing case(for Complaint to Request OR Complaint to query nature).
+public static void updateOwnerToRecatUsr(List < Case > caseList, Map < Id, Case > oldCaseMap) {
 
     //PR970457-2623: Changes done by Yogesh
     // Changes related to send email to new email address in EMail ID CTST. 
@@ -148,6 +174,30 @@ public static void skipOpenStageforAPIcases(List < Case > caseList) {
      }
  }
 
+        if (c.Business_Unit__c == 'ABHFL' && c.Recategorisation_Reason__c != oldCaseMap.get(c.Id).Recategorisation_Reason__c && oldCaseMap.get(c.Id).Nature__c == ABHFL_Constants.LowerNature && ABHFL_Constants.HigherNature.contains(c.Nature__c) && oldCaseMap.get(c.Id).RecordTypeId == FrameworkRecType.Id && c.IsClosed != true) {
+            Case cse = new Case(Id = c.Id);
+            cse.OwnerId = oldCaseMap.get(c.Id).OwnerId;
+            updatedcases.add(cse);
+        }
+    }
+    if (!updatedcases.isEmpty()) {
+        update updatedcases;
+    }
+}    
+    
+    public static void sendEmailToUpdatedEmailId(Case caseRec) {
+       if (caseRec.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && 'hfl023'.equals(caseRec.CCC_External_Id__c) && caseRec.ABHFL_Case_Detail__c != null) {
+        Map<Id, String> emailTemplateMap = new Map<Id, String>();
+        Map<Id, String> smsMetadataMap = new Map<Id, String>(); 
+        Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+        EmailTemplate htmlvalues = [Select Id, htmlvalue,DeveloperName from EmailTemplate where developername = 'ABHFL_EmailId_RequestClosure_Email_1728370815314'].get(0);
+        emailTemplateMap.put(caseRec.Id, htmlvalues.DeveloperName);
+        List<case> caseList = new List<case>();
+        isTransferredMap.put(caseRec.Id,true);
+        caseList.add(caseRec);  
+        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseList,emailTemplateMap, smsMetadataMap, isTransferredMap);
+       }
+     }
     
     //AM-SLA broken reset change on Open --> In Progress for Complaints
     public static void updateSlaBrokenCheckOnStageMovement(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
@@ -676,7 +726,7 @@ public static void skipOpenStageforAPIcases(List < Case > caseList) {
                         && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
                         && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' )
                        ||(caseRec.CCC_External_Id__c != 'hfl060')){
-
+  		  //End By Ey-Nikhil
                     if (payment.Realization_Status__c == null) {
                         returnMap.put(caseRec.Id, false); // If any payment record is not cleared, return false
                         break;
