@@ -143,6 +143,7 @@ public with sharing class ABHFL_Constants {
     public static final List<String> HigherNature = new List<String>{'Request','Query'};
 
 
+
     //Constants for Statement Of Account
     public static String SOA_INTEGRATION_NAME = 'SOA_API';
     public static final String SOA_SOURCE = 'CRM';
