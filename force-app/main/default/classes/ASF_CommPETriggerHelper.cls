@@ -194,8 +194,7 @@ public without sharing class ASF_CommPETriggerHelper {
 		    if(con.Email!=null){
                          toAddressesForCriticalGrp.add(con.Email);
                      }
-                    toAddressesForCriticalGrp.add(con.Email);
-        			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
+        	     toAddressesForPayments.addAll(toAddressesForCriticalGrp);
                      msg.setToAddresses(toAddressesForPayments);
                  }
             }else{
@@ -330,7 +329,7 @@ public without sharing class ASF_CommPETriggerHelper {
      * @param peLogs A list of PE Logger records.
      */
     private static void sendEmailCommunication(List<PE_Logger__c> peLogs){
-        String ccExternalIdForPayment = Label.Payment_Report_Fraud;
+        String ccExternalIdForPayment = Label.Payment_Report_Fraud; //Added for Fraud Type Cases
         List<String> ccExternalIdForPaymentGrp = ccExternalIdForPayment.split(',');
         List<Messaging.SingleEmailMessage> emails =  new List<Messaging.SingleEmailMessage>();
         //OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE Purpose = 'DefaultNoreply' order by lastmodifiedDate desc  limit 1];
