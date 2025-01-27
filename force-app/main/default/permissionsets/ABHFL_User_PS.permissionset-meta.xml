@@ -322,6 +322,22 @@
         <field>ABHFL_Case_Detail__c.AWB_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    
+ <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Complaint_Recategorization__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	 <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Complaint_RCA__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	 <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Complaint_Overall_SLA__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Account_Status__c</field>
