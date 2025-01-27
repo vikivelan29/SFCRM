@@ -190,10 +190,10 @@ public without sharing class ASF_CommPETriggerHelper {
                      msg.setTargetObjectId(defaultContactId);
                 } 
                  if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
-		     if(con.Email!=null){
+		     if(con.Email!=null){ //Added check for null
                          toAddressesForCriticalGrp.add(con.Email);
                      }
-        			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
+        	     toAddressesForPayments.addAll(toAddressesForCriticalGrp);
                      msg.setToAddresses(toAddressesForPayments);
                  }
             }else{
@@ -372,7 +372,7 @@ public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
      * @param peLogs A list of PE Logger records.
      */
     private static void sendEmailCommunication(List<PE_Logger__c> peLogs){
-        String ccExternalIdForPayment = Label.Payment_Report_Fraud;
+        String ccExternalIdForPayment = Label.Payment_Report_Fraud; //Added by Shagun
         List<String> ccExternalIdForPaymentGrp = ccExternalIdForPayment.split(',');
         List<Messaging.SingleEmailMessage> emails =  new List<Messaging.SingleEmailMessage>();
         //OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE Purpose = 'DefaultNoreply' order by lastmodifiedDate desc  limit 1];
