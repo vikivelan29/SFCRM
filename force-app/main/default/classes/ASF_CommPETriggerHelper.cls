@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-20-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 10-18-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
@@ -169,6 +169,7 @@ public without sharing class ASF_CommPETriggerHelper {
         } 
     }
     
+    
     private static Messaging.SingleEmailMessage getMessageCommonVariables(Contact con,
                                                                           Lead prospect,
                                                                           Case cRec,
@@ -176,7 +177,7 @@ public without sharing class ASF_CommPETriggerHelper {
                                                                           Id owdID){
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
 	msg.setOrgWideEmailAddressId(owdID);
-	//Added by Shagun: For Payments Fraud
+	//Added by Shagun
         String emailToBeSentForPayment = Label.Payments_Critical_Alerts_Group;
         List<String> toAddressesForCriticalGrp = emailToBeSentForPayment.split(',');
 	String ccExternalIdForPayment = Label.Payment_Report_Fraud;
@@ -186,15 +187,15 @@ public without sharing class ASF_CommPETriggerHelper {
             msg.setTargetObjectId(con.Id);
             msg.setTreatTargetObjectAsRecipient(true);	
            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){
-		 if(con.Email==null ||String.isBlank(con.Email)){
+                 if(con.Email==null ||String.isBlank(con.Email)){    
                      msg.setTargetObjectId(defaultContactId);
                 } 
                  if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
 		    if(con.Email!=null){
                          toAddressesForCriticalGrp.add(con.Email);
                      }
-        	       toAddressesForPayments.addAll(toAddressesForCriticalGrp);
-                       msg.setToAddresses(toAddressesForPayments);
+        	     toAddressesForPayments.addAll(toAddressesForCriticalGrp);
+                     msg.setToAddresses(toAddressesForPayments);
                  }
             }else{
                   msg.setToAddresses(new String[]{con.Email});
@@ -237,7 +238,7 @@ public without sharing class ASF_CommPETriggerHelper {
         /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
         if(mBusinessUnitVsSpecificOWA.containsKey(cRec.Business_Unit__c)){
             OWDId = mBusinessUnitVsSpecificOWA.get(cRec.Business_Unit__c);
-	    msg.setOrgWideEmailAddressId(OWDId);
+            msg.setOrgWideEmailAddressId(OWDId);
         }
         if(mBusUnitVsReplyToAddress.containsKey(cRec.Business_Unit__c)){
             String replyAddr = mBusUnitVsReplyToAddress.get(cRec.Business_Unit__c);
@@ -292,8 +293,8 @@ public without sharing class ASF_CommPETriggerHelper {
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
         if(msg.getOrgWideEmailAddressId() == null){
-           msg.setOrgWideEmailAddressId(owdID); 
-        }        
+          msg.setOrgWideEmailAddressId(owdID);          
+        }
         return msg;
     }
     /**
@@ -328,7 +329,7 @@ public without sharing class ASF_CommPETriggerHelper {
      * @param peLogs A list of PE Logger records.
      */
     private static void sendEmailCommunication(List<PE_Logger__c> peLogs){
-        String ccExternalIdForPayment = Label.Payment_Report_Fraud; //Added for Payments Fraud
+        String ccExternalIdForPayment = Label.Payment_Report_Fraud; //Added for Fraud Type Cases
         List<String> ccExternalIdForPaymentGrp = ccExternalIdForPayment.split(',');
         List<Messaging.SingleEmailMessage> emails =  new List<Messaging.SingleEmailMessage>();
         //OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE Purpose = 'DefaultNoreply' order by lastmodifiedDate desc  limit 1];
@@ -403,7 +404,7 @@ public without sharing class ASF_CommPETriggerHelper {
                                     mIdxVsPELoggerId.put(iCounter,pLog.Id);
                                     iCounter++;
                                 }
-				if(cRec.Business_Unit__c=='Payments' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)&& con.Email == null){
+			        if(cRec.Business_Unit__c=='Payments' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)&& con.Email == null){
                                      Messaging.SingleEmailMessage msg = getMessageGenerated(con, cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
                                      emails.add(msg); 
                                      mIdxVsPELoggerId.put(iCounter,pLog.Id);
@@ -895,8 +896,6 @@ public without sharing class ASF_CommPETriggerHelper {
         log.put('Phone__c', mobNo);
         return log;
     }
-
-//Added changes
 
 public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
