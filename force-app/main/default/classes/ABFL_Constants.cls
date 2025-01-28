@@ -9,7 +9,6 @@ name                Date                  Change Description
 @SuppressWarnings('PMD.PropertyNamingConventions')
 public with sharing class ABFL_Constants {
 	public static final string SUCCESS = 'Success';
-    public static final string FAILURE = 'Failure';
     public static final string BRE = 'BRE';
     public static final string ERROR = 'Error';  
     public static final string CANCELED = 'Canceled';
@@ -34,6 +33,10 @@ public with sharing class ABFL_Constants {
     public static final String EMAIL_ENTITY = 'Email';
     public static final String LITMUS = 'Litmus';
     public static final String ENACH_INTEGRATION_METADATA = 'ABFL_Enach';
+    
+    public static final String SPRINKLRINT = 'Sprinklr-UpdateCase';
+    public static final String SPRINKLR = 'SPRINKLR';
+    public static final String SPRINKLRAPI = 'Sprinklr-UpdateCase API';
     
     public static final String DMS_METADATA = 'Asf_DMS_File_Datatable';
     public static final String DMS_GENERIC_ERROR = System.Label.ASF_ErrorMessage;
@@ -131,5 +134,4 @@ public with sharing class ABFL_Constants {
     public static ABFL_Constants getAllConstants() {
         return new ABFL_Constants();
     }
-    public static final List<String> STP_FAILURE_ASSIGNMENT_CTST = new List<String>{'SOA61219','WKC61219','AR61219','IC61219','rstrpi01'};
 }
