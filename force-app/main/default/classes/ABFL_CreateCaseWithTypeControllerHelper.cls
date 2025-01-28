@@ -8,7 +8,7 @@ public class ABFL_CreateCaseWithTypeControllerHelper {
             system.debug('valuemInpArg '+mInpArg);
         }
         if(mInpArg.containsKey('requestFrom')){
-            if(mInpArg.get('requestFrom') == 'Lead'){
+            if(mInpArg.get('requestFrom') == 'Lead' || mInpArg.get('requestFrom') == 'Recat'){
                 return cccList;
             }
         }
