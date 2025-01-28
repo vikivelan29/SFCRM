@@ -300,6 +300,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         const inpArg = new Map();
 
         inpArg['accountLOB'] = this.businessUnit;
+        inpArg['requestFrom'] = 'Recat';
         let strInpArg = JSON.stringify(inpArg);
 
         getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: isthisNotAssetRelated, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB, inpArg: strInpArg })
