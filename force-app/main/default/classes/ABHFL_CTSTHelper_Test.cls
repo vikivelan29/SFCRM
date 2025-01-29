@@ -1,3 +1,4 @@
+
 /**
  * @description       : 
  * @author            : ABHFL Team
@@ -42,41 +43,27 @@ public class ABHFL_CTSTHelper_Test {
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
         caseDetail.STP_Request_Type__c = 'Email';
         caseDetail.Preferred_Branch__c = branchMstr.UniqueKey__c;
-        caseDetail.Grievance_Type__c = 'Escalation';
-        caseDetail.Complaint_Type__c = 'Phone Inbound';
-        //caseDetail.Error__c = 'No';
-        caseDetail.Action_Taken__c = 'Yes';
-        caseDetail.Short_VOC__c = 'Test111';
-        caseDetail.Complaint_Recategorization__c = true;
-        caseDetail.Final_resolution__c = 'Fully Resolved';
         insert caseDetail;
        
         //Create Case
         List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(3);
         caseRecList[0].AssetId = astRec.Id;
         caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
-        caseRecList[0].AccountId = accRec.Id;
-        caseRecList[0].CCC_External_Id__c = 'CCC-CC-CCLTD-01';
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
-        //caseRecList[0].Business_Unit__c = 'ABHFL';
-       
-        caseRecList[0].Nature__c = 'Complaint';
-        caseRecList[0].Recategorisation_Reason__c = 'testing is going on 1234';
-        //caseRecList[0].RecordTypeId = '012Ny0000000iVhIAI';
+       // caseRecList[0].Business_Unit__c = 'ABHFL';
+        
         
        	caseRecList[1].AssetId = astRec1.Id;
         caseRecList[1].ABHFL_Case_Detail__c = caseDetail.Id;
         caseRecList[1].AccountId = accRec.Id;
         caseRecList[1].CCC_External_Id__c = 'CCC-CC-CCLTD-01';
         caseRecList[1].Business_Unit__c = 'ABHFL';
-        caseRecList[1].Nature__c = 'Request';
         
         caseRecList[2].AssetId = astRec1.Id;
         caseRecList[2].ABHFL_Case_Detail__c = caseDetail.Id;
         caseRecList[2].AccountId = accRec.Id;
         caseRecList[2].CCC_External_Id__c = 'CCC-CC-CCLTD-01';
         caseRecList[2].Business_Unit__c = 'ABHFL';
-        caseRecList[2].Nature__c = 'Query';
         //caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
         
         update caseRecList;
@@ -125,7 +112,6 @@ public class ABHFL_CTSTHelper_Test {
         List<Asset> ast = [SELECT Id FROM Asset WHERE LAN__c='Test' LIMIT 1];
         caseList[0].AssetId=ast[0].Id;
         caseList[0].Source__c='Email';
-        //caseList[0].CCC_External_Id__c = 'CCC-CC-CCLTD-02';
         update caseList[0];
         //Case cs= new Case(AccountId=caseList[0].AccountId,AssetId=ast[0].Id,CCC_External_Id__c=caseList[0].CCC_External_Id__c,
           //               Business_Unit__c='ABHFL');
@@ -137,37 +123,6 @@ public class ABHFL_CTSTHelper_Test {
         system.debug('test class debug Aditya:'+caseList[1].isClosed);
         ABHFL_CTSTHelper.runDuplicateCheckForUpdate(caseList, oldCaseMap);
         //update caseList[0];
-    }
-    
-    @Istest
-    static void testDedupeForRecat(){
-        //Map<Id, Case> oldCaseMap1 = new Map<Id, Case>();
-        Id recordTypeId = [SELECT Id FROM RecordType WHERE SObjectType = 'Case' AND DeveloperName = 'Framework' LIMIT 1].Id;
-        List<Case> caseList = [SELECT Id, AccountId, AssetId, Asset.LAN__c, Recategorisation_Reason__c, ABHFL_Case_Detail__c, CCC_External_Id__c,Business_Unit__c,isClosed,Nature__c,RecordTypeId FROM Case WHERE Recategorisation_Reason__c='testing is going on 1234'];    //Business_Unit__c='ABHFL'];
-        system.debug('caseList -->'+caseList[0]);
-        
-        Map<Id, Case> oldCaseMap1 = new Map<Id, Case>();
-       oldCaseMap1.put(caseList[0].Id,caseList[0]);
-        
-        caseList[0].Recategorisation_Reason__c = 'tested';
-        caseList[0].Nature__c = 'Request';
-        //caseList[0].Business_Unit__c = 'ABHFL';
-        //caseList[0].CCC_External_Id__c = 'CCC-CC-CCLTD-01';
-        caseList[0].RecordTypeId = recordTypeId;
-        update caseList[0];
-        
-         
-        System.debug('@@@caseList'+caseList[0]);
-        //oldCaseMap1.put(caseList[1].Id,caseList[1]);
-        system.debug('caseList Recategorisation_Reason__c-->'+caseList[0].Recategorisation_Reason__c);
-        system.debug('caseList Nature__c-->'+caseList[0].Nature__c);
-        system.debug('caseList RecordTypeId-->'+caseList[0].RecordTypeId);
-        system.debug('caseList old Recategorisation_Reason__c-->'+oldCaseMap1.get(caseList[0].Id).Recategorisation_Reason__c);
-        system.debug('caseList old Nature__c-->'+oldCaseMap1.get(caseList[0].Id).Nature__c);
-        system.debug('caseList old RecordTypeId-->'+oldCaseMap1.get(caseList[0].Id).RecordTypeId);
-        
-       
-        ABHFL_CTSTHelper.runDuplicateCheckForRecat(caseList, oldCaseMap1);
     }
     
     @IsTest
@@ -290,6 +245,8 @@ public class ABHFL_CTSTHelper_Test {
         // System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.get(caseRecord.Id).OwnerId);
     }
 
+
+
     @isTest
     static void testAssignCaseToAOMROM() {
         Case caseRecord = [Select id,ABHFL_Case_Detail__r.Id,ABHFL_Case_Detail__r.Preferred_Branch__c from Case limit 1];
@@ -336,7 +293,6 @@ public class ABHFL_CTSTHelper_Test {
         testcase.CCC_External_Id__c='hfl003';
         testcase.RecordTypeId=recordTypeId;
         testcase.Business_Unit__c='ABHFL';
-        testcase.Source__c = 'Email';
         insert testcase;
         
         ABHFL_case_Detail__c detailrecord1=new ABHFL_case_Detail__c();
@@ -349,7 +305,6 @@ public class ABHFL_CTSTHelper_Test {
         testcase1.CCC_External_Id__c='hfl045';
         testcase1.RecordTypeId=recordTypeId;
         testcase1.Business_Unit__c='ABHFL';
-        testcase1.Source__c = 'Email';
         insert testcase1;
         
         ABHFL_case_Detail__c detailrecord2=new ABHFL_case_Detail__c();
@@ -362,7 +317,6 @@ public class ABHFL_CTSTHelper_Test {
         testcase2.CCC_External_Id__c='hfl023';
         testcase2.RecordTypeId=recordTypeId;
         testcase2.Business_Unit__c='ABHFL';
-        testcase2.Source__c = 'Email';
         insert testcase2;
         Test.stopTest();
     }
@@ -482,14 +436,27 @@ public class ABHFL_CTSTHelper_Test {
         ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
         abhflCTSTHelperClass.callLitmusApi(caseRecordLst, new Map<Id, Case>());    
     }
-    
+
+
     @isTest
     static void populateFieldsInAfterContextTest() {
-        List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c,Technical_Source__c
-                           		    FROM Case];
-        
+        List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c,Technical_Source__c,AccountId
+                                    FROM Case];
+        Account acc = [Select id from account limit 1][0];
+       
         ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
-        abhflCTSTHelperClass.populateFieldsInAfterContext(caseRecordLst);    
+        abhflCTSTHelperClass.populateFieldsInAfterContext(caseRecordLst);  
+        Test.startTest();
+        caseRecordLst[0].CCC_External_Id__c = 'hfl045';
+        caseRecordLst[0].accountId = acc.Id;
+        update caseRecordLst[0];
+        //Case cs = [Select id,AccountId,CCC_External_Id__c,ABHFL_Case_Detail__c from case where CCC_External_Id__c ='hfl045'];
+        ABHFL_CTSTHelper.updateAllLanFieldOnDetailObj(caseRecordLst[0]);
+        caseRecordLst[0].CCC_External_Id__c = 'hfl023';
+        caseRecordLst[0].business_unit__c = 'ABHFL';
+        update caseRecordLst[0];
+        ABHFL_CTSTHelper.sendEmailToUpdatedEmailId(caseRecordLst[0]);
+        Test.stopTest();
     }
     
     @isTest
