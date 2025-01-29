@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-20-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 10-18-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
@@ -169,6 +169,7 @@ public without sharing class ASF_CommPETriggerHelper {
         } 
     }
     
+    
     private static Messaging.SingleEmailMessage getMessageCommonVariables(Contact con,
                                                                           Lead prospect,
                                                                           Case cRec,
@@ -176,7 +177,7 @@ public without sharing class ASF_CommPETriggerHelper {
                                                                           Id owdID){
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
 	msg.setOrgWideEmailAddressId(owdID);
-	//Added by Shagun: For Payments Fraud
+	//Added by Shagun
         String emailToBeSentForPayment = Label.Payments_Critical_Alerts_Group;
         List<String> toAddressesForCriticalGrp = emailToBeSentForPayment.split(',');
 	String ccExternalIdForPayment = Label.Payment_Report_Fraud;
@@ -186,15 +187,16 @@ public without sharing class ASF_CommPETriggerHelper {
             msg.setTargetObjectId(con.Id);
             msg.setTreatTargetObjectAsRecipient(true);	
            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){
-		 if(con.Email==null ||String.isBlank(con.Email)){
+              if(con.Email==null ||String.isBlank(con.Email)){
                      msg.setTargetObjectId(defaultContactId);
-                } 
+                }
                  if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
-		    if(con.Email!=null){
+		     if(con.Email!=null){
                          toAddressesForCriticalGrp.add(con.Email);
                      }
-        	       toAddressesForPayments.addAll(toAddressesForCriticalGrp);
-                       msg.setToAddresses(toAddressesForPayments);
+                   
+        			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
+                     msg.setToAddresses(toAddressesForPayments);
                  }
             }else{
                   msg.setToAddresses(new String[]{con.Email});
@@ -237,7 +239,7 @@ public without sharing class ASF_CommPETriggerHelper {
         /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
         if(mBusinessUnitVsSpecificOWA.containsKey(cRec.Business_Unit__c)){
             OWDId = mBusinessUnitVsSpecificOWA.get(cRec.Business_Unit__c);
-	    msg.setOrgWideEmailAddressId(OWDId);
+            msg.setOrgWideEmailAddressId(OWDId);
         }
         if(mBusUnitVsReplyToAddress.containsKey(cRec.Business_Unit__c)){
             String replyAddr = mBusUnitVsReplyToAddress.get(cRec.Business_Unit__c);
@@ -277,7 +279,7 @@ public without sharing class ASF_CommPETriggerHelper {
      * @param prospect The lead associated with the email.
      * @return Messaging.SingleEmailMessage The generated email message.
      */
-  private static Messaging.SingleEmailMessage getMessageGenerated(Contact con, Case cRec, Id eTempId, Id owdID, Boolean isAttachment, Lead prospect){
+   private static Messaging.SingleEmailMessage getMessageGenerated(Contact con, Case cRec, Id eTempId, Id owdID, Boolean isAttachment, Lead prospect){
         Messaging.SingleEmailMessage msg = getMessageCommonVariables(con,prospect,cRec,isAttachment,owdID);
         //Mrinal changes for ABHFL content update starts
         String htmlBody;
@@ -372,7 +374,7 @@ public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
      * @param peLogs A list of PE Logger records.
      */
     private static void sendEmailCommunication(List<PE_Logger__c> peLogs){
-        String ccExternalIdForPayment = Label.Payment_Report_Fraud; //Added for Payments Fraud
+        String ccExternalIdForPayment = Label.Payment_Report_Fraud;
         List<String> ccExternalIdForPaymentGrp = ccExternalIdForPayment.split(',');
         List<Messaging.SingleEmailMessage> emails =  new List<Messaging.SingleEmailMessage>();
         //OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE Purpose = 'DefaultNoreply' order by lastmodifiedDate desc  limit 1];
@@ -447,7 +449,7 @@ public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
                                     mIdxVsPELoggerId.put(iCounter,pLog.Id);
                                     iCounter++;
                                 }
-				if(cRec.Business_Unit__c=='Payments' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)&& con.Email == null){
+                               if(cRec.Business_Unit__c=='Payments' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c) && con.Email == null){
                                      Messaging.SingleEmailMessage msg = getMessageGenerated(con, cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
                                      emails.add(msg); 
                                      mIdxVsPELoggerId.put(iCounter,pLog.Id);
@@ -938,51 +940,5 @@ public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
         log.put('Contact_Name__c',contactName);
         log.put('Phone__c', mobNo);
         return log;
-    }
-
-//Added changes
-
-public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
-        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        case caseRec2 = [Select ABHFL_Case_Detail__c,Masked_LAN__c from case where id = :caseRec.id];
-        //ContentVersion contentVersion = [SELECT Id, VersionData FROM ContentVersion WHERE ContentDocumentId =: bodyId and islatest = true Limit 1];
-        ABHFL_Case_Detail__c detailRec = [Select Id, ALL_LANS__c, New_Email_ID__c from ABHFL_Case_Detail__c where Id =: caseRec2.ABHFL_Case_Detail__c].get(0);
-     	EmailTemplate htmlvalues = [Select Id, htmlvalue from EmailTemplate where developername = 'ABHFL_EmailId_RequestClosure_Email_1728370815314'].get(0);
-     	EnhancedLetterhead header = [select Id, LetterheadHeader, LetterheadFooter from EnhancedLetterhead where Name = 'ABHFL Letterhead'].get(0);
-     	Map < String, String > replacements = new Map < String, String > {
-       '{{{Case.Masked_LAN__c}}}' => caseRec2.Masked_LAN__c,
-       '$$ABHFL_Case_Detail__r.ALL_LANS__c$$' => detailRec.ALL_LANS__c,
-       '$$ABHFL_Case_Detail__r.New_Email_ID__c$$' => detailRec.New_Email_ID__c
-     	};
-         string newhtmlvalues = htmlvalues.htmlvalue;
-         for (String key: replacements.keySet()) {
-           if (!String.isEmpty(replacements.get(key))) {
-             newhtmlvalues = newhtmlvalues.replace(key, replacements.get(key));
-           } else {
-             newhtmlvalues = newhtmlvalues.replace(key, '');
-           }
-         }
-         String newhtmlvalues1 = header.LetterheadHeader + '\n ' + newhtmlvalues + ' \n' + header.LetterheadFooter;
-        //contentVersion.versionData = Blob.valueOf(newhtmlvalues1);
-        //update contentVersion;
-        mail.setHtmlBody(newhtmlvalues1);
-        Account accountRecord = [SELECT Id, PersonEmail FROM Account WHERE Id =: caseRec.AccountId LIMIT 1];
-        Id rectypeid = [Select Id, RecordTypeId from Account where Id =: caseRec.AccountId].RecordTypeId;
-        Id orgWideAdressId = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName =: System.Label.ASF_default_no_reply_email_address limit 1].Id;
-        if (rectypeid != null && rectypeid == Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId()) {
-            mail.setToAddresses(new list < String > {
-             detailRec.New_Email_ID__c,
-             accountRecord.PersonEmail
-            });
-     } else {
-       Contact con = [SELECT Id, Email FROM Contact WHERE AccountId =: caseRec.AccountId].get(0);
-       if (con != null) {
-         mail.setToAddresses(new list < String > {
-           detailRec.New_Email_ID__c,
-           con.Email
-         });
-       }
-     }
-        return mail;
     }
 }
