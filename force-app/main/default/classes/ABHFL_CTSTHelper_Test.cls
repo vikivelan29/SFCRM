@@ -502,5 +502,12 @@ public class ABHFL_CTSTHelper_Test {
         
         ABHFL_CTSTHelper.createCases('0123', 'LAXXXXXXXX', 'CCC-CC-CCLTD-01', 'Email', 'LWC', caseRecordLst[0].id, recordTypeId);    
     }
+
+
+     @isTest
+    static void updateCaseExtensionTest(){
+          ABHFL_Case_Detail__c caseDetail = [SELECT Id, Masked_Full_LANs__c FROM ABHFL_Case_Detail__c limit 1];
+        ABHFL_CTSTHelper.updateCaseExtension(caseDetail.id,'Social Media');
+    }
     
 }
