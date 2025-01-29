@@ -134,11 +134,22 @@ public class ABHFL_CTSTHelper_Test {
     static void testDedupeForRecat(){
        
         Id recordTypeId = [SELECT Id FROM RecordType WHERE SObjectType = 'Case' AND DeveloperName = 'Framework' LIMIT 1].Id;
-        List<Case> caseList = [SELECT Id, AccountId, AssetId, Asset.LAN__c, ABHFL_Case_Detail__c, CCC_External_Id__c,Business_Unit__c,isClosed,Recategorisation_Reason__c,Nature__c,RecordTypeId FROM Case WHERE Business_Unit__c='ABHFL'];
+        Branch_Master__c branchMstr = new Branch_Master__c();
+        branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
+        branchMstr.UniqueKey__c = 'ABHFL_282002_NAGR002_AGRA-SANJAYPLACE';
+        insert branchMstr;
+		
+		 //Create Case Extension record
+        ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
+        caseDetail.STP_Request_Type__c = 'Email';
+        caseDetail.Preferred_Branch__c = branchMstr.UniqueKey__c;
+        insert caseDetail;
+        List<Case> caseList = [SELECT Id, AccountId, AssetId, Asset.LAN__c, ABHFL_Case_Detail__c, CCC_External_Id__c,Business_Unit__c,isClosed,Recategorisation_Reason__c,Nature__c,RecordTypeId FROM Case WHERE Business_Unit__c='ABHFL' AND ABHFL_Case_Detail__c != null limit 1];
 		caseList[0].Recategorisation_Reason__c = 'Test123';
         caseList[0].Nature__c = 'Complaint';
         caseList[0].CCC_External_Id__c = 'CCC-CC-CCLTD-02';
         caseList[0].RecordTypeId = recordTypeId;
+         caseList[0].ABHFL_Case_Detail__c = caseDetail.Id;
         update caseList[0];
         System.debug('@@caseList'+caseList[0]);
         System.debug('@@caseList--new'+caseList);
@@ -480,7 +491,8 @@ public class ABHFL_CTSTHelper_Test {
         ABHFL_CTSTHelper.sendEmailToUpdatedEmailId(caseRecordLst[0]);
         Test.stopTest();
     }
-    
+
+
     @isTest
     static void createCasesTest() {
         List<Case> caseRecordLst = [SELECT Id FROM Case];
