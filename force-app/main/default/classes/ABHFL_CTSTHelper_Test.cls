@@ -436,7 +436,8 @@ public class ABHFL_CTSTHelper_Test {
         ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
         abhflCTSTHelperClass.callLitmusApi(caseRecordLst, new Map<Id, Case>());    
     }
-    
+
+
     @isTest
     static void populateFieldsInAfterContextTest() {
         List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c,Technical_Source__c,AccountId
