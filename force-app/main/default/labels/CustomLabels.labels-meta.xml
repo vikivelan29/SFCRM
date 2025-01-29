@@ -545,7 +545,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLAMC_SprinklrUpdateSpecificBUs</shortDescription>
-        <value>ABSLAMC</value>
+        <value>ABSLAMC,ONEABC,ABCD</value>
     </labels>
     <labels>
         <fullName>ABSLIG_Acknowledgement_Email</fullName>
@@ -1685,7 +1685,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABML E2C</shortDescription>
-        <value>bhc.test-v@adityabirlacapital.com:ABML_ack_1733892391736</value>
+        <value>abm.franchiseecare@adityabirlacapital.com:ABML_ack_1736099067286,abm.obt@adityabirlacapital.com:ABML_ack_1736099067286,bhc@adityabirlacapital.com:ABML_ack_1736099067286,abm-chen.premiumdesk@adityabirlacapital.com:ABML_ack_1736099067286,abml.corporateagent@adityabirlacapital.com:ABML_ack_1736099067286,abm.cybersecurity@adityabirlacapital.com:ABML_ack_1736099067286,abml.tradingapps@adityabirlacapital.com:ABML_ack_1736099067286,care.stocksandsecurities@adityabirlacapital.com:ABML_ack_1736099067286,ceo.stocksandsecurities@adityabirlacapital.com:ABML_ack_1736099067286,dpcare.stocksandsecurities@adityabirlacapital.com:ABML_ack_1736099067286,stoptrade.stocksandsecurities@adityabirlacapital.com:ABML_ack_1736099067286</value>
     </labels>
 	<labels>
         <fullName>ABML_ReportMessage2</fullName>
@@ -1723,6 +1723,75 @@
         <value>remya.nambiar-v@adityabirlacapital.com,priyanka.shinde1-v@adityabirlacapital.com,Bhageerathi.R@adityabirlacapital.com,Tanmay.Mahale@adityabirlacapital.com,amit.ranjan2-v@adityabirlacapital.com</value>	
     </labels>
     <labels>
+        <fullName>ABCD_Business_Unit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD_Business_Unit</shortDescription>
+        <value>ABCD</value>
+    </labels>
+    <labels>
+        <fullName>ABCD_Complaint_Creation_Email_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD Complaint Creation Email ID</shortDescription>
+        <value>Vinay.Singh16@adityabirlacapital.com.invalid</value>
+    </labels>
+    <labels>
+        <fullName>ABCD_Complaint_Creation_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD Complaint Creation Email Template</shortDescription>
+        <value>ABCD_Complaint_Creation_Internal</value>
+    </labels>
+    <labels>
+        <fullName>ABCD_LitmusAppId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD_LitmusAppId</shortDescription>
+        <value>ll4w_touchpoint</value>
+    </labels>
+    <labels>
+        <fullName>ABCD_ONEABC_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD_ONEABC_BU</shortDescription>
+        <value>ONEABC</value>
+    </labels>
+    <labels>
+        <fullName>ABCD_TrackId_Source</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD_TrackId_Source</shortDescription>
+        <value>Call Center</value>
+    </labels>
+    <labels>
+        <fullName>ONEABC_Acc_Error_ABCD_Customer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ONEABC_Acc_Error_ABCD_Customer</shortDescription>
+        <value>Please select an ABCD Customer</value>
+    </labels>
+    <labels>
+        <fullName>ONEABC_Acc_Error_LOB_Customer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ONEABC_Acc_Error_LOB_Customer</shortDescription>
+        <value>You are not allowed to reparent this case</value>
+    </labels>
+    <labels>
+        <fullName>ONEABC_Acc_Error_Non_ABCD_Customer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ONEABC_Acc_Error_Non_ABCD_Customer</shortDescription>
+        <value>You cannot select an ABCD customer for this case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_SprinklrUpdateBUs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SprinklrUpdateBUs</shortDescription>
+        <value>ABSLAMC,ABHI,ONEABC,ABCD</value>
+    </labels>
         <fullName>ABSLI_PIVC_Integration_CTST</fullName>
         <language>en_US</language>
         <protected>false</protected>

@@ -3,6 +3,7 @@
     <excludeButtons>ChangeOwnerOne</excludeButtons>
     <excludeButtons>Clone</excludeButtons>
     <excludeButtons>Edit</excludeButtons>
+    <excludeButtons>OpenSlackRecordChannel</excludeButtons>
     <excludeButtons>PrintableView</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
@@ -125,6 +126,9 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <platformActionList>
+        <actionListContext>Record</actionListContext>
+    </platformActionList>
     <relatedLists>
         <relatedList>RelatedFileList</relatedList>
     </relatedLists>
