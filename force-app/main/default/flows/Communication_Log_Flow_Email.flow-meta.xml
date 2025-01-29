@@ -1207,6 +1207,7 @@
         </rules>
     </decisions>
     <decisions>
+        <description>Recategorization communication flow</description>
         <name>Is_CCC_Recat_flag_true</name>
         <label>Is CCC Recat flag true</label>
         <locationX>710</locationX>
@@ -1249,11 +1250,7 @@
             <label>Send Recat Flag True</label>
         </rules>
     </decisions>
-    <description>added condition to send an email for ABFL when case is categorized .
-Added condition to send email/sms when case status is Closed Duplicate
-Added logic to send welcome email on account recat
-Added Regional Template Logic
-Added Condition on Decision box -Email Template Found</description>
+    <description>Added description</description>
     <environments>Default</environments>
     <formulas>
         <name>IntegrationUserName</name>
