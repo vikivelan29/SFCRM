@@ -194,7 +194,7 @@ public without sharing class ASF_CommPETriggerHelper {
 		     if(con.Email!=null){
                          toAddressesForCriticalGrp.add(con.Email);
                      }
-                    toAddressesForCriticalGrp.add(con.Email);
+                   
         			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
                      msg.setToAddresses(toAddressesForPayments);
                  }
