@@ -390,6 +390,9 @@ public class ABHFL_CTSTHelper_Test {
         caseRecord.CCC_External_Id__c = ABHFL_Constants.ESCROW_STATEMENT_ID;
         update caseRecord;
         ABHFL_CTSTHelper.sendMailWithAttachments(new List<Case>{caseRecord});
+        caseRecord.CCC_External_Id__c = ABHFL_Constants.NOC_REQUIRED_ID;
+        update caseRecord;
+        ABHFL_CTSTHelper.sendMailWithAttachments(new List<Case>{caseRecord});
         Test.stopTest();
         caseDetail = [SELECT Id, Masked_Full_LANs__c FROM ABHFL_Case_Detail__c WHERE Id = :caseRecord.ABHFL_Case_Detail__c LIMIT 1];
         System.assertEquals('and xxxxxx' + astRec.LAN__c.substring(Math.max(0, astRec.LAN__c.length() - 4)), caseDetail.Masked_Full_LANs__c);
@@ -491,8 +494,7 @@ public class ABHFL_CTSTHelper_Test {
         ABHFL_CTSTHelper.sendEmailToUpdatedEmailId(caseRecordLst[0]);
         Test.stopTest();
     }
-
-
+    
     @isTest
     static void createCasesTest() {
         List<Case> caseRecordLst = [SELECT Id FROM Case];
