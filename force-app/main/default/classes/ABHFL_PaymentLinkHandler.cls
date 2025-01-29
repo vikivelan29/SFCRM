@@ -17,8 +17,8 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
 
         Case caseRecord = [SELECT Id,Description,AccountId, Account.Phone,Account.PersonMobilePhone,Asset.Loan_ID__c,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,
-                            ABHFL_Case_Detail__r.Payable_Charges__c, ABHFL_Case_Detail__r.Send_Payment_Link__c, CCC_External_Id__c,oldCCCIdFields__c
-                           FROM Case WHERE Id =: caseRec.Id];
+                            ABHFL_Case_Detail__r.Payable_Charges__c, ABHFL_Case_Detail__r.Send_Payment_Link__c, CCC_External_Id__c,Stage__c,ABHFL_Case_Detail__r.Last_Retention_Approval__c,oldCCCIdFields__c
+                           FROM Case WHERE Id =: caseRec.Id]; //Fields added for PR970457-2649
 		List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
         List<Doc_Charge__mdt> docChargMdtLst = [SELECT id, CCC_External_Id__c FROM Doc_Charge__mdt WHERE Payment_Required__c = true];
 
@@ -28,11 +28,16 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
 
         //Dhinesh - to check for approvals 
         List<ASF_Case_Approv__c> approvals = [SELECT Id,Approval_Status__c FROM ASF_Case_Approv__c WHERE SR__c =: caseRecord.Id];
-        List<String> approvalSubTypes = new List<String>{'hfl069', 'RLOAPRONHFC','REFCL001'};
+        List<String> approvalSubTypes = new List<String>{'hfl069', 'RLOAPRONHFC'}; // Issuecode:REFCL001 has been removed for PR970457-2649
         Boolean approvalPending = true;
         if(approvalSubTypes.contains(caseRecord.CCC_External_Id__c) && approvals.isEmpty()){
             result.status = ABHFL_Constants.ERROR;
             result.response = 'Case is not Approved, Please create an Approval';
+        }
+		//Condition added for PR970457-2649
+        if(caseRecord.CCC_External_Id__c =='REFCL001' && approvals.isEmpty() && caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c=='Yes' && caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c=='more than 3 months' && caseRecord.Stage__c=='Open'){
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('ABHFL_No_Payment_Link_REFCL001_Open_Stag').Message__c;
         }
         for(ASF_Case_Approv__c approval : approvals) {
                 if (approval.Approval_Status__c == 'Approved') {
@@ -40,7 +45,8 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
                     break; // No need to continue checking once one is found
             }
         }
-        if((approvalSubTypes.contains(caseRecord.CCC_External_Id__c) || (caseRecord.CCC_External_Id__c=='REFCL001' && String.ISNOTBLANK(caseRecord.oldCCCIdFields__c))) && approvalPending && !approvals.isEmpty()){
+	// OR condition has been added for PR970457-2649
+	if((approvalSubTypes.contains(caseRecord.CCC_External_Id__c) || (caseRecord.CCC_External_Id__c=='REFCL001' && String.ISNOTBLANK(caseRecord.oldCCCIdFields__c))) && approvalPending && !approvals.isEmpty()){
             result.status = ABHFL_Constants.ERROR;
             result.response = 'Case is not Approved, cannot generate payment link';
         }
@@ -67,25 +73,21 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_PayableChargeMissing').Message__c;              
         }
-        
-        //START -- Condition added for PR970457-2649
+		
+	//START -- Condition added for PR970457-2649
         if(caseRecord.Stage__c=='Open' && caseRecord.CCC_External_Id__c =='REFCL001' && caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL ){
-            system.debug('Inside payment link issue for FCL');
-            //if(caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c == 'No' && (caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c =='less than 3 months' || caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c =='more than 3 months') ){
-            if(caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c == 'No'){
-                system.debug('Inside payment link issue for FCL if 1');
-                result.status = ABHFL_Constants.ERROR;
+            if(caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c == 'No' && (caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c =='less than 3 months' || caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c =='more than 3 months') ){
+            	result.status = ABHFL_Constants.ERROR;
             	result.response = Custom_Messages__mdt.getInstance('ABHFL_No_Payment_Link_REFCL001_Open_Stag').Message__c;              
             }
-            //else if(String.isBlank(caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c) || String.isBlank(caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c) || String.isBlank(caseRecord.Description)){
-            else if(String.isBlank(caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c) || String.isBlank(caseRecord.Description)){
-                system.debug('Inside payment link issue for FCL if 2');
-                result.status = ABHFL_Constants.ERROR;
+            else if(String.isBlank(caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c) || String.isBlank(caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c) || String.isBlank(caseRecord.Description)){
+            	result.status = ABHFL_Constants.ERROR;
             	result.response = 'Please complete the required fields';
             }
             
         }
-		//END -- Condition added for PR970457-2649
+	//END -- Condition added for PR970457-2649
+		
         if(String.isBlank(caseRecord.Asset.Loan_ID__c)) {
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('Payment_Link_Loan_Id_is_Blank').Message__c;
