@@ -1207,7 +1207,7 @@
         </rules>
     </decisions>
     <decisions>
-        <description>Recategorization communication flow</description>
+        <description>Recategorization communication flow changes</description>
         <name>Is_CCC_Recat_flag_true</name>
         <label>Is CCC Recat flag true</label>
         <locationX>710</locationX>
@@ -1250,7 +1250,7 @@
             <label>Send Recat Flag True</label>
         </rules>
     </decisions>
-    <description>Added description</description>
+    <description>Added new description</description>
     <environments>Default</environments>
     <formulas>
         <name>IntegrationUserName</name>
