@@ -390,6 +390,9 @@ public class ABHFL_CTSTHelper_Test {
         caseRecord.CCC_External_Id__c = ABHFL_Constants.ESCROW_STATEMENT_ID;
         update caseRecord;
         ABHFL_CTSTHelper.sendMailWithAttachments(new List<Case>{caseRecord});
+        caseRecord.CCC_External_Id__c = ABHFL_Constants.NOC_REQUIRED_ID;
+        update caseRecord;
+        ABHFL_CTSTHelper.sendMailWithAttachments(new List<Case>{caseRecord});
         Test.stopTest();
         caseDetail = [SELECT Id, Masked_Full_LANs__c FROM ABHFL_Case_Detail__c WHERE Id = :caseRecord.ABHFL_Case_Detail__c LIMIT 1];
         System.assertEquals('and xxxxxx' + astRec.LAN__c.substring(Math.max(0, astRec.LAN__c.length() - 4)), caseDetail.Masked_Full_LANs__c);
@@ -474,17 +477,19 @@ public class ABHFL_CTSTHelper_Test {
     @isTest
     static void populateFieldsInAfterContextTest() {
         List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c,Technical_Source__c,AccountId
-                                    FROM Case];
+                                    FROM Case where ABHFL_Case_Detail__c!=null];
         Account acc = [Select id from account limit 1][0];
        
         ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
         abhflCTSTHelperClass.populateFieldsInAfterContext(caseRecordLst);  
         Test.startTest();
         caseRecordLst[0].CCC_External_Id__c = 'hfl045';
+          caseRecordLst[0].business_unit__c = 'ABHFL';
         caseRecordLst[0].accountId = acc.Id;
         update caseRecordLst[0];
         //Case cs = [Select id,AccountId,CCC_External_Id__c,ABHFL_Case_Detail__c from case where CCC_External_Id__c ='hfl045'];
         ABHFL_CTSTHelper.updateAllLanFieldOnDetailObj(caseRecordLst[0]);
+        ABHFL_CTSTHelper.sendEmailToUpdatedEmailId(caseRecordLst[0]);
         caseRecordLst[0].CCC_External_Id__c = 'hfl023';
         caseRecordLst[0].business_unit__c = 'ABHFL';
         update caseRecordLst[0];
@@ -498,6 +503,12 @@ public class ABHFL_CTSTHelper_Test {
         Id recordTypeId = [SELECT Id FROM RecordType WHERE SObjectType = 'Case' AND DeveloperName = 'Framework' LIMIT 1].Id;
         
         ABHFL_CTSTHelper.createCases('0123', 'LAXXXXXXXX', 'CCC-CC-CCLTD-01', 'Email', 'LWC', caseRecordLst[0].id, recordTypeId);    
+    }
+    
+     @isTest
+    static void updateCaseExtensionTest(){
+          ABHFL_Case_Detail__c caseDetail = [SELECT Id, Masked_Full_LANs__c FROM ABHFL_Case_Detail__c limit 1];
+        ABHFL_CTSTHelper.updateCaseExtension(caseDetail.id,'Social Media');
     }
     
 }
