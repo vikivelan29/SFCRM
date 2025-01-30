@@ -1,9 +1,9 @@
 /**
- * @description       : 
+* @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
+* @group             : 
  * @last modified on  : 12-19-2024
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ASF_CaseTriggerBUSpecificHandler {
     public static final Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
@@ -170,6 +170,11 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 else if(businessUnit == 'ABSLI'){
                     ABSLI_BeforeUpdateAfterASFTriggerLogic.executeBeforeLogic(new Map<Id,Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
+
+           else if(businessUnit == 'ABML'){// EY ADDED
+                    ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                }
+
                 else if(businessUnit == 'ABSLAMC'){
                     ABSLAMC_CaseAssignmentHelper.updateAssignmentOnStageChange(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABSLAMC_CaseAssignmentHelper.updateCaseStage(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
@@ -210,6 +215,9 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 }else if(businessUnit == 'ABHI'){
                     ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
+                if(businessUnit == 'ABML'){ // EY ADDED
+                    ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                } 
                 else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
                     ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
