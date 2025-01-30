@@ -160,6 +160,12 @@ public class ABSLAMC_SprinklrHelper {
                            ABHI_UpdatesForSprinklr.caseLatestNotesMap.clear();
                            ABHI_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
                        }
+                       
+                       else if(caseRec.Business_Unit__c == 'ABML'){ //EY ADDED
+                           ABML_UpdatesForSprinklr.caseLatestNotesMap.clear();
+                           ABML_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
+                       }
+                       
                        else{
                            ABSLAMC_UpdatesForSprinklr.caseLatestNotesMap.clear();
                            ABSLAMC_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
