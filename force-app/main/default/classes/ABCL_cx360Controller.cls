@@ -641,15 +641,4 @@ Delete response.newCaseDetail.Id;
         @AuraEnabled
         public ABHFL_Case_Detail__c newCaseDetail;
     }
-    
-    /*public class accountDetailsWrapper{
-        @AuraEnabled
-        public String fieldAPIName;
-        @AuraEnabled
-        public String fieldLabel;
-        @AuraEnabled
-        public String fieldValue;
-        @AuraEnabled
-        public String fieldSection;
-    }*/
 }
