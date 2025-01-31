@@ -74,19 +74,6 @@
   --sds-c-icon-color-foreground-default: #C7222A;
 }
 
-.hwc-header-icon {
-  --sds-c-icon-color-foreground-default: #FFD65C;
-}
-
 .clickable {
   cursor: pointer;
-}
-
-@keyframes blink {
-  0%, 100% {opacity: 1;}
-  50% {opacity: 0;}
-}
-
-.blinking-text {
-  animation: blink 1s linear infinite;
 }

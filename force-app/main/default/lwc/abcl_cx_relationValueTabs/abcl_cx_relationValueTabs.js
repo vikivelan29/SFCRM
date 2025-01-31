@@ -30,6 +30,7 @@ export default class Abcl_cx_relationValueTabs extends LightningElement {
             id: '1',
             policyNumber: 'PN-0001234',
             lanMapped: 'LNMUMHL-0717003302',
+            insuredName: 'Dan Brown',
             insuranceAmount: '₹6,00,000',
             insuranceProvider: 'Star Insurance',
             policyStartDate: '25-12-2023',
@@ -39,6 +40,7 @@ export default class Abcl_cx_relationValueTabs extends LightningElement {
             id: '2',
             policyNumber: 'PN-00011235',
             lanMapped: 'LNMUMHL-0717003303',
+            insuredName: 'Collin Hover',
             insuranceAmount: '₹50,000',
             insuranceProvider: 'Aditya Insurance',
             policyStartDate: '18-10-2023',
@@ -58,6 +60,7 @@ export default class Abcl_cx_relationValueTabs extends LightningElement {
     insuranceColumns = [
         { label: 'Policy Number', fieldName: 'policyNumber' },
         { label: 'LAN Mapped', fieldName: 'lanMapped' },
+        { label: 'Insured Name', fieldName: 'insuredName' },
         { label: 'Insurance Amount', fieldName: 'insuranceAmount' },
         { label: 'Insurance Provider', fieldName: 'insuranceProvider' },
         { label: 'Policy Start Date', fieldName: 'policyStartDate' },

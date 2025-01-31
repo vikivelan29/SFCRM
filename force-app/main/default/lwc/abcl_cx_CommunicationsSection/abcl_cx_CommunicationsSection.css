@@ -71,3 +71,15 @@
 .clickable {
   cursor: pointer;
 }
+
+.datatable-container {
+  overflow-x: auto; /* Enables horizontal scrolling */
+  display: block; /* Ensure the container behaves like a block element */
+  width: 100%; /* Container takes full width of its parent */
+}
+
+.center-content {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}

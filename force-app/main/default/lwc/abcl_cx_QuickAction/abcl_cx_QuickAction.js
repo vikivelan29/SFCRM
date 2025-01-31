@@ -4,17 +4,13 @@ import getQuickActions from '@salesforce/apex/ABCL_cx360Controller.getQuickActio
 import createCases from '@salesforce/apex/ABCL_cx360Controller.createCases';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
-import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
-import createCasesForLAN from '@salesforce/apex/ABCL_CX_LanguagePreference.createCases';
+import { getRecord } from 'lightning/uiRecordApi';
+import createCasesForLAN from '@salesforce/apex/ABCL_cx360Controller.createCasesForLang';
 import PREFERREDLANGUAGE_FIELD from '@salesforce/schema/Account.Language_Preference__c';
-import PHONE_FIELD from '@salesforce/schema/Account.Phone';
-import LOB_FIELD from '@salesforce/schema/Account.Business_Unit__c';
 import ABCL_CX_PREFERRED_LANGUAGE_ACCOUNT from '@salesforce/label/c.ABCL_CX_Preferred_language';
-//import getEmailTemplates from '@salesforce/apex/ABCL_CX_SendCommunication.getEmailTemplates';
+import getEmailTemplates from '@salesforce/apex/ABCL_CX_SendCommunication.getEmailTemplates';
 import { getObjectInfo } from "lightning/uiObjectInfoApi";
-import getListOfContact from '@salesforce/apex/ASF_SMSCommunicationParser.getListOfContact';
-import getListOfTemplate from '@salesforce/apex/ASF_SMSCommunicationParser.getListOfTemplate';
-//import getTemplate from '@salesforce/apex/ABCL_CX_Send_SMS.getTemplate';
+import fetchAssets from "@salesforce/apex/Asf_FetchAssetRelatedToAccountController.fetchAssets";
 const ACCOUNT_FIELDS = ['Account.Business_Unit__c','Account.Phone'];
 export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElement) {
     @api recordId;
@@ -110,6 +106,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
 
     languages=[]; 
     templates=['Medical Emergency', 'Reporting Fraudulent Activities'];
+    newSelectedLang;
     @track newTemplate = '';
     emailTemplates = [];
     @track selectedEmail = null;
@@ -118,8 +115,8 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
     showPreview=false;
     businessUnit;
     phone;
-
-
+    @track assetRecords=[];
+    @track assetColumns = [];
 
     actionVSFunction = {
         "PIFA": "pifaClick",
@@ -132,13 +129,8 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
     connectedCallback() {
         this.isLoading=true;
         this.languages = ABCL_CX_PREFERRED_LANGUAGE_ACCOUNT.split(',').map(item => item.trim()); //Added by Shagun
-
-        console.log('Record Id in OpenDocs LWC:', this.recordId);
-        console.log('@@objectApiName',this.objectApiName);
         getQuickActions({customerId: this.recordId}).then(result => {
             this.quickActions=result;
-            console.log('Result',result);
-            console.log('Result Len',result.length);
             if(result){
                 this.showNoQuickActionMessage=false;
             }
@@ -146,8 +138,8 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         }).catch(error => {
             console.log('Error getQuickActions:', error);
         });
-        console.log('Related actions:', this.quickActions);
     }
+
     handleActionsSelect(event){
         //get which action is click
         const actionName = event.currentTarget.dataset.action;
@@ -156,20 +148,20 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         const functionName = this.actionVSFunction[actionName];
         console.log('Related function:',functionName);
         // call the function
-        
         if (functionName && typeof this[functionName] === 'function') {
             this[functionName]();
         }
 
     }
+
     //Set selected Modal
     pifaClick(event){
 
     }
  
-    
     oneClickDoc(event){
-        this.getProductsOwned();
+        this.fetchAssets();
+        //this.getProductsOwned();
         this.showOneClickDoc=true;
     }
     pddStatusClick(event){
@@ -243,7 +235,82 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         this.showNoLANsError=false;
     }
 
+    fetchAssets(){
+        fetchAssets({accountRecordId: this.recordId})
+        .then(result => {
+            console.log('Retrieved Assets>>>',this.assetRecords);
+            console.log('Retrieved Assets JSON>>>',JSON.stringify(this.assetRecords));
+            this.assetRecords = result.assetRecords;
+            console.log('Retrieved related assets JSON>>>',JSON.stringify(result.assetRecords));
+            this.assetColumns = result.columnNameList;
+            console.log('Retrieved related assets columns JSON>>>',JSON.stringify(result.columnNameList));
+            this.populateLwcDatatableData();
+            if(this.assetRecords.length>0){
+                this.showLANs= true;
+            }else{
+                this.showNoLANsError=true;
+            }
+        }).catch(error => {
+            console.log('Error while fetching assets>>', error);
+        });
+    }
+
+    populateLwcDatatableData() {
+        
+        let generatedDataWithLink = this.assetRecords.map(assetRec => {
+            let tempAssetRec = Object.assign({}, assetRec);
+            let assetRecordLink   = `/lightning/r/ObjectName/${assetRec.LAN__c}/view`; 
+
+            for(let columnObj of this.assetColumns) {
+
+                let fldName = columnObj.fieldName;
+
+                if( columnObj.hasOwnProperty('type') && columnObj.type == "url") {
+                    fldName =  columnObj.typeAttributes.label.fieldName;
+                }
+                tempAssetRec[fldName] = this.genericFetchNestedKeyValues(assetRec, fldName);
+            }
+
+            if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].Name) {
+                tempAssetRec.assetNameRecLink   = assetRecordLink;
+                
+            }
+            if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].LAN__c){
+                tempAssetRec.assetLanRecLink = assetRecordLink;
+            } 
+            if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].Policy_No__c){
+                tempAssetRec.assetLanRecLink = assetRecordLink;
+            } 
+            if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].ContractId__c){
+                tempAssetRec.assetLanRecLink = assetRecordLink;
+            }
+            if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].Folio__c){
+                tempAssetRec.assetLanRecLink = assetRecordLink;
+            } 
+
+            return tempAssetRec;
+        });
+
+        this.assetRecords = generatedDataWithLink;
+    }
+
+    genericFetchNestedKeyValues(obj, keys) {
+     
+        keys = keys.split('.');
+        let currentObj = obj;
     
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            if (currentObj.hasOwnProperty(key)) {
+                currentObj = currentObj[key];
+            } else {
+                return undefined;
+            }
+        }
+        // Return the value of the nested key
+        return currentObj;
+    }
+    /** 
     getProductsOwned(){
         getProductsOwned({customerId: this.recordId})
         .then(result => {
@@ -259,7 +326,8 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
             console.log('Error:', error);
         });
 
-    }
+    }*/
+
     createCases(){
         this.showSpinner = true;
         this.showLANs=false;
@@ -350,7 +418,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         this.showLanguageButton=true;
     }
 
- @wire(getRecord, { recordId: '$recordId', fields: [PREFERREDLANGUAGE_FIELD] })
+    @wire(getRecord, { recordId: '$recordId', fields: [PREFERREDLANGUAGE_FIELD] })
         wiredRecord({ error, data }) {
             if (data) {
                 if (PREFERREDLANGUAGE_FIELD.fieldApiName in data.fields) {
@@ -362,16 +430,11 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         }
 
     handleLanguageChange(event) {
-        alert('Shagun Selected language');
         this.newLanguage = event.target.value;
-        console.log('@@ New Language', this.newLanguage);
-        console.log('@@ Current lang', this.currentLanguage);
-        //this.selectedlanguage = true;
         if (this.newLanguage === this.currentLanguage) {
             this.showToastMessage('Error', 'Preferred Language and Selected Language cannot be the same.', 'error', 'sticky');
             this.isButtonDisabled = true;
         } else {
-            console.log('@@ Else', this.currentLanguage);
             this.isButtonDisabled = false;
         }
     }
@@ -379,19 +442,8 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
 
     createCasesForLAN(){
     this.showSpinner = true;
-    //this.showLANs=false;
-    alert('CustomerId:',this.recordId);
-    createCasesForLAN({customerId: this.recordId})
+    createCasesForLAN({customerId: this.recordId,newSelectedLang:this.newLanguage})
             .then(result => {
-                console.log('case result>>',result[0]);
-                /*for (const wrapper of result) {
-
-                    if (wrapper.status == 'Success') {
-                        this.successCases.push(wrapper);
-                    } else if (wrapper.status == 'Error') {
-                        this.errorCases.push(wrapper);
-                    }
-                }*/
                     if (result[0].status == 'Success') {
                         this.navigateToRecord(result[0].newCase.Id);
                     } else if (result[0].status == 'Error') {
@@ -404,50 +456,19 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         
     }
 
-    /* showToastMessage(toastTitle, toastMsg, toastVariant, toastMode){
-            const toastEvent = new ShowToastEvent({
-                title: toastTitle,
-                message: toastMsg,
-                variant: toastVariant,
-                mode: toastMode
-            });
-            this.dispatchEvent(toastEvent);
-        }
-
-     /*navigateToRecord(caseId) {
-           console.log('Navigation Started');
-           this[NavigationMixin.Navigate]({
-               type: 'standard__recordPage',
-               attributes: {
-                   recordId: caseId,
-                   objectApiName: 'Case',
-                   actionName: 'view',
-               },
-           });
-           console.log('Navigation Complete');
-       }  */   
-    
-     /*openModal() {
-        this.showModal = true;
-        console.log('shagun--',this.showModal);
-    }
-
-    handleClose() {
-        this.showModal = false;
-    }*/
     /***********Send SMS **************/
 
     sendSMSClick(event){
         console.log("SMS sent");
         this.showSMSButton=true;
          this.getProductsOwned();
-        //this.getEmailTemplates();
+        this.getEmailTemplates();
         //this.createFormData(data);
         
     }
 
-        /**
-        @wire(getEmailTemplates)
+  
+    @wire(getEmailTemplates)
         getEmailTemplates({ data, error }) {
             if (data) {
                 console.log('@@ templates',JSON.stringify(data))
@@ -462,7 +483,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
             } else if (error) {
                 console.error('Error fetching email templates: ', error);
             }
-        }**/
+    }
 
     handleEmailChange(event) {
         try {
@@ -481,7 +502,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
     }
     
 
-     matchingTemplate(searchLabel) {
+    matchingTemplate(searchLabel) {
         let templateMessage = "Template not found."; // Default message
         console.log('EMail Templates2>>',JSON.stringify(this.emailTemplates));
         for (let i = 0; i < this.emailTemplates.length; i++) {
@@ -506,24 +527,14 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         }
     }
 
-    
+    sendSMSButton(event){
+        this.businessUnit ;
+        this.phone;
+        this.getTemplateBody();                    
+    }
 
 
-
-
-
-sendSMSButton(event){
-alert('Inside doComm');
-this.businessUnit ;
-this.phone;
-console.log('####'+this.businessUnit);
-this.getTemplateBody();                    
-}
-
-
-  
-
-@wire(getRecord, { recordId: '$recordId', fields: ACCOUNT_FIELDS })
+    @wire(getRecord, { recordId: '$recordId', fields: ACCOUNT_FIELDS })
     wiredAccount({ data, error }) {
         if (data) {
             // Fetch Business Unit value
@@ -534,4 +545,4 @@ this.getTemplateBody();
             this.error = error;
         }
     }        
-                }
+}
