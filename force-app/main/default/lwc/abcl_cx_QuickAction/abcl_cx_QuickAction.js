@@ -467,7 +467,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         
     }
 
-  
+  /**
     @wire(getEmailTemplates)
         getEmailTemplates({ data, error }) {
             if (data) {
@@ -484,7 +484,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
                 console.error('Error fetching email templates: ', error);
             }
     }
-
+**/
     handleEmailChange(event) {
         try {
             console.log('@@@ handle template change target:', event.target.value); // Log selected value
