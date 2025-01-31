@@ -135,8 +135,13 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
         									: 0);
                     System.debug('@@@@'+customSettingMap.get(objCase.Owner.Name));
                     System.debug('currentIndex is'+currentIndex);
-
-                    cObj.OwnerId = lstUserIds[currentIndex];
+                    try{
+                        cObj.OwnerId = lstUserIds[currentIndex];
+                    }Catch(exception e){
+                        currentIndex = 0;
+                        cObj.OwnerId = lstUserIds[currentIndex];
+                        System.debug(e);
+                    }
                     // Update the current index
                     if(lstUserIds.size()>1)
                     {
