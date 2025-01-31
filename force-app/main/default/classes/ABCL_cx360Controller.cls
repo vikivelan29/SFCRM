@@ -9,7 +9,7 @@ public with sharing class ABCL_cx360Controller {
     public static Account getCustomerInfo(String customerId){
         try {
             //return [Select Id,Name,AccountNumber, PersonEmail, Phone, PAN__c, PAN_Number__c, PreferredLanguage__pc, ShippingState, BillingState, Handle_With_Care_HWC__c, Customer_Since__c, WhatsApp_Opt_in_status__c, ABC_Consent__c from Account Where Id=:customerId];
-            return [Select Id,Name,AccountNumber, PersonEmail, Phone, PAN__c, ShippingState, BillingState from Account Where Id=:customerId];
+            return [Select Id,Name,AccountNumber, PersonEmail,Business_Unit__c, Phone, PAN__c, ShippingState, BillingState from Account Where Id=:customerId];
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -253,6 +253,86 @@ Delete response.newCaseDetail.Id;
         return statusWrapper;
     }
     
+       @AuraEnabled
+    public static List<caseStatusWrapper> createCasesForLang(String customerId, String newSelectedLang){
+        List<caseStatusWrapper> statusWrapper = New List<caseStatusWrapper>();
+        try{
+            system.debug('Inside Case creation'+customerId);
+            Asset asset=[Select Id,Loan_Start_Date__c,Loan_Disbursement_Status__c, Disbursed_Amount__c, Status, Name, LAN__c,LOB__c,Loan_Type__c,DA_Transaction__c,Sanction_Amount__c,VAN__c from Asset Where AccountId=:customerId LIMIT 1];
+      
+                //Insert ABHFL_Case_Details__c
+                caseStatusWrapper response= new caseStatusWrapper();
+                caseStatusWrapper caseDetailsCreatedWrapper=createCaseDetail(asset,ABHFL_Constants.LANG_CC_EXTERNALID);
+                response.newCaseDetail=caseDetailsCreatedWrapper.newCaseDetail;
+                response.status=caseDetailsCreatedWrapper.status;
+                response.message=caseDetailsCreatedWrapper.message;
+                
+                //Insert case
+                caseStatusWrapper caseCreatedWrapper;
+                if(response.status==ABHFL_Constants.SUCCESS){
+                    caseCreatedWrapper= insertCaseforLang(response.newCaseDetail.Id,ABHFL_Constants.LANG_CC_EXTERNALID,customerId,asset.id,newSelectedLang);
+                    response.newCase=caseCreatedWrapper.newCase;
+                    response.status=caseCreatedWrapper.status;
+                    response.message=caseCreatedWrapper.message;
+                    system.debug('SOA response>>'+response);
+                    statusWrapper.add(response);
+                }
+          
+        }
+        catch(Exception e){
+            caseStatusWrapper response= New caseStatusWrapper();
+            response.status=ABHFL_Constants.ERROR;
+            response.message='Case/s could not be created, due to error -'+e.getMessage();
+            statusWrapper.add(response);
+        }    
+   
+        system.debug('Final response for LWC>>>'+statusWrapper);
+        return statusWrapper;
+    }
+    
+         @AuraEnabled
+    public static caseStatusWrapper insertCaseforLang(String caseDetailId,String cccExternalId,String customerId,String assetId, String newSelectedLang){
+        caseStatusWrapper responseWrapper= New caseStatusWrapper();
+        try{
+            system.debug('Inside case creation method');
+            ASF_Case_Category_Config__c caseCatConfig = [Select Id, Type__c,Sub_Type__c,CCC_External_Id__c,Business_Unit__c,Nature__c from ASF_Case_Category_Config__c Where CCC_External_Id__c=:cccExternalId];
+            Case caseRecord = new Case();
+            caseRecord.Subject=caseCatConfig.Sub_Type__c +' - Required';
+            caseRecord.Description=caseCatConfig.Sub_Type__c +' - Required';
+            caseRecord.CCC_External_Id__c=cccExternalId;
+            caseRecord.Nature__c=caseCatConfig.Nature__c;
+            caseRecord.Type_Text__c=caseCatConfig.Type__c;
+            caseRecord.Sub_Type_Text__c=caseCatConfig.Sub_Type__c;
+            caseRecord.AccountId=customerId;
+            caseRecord.AssetId = assetId;
+            caseRecord.Preferred_Language__c=newSelectedLang;
+            //caseRecord.Source__c= 'Inbound call';
+            caseRecord.Business_Unit__c=ABHFL_Constants.BUSINESS_UNIT_ABHFL;
+            caseRecord.Stage__c='In-progress';
+            caseRecord.Case_Stage_Change_Date__c = system.now();
+            caseRecord.RecordTypeId=ASF_Constants.RT_FRAMEWORK;
+            caseRecord.ABHFL_Case_Detail__c=caseDetailId;
+            if(Schema.sObjectType.Case.isCreateable()){
+                Insert caseRecord;   
+            }
+            Case newCase=[Select Id,CaseNumber from Case where Id=:caseRecord.Id Limit 1];
+            system.debug('careated case>>'+caseRecord.Id);
+            responseWrapper.newCase = newCase;
+            responseWrapper.status=ABHFL_Constants.SUCCESS;
+            
+        }catch(DmlException e){
+            system.debug('Issue is:'+e.getMessage());
+            responseWrapper.status=ABHFL_Constants.ERROR;
+            responseWrapper.message=e.getMessage();
+            
+        }
+        return responseWrapper;
+    }
+    
+    
+    
+
+    
     @AuraEnabled
     public static ASF_Integration__c getAllIntegrationDetails(string c3ExtId, string stageName, String ProcessingClass){
         ASF_Integration__c returnList;
@@ -270,96 +350,104 @@ Delete response.newCaseDetail.Id;
     }
     
     @AuraEnabled(cacheable=true)
-    public static List<Map<String, String>> getFieldSetFieldsAndValues(String objectName, String fieldSetName, Id recordId) {
-        List<Map<String, String>> fieldList = new List<Map<String, String>>();
+    public static List<Map<String, String>> getAccountInfoFields(Id recordId, String businessUnit,String tileName){
+    // List to hold the result of label-value pairs
+        List<Map<String, String>> labelValuePairs = new List<Map<String, String>>();
+        List<String> fieldWithLabel = new List<String>();
+        // Fetch the metadata record for the given Business Unit
+        ABCL_Cx_360_Field_Mapping__mdt fieldMap = [SELECT id, Account_Info_Fields__c,customer_happiness_fields__c FROM ABCL_Cx_360_Field_Mapping__mdt WHERE Business_Unit__c = :businessUnit LIMIT 1];
         
-        try {
-            // Get the object describe
-            Schema.SObjectType objectType = Schema.getGlobalDescribe().get(objectName);
-            if (objectType != null) {
-                // Get the field set
-                Schema.FieldSet fieldSet = objectType.getDescribe().fieldSets.getMap().get(fieldSetName);
-                if (fieldSet != null) {
-                    // Create a list of field API names
-                    List<String> fieldApiNames = new List<String>();
-                    for (Schema.FieldSetMember field : fieldSet.getFields()) {
-                        fieldApiNames.add(field.getFieldPath());
-                    }
-                    
-                    // Query the record data
-                    String queryString = 'SELECT ' + String.join(fieldApiNames, ',') + ',City__c'+
-                        ' FROM ' + objectName + ' WHERE Id = :recordId';
-                    SObject record = Database.query(queryString);
-                    
-                    // Iterate through fields in the order defined in the Field Set
-                    for (Schema.FieldSetMember field : fieldSet.getFields()) {
-                        Schema.DescribeFieldResult fieldDescribe = Schema.getGlobalDescribe()
-                            .get(objectName)
-                            .getDescribe()
-                            .fields
-                            .getMap()
-                            .get(field.getFieldPath())
-                            .getDescribe();
-                        
-                        Map<String, String> fieldInfo = new Map<String, String>();
-                        fieldInfo.put('label', fieldDescribe.getLabel());
-                        fieldInfo.put('value', String.valueOf(record.get(field.getFieldPath())));
-                        //Updates to the labels
-                        object fieldLabel = fieldDescribe.getLabel();
-                        if(String.valueOf(field.getFieldPath())=='PersonGenderIdentity'){
-                        	fieldInfo.put('label', 'Gender');    
-                        }
-                        if(String.valueOf(field.getFieldPath())=='Phone'){
-                        	fieldInfo.put('label', 'Phone Number');    
-                        }
-                        if(String.valueOf(field.getFieldPath())=='PAN__c'){
-                        	fieldInfo.put('label', 'PAN Number');    
-                        }
-                        if(String.valueOf(field.getFieldPath())=='PersonBirthdate'){
-                        	fieldInfo.put('label', 'DOB/DOC');    
-                        }
-                        if(String.valueOf(field.getFieldPath())=='State__c'){
-                        	fieldInfo.put('label', 'State, City');
-                            List<String> addressStrings = New List<String>();
-                            addressStrings.add(String.valueOf(record.get('State__c')));
-                            addressStrings.add(String.valueOf(record.get('City__c')));
-                            system.debug('addressStrings'+addressStrings);
-                            if(addressStrings.size()>1){
-                                fieldInfo.put('value', String.join(addressStrings, ', '));
-                            }else if(addressStrings.size()==1){
-                                fieldInfo.put('value', String.valueOf(addressStrings[0]));
-                            }
-                            system.debug('Map>>'+fieldInfo);
-                        }
-                        // Handle datetime to date
-                        Object fieldValue = record.get(field.getFieldPath());
-                        if (fieldValue instanceof Datetime) {
-                            fieldInfo.put('value', ((Datetime)fieldValue).date().format());
-                        } else if (fieldDescribe.getType() == Schema.DisplayType.DATE) {
-                            fieldInfo.put('value', String.valueOf(fieldValue));
-                        }
-                        fieldList.add(fieldInfo);
-                    }
-                } else {
-                    throw new AuraHandledException('Field Set not found: ' + fieldSetName);
-                }
-            }
-        } catch (Exception e) {
-            throw new AuraHandledException('Error fetching Field Set fields and values: ' + e.getMessage());
+        // Split the Account_Info_Fields__c field value to get individual fields and labels
+        if(tileName == 'Customer Happiness'){
+            fieldWithLabel = fieldMap.customer_happiness_fields__c.split(',');
+        }
+        else{
+            fieldWithLabel = fieldMap.Account_Info_Fields__c.split(',');
         }
         
-        return fieldList;
-    }
-    
+        
+        // Generate the query to fetch values for the specified fields
+        List<String> fldAPINames = new List<String>();
+        for (String fld : fieldWithLabel) {
+            fldAPINames.add(fld.split(':')[1]);
+        }
+        
+        // Build the query string dynamically to include all field API names and additional City field
+        String queryString = 'SELECT ' + String.join(fldAPINames, ',') + ', City__c FROM Account WHERE Id = :recordId';
+        
+        // Query the record
+        sObject record = Database.query(queryString);
+        
+        // Loop through the fieldWithLabel list and extract label-value pairs
+        for (String fld : fieldWithLabel) {
+            // Split each field into API name and label
+            String[] fieldParts = fld.split(':');
+            String apiName = fieldParts[1];
+            String label = fieldParts[0];
+            
+            // Get the value from the queried record using the API name
+            Object fieldValue = record.get(apiName);
+            if (label == 'DOB/DOC') {
+                fieldValue = ((Date)fieldValue).format();
+            }
+            if(label == 'Customer Since'){
+                fieldValue = ((Datetime)fieldValue).date().format();
+            }
+            if(label == 'State'){
+                label = 'State,City';
+                fieldValue +=  ', ' + record.get('City__c');
+            }
+            else{   
+                fieldValue = (String)fieldValue;
+            }
+            // Create a map for each field's label-value pair and add it to the list
+            Map<String, String> labelValueMap = new Map<String, String>();
+            labelValueMap.put('label', label);
+            labelValueMap.put('value', (String)fieldValue);
+            // Add the map to the list
+            labelValuePairs.add(labelValueMap);
+        }
+        
+        // Return the list of label-value pairs
+        return labelValuePairs;
+  }
     @AuraEnabled(cacheable=true)
-    public static Map<String, Object> getAccountFields(Id recordId, List<String> fieldApiNames) {
+    public static Boolean getHNIorHWCField(Id recordId, String businessUnit, String scenario){
+        Boolean showHNI = false;
+        ABCL_Cx_360_Field_Mapping__mdt field = [SELECT id, HNI_Field__c,HWC_Field__c FROM ABCL_Cx_360_Field_Mapping__mdt WHERE Business_Unit__c = :businessUnit LIMIT 1];
+        String hniField = '';
+        List<String> fieldAndValues = new List<String>();
+        if(scenario == 'HNI'){
+            hniField = field.HNI_Field__c.split(':')[0];
+            fieldAndValues = field.HNI_Field__c.split(':');
+        }
+        else{
+            hniField = field.HWC_Field__c.split(':')[0];
+            fieldAndValues = field.HWC_Field__c.split(':');
+        }
+        List<String> hniExpectedValues = getSubList(fieldAndValues, 0, fieldAndValues.size());
+        String queryString = 'SELECT ' + hniField + ' FROM Account WHERE Id = :recordId';
+        Account record = (Account) Database.query(queryString);
+        Object fieldValue = record.get(hniField);
+        String fieldValueAsString = String.valueOf(fieldValue);
+        if(hniExpectedValues.contains(fieldValueAsString)){
+            showHNI = true;
+        }
+        return showHNI;
+    }
+    @AuraEnabled(cacheable=true)
+    public static Map<String, Object> getAccountFields(String recordId) {
         Map<String, Object> fieldValues = new Map<String, Object>();
+        Account a=getCustomerInfo(recordId);
+        String BU=a.Business_Unit__c;
+        List<String> ABHFL_Fields=New List<String>{'Customer_Since__c','Handle_With_Care_HWC__c','Business_Unit__c'};
+            List<String> ABML_Fields=New List<String>{'ABML_Activation_Date__c','ABML_Status__c','Sensitive_Customer__c','Business_Unit__c'};
         try {
-            String fields = String.join(fieldApiNames, ', ');
+            String fields = String.join(ABHFL_Fields, ', ');
             String query = 'SELECT ' + fields + ' FROM Account WHERE Id = :recordId';
             Account account = Database.query(query);
             
-            for (String field : fieldApiNames) {
+            for (String field : ABHFL_Fields) {
                 fieldValues.put(field, account.get(field));
             }
         } catch (Exception e) {
@@ -447,6 +535,18 @@ Delete response.newCaseDetail.Id;
         system.debug('FY>>'+financialYear);
         return financialYear;
     }
+
+    @AuraEnabled(cacheable=true)
+    public static List<ASF_Communication_Log__c> getInteractionInfo(String customerId){
+        List<ASF_Communication_Log__c> commLog= new List<ASF_Communication_Log__c>();
+        try {
+           commLog = [Select id,account__c,communication_channels__c, Email_Subject__c, CreatedDate, Status__c from ASF_Communication_Log__c where account__c=:customerId ORDER BY CreatedDate DESC LIMIT 3];
+            System.debug('@@@'+commLog);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+        return commLog;
+    }
     
     /**
     @AuraEnabled(cacheable=true)
@@ -516,6 +616,19 @@ Delete response.newCaseDetail.Id;
         }
     }
     **/
+    
+    public static List<String> getSubList(List<String> originalList, Integer fromIndex, Integer toIndex) {
+        // Validate indices
+        if (originalList == null || fromIndex < 0 || toIndex > originalList.size() || fromIndex > toIndex) {
+            throw new IllegalArgumentException('Invalid index parameters.');
+        }
+        
+        List<String> subList = new List<String>();
+        for (Integer i = fromIndex; i < toIndex; i++) {
+            subList.add(originalList[i]);
+        }
+        return subList;
+    }
     public class caseStatusWrapper{
         @AuraEnabled
         public String documentName;
@@ -529,7 +642,7 @@ Delete response.newCaseDetail.Id;
         public ABHFL_Case_Detail__c newCaseDetail;
     }
     
-    public class accountDetailsWrapper{
+    /*public class accountDetailsWrapper{
         @AuraEnabled
         public String fieldAPIName;
         @AuraEnabled
@@ -538,5 +651,5 @@ Delete response.newCaseDetail.Id;
         public String fieldValue;
         @AuraEnabled
         public String fieldSection;
-    }
+    }*/
 }

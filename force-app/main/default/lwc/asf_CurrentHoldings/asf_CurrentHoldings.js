@@ -11,6 +11,7 @@ import FA_Mandatory from '@salesforce/label/c.FA_Mandatory';
 import WithoutFA from '@salesforce/label/c.ASF_CreateSRwithoutFA';
 import WithFA from '@salesforce/label/c.ASF_CreateSRwithFA';
 import ABHI_PolicyRequiredErrMsg from '@salesforce/label/c.ABHI_PolicyRequired_ErrMsg';
+import ABHFL_AssetRequiredErrMsg from '@salesforce/label/c.ABHFL_AssetRequiredErrMsgLabel';
 
 const actions = [
     { label: 'Show details', name: 'show_details' },
@@ -64,6 +65,7 @@ export default class Asf_CurrentHoldings extends LightningElement {
     withFALabel = WithFA;
     withoutFALabel = WithoutFA;
     ABHI_PolicyRequiredErrMsgLabel = ABHI_PolicyRequiredErrMsg;
+    ABHFL_AssetRequiredErrMsgLabel = ABHFL_AssetRequiredErrMsg;
     showAssetTableForLob = true;
     //Cx360 properties
     @api buttonVariant;
@@ -150,6 +152,10 @@ export default class Asf_CurrentHoldings extends LightningElement {
             if(businessUnit == 'ABHI' && this.withoutAsset){
                 allowCreateCase = false;
                 this.showNotification("Error", this.ABHI_PolicyRequiredErrMsgLabel, 'error');
+            }
+            if(businessUnit == 'ABHFL' && this.withoutAsset){
+                allowCreateCase = false;
+                this.showNotification("Error", this.ABHFL_AssetRequiredErrMsgLabel, 'error');
             }
         }
         if(allowCreateCase) {

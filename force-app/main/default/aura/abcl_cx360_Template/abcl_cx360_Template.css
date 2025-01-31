@@ -1,6 +1,6 @@
 .THIS .layout1{
     width:75%;
-    font-family: Anek Latin;
+    font-family: abcl-font;
 }
 .THIS .layout2{
     width:25%;
@@ -8,5 +8,14 @@
 
 .columnWidth{
     width:25%;
-    font-family: Anek Latin;
+    font-family: abcl-font;
+}
+
+@font-face {
+    font-family: 'ABCL_AnekLatin_Font';
+    src: url(/resource/ABCL_AnekLatin_Font) format('truetype');
+}
+
+.abcl-font {
+    font-family: 'ABCL_AnekLatin_Font', sans-serif;
 }
