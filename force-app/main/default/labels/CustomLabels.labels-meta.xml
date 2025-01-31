@@ -1871,4 +1871,11 @@
         <shortDescription>ABCL CX Preferred language</shortDescription>
         <value>Bengali,English,Gujrati,Hindi,Kannnada,Marathi,Oriya,Punjabi,Tamil,Telegu</value>
     </labels>
+    <labels>
+        <fullName>ABHFL_AssetRequiredErrMsgLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL_AssetRequiredErrMsgLabel</shortDescription>
+        <value>Please select an asset to create the case</value>
+    </labels>
 </CustomLabels>

@@ -37,6 +37,26 @@
         <name>Case_Ownership_Management</name>
     </customPermissions>
     <fieldPermissions>
+	<editable>true</editable>
+    <field>Account.NACH_Status__c</field>
+    <readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+	<editable>true</editable>
+    <field>Account.Re_KYC_Due_Date__c</field>
+    <readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+	<editable>true</editable>
+    <field>Asset.Insured_Name__c</field>
+    <readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+	<editable>true</editable>
+    <field>Case.Preferred_Language__c</field>
+    <readable>true</readable>
+</fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ABCLLogRecording__c.Reason__c</field>
         <readable>true</readable>

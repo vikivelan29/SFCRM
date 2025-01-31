@@ -173,6 +173,16 @@
         <name>ShowSalesProspect</name>
     </customPermissions>
     <fieldPermissions>
+	<editable>true</editable>
+    <field>Asset.Insured_Name__c</field>
+    <readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+	<editable>true</editable>
+    <field>Case.Preferred_Language__c</field>
+    <readable>true</readable>
+</fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.ARR__c</field>
         <readable>true</readable>
