@@ -8,7 +8,7 @@ import { getRecord } from 'lightning/uiRecordApi';
 import createCasesForLAN from '@salesforce/apex/ABCL_cx360Controller.createCasesForLang';
 import PREFERREDLANGUAGE_FIELD from '@salesforce/schema/Account.Language_Preference__c';
 import ABCL_CX_PREFERRED_LANGUAGE_ACCOUNT from '@salesforce/label/c.ABCL_CX_Preferred_language';
-import getEmailTemplates from '@salesforce/apex/ABCL_CX_SendCommunication.getEmailTemplates';
+//import getEmailTemplates from '@salesforce/apex/ABCL_CX_SendCommunication.getEmailTemplates';
 import { getObjectInfo } from "lightning/uiObjectInfoApi";
 import fetchAssets from "@salesforce/apex/Asf_FetchAssetRelatedToAccountController.fetchAssets";
 const ACCOUNT_FIELDS = ['Account.Business_Unit__c','Account.Phone'];
