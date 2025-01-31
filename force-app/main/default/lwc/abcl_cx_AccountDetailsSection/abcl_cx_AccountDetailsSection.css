@@ -61,3 +61,26 @@
 .clickable {
   cursor: pointer;
 }
+
+@keyframes blink {
+  0%, 100% {opacity: 1;}
+  50% {opacity: 0;}
+}
+
+.blinking-text {
+  animation: blink 1s linear infinite;
+}
+
+.hwc-header-icon {
+  --sds-c-icon-color-foreground-default: #FFD65C;
+}
+
+.brandcolor-icon {
+  --sds-c-icon-color-foreground: #C7222A;
+  --sds-c-icon-color-background: white;
+}
+
+@font-face {
+  font-family: 'Anek_Latin_Font';
+  src: url('/resource/Anek_Latin_Font.ttf') format('truetype');
+}

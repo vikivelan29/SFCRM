@@ -1,18 +1,19 @@
 import { LightningElement, track, api, wire } from 'lwc';
 import SOCIALMEDIAICONS from "@salesforce/resourceUrl/ABCL_SocailMediaIcons";
-import CUSTOMERSINCE_FIELD from '@salesforce/schema/Account.Customer_Since__c';
-import HWC_FIELD from '@salesforce/schema/Account.Handle_With_Care_HWC__c';
 import BUSINESS_UNIT from '@salesforce/schema/Account.Business_Unit__c';
-import HNICUSTOMER from '@salesforce/schema/Account.HNI_Customer__c';
 import getNpsScore from '@salesforce/apex/Asf_NpsIndicatiorController.getNpsScore';
+import getAccountInfoFields from '@salesforce/apex/ABCL_cx360Controller.getAccountInfoFields';
+import getHandleWithCareField from '@salesforce/apex/ABCL_cx360Controller.getHNIorHWCField';
+//import CUSTOMER_SINCE from '@salesforce/schema/Account.Customer_Since__c';
+//import CUSTOMER_HWC from '@salesforce/schema/Account.Handle_With_Care_HWC__c';
+//import CUST_ACTIVATION from '@salesforce/schema/Account.ABML_Activation_Date__c';
+//import CUST_STATUS from '@salesforce/schema/Account.ABML_Status__c';
+//import CUST_SENSITIVE from '@salesforce/schema/Account.Sensitive_Customer__c';
 import { getRecord } from 'lightning/uiRecordApi';
-import { lanLabels } from 'c/asf_ConstantUtility';
+import { lanLabels } from 'c/asf_ConstantUtility'; //sad
 import { NavigationMixin} from 'lightning/navigation';
 export default class Abcl_cx_customerCategoryAndHappiness extends NavigationMixin(LightningElement) {
-    //facebookLogo = `${SOCIALMEDIAICONS}/facebook.png`;
-    //xLogo = `${SOCIALMEDIAICONS}/twitter.png`;
-    //linkedInLogo = `${SOCIALMEDIAICONS}/linkedin.png`;
-    //instagramLogo = `${SOCIALMEDIAICONS}/instagram.png`;
+
     facebookLogo = `${SOCIALMEDIAICONS}/facebook.jpg`;
     xLogo = `${SOCIALMEDIAICONS}/twitter.jpg`;
     linkedInLogo = `${SOCIALMEDIAICONS}/linkedin.jpg`;
@@ -27,6 +28,7 @@ export default class Abcl_cx_customerCategoryAndHappiness extends NavigationMixi
     customerBU = '';
     isAbhfl;
     isWellness;
+    isAbml;
     isOther;
     showUndefinedNPS = false;
     showSadNPS = false;
@@ -36,10 +38,75 @@ export default class Abcl_cx_customerCategoryAndHappiness extends NavigationMixi
     employmenttype = '-';
     customerSince = '-';
     showHWC = false;
-    showHNI= false;
-
-    @wire(getRecord, { recordId: '$recordId', fields: [CUSTOMERSINCE_FIELD, HWC_FIELD, BUSINESS_UNIT,HNICUSTOMER] })
+    //ABML properties
+    accountOpeningDate='-';
+    clientAccountStatus='-';
+    //ABHFL_FIELDS=[CUSTOMER_SINCE,CUSTOMER_HWC];
+    //ABML_FIELDS=[CUST_ACTIVATION,CUST_STATUS,CUST_SENSITIVE];
+    fieldsToFetch;
+    fields = [];
+    @wire(getRecord, { recordId: '$recordId', fields: [BUSINESS_UNIT] })
     wiredRecord({ error, data }) {
+        if (data) {
+            console.log('wiredRecord>>', data);
+            //Business Unit
+            if (BUSINESS_UNIT.fieldApiName in data.fields) {
+                console.log('Business Unit 1>>',data.fields.Business_Unit__c.value);
+                const businessUnitValue = data.fields.Business_Unit__c.value;
+                this.businessUnit = data.fields.Business_Unit__c.value;
+                this.isAbhfl = businessUnitValue === 'ABHFL';
+                this.isWellness = businessUnitValue === 'Wellness';
+                this.isAbml = businessUnitValue === 'ABML';
+                console.log('this.isAbml>>',this.isAbml);
+                this.isOther = (businessUnitValue !== 'ABHFL' && businessUnitValue !== 'Wellness');
+                this.customerBU = businessUnitValue ?? '';
+                //
+                if(this.isAbhfl){
+                    //this.fieldsToFetch=this.ABHFL_FIELDS;
+                    this.getAccountFields();
+                    this.getHandleWithCareField();
+                }if(this.isAbml){
+                    //this.fieldsToFetch=this.ABML_FIELDS;
+                    this.getAccountFields();
+                }
+                this.loadNpsScore();
+            }
+            
+        } else if (error) {
+            console.error(error);
+        }
+    }
+
+    getAccountFields(){
+        getAccountInfoFields({recordId: this.recordId, businessUnit: this.businessUnit, tileName:'Customer Happiness'})
+            .then((fields) => {
+                this.fields = fields; // Populate the fields array
+                /**this.fields = fields.map(row => {
+                    // Add 'clickable' column based on condition
+                    return {
+                        ...row,
+                        clickable: row.label === 'Client Code' // true if label is 'xyz', otherwise false
+                    };
+                });**/
+            })
+            .catch((error) => {
+                console.error('Error fetching field set fields:', error);
+                this.error = error;
+            });
+    }
+    
+    getHandleWithCareField(){
+        getHandleWithCareField({recordId: this.recordId, businessUnit:this.businessUnit,scenario:'HWC' })
+        .then(result => {
+                    this.showHWC = result;
+        })
+        .catch(error => {
+            console.error('error handle with care', error);
+        });
+    }
+    /** 
+    @wire(getRecord, { recordId: '$recordId', fields:  })
+    wiredAccountRecord({ error, data }) {
         if (data) {
             //Customer since data
             if (CUSTOMERSINCE_FIELD.fieldApiName in data.fields) {
@@ -55,28 +122,27 @@ export default class Abcl_cx_customerCategoryAndHappiness extends NavigationMixi
                 }
             }
 
-            //Business Unit
-            if (BUSINESS_UNIT.fieldApiName in data.fields) {
-                const businessUnitValue = data.fields.Business_Unit__c.value;
-                this.isAbhfl = businessUnitValue === 'ABHFL';
-                this.isWellness = businessUnitValue === 'Wellness';
-                this.isOther = (businessUnitValue !== 'ABHFL' && businessUnitValue !== 'Wellness');
-                this.customerBU = businessUnitValue ?? '';
-                this.loadNpsScore();
+            //AMBL Account Opening Date
+            if (CUSTOMERSINCE_FIELD.fieldApiName in data.fields) {
+                this.accountOpeningDate = data.fields.ABML_Activation_Date__c.value;
+                let dateObject = new Date(this.accountOpeningDate);
+                this.accountOpeningDate = dateObject.toISOString().split('T')[0];;
             }
-            if (HNICUSTOMER.fieldApiName in data.fields) {
-                const hniCust = data.fields.HNI_Customer__c.value;
-                if(hniCust==true){
-                    this.showHNI=true;
+            //ABML Client Account Status
+            if (CUSTOMERSINCE_FIELD.fieldApiName in data.fields) {
+                this.clientAccountStatus = data.fields.ABML_Status__c.value;
+            }
+            
+            if(ABML_SENSITIVE_CUST.fieldApiName in data.fields){
+                if(data.fields.Sensitive_Customer__c.value == true){
+                    this.showHWC = true;
                 }
             }
-
-
-        } else if (error) {
+        }else if (error) {
             console.error(error);
         }
     }
-
+    */
 
     loadNpsScore() {
         getNpsScore({ customerId: this.recordId })
