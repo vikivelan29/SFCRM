@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABML Settings</label>
+    <protected>false</protected>
+    <values>
+        <field>Account_Info_Fields__c</field>
+        <value xsi:type="xsd:string">Trading ID:Client_Code__c,
+DP ID:ABML_DP_Code__pc,
+Demat Account Number:ABML_Primary_DP_ID__pc,
+DOB/DOC:PersonBirthDate,
+Email:PersonEmail,
+PAN Number:PAN__c,
+Phone Number:PersonMobilePhone,
+Gender:PersonGenderIdentity,
+Branch Relationship details:ABML_Client_Branch_Franchisee__pc,
+LOA Name:ABML_LOA_Name__pc</value>
+    </values>
+    <values>
+        <field>Business_Unit__c</field>
+        <value xsi:type="xsd:string">ABML</value>
+    </values>
+    <values>
+        <field>Customer_Happiness_Fields__c</field>
+        <value xsi:type="xsd:string">Account Opening Date:Active_Date__c,
+Client Account Status:ABML_Status__c</value>
+    </values>
+    <values>
+        <field>Customer_consent_fields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>HNI_Field__c</field>
+        <value xsi:type="xsd:string">ABML_Contact_Category__c:HNI</value>
+    </values>
+    <values>
+        <field>HWC_Field__c</field>
+        <value xsi:type="xsd:string">ABML_Sensitive__c:true</value>
+    </values>
+</CustomMetadata>

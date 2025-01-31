@@ -1,8 +1,9 @@
 import { LightningElement,api,track, wire } from 'lwc';
 import { getRecord } from 'lightning/uiRecordApi';
-import getFieldSetFields from '@salesforce/apex/ABCL_cx360Controller.getFieldSetFieldsAndValues';
+import getAccountInfoFields from '@salesforce/apex/ABCL_cx360Controller.getAccountInfoFields';
 import { NavigationMixin} from 'lightning/navigation';
-const ACCOUNT_FIELDS = ['Account.Business_Unit__c','Account.Name','Account.Salutation'];
+import getHNIField from '@salesforce/apex/ABCL_cx360Controller.getHNIorHWCField';
+const ACCOUNT_FIELDS = ['Account.Business_Unit__c','Account.Name','Account.Salutation','Account.HNI_Customer__c'];
 
 export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(LightningElement) {
 
@@ -27,7 +28,7 @@ export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(Light
     businessUnit; // Business unit value fetched from the Account record
     error; // Error messages for debugging
     title;
-
+    showHNI= false;
     // Wire to fetch Business Unit from Account record
     @wire(getRecord, { recordId: '$recordId', fields: ACCOUNT_FIELDS })
     wiredAccount({ data, error }) {
@@ -36,7 +37,8 @@ export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(Light
             this.businessUnit = data.fields.Business_Unit__c.value;
             this.title= data.fields.Salutation.value
             this.name = data.fields.Name.value;
-            this.name= this.name.length > 30 ? this.name.substring(0, 27) + "..." : this.name;
+            this.name= this.name.length > 23 ? this.name.substring(0, 20) + "..." : this.name;
+            this.getHNIField();
             // Fetch the fields from the appropriate field set
             this.fetchFieldSet();
         } else if (error) {
@@ -52,14 +54,17 @@ export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(Light
 
         // Determine the field set name based on the Business Unit
         switch (this.businessUnit) {
-            case 'ABFL':
+            case 'ABHFL':
                 fieldSetName = 'ABHFL_CX360_Fields';
+                break;
+            case 'ABML':
+                fieldSetName = 'ABML_CX360_Fields';
                 break;
             default:
                 fieldSetName = 'ABHFL_CX360_Fields';
         }
         // Call Apex method to get field set fields
-        getFieldSetFields({ objectName, fieldSetName, recordId: this.recordId })
+        getAccountInfoFields({recordId: this.recordId, businessUnit: this.businessUnit, tileName:'Account Info'})
             .then((fields) => {
                 this.fields = fields; // Populate the fields array
                 /**this.fields = fields.map(row => {
@@ -69,71 +74,20 @@ export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(Light
                         clickable: row.label === 'Client Code' // true if label is 'xyz', otherwise false
                     };
                 });**/
-                console.log('Fields retrieved from field set:', fields);
             })
             .catch((error) => {
                 console.error('Error fetching field set fields:', error);
                 this.error = error;
             });
     }
-    
-    
-    
-    navigateToAccDetails(){
-        console.log('Navigation Started');
-    this.invokeWorkspaceAPI('getFocusedTabInfo').then(focusedTab => {
-        var strtabId;
-        if(focusedTab.tabId){strtabId=focusedTab.tabId}
-        if(focusedTab.parentTabId){strtabId=focusedTab.parentTabId}
-        this.invokeWorkspaceAPI('openSubtab', {
-            parentTabId: strtabId,
-            pageReference: {
-            type: "standard__component",
-            attributes: {
-                componentName: "c__abcl_CommonTabNavigationPage",
-            },
-            state: {
-                c__accountId: this.recordId,
-                c__showAccountDetails: true
-            }
-            },
-            focus: true
-        }).then(response => {
-            this.invokeWorkspaceAPI('setTabLabel', {
-            tabId: response,
-            label: 'Account Details'
-            }),
-            this.invokeWorkspaceAPI('setTabIcon', {
-                tabId: response,
-                icon: "utility:snippet",
-                iconAlt: "apex_plugin"
-            })
-        });
-        });
-        console.log('Navigation End');
-    }
-    
-    invokeWorkspaceAPI(methodName, methodArgs) {
-        return new Promise((resolve, reject) => {
-        const apiEvent = new CustomEvent("internalapievent", {
-            bubbles: true,
-            composed: true,
-            cancelable: false,
- 
-            detail: {
-            category: "workspaceAPI",
-            methodName: methodName,
-            methodArgs: methodArgs,
-            callback: (err, response) => {
-                if (err) {
-                return reject(err);
-                } else {
-                return resolve(response);
-                }
-            }
-            }
-        });
-        window.dispatchEvent(apiEvent);
+    getHNIField(){
+        getHNIField({recordId: this.recordId, businessUnit:this.businessUnit,scenario:'HNI' })
+        .then(result => {
+            this.showHNI = result;    
+        })
+        .catch(error => {
+            console.error('HNI error ', error);
         });
     }
+    
 }

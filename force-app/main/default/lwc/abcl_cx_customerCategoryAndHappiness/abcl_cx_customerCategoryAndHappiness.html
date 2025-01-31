@@ -9,26 +9,55 @@
 
                     </lightning-formatted-text>
                 </div>
-                <div class="slds-col slds-text-align_right">
-                    <template if:true={showHNI}>
-                        <lightning-icon icon-name="utility:opportunity" alternative-text="HNI" title="HNI Customer"
-                        class="slds-m-right_small hwc-header-icon blinking-text" size="x-small"></lightning-icon>
-                    </template>
-                </div>
+                
             </div>
         </div>
 
         <div class="slider box-borders" style="height: fit-content;">
-            <div class="slds-grid slds-p-horizontal_xx-small slds-p-top_x-small">
-                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small">
-                    <p>Customer Since</p>
-                    <p class="sfdc-data">{customerSince}</p>
-                </div>
-                <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small">
-                    <p>Employment Type</p>
-                    <p class="sfdc-data">{employmenttype}</p>
-                </div>
+            <div class="slds-grid slds-wrap slds-p-left_medium">
+                <template for:each={fields} for:item="field">
+                    <div key={field.label} class="slds-col slds-size_1-of-2 slds-p-vertical_xx-small">
+                        <p>{field.label}</p>
+                        <template lwc:if={field.value}>
+                            <p class="sfdc-data">{field.value}</p>
+                        </template>
+                        <template lwc:else>
+                            <p class="sfdc-data">&nbsp; -</p>
+                        </template>
+                    
+                    </div>    
+                </template>
             </div>
+            <!--template if:true={isAbhfl}>
+                
+                <div class="slds-grid slds-wrap slds-p-left_medium">
+                    <template for:each={fields} for:item="field">
+                        <div key={field.label} class="slds-col slds-size_1-of-2 slds-p-vertical_xx-small">
+                            <p>{field.label}</p>
+                            <template lwc:if={field.value}>
+                                <p class="sfdc-data">{field.value}</p>
+                            </template>
+                            <template lwc:else>
+                                <p class="sfdc-data">-</p>
+                            </template>
+                        
+                        </div>    
+                    </template>
+                </div>
+            </template>
+            <template if:true={isAbml}>
+                <div class="slds-grid slds-p-horizontal_xx-small slds-p-top_x-small">
+                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small">
+                        <p>Account Opening Date</p>
+                        <p class="sfdc-data">{accountOpeningDate}</p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small">
+                        <p>Client Account Status</p>
+                        <p class="sfdc-data">{clientAccountStatus}</p>
+                    </div>
+                </div>
+            </template-->
+            
 
             <div class="slds-grid slds-p-horizontal_xx-small slds-p-top_x-small">
                 <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small">

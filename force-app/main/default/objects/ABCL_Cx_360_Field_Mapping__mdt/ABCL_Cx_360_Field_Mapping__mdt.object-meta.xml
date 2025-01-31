@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This metadata holds fields to be displayed in different cx 360 tiles based on business unit</description>
+    <label>ABCL Cx 360 Field Mapping</label>
+    <pluralLabel>ABCL Cx 360 Field Mappings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>
