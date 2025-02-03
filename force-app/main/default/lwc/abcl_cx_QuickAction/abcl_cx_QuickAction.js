@@ -8,7 +8,7 @@ import { getRecord } from 'lightning/uiRecordApi';
 import createCasesForLAN from '@salesforce/apex/ABCL_cx360Controller.createCasesForLang';
 import PREFERREDLANGUAGE_FIELD from '@salesforce/schema/Account.Language_Preference__c';
 import ABCL_CX_PREFERRED_LANGUAGE_ACCOUNT from '@salesforce/label/c.ABCL_CX_Preferred_language';
-//import getEmailTemplates from '@salesforce/apex/ABCL_CX_SendCommunication.getEmailTemplates';
+import getEmailTemplates from '@salesforce/apex/ABCL_CX_SendCommunication.getEmailTemplates';
 import { getObjectInfo } from "lightning/uiObjectInfoApi";
 import fetchAssets from "@salesforce/apex/Asf_FetchAssetRelatedToAccountController.fetchAssets";
 const ACCOUNT_FIELDS = ['Account.Business_Unit__c','Account.Phone'];
@@ -192,11 +192,11 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
     }
     handlePICSelect(event) {
         this.isPICChecked = event.target.checked;
-        console.log('Selected PIC', this.handlePICSelect);
+        console.log('Selected PIC', this.isPICChecked);
     }
     handleNDCSelect(event) {
         this.isNDCChecked = event.target.checked;
-        console.log('Selected NDC', this.handleNDCSelect);
+        console.log('Selected NDC', this.isNDCChecked);
     }
     handleWelcomeKitSelect(event) {
         this.isWKChecked = event.target.checked;
@@ -217,13 +217,27 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         }
         //if( (this.selectedLANId != undefined || this.selectedLANId !='') && (this.isSOAChecked==true || this.isRCChecked==true || this.isICChecked==true || this.isPICChecked==true || this.isNDCChecked==true || this.isWKChecked==false || this.isLODChecked==false)){
         if(this.callCreateCase==true){
-            this.isSOAChecked ? this.selectedDocuments.push('SOA') : null;
-            this.isRCChecked ? this.selectedDocuments.push('RS') : null;
-            this.isICChecked ? this.selectedDocuments.push('IC') : null;
-            this.isPICChecked ? this.selectedDocuments.push('PIC') : null;
-            this.isNDCChecked ? this.selectedDocuments.push('NDC') : null;
-            this.isWKChecked ? this.selectedDocuments.push('WK') : null;
-            this.isLODChecked ? this.selectedDocuments.push('LOD') : null;
+            if(this.isSOAChecked){
+                this.selectedDocuments.push('SOA');
+            }
+            if(this.isRCChecked){
+                this.selectedDocuments.push('RC');
+            }
+            if(this.isICChecked){
+                this.selectedDocuments.push('IntC');
+            }
+            if(this.isPICChecked){
+                this.selectedDocuments.push('PIC');
+            }
+            if(this.isNDCChecked){
+                this.selectedDocuments.push('NDC');
+            }
+            if(this.isWKChecked){
+                this.selectedDocuments.push('WK');
+            }
+            if(this.isLODChecked){
+                this.selectedDocuments.push('LOD');
+            }
             this.createCases();
         }
     }
@@ -395,7 +409,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         this.errorCases=[];
         this.successMessages=[];
         this.errorMessages=[];
-        
+        this.selectedDocuments=[];
     }
     
     navigateToRecord(caseId) {
@@ -462,12 +476,12 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         console.log("SMS sent");
         this.showSMSButton=true;
          this.getProductsOwned();
-        //this.getEmailTemplates();
+        this.getEmailTemplates();
         //this.createFormData(data);
         
     }
 
-  /**
+  
     @wire(getEmailTemplates)
         getEmailTemplates({ data, error }) {
             if (data) {
@@ -484,7 +498,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
                 console.error('Error fetching email templates: ', error);
             }
     }
-**/
+
     handleEmailChange(event) {
         try {
             console.log('@@@ handle template change target:', event.target.value); // Log selected value

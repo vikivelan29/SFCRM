@@ -2,7 +2,6 @@ import { LightningElement,api,track, wire } from 'lwc';
 import { getRecord } from 'lightning/uiRecordApi';
 import getAccountInfoFields from '@salesforce/apex/ABCL_cx360Controller.getAccountInfoFields';
 import { NavigationMixin} from 'lightning/navigation';
-import getHNIField from '@salesforce/apex/ABCL_cx360Controller.getHNIorHWCField';
 const ACCOUNT_FIELDS = ['Account.Business_Unit__c','Account.Name','Account.Salutation','Account.HNI_Customer__c'];
 
 export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(LightningElement) {
@@ -38,7 +37,7 @@ export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(Light
             this.title= data.fields.Salutation.value
             this.name = data.fields.Name.value;
             this.name= this.name.length > 23 ? this.name.substring(0, 20) + "..." : this.name;
-            this.getHNIField();
+            this.showHNI=data.fields.HNI_Customer__c.value;
             // Fetch the fields from the appropriate field set
             this.fetchFieldSet();
         } else if (error) {
@@ -80,14 +79,62 @@ export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(Light
                 this.error = error;
             });
     }
-    getHNIField(){
-        getHNIField({recordId: this.recordId, businessUnit:this.businessUnit,scenario:'HNI' })
-        .then(result => {
-            this.showHNI = result;    
-        })
-        .catch(error => {
-            console.error('HNI error ', error);
+    
+    
+    /** 
+    navigateToAccDetails(){
+    this.invokeWorkspaceAPI('getFocusedTabInfo').then(focusedTab => {
+        var strtabId;
+        if(focusedTab.tabId){strtabId=focusedTab.tabId}
+        if(focusedTab.parentTabId){strtabId=focusedTab.parentTabId}
+        this.invokeWorkspaceAPI('openSubtab', {
+            parentTabId: strtabId,
+            pageReference: {
+            type: "standard__component",
+            attributes: {
+                componentName: "c__abcl_CommonTabNavigationPage",
+            },
+            state: {
+                c__accountId: this.recordId,
+                c__showAccountDetails: true
+            }
+            },
+            focus: true
+        }).then(response => {
+            this.invokeWorkspaceAPI('setTabLabel', {
+            tabId: response,
+            label: 'Account Details'
+            }),
+            this.invokeWorkspaceAPI('setTabIcon', {
+                tabId: response,
+                icon: "utility:snippet",
+                iconAlt: "apex_plugin"
+            })
+        });
         });
     }
     
+    invokeWorkspaceAPI(methodName, methodArgs) {
+        return new Promise((resolve, reject) => {
+        const apiEvent = new CustomEvent("internalapievent", {
+            bubbles: true,
+            composed: true,
+            cancelable: false,
+ 
+            detail: {
+            category: "workspaceAPI",
+            methodName: methodName,
+            methodArgs: methodArgs,
+            callback: (err, response) => {
+                if (err) {
+                return reject(err);
+                } else {
+                return resolve(response);
+                }
+            }
+            }
+        });
+        window.dispatchEvent(apiEvent);
+        });
+    }*/
 }
