@@ -393,6 +393,8 @@ Delete response.newCaseDetail.Id;
                 label = 'State,City';
                 if(record.get('City__c') != null && String.valueOf(record.get('City__c')) != ''){
                     fieldValue +=  ', ' + record.get('City__c');
+                }else{
+                    fieldValue = fieldValue;
                 }
                 
             }
