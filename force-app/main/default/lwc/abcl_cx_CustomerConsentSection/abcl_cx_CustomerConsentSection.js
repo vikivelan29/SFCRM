@@ -17,10 +17,14 @@ export default class Abcl_cx_CustomerConsentSection extends LightningElement {
     wiredRecord({ error, data }) {
         if (data) {
             if (WHATSAPPOPT_FIELD.fieldApiName in data.fields) {
-                this.whatappOptIn = data.fields.WhatsApp_Opt_in_status__c.value;
+                if(data.fields.WhatsApp_Opt_in_status__c.value) {
+                    this.whatappOptIn = data.fields.WhatsApp_Opt_in_status__c.value;
+                }
             }
             if (ABCCONSENT_FIELD.fieldApiName in data.fields) {
-                this.abcOptIn = data.fields.ABC_Consent__c.value;
+                if(data.fields.ABC_Consent__c.value){
+                    this.abcOptIn = data.fields.ABC_Consent__c.value;
+                }
             }
         } else if (error) {
             console.error(error);
