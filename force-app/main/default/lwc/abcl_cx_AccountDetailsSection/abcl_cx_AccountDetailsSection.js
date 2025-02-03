@@ -2,6 +2,7 @@ import { LightningElement,api,track, wire } from 'lwc';
 import { getRecord } from 'lightning/uiRecordApi';
 import getAccountInfoFields from '@salesforce/apex/ABCL_cx360Controller.getAccountInfoFields';
 import { NavigationMixin} from 'lightning/navigation';
+import getHNIField from '@salesforce/apex/ABCL_cx360Controller.getHNIorHWCField';
 const ACCOUNT_FIELDS = ['Account.Business_Unit__c','Account.Name','Account.Salutation','Account.HNI_Customer__c'];
 
 export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(LightningElement) {
@@ -37,7 +38,7 @@ export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(Light
             this.title= data.fields.Salutation.value
             this.name = data.fields.Name.value;
             this.name= this.name.length > 23 ? this.name.substring(0, 20) + "..." : this.name;
-            this.showHNI=data.fields.HNI_Customer__c.value;
+            this.getHNIField();
             // Fetch the fields from the appropriate field set
             this.fetchFieldSet();
         } else if (error) {
@@ -79,4 +80,14 @@ export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(Light
                 this.error = error;
             });
     }
+    getHNIField(){
+        getHNIField({recordId: this.recordId, businessUnit:this.businessUnit,scenario:'HNI' })
+        .then(result => {
+            this.showHNI = result;    
+        })
+        .catch(error => {
+            console.error('HNI error ', error);
+        });
+    }
+    
 }
