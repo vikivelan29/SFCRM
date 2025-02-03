@@ -66,7 +66,7 @@ export default class Abcl_cx_ProductsOwned extends LightningElement {
             this.relatedAssets = data.assetRecords.map((asset) => {
                     return {
                         ...asset, // Spread existing fields
-                        FinalLabel: `${asset.LAN__r.LAN__c} : ${asset.LAN__r.Loan_Type__c}` // Concatenate two fields
+                        FinalLabel: `${asset.LAN__r.LAN__c} : ${asset.LAN__r.ProductCode}` // Concatenate two fields
                     };
                 });
             console.log('relatedAssets:::',JSON.stringify(this.relatedAssets) )
