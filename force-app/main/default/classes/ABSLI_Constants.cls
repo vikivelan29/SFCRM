@@ -28,7 +28,7 @@ public class ABSLI_Constants {
 	public static final List<String> CHECKLIST_SIGNATURECROPSIGNATUREMISMATCHANDNO_STATUS = new List<String>{'Signature Mismatched', 'No','Signature Not Cropped'};
     public static final List<String> NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION = new List<String>{'Married Women Property Act','Hindu Undivided Family Act','Key Man Act'};
     public static final String ASSIGNMENT_ISSUE_TYPE_VALIDATION = 'Married Women Property Act';
-    public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health';
+    public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health'; 
     public static final Map<String,String> FIELD_AND_TYPE_FOR_CUSTOMER_PORTAL_REDIRECTION = new Map<String,String>
     {'Reinstatement_Amount__c'=>'Decimal',
      'COI_Covid_Quest__c' => 'String',
@@ -74,7 +74,7 @@ public class ABSLI_Constants {
 
     /* BITLY INTEGRATION **/
     public static final String BITLY_LOB_VAL = '';
-    public static final Integer EXPIRY_DAY = 0;
+    public static final Integer EXPIRY_DAY = 7;
     public static final String BITLY_CLIENT_IP = '';
 
 
@@ -260,7 +260,7 @@ public class ABSLI_Constants {
     public static final List<String> SURRENDER_WITHDRAWAL_CASE_TYPES = new List<String>{'PPAY001','PPAY008'};
     public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_NAME = 'User Branch';
     public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_CODE = 'User123';
-
+  
     public static final String EMAIL_SOURCE_REQ_BY = 'Customer';
-
+  
 }
