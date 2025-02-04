@@ -74,7 +74,7 @@ public class ABSLI_Constants {
 
     /* BITLY INTEGRATION **/
     public static final String BITLY_LOB_VAL = '';
-    public static final Integer EXPIRY_DAY = 0;
+    public static final Integer EXPIRY_DAY = 7;
     public static final String BITLY_CLIENT_IP = '';
 
 
