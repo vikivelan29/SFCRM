@@ -39,7 +39,7 @@ public without sharing class ABCL_SurveyResponseHelper {
                     ABHFLcasemap.put(c.caseNumber,c.Id);
                 }
             for(Survey_Response__c surveyResponse : (List<Survey_Response__c>)newItems){
-                if(surveyResponse.Case__c == null && surveyResponse.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && surveyResponse.Case_Text__c != null && !ABHFLcasemap.isEmpty()){
+                if(surveyResponse.Case__c == null && surveyResponse.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && surveyResponse.Case_Text__c != null && !ABHFLcasemap.isEmpty() && ABHFLcasemap.containsKey(surveyResponse.Case_Text__c) ){
                    surveyResponse.Case__c =  ABHFLcasemap.get(surveyResponse.Case_Text__c);
                 } 
             }
