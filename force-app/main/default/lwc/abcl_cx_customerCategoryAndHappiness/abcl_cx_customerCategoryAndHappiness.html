@@ -62,10 +62,14 @@
             <div class="slds-grid slds-p-horizontal_xx-small slds-p-top_x-small">
                 <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small">
                     <p><strong>HWC</strong>
-                        <template if:true={showHWC}>
+                        <template lwc:if={showHWC}>
                             <img style="border: #C7222A 1px solid;height: 32px;width: 32px;" src={hwcLogo} alt="HWC Logo" class="slds-m-left_small"/>
                             <!--lightning-icon icon-name="standard:workforce_engagement" alternative-text="HWC"
                                 class="slds-m-left_small" size="medium"></lightning-icon-->
+                        </template>
+                        <template lwc:else>
+                            <lightning-icon icon-name="utility:close" alternative-text="NO HWC"
+                                class="slds-m-left_small smiley-utility-icon" size="medium"></lightning-icon>
                         </template>
                     </p>
                 </div>
