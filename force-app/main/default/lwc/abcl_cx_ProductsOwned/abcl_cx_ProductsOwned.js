@@ -16,7 +16,6 @@ export default class Abcl_cx_ProductsOwned extends LightningElement {
     fieldToBeStampedOnCase;
     selectedAsset = {};
     buttonVariant="neutral";
-    multiplecheckboxes=[];
     connectedCallback() {
         console.log('Record Id Products Owned Section LWC:', this.recordId); // Log or use the recordId as needed
         
