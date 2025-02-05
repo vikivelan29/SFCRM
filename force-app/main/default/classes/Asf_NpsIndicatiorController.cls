@@ -3,7 +3,7 @@
 *Description  :  Controller class for asf_NdcIndicator LWC
 *********************************************************/
 
-public without sharing class Asf_NpsIndicatiorController {
+public with sharing class Asf_NpsIndicatiorController {
    
     /****************************************************************************************************************
     * @LOB - ALL
