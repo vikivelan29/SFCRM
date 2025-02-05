@@ -24,11 +24,11 @@ public with sharing class ABFL_E2C_CreationRules {
         if(!emailMessages.isEmpty()){
             // Find eligible records
             Set<Id> caseIds = new Set<Id>();
-            Map<Id,EmailMessage> caseIdvsEmailMessage = new Map<Id,EmailMessage>();    // temporary logic added by vikas to block case creation from bounced emails.
+           // Map<Id,EmailMessage> caseIdvsEmailMessage = new Map<Id,EmailMessage>();    // temporary logic added by vikas to block case creation from bounced emails.
             for (EmailMessage email : emailMessages) {
                 // Check if the email is related to a case and is incoming
                 caseIds.add(email.ParentId);
-                caseIdvsEmailMessage.put(email.ParentId,email);   // added by vikas
+                //caseIdvsEmailMessage.put(email.ParentId,email);   // added by vikas
             }
 
             if (!caseIds.isEmpty()){
@@ -40,9 +40,9 @@ public with sharing class ABFL_E2C_CreationRules {
                     if (System.Label.ABCL_Case_Origin_for_E2C_Rules.split(',').contains(c.origin)) {
                         qualifiedCaseIds.add(c.Id);
                     }
-                    else if(caseIdvsEmailMessage.get(c.Id).FromAddress.contains('microsoftexchange')){          // added by vikas
+                   /* else if(caseIdvsEmailMessage.get(c.Id).FromAddress.contains('microsoftexchange')){          // added by vikas
 								qualifiedCaseIds.add(c.Id);                    // added by vikas
-                }  
+                }  */
                 }  
 
                 if (!qualifiedCaseIds.isEmpty()) {
@@ -53,9 +53,9 @@ public with sharing class ABFL_E2C_CreationRules {
 			if (metadataMap.containsKey(emailMsg.Winning_Email__c)) {
                             List<String> senderAndccList = new List<String>();
                             senderAndccList.add(emailMsg.FromAddress);
-                            if(!String.isBlank(emailMsg.CcAddress)){
+                            /*if(!String.isBlank(emailMsg.CcAddress)){
                                 senderAndccList.addAll(emailMsg.CcAddress.replaceAll('\\s', '').split(';'));
-                            }
+                            }*/
                             // Get creation rules for the mailbox and check conditions
                             for (E2C_Creation_Rules__mdt metadata : metadataMap.get(emailMsg.Winning_Email__c)) {
                                 // Check conditions and throw an error if needed
