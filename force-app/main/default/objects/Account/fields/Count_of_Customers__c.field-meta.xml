@@ -3,7 +3,7 @@
     <fullName>Count_of_Customers__c</fullName>
     <externalId>false</externalId>
     <label>Count of Customers</label>
-    <precision>4</precision>
+    <precision>18</precision>
     <required>false</required>
     <scale>0</scale>
     <trackFeedHistory>false</trackFeedHistory>

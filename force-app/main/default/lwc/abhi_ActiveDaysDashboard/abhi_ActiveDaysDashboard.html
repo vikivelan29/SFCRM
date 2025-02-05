@@ -1,0 +1,87 @@
+<!--
+  @description       : 
+  @author            : Shubham Sinha
+  @group             : 
+  @last modified on  : 31-07-2024
+  @last modified by  : Shubham Sinha
+-->
+<template>
+    <lightning-card title="Active Days Dashboard">
+        <div class="slds-m-around_medium">
+            <template if:true={isLoading}>
+                <div class="slds-backdrop" role="presentation"></div>
+                <div class="slds-fade-in-open slds-modal_large">
+                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                </div>
+            </template>
+            <div style="position: absolute; top: 0px; right: 10px; z-index: 10;">
+                <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" title="Refresh" size="medium" onclick={handleRefresh}></lightning-button-icon>
+            </div>
+            <lightning-layout class="slds-m-bottom_large slds-grid slds-wrap">
+                <lightning-layout-item size="4" class="slds-m-right_x-small">
+                    <lightning-input type="date" name="Startdate" value={startDate} onchange={handleStartDateChange}
+                        label="From Date" class="date-format-hide" format='YYYY-MM-dd' disabled={disabled}>
+                    </lightning-input>
+                </lightning-layout-item>
+                    <lightning-layout-item size="4" class="slds-m-right_small">
+                        <lightning-input type="date" name="Enddate" value={endDate} onchange={handleEndDateChange} 
+                            label="End Date" class="date-format-hide" format='YYYY-MM-dd'>
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="auto" style="margin-top: 20px; margin-left: 16px;">
+                        <lightning-button variant="brand" label="Search" onclick={handleSearch} disabled={isSearchDisabled} ></lightning-button>
+                </lightning-layout-item>                
+            </lightning-layout>
+            <template if:true={displayErrorSearch}>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                    <span style="font-size: 0.90rem;">{errorMessageSearch}</span> 
+                </div>
+            </template>    
+        </div>
+
+            <template if:true={showDataTable}>
+                <lightning-datatable
+                key-field="id"
+                data={recordTable}
+                columns={columns}
+                hide-checkbox-column
+            ></lightning-datatable>   <br/>           
+           <lightning-datatable
+            key-field="id"
+            data={recordTable2}
+            columns={columns2}
+            hide-checkbox-column
+        ></lightning-datatable> 
+        <div class="slds-align_absolute-center" style="height:5rem">
+            <lightning-button disabled={bDisableFirst} icon-name="utility:jump_to_left" label="First"
+                class="slds-p-horizontal_x-small" alternative-text="first page" onclick={firstPage}></lightning-button>
+            <lightning-button disabled={bDisableFirst} icon-name="utility:chevronleft" label="Previous"
+                alternative-text="Previous" onclick={previousPage}></lightning-button>
+            &nbsp;
+            <span class="slds-badge">Showing {pageNumber} &nbsp;of&nbsp; {totalPages} &nbsp;&nbsp;Page(s)</span>
+            &nbsp;
+            <lightning-button disabled={bDisableLast} icon-name="utility:chevronright" label="Next"
+                alternative-text="Next" onclick={nextPage} class="slds-p-horizontal_x-small"
+                icon-position="right"></lightning-button>
+            <lightning-button disabled={bDisableLast} icon-name="utility:jump_to_right" label="Last"
+                alternative-text="last page" onclick={lastPage} icon-position="right"></lightning-button>
+        </div>
+     <!----  <c-abfl_-data-table-with-pagination columns={columns2}
+        table-data={recordTable2} page-size = {label.pageSize}
+        onrowaction={callRowAction}></c-abfl_-data-table-with-pagination> -->
+    </template>
+    <template if:true={displayError}>
+        <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+            <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+            <span style="font-size: 0.90rem;">{errorMessage}</span> 
+        </div>
+    </template>       
+<!--
+        <template lwc:if={showChildTable}>
+            <c-abfl_base_view_screen api_id={apiName} payload-info={payloadInfo}></c-abfl_base_view_screen>
+        </template>
+        -->
+    </lightning-card>
+    
+</template>

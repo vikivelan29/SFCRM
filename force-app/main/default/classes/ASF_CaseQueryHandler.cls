@@ -144,7 +144,7 @@ public without sharing class ASF_CaseQueryHandler {
     public static list<ASF_Case_Stage_Config__c> getCaseStageConfigWithRlAndIntr(Set<String> cccExternalId){
         if(caseStageConfigs == null || refreshRecords){
             // VIRENDRA - 8 JUNE 2024 - ADDED Default_Queue_user_Name__c in QUERY.
-            caseStageConfigs = [SELECT ID,StageName__c,Status_Mapping__c,Order__c,Query_Fields__c,Manual_Stage__c,
+            caseStageConfigs = [SELECT ID,Case_Category_Config__r.isStageSkip__c,StageName__c,Status_Mapping__c,Order__c,Query_Fields__c,Manual_Stage__c,
                                 Is_Approval_Stage__c,Manual_Approval__c,Case_Category_Config__r.CCC_External_Id__c,
                                 Case_Category_Config__r.Order__c,SLA_Target_1_Type__c,SLA_Target_2_Type__c,SLA_Target_3_Type__c,
                                 Optional_Stage__c,Default_Queue__c,Default_Error_Queue__c, Gateway_Stage__c,

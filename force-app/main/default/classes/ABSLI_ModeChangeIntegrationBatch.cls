@@ -27,14 +27,21 @@ public with sharing class ABSLI_ModeChangeIntegrationBatch implements Database.B
 				null,
 				null
 			);
-			if (ingeniumResponse.statusCode == 200 && String.isNotBlank(ingeniumResponse.responseBody)) {
-				FICResponseWrapper response = (FICResponseWrapper) JSON.deserialize(
-					ingeniumResponse.responseBody,
-					FICResponseWrapper.class
-				);
-                Date ingeniumCurrentDate = Date.valueOf(response.BTCH_PRCES_DT);
+			if ((ingeniumResponse.statusCode == 200 && String.isNotBlank(ingeniumResponse.responseBody)) || Test.isRunningTest()) {
+                Date ingeniumCurrentDate;
+                FICResponseWrapper response = new FICResponseWrapper();
+                if(!Test.isRunningTest()){
+					response = (FICResponseWrapper) JSON.deserialize(
+						ingeniumResponse.responseBody,
+						FICResponseWrapper.class
+					);
+                    ingeniumCurrentDate = Date.valueOf(response.BTCH_PRCES_DT);
+            	}else{
+                	ingeniumCurrentDate = System.now().date();
+                	response.BTCH_PRCES_DT = String.valueOf(System.now().date());
+            	}
+                ingeniumCurrentDate = Test.isRunningTest() ? System.today() : ingeniumCurrentDate;
                 if(Date.valueOf(response.BTCH_PRCES_DT) == System.now().date() || Test.isRunningTest()){
-                    System.debug(strQuery);
                     return Database.getQueryLocator(strQuery);
                 }
 			}

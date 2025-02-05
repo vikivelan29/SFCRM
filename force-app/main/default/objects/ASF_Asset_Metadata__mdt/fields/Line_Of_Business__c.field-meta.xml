@@ -35,6 +35,11 @@
                 <label>ABSLIG</label>
             </value>
             <value>
+                <fullName>Wellness</fullName>
+                <default>false</default>
+                <label>Wellness</label>
+            </value>
+            <value>
                 <fullName>MF</fullName>
                 <default>false</default>
                 <label>MF</label>
@@ -54,6 +59,16 @@
                 <default>false</default>
                 <label>RE</label>
             </value>
-            </valueSetDefinition>
+            <value>
+                <fullName>ABHI</fullName>
+                <default>false</default>
+                <label>ABHI</label>
+            </value>
+            <value>
+                <fullName>Payment</fullName>
+                <default>false</default>
+                <label>Payment</label>
+            </value>
+        </valueSetDefinition>
     </valueSet>
 </CustomField>

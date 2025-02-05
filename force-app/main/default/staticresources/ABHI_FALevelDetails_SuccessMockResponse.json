@@ -1,0 +1,25 @@
+{
+
+    "eventTxnId": 567489301,
+    
+    "eventCode": "ED-Fitnes2",
+    
+    "eventDate": "2024-07-01",
+    
+    "customerNumber": "3665207",
+    
+    "eventValue": "10",
+    
+    "receivedDate": "2024-07-01",
+    
+    "totalScore": 10,
+    
+    "totalCount": 20,
+    
+    "effectiveToDate": "2024-07-31",
+    
+    "StatusCode": "1000",
+
+    "Message": "Success"
+    
+    }

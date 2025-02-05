@@ -1,0 +1,22 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;"><span style="font-size:10px;"><span style="font-family:Times New Roman,Times New Roman,Times,serif;"><span lang="EN-IN"><span style="line-height: 107%;"><span style="color: black;">Hi&nbsp;</span></span></span>{{{Case.Customer_name_formula__c}}}<span lang="EN-IN"><span style="line-height:107%"><span style="color:black">,</span></span></span><br />
+<br />
+<span lang="EN-IN"><span style="line-height:107%"><span style="color:black">Thank you for getting in touch with us.<br />
+<br />
+This is an automated response to your&nbsp;Request</span></span></span> <span lang="EN-IN"><span style="line-height:107%"><span style="color:black">&nbsp;for&nbsp;</span></span></span>{{{Case.Type}}}&nbsp;<span lang="EN-IN"><span style="line-height:107%"><span style="color:black">. Please note your interaction id is&nbsp;</span></span></span>{{{Case.CaseNumber}}}<span lang="EN-IN"><span style="line-height:107%"><span style="color:black">. The same will be attended soon.<br />
+<br />
+We request you not to reply&nbsp;on&nbsp;this system generated mail.<br />
+<br />
+If you have any further queries, kindly address these to </span></span></span><span lang="EN-IN"><span style="line-height:107%"><a href="mailto:bhc@adityabirlacapital.com" style="color:#0563c1; text-decoration:underline">bhc@adityabirlacapital.com</a></span></span><span lang="EN-IN"><span style="line-height:107%"><span style="color:black">&nbsp;or call us on our&nbsp;help desk number 08045860099.<br />
+<br />
+Assuring you of our best services at all times,<br />
+<br />
+<br />
+Best Regards,<br />
+<br />
+Customer Relationship Manager<br />
+Aditya Birla Money Ltd.</span></span></span></span></span></body>
+</html>

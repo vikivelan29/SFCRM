@@ -5,7 +5,7 @@ public with sharing class ABSLAMC_HoldingsByFolioController {
         
         resultWrapper wrap = new resultWrapper();
         Asset folio = getAsset(folioId);
-        string request = '{"folio_id":"'+folio.LAN__c+'"}';  
+        string request = '{"folio_id":"'+folio.Folio__c+'"}';  
         System.debug('requestSIP:'+request);
         ABCL_IntegrationCallout.IntegrationResponseWrapper responseWrapper = ABCL_IntegrationCallout.executeCallout('ABAMC_Get_SIP_Details', request, null);
         if(responseWrapper != null && responseWrapper.statusCode == 200){
@@ -24,7 +24,7 @@ public with sharing class ABSLAMC_HoldingsByFolioController {
         
         resultWrapper wrap = new resultWrapper();
         Asset folio = getAsset(folioId);
-        string request = '{"folio_id":"'+folio.LAN__c+'"}';  
+        string request = '{"folio_id":"'+folio.Folio__c+'"}';  
         System.debug('requestHolding:'+request);
         ABCL_IntegrationCallout.IntegrationResponseWrapper responseWrapper = ABCL_IntegrationCallout.executeCallout('ABAMC_Get_Holding_Details', request, null);
         if(responseWrapper != null && responseWrapper.statusCode == 200){
@@ -39,7 +39,7 @@ public with sharing class ABSLAMC_HoldingsByFolioController {
     }
     
     public static Asset getAsset(string assetId){
-        return [Select Id,LAN__c from Asset
+        return [Select Id,Folio__c from Asset
                 Where id =: assetId
                 AND Business_Unit__c =: ABSLAMC_Constants.ABSLAMCBU LIMIT 1];
     }

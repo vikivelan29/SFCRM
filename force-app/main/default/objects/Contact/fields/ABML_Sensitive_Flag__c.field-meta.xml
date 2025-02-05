@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABML_Sensitive_Flag__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL(ABML_Sensitive__c, &quot;Yes&quot;),
+IMAGE(&quot;/img/samples/flag_red.gif&quot;, &quot;red&quot;, 30, 30),
+&quot;Not Sensitive&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Sensitive Flag</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

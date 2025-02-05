@@ -2837,6 +2837,13 @@
     <layoutAssignments>
         <layout>ABSLAMC_Case_Detail__c-ABSLAMC Case Detail Layout</layout>
     </layoutAssignments>
+       <layoutAssignments>
+        <layout>Lead-ABSLAMC Lead Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead-ABSLAMC Lead Layout</layout>
+        <recordType>Lead.ABSLAMC_Leads</recordType>
+    </layoutAssignments>
     <layoutAssignments>
         <layout>ASF_Communication_Log__c-Communication Log Layout</layout>
     </layoutAssignments>

@@ -1,5 +1,5 @@
 import { LightningElement, track, api, wire } from 'lwc';
-import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.getAccountDataByCustomerType';
+import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.getTypeSubTypeByCustomerDetails';
 import getCaseRelatedObjName from '@salesforce/apex/ASF_GetCaseRelatedDetails.getCaseRelatedObjName';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import { createRecord } from 'lightning/uiRecordApi';
@@ -11,6 +11,7 @@ import createProspectCase from '@salesforce/apex/ASF_CustomerAndProspectSearch.c
 import { getObjectInfo, getObjectInfos, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
+import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
@@ -22,7 +23,7 @@ import TRACK_ID from '@salesforce/schema/Case.Track_Id__c';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import CASE_BUSINESS_UNIT_FIELD from '@salesforce/schema/Case.Business_Unit__c';
-
+import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-302
 import CASE_OBJECT from '@salesforce/schema/Case';
 import ABSLI_CASE_DETAIL_OBJECT from '@salesforce/schema/ABSLI_Case_Detail__c';
 
@@ -36,10 +37,14 @@ import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 import { lanLabels } from 'c/asf_ConstantUtility';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
+import ABHI_Track_Sources from '@salesforce/label/c.ABHI_Track_Sources';
+import ABCD_TrackId_Source from '@salesforce/label/c.ABCD_TrackId_Source';
 import ANI_NUMBER from '@salesforce/schema/Case.ANI_Number__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
+import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
+import * as validator from 'c/asf_CreateCaseValidations';
 
 export default class Asf_CreateCaseWithProspect extends NavigationMixin(LightningElement) {
     @track loaded = true;
@@ -95,8 +100,13 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     @api bsliRecTypeId;
     isPhoneInbound = false;
     currentObj = CASE_OBJECT.objectApiName;
+    //ABHI
+    abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
     natureVal = '';
     cols;
+    //oneabc
+    selectedCccBu = '';
+    aniRequired = true;
     dupeLeadCols = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
         { label: 'Email', fieldName: 'Email', type: 'text' },
@@ -125,10 +135,10 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     wiredPicklistValues({ error, data}) {
         if (data){
             if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
-                this.noAutoCommOptions = data.values.map(item => ({
-                    label: item.label,
-                    value: item.value
-                }));
+                //this.noAutoCommOptions = data.values.map(item => ({
+                    //label: item.label,
+                    //value: item.value
+                //}));
 
                 this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
                 this.defaultRecTypeId = this.bsliRecTypeId;
@@ -140,19 +150,37 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                     value: item.value
                 }));
             }
-            
+            this.adjustAutoCommunications(data);
             console.log('picklist options--'+JSON.stringify(this.noAutoCommOptions)+'--'+JSON.stringify(this.categoryTypeOptions));
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
-
+    // Rajendra Singh Nagar: PR1030924-209 - Added function
+    adjustAutoCommunications(data){
+        if(AUTO_COMM_BU_OPT[this.loggedInUserBusinessUnit]?.OPTSLBLS){
+            this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.loggedInUserBusinessUnit].OPTSLBLS.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        }else{
+            if(data){
+                this.noAutoCommOptions = data.values.map(item => ({
+                    label: item.label,
+                    value: item.value
+                }));
+            }
+        }
+    }
 
     @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
-            this.cols = lanLabels[this.loggedInUserBusinessUnit].CTST_COLS != null? lanLabels[this.loggedInUserBusinessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+            this.cols = lanLabels[this.loggedInUserBusinessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
+
+            //invoke adjustAutoCommunications once logged in User BU is identified
+            this.adjustAutoCommunications(undefined);
         } else if (error) {
             //this.error = error ;
         }
@@ -179,7 +207,12 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         this.showIssueType = false;
         this.ftrValue = false;
         
-        getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "Prospect", accRecordType: null, assetLob : null })
+        const inpArg = new Map();
+
+        inpArg['requestFrom'] = 'Lead';
+        let strInpArg = JSON.stringify(inpArg);
+
+        getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "Prospect", accRecordType: null, assetLob : null, inpArg : strInpArg})
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
@@ -230,6 +263,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         this.trackId = '';
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         if (selected) {
+            this.selectedCccBu = selected.Business_Unit__c;
             this.natureVal = selected.Nature__c;
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
@@ -237,12 +271,15 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if(this.showFromGlobalSearch == false){
                 this.disableCreateBtn = false;
             }
+            if(this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
+            }
         }
         if ((selected) && (this.loggedInUserBusinessUnit == 'ABFL')) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
-        if ((selected) && (this.loggedInUserBusinessUnit == ABSLI_BU)) {
+        if ((selected) && (this.loggedInUserBusinessUnit === ABSLI_BU || this.loggedInUserBusinessUnit == ABHI_BU || this.loggedInUserBusinessUnit === ABCD_BU)) {
             this.boolNoAutoComm = false;
         }
         if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
@@ -251,11 +288,19 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
+        if(this.loggedInUserBusinessUnit === ABCD_BU && this.sourceFldValue.trim() === ABCD_TrackId_Source){
+            this.aniRequired = false;
+            this.isPhoneInbound = true;
+            this.showAniNumber = true;
+        }
+        if((selected) && this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+            this.isPhoneInbound = true;
+        }
         let bsliSourceList = ABSLI_Track_Sources.includes(',') ? ABSLI_Track_Sources.split(',') : ABSLI_Track_Sources;
             if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
-                this.isPhoneInbound = true;
-                this.showAniNumber = true;
-            }
+            this.isPhoneInbound = true;
+            this.showAniNumber = true;
+        }
         if((selected) && selected.Allowed_Issue_Types__c && this.loggedInUserBusinessUnit === ABSLI_BU){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
@@ -285,6 +330,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 if(this.sourceFldOptions.length === 1) {
                     this.boolSourceComboboxDisabled = true;
                 }
+            }
+            if(this.loggedInUserBusinessUnit === ABCD_BU){
+                this.boolAllChannelVisible = false;
             }
             this.disbleNextBtn = false;
         }
@@ -327,13 +375,18 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         });
         this.dispatchEvent(event);
     }
+    handleFieldChange(event){ 
+        this.disableCreateBtn = false;
+        this.dupeLead = [];
+        this.showDupeList = false;
+    }
     isInputValid() {
         let isValid = true;
         let inputFields = this.template.querySelectorAll('lightning-input-field');
         inputFields.forEach(inputField => {
             //if (inputField.value != null && inputField.value != undefined) {
 
-            if (inputField.required == true) {
+            if (inputField.required == true) { 
                 if (inputField.value != null && inputField != undefined) {
                     if (inputField.value.trim() == '') {
                         inputField.value = '';
@@ -357,10 +410,12 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                     isValid = false;
                 }
                 else if(inputField.value != null && inputField.value != undefined){
-                    if(inputField.value.trim() == ''){
-                        inputField.value = '';
-                        inputField.reportValidity();
-                        isValid = false;
+                    if(inputField.label != 'ANI Number' && this.aniRequired != true){
+                        if(inputField.value.trim() == ''){
+                            inputField.value = '';
+                            inputField.reportValidity();
+                            isValid = false;
+                        }
                     }
                 }
             });
@@ -487,8 +542,35 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             caseRecord[BSLI_ISSUE_TYPE.fieldApiName] = this.issueTypeVal;
         }
         caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.loggedInUserBusinessUnit;
+        
+        if(this.loggedInUserBusinessUnit === ABCD_BU){
+            caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.selectedCccBu;
+        }
+        
+         const caseRecordforVal = { apiName: CASE_OBJECT.objectApiName, fields: caseRecord };
+
         caseRecord["sobjectType"] = "Case"; 
         this.noAutoCommValue = [];
+
+        // this.loaded = false;
+        //console.log('validation--'+selected.Validation_method_during_creation__c);
+        if(selected.Validation_method_during_creation__c){
+            console.log('invoking validator');
+            let methodName = selected.Validation_method_during_creation__c;
+            let validationResult = await validator[methodName](caseRecordforVal,'prospect');
+            console.log('returned with dynamic method '+JSON.stringify(validationResult));
+            if(validationResult.isSuccess == false){
+                this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
+                this.loaded = true;
+                this.disableCreateBtn = true;
+                this.selectedCTSTFromProspect = null;
+                this.resetFields();
+                return;
+            }
+            console.log('ending validator');
+        } 
+       // this.loaded = false;
+       
         
         createProspectCase({ caseToInsert: caseRecord, caseExtnRecord: caseExtnRecord, prospectRecord: leadRecord })
             .then(result => {
@@ -527,11 +609,11 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 console.log('tst225572' + JSON.stringify(error));
                 this.loaded = true;
                 this.disableCreateBtn = false;
-                this.resetFields();
-                this.showError('error', 'Oops! Error occured', error);
+                //this.resetFields();
+                this.showError('error', 'Oops! Error occured', error); 
 
 
-            })
+            }) 
 
 
     }
@@ -573,6 +655,14 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 this.isPhoneInbound = true;
                 this.showAniNumber = true;
             }
+            if(this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
+            }
+            if(this.loggedInUserBusinessUnit === ABCD_BU && this.sourceFldValue.trim() === ABCD_TrackId_Source){
+                this.aniRequired = false;
+                this.isPhoneInbound = true;
+                this.showAniNumber = true;
+            }
         }
         //code added by sunil - 03/09/2024
         this.checkTrackIdCondition();
@@ -601,6 +691,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             }
         }
     }
+    
     handleChangeChannel(event) {
         this.strChannelValue = event.target.value;
     }
@@ -616,6 +707,5 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     handleIssueTypeChange(event){
         this.issueTypeVal = event.detail.value;
     }
-    //END  method code added by sunil- 03/09/2024
       
 }

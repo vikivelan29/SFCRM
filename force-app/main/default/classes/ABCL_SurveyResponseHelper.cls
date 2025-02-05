@@ -7,7 +7,9 @@
 *@description :  Helper class for ABCL_SurveyResponseTriggerHandler
 *********************************************************/
 public without sharing class ABCL_SurveyResponseHelper {
+
     public static final List<String> LINE_OF_BUSINESS = new List<String>{'ABFL','ABWM', 'ABSLAMC','ONEABC','ABCD','ABHFL'};
+
         /****************************************************************************************************************
          * @function - associateCustomerAndAsset
          * @description - Invoked from the ABCL_SurveyResponseTriggerHandler class to associate customer/asset with survery response

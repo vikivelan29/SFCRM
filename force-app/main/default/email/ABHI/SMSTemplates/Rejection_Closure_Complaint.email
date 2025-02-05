@@ -1,0 +1,9 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear Customer,<br />
+We wish to inform you that your Service Request No. {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been closed. Please refer to the email on your registered email ID for further details.<br />
+Regards,<br />
+ABHI</body>
+</html>

@@ -32,14 +32,17 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
         System.debug('***escapeSingleQuotes:'+escapeSingleQuotes);
         String dynamicQuery = '';
         List<Sobject> assetRecLst = new List<SObject>();
-        if(!ASF_Constants.BUSpecificLANKey.contains(accLOB)){
+        if(!ASF_Constants.SKIPBULANMAPPING.contains(accLOB)){
             dynamicQuery     = 'SELECT ' + escapeSingleQuotes + ' FROM LAN_Mapping__c WHERE Customer__c =:accountRecordId AND Lan__c != null';
-            System.debug('***dynamicQuery:'+dynamicQuery);
+            System.debug('***dynamicQuery:1:'+dynamicQuery);
+            if(ASF_Constants.FETCH_ASSETS_FOR_BUCLAUSE.containsKey(accLOB)){
+                dynamicQuery+= ASF_Constants.FETCH_ASSETS_FOR_BUCLAUSE.get(accLOB);
+            }
             assetRecLst = Database.query(dynamicQuery);
         }
 
         findAssetObj.columnNameList = colmnNameList;
-        if(!ASF_Constants.BUSpecificLANKey.contains(accLOB)){
+        if(!ASF_Constants.SKIPBULANMAPPING.contains(accLOB)){
             findAssetObj.assetRecords   = (List<LAN_Mapping__c>) assetRecLst;
         }
         else{
@@ -93,6 +96,10 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
                     typeAttrbtObj.month = 'numeric';
                     typeAttrbtObj.year  = 'numeric';
                 }
+                else if(fieldType == 'date-local') {
+                    typeAttrbtObj.day   = '2-digit';
+                    typeAttrbtObj.month = '2-digit';
+                }
                 else if(fieldType == 'url') {
                     if(fieldApiName == 'LAN__r.Name') {
                         colNameObj.fieldName = 'assetNameRecLink';
@@ -104,6 +111,12 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
 
                     }
                     else if(fieldApiName == 'LAN__r.Policy_No__c') {
+                        colNameObj.fieldName = 'assetLanRecLink';
+                        toolTp.fieldName = fieldApiName;
+                        typeAttrbtObj.tooltip = toolTp;
+
+                    }
+                    else if(fieldApiName == 'LAN__r.ContractId__c') {
                         colNameObj.fieldName = 'assetLanRecLink';
                         toolTp.fieldName = fieldApiName;
                         typeAttrbtObj.tooltip = toolTp;

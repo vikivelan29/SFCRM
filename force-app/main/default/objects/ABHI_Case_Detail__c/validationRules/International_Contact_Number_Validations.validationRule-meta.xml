@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>International_Contact_Number_Validations</fullName>
+    <active>true</active>
+    <description>International_Contact_Number_Validations</description>
+    <errorConditionFormula>AND(
+  NOT(ISNEW()),  
+  NOT(ISBLANK(International_Contact_Number__c)), 
+  OR(
+    LEN((International_Contact_Number__c)) &lt;&gt; 15,  
+    NOT(REGEX((International_Contact_Number__c), &quot;[0-9]+&quot;)), 
+    REGEX((International_Contact_Number__c), &quot;(.)\\1{14}&quot;), 
+    LEFT((International_Contact_Number__c), 5) = &quot;12345&quot;
+  )
+)</errorConditionFormula>
+    <errorDisplayField>International_Contact_Number__c</errorDisplayField>
+    <errorMessage>International Contact Number must be valid 15 digit</errorMessage>
+</ValidationRule>

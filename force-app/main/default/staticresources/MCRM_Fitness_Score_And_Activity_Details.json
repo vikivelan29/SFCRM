@@ -1,0 +1,123 @@
+{
+    "operationStatus": "SUCCESS",
+    "serviceMessages": [
+        {
+            "systemCode": "JAVAFSTXSERINF001",
+            "businessCode": "FSTXSERINF001",
+            "businessDesc": "Result found",
+            "serviceMessageType": "INFORMATION",
+            "messageTime": "2024-09-02T23:32:22.223+05:30"
+        }
+    ],
+    "responseMap": {
+        "resultsList": [
+            {
+                "gender": "M",
+                "totalFsScore": 2.00,
+                "startDate": "2023-11-08T00:00:00.000+05:30",
+                "expiryDate": "2024-11-07T00:00:00.000+05:30",
+                "scoreDate": "2023-11-15T00:00:00.000+05:30",
+                "tierLevelName": "Green",
+                "customerNumber": "3727959",
+                "activities": [
+                    {
+                        "name": "Fasting Blood Sugar mgdl",
+                        "code": "DIABTS",
+                        "value": "104",
+                        "score": 0.0,
+                        "effFromDate": "2023-11-08T00:00:00.000+05:30",
+                        "effToDate": "2024-11-07T00:00:00.000+05:30",
+                        "attributes": [
+                            {
+                                "attributeCode": "EA-EventChannel",
+                                "attributeValue": "EHR"
+                            },
+                            {
+                                "attributeCode": "INCOUNTRY",
+                                "attributeValue": "Y"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Total cholesterol",
+                        "code": "TOTCHL",
+                        "value": "183",
+                        "score": 0.0,
+                        "effFromDate": "2023-11-08T00:00:00.000+05:30",
+                        "effToDate": "2024-11-07T00:00:00.000+05:30",
+                        "attributes": [
+                            {
+                                "attributeCode": "EA-EventChannel",
+                                "attributeValue": "EHR"
+                            },
+                            {
+                                "attributeCode": "INCOUNTRY",
+                                "attributeValue": "Y"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Smoking Status",
+                        "code": "SMOKER",
+                        "value": "No",
+                        "score": 0.0,
+                        "effFromDate": "2023-11-08T00:00:00.000+05:30",
+                        "effToDate": "2024-11-07T00:00:00.000+05:30",
+                        "attributes": [
+                            {
+                                "attributeCode": "EA-EventChannel",
+                                "attributeValue": "EHR"
+                            },
+                            {
+                                "attributeCode": "INCOUNTRY",
+                                "attributeValue": "Y"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Diastolic",
+                        "code": "BPMDIA",
+                        "value": "80",
+                        "score": 0.0,
+                        "effFromDate": "2023-11-08T00:00:00.000+05:30",
+                        "effToDate": "2024-11-07T00:00:00.000+05:30",
+                        "attributes": [
+                            {
+                                "attributeCode": "EA-EventChannel",
+                                "attributeValue": "EHR"
+                            },
+                            {
+                                "attributeCode": "INCOUNTRY",
+                                "attributeValue": "Y"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Systolic",
+                        "code": "BPMSYS",
+                        "value": "112",
+                        "score": 0.0,
+                        "effFromDate": "2023-11-08T00:00:00.000+05:30",
+                        "effToDate": "2024-11-07T00:00:00.000+05:30",
+                        "attributes": [
+                            {
+                                "attributeCode": "EA-EventChannel",
+                                "attributeValue": "EHR"
+                            },
+                            {
+                                "attributeCode": "INCOUNTRY",
+                                "attributeValue": "Y"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "AGE",
+                        "code": "AGE",
+                        "value": "49",
+                        "score": 2.0
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Used for Wellness Agents</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Wellness User</label>
+    <permissionSets>Create_Case</permissionSets>
+    <permissionSets>Wellness_CRM_User_PS</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

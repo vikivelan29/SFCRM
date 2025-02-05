@@ -1,0 +1,13 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p>Dear Customer,<br />
+<br />
+Your {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} registered with reference no. {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} is resolved. Communication regarding the same is shared on your registered email id.<br />
+<br />
+Warm regards,<br />
+Aditya Birla Wellness</p>
+</body>
+</html>

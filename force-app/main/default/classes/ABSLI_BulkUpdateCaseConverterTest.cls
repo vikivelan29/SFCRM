@@ -42,15 +42,17 @@ public class ABSLI_BulkUpdateCaseConverterTest {
         caserec.CCC_External_Id__c = 'EC0001';
         update caserec;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","Claim Decision":"Test", "Remarks":"Test", "Sub Status":"Status","Close Case":"TRUE"}');
+        jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","Claim Decision":"Test", "Remarks":"Test", "Sub Status":"Status","Close Case":"yes"}');
         ABSLI_BulkUpdateCaseConverterUtility utility = new ABSLI_BulkUpdateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
-        jsonRows.put(lineitem.Id, '{"Case number":"98989","Claim Decision":"Test", "Remarks":"Test", "Sub Status":"Status","Close Case":"FALSE"}');
+        jsonRows.put(lineitem.Id, '{"Case number":"98989","Claim Decision":"Test", "Remarks":"Test", "Sub Status":"Status","Close Case":"no"}');
         utility.convertJSONRows(jsonRows);
         jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","Claim Decision":"", "Remarks":"Test", "Sub Status":"Status"}');
         utility.convertJSONRows(jsonRows);
         jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","Claim Decision":"Test", "Remarks":"", "Sub Status":"Status"}');
+        utility.convertJSONRows(jsonRows);
+        jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","Claim Decision":"Test", "Remarks":"Test", "Sub Status":"Status","Close Case":"FALSE"}');
         utility.convertJSONRows(jsonRows);
         Test.stopTest();
     }
@@ -66,16 +68,16 @@ public class ABSLI_BulkUpdateCaseConverterTest {
         insert lineitem;
         case caserec = [select CaseNumber,Status from Case LIMIT 1];
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Case number":"","Claim Decision":"Test", "Remarks":"Test", "Sub Status":"Status","Close Case":"FALSE"}');
+        jsonRows.put(lineitem.Id, '{"Case number":"","Claim Decision":"Test", "Remarks":"Test", "Sub Status":"Status","Close Case":"no"}');
         ABSLI_BulkUpdateCaseConverterUtility utility = new ABSLI_BulkUpdateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
-        jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","Claim Decision":"Test", "Remarks":"Test", "Sub Status":"Status","Close Case":"FALSE"}');
+        jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","Claim Decision":"Test", "Remarks":"Test", "Sub Status":"Status","Close Case":"no"}');
         utility.convertJSONRows(jsonRows);
         ASF_TriggerSkipperUtility.markTriggerRun('Case');
         caserec.Status = 'Resolved';
         update caserec;
-        jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","Claim Decision":"Test", "Remarks":"Test", "Sub Status":"Status","Close Case":"FALSE"}');
+        jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","Claim Decision":"Test", "Remarks":"Test", "Sub Status":"Status","Close Case":"no"}');
         utility.convertJSONRows(jsonRows);
         Test.stopTest();
     }

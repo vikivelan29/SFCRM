@@ -1,0 +1,192 @@
+{
+    "operationStatus": "SUCCESS",
+    "serviceMessages": [
+        {
+            "systemCode": "JAVAUSGSERINF001",
+            "businessCode": "USGSERINF001",
+            "businessDesc": "Found entry(ies)",
+            "serviceMessageType": "INFORMATION",
+            "messageTime": "2024-09-02T23:04:37.648+05:30"
+        }
+    ],
+    "responseMap": {
+        "resultsList": [
+            {
+                "partnerCd": "PAR-Goibib",
+                "partnerName": "Goibibo",
+                "benefitCd": "BNR-GO6Lite-DOM",
+                "benefitDesc": "GO6 Lite-DOM",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 2.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 2.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-EaseMyTrip",
+                "partnerName": "Ease My Trip",
+                "benefitCd": "BNR-EMTDOMFLIGHTFIT",
+                "benefitDesc": "EMT DOM FLIGHT FIT",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 2.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 2.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-Goibib",
+                "partnerName": "Goibibo",
+                "benefitCd": "BNR-GO5-HotelRewardp",
+                "benefitDesc": "GO5 Lite-Hotel Reward points",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 3.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 3.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-EaseMyTrip",
+                "partnerName": "Ease My Trip",
+                "benefitCd": "BNR-EMTHotelFit",
+                "benefitDesc": "EMT Hotel Fit",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 3.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 3.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-Samsun",
+                "partnerName": "Samsung",
+                "benefitCd": "BNR-SA1-",
+                "benefitDesc": "SA1 - Samsung Discount",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 9.9999999E7,
+                "usedBenefit": 0.0,
+                "remainBenefit": 9.9999999E7,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-PVR",
+                "partnerName": "PVR",
+                "benefitCd": "BNR-PV2Lite-PVRMovie",
+                "benefitDesc": "PV2 Lite - PVR Movie Discount",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 2.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 2.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-Bigbas",
+                "partnerName": "Big basket",
+                "benefitCd": "BNR-BB2Lite-GroceryD",
+                "benefitDesc": "BB2Lite-Grocery Discount",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 1.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 1.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-AmazonFive",
+                "partnerName": "Amazon",
+                "benefitCd": "BNR-Amazonfive",
+                "benefitDesc": "Amazonfive",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 9999999.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 9999999.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-AmazonOthers",
+                "partnerName": "Amazon Others",
+                "benefitCd": "BNR-AmazonOthersFit",
+                "benefitDesc": "Amazon Others Fit",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 50000.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 50000.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-Amazon-GSP",
+                "partnerName": "Amazon-GSP",
+                "benefitCd": "BNR-Amazon-GSP-Fit",
+                "benefitDesc": "Amazon-GSP-Fit",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 4000.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 4000.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-NSPA",
+                "partnerName": "Natural Spa",
+                "benefitCd": "BNR-NSPA",
+                "benefitDesc": "NS1- Natural Spa",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 10000.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 10000.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-Amazon",
+                "partnerName": "Amazon",
+                "benefitCd": "BNR-AM3-LiteAmazonFa",
+                "benefitDesc": "AM3-Lite Amazon Fashion Reward Points",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 3000.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 3000.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-IOCL",
+                "partnerName": "IOCL",
+                "benefitCd": "BNR-IOLite-IOCLFuelP",
+                "benefitDesc": "IOLite - IOCL Fuel Purchase Reward Points",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 4000.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 4000.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-Zomato",
+                "partnerName": "Zomato",
+                "benefitCd": "BNR-ZomatoGold",
+                "benefitDesc": "Zomato Gold",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 1.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 1.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-Zomato",
+                "partnerName": "Zomato",
+                "benefitCd": "BNR-ZomatoSilver",
+                "benefitDesc": "Zomato Silver",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 1.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 1.0,
+                "totalSaved": 0.0
+            },
+            {
+                "partnerCd": "PAR-Uber",
+                "partnerName": "Uber",
+                "benefitCd": "BNR-UberFitPlan",
+                "benefitDesc": "Uber Fit Plan",
+                "contractMemberName": "Priyanka Salunke",
+                "threshold": 1.0,
+                "usedBenefit": 0.0,
+                "remainBenefit": 1.0,
+                "totalSaved": 0.0
+            }
+        ]
+    }
+}

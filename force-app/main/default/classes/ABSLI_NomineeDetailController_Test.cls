@@ -46,6 +46,31 @@ public class ABSLI_NomineeDetailController_Test {
         System.assertEquals('Test Nominee', response.nominees[0].name);
     }
     
+    @isTest
+    static void testNomineeDetailsNegative1(){
+        Asset assetRec = [Select Id,Policy_No__c From Asset limit 1];
+        system.debug('PolicyNo:::'+assetRec.Policy_No__c);
+        /* MultiStaticResourceCalloutMock mock = new MultiStaticResourceCalloutMock();
+       	mock.setStaticResource(ABCL_Integrations__mdt.getInstance('ABSLI_Policy_Nominee').EndPoint__c,'ABSLI_GetNomineeDetailsMockResponse');
+        mock.setStaticResource(ABCL_Integrations__mdt.getInstance('ABSLI_Policy_Nominee').EndPoint__c,'ABSLI_GetNomineeDetailsMockResponse');
+        mock.setStatusCode(200);
+        mock.setHeader('Content-Type', 'application/json');
+        Test.setMock(HttpCalloutMock.class, mock);*/
+        Test.setMock(HttpCalloutMock.class, new ABSLI_NomineeDetailResponseGeneratorNegative());
+        Test.startTest();
+        ABSLI_NomineeDetailController.ObjRequest objreq = new ABSLI_NomineeDetailController.ObjRequest(assetRec.Policy_No__c);
+        objreq.POLICY_NO= '';
+        objreq.ClientIPAddress= '';
+        objreq.DeviceID= '';
+        objreq.OS= '';
+        objreq.IMEI= '';
+        ABSLI_NomineeDetailController.nomineeResponse response = ABSLI_NomineeDetailController.getNomineeFromCore(assetRec.Id);
+        Test.stopTest();
+        // Verify the response
+        System.assertEquals(response.bSuccess,false);
+
+    }
+    
     public class ABSLI_NomineeDetailResponseGenerator implements HttpCalloutMock {
         /**
             * @description  Mocking failure response
@@ -56,6 +81,22 @@ public class ABSLI_NomineeDetailController_Test {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
             String s = '{\"ReturnCode\":\"0\",\"ReturnMessage\":\"\",\"lstDetails\":[{\"POLICY_NO\":\"1234\",\"NOMINEE_NAME\":\"Test Nominee\",\"APPOINTEE\":\"\",\"DOB_OF_NOMINEE\":\"\",\"RELATIONSHIP\":\"\",\"ALLOCATION\":\"100\",\"SEQUENCENO\":\"1\"}]}';
+            res.setBody(s);
+            res.setStatusCode(200);
+            return res;
+        }
+    }
+    
+    public class ABSLI_NomineeDetailResponseGeneratorNegative implements HttpCalloutMock {
+        /**
+            * @description  Mocking failure response
+            * @param req
+            ** @return HTTPResponse
+        */ 
+        public HTTPResponse respond(HTTPRequest req) {
+            HttpResponse res = new HttpResponse();
+            res.setHeader('Content-Type', 'application/json');
+            String s = '{\"ReturnCode\":\"1\",\"ReturnMessage\":\"\",\"lstDetails\":[{\"POLICY_NO\":\"1234\",\"NOMINEE_NAME\":\"Test Nominee\",\"APPOINTEE\":\"\",\"DOB_OF_NOMINEE\":\"\",\"RELATIONSHIP\":\"\",\"ALLOCATION\":\"100\",\"SEQUENCENO\":\"1\"}]}';
             res.setBody(s);
             res.setStatusCode(200);
             return res;
