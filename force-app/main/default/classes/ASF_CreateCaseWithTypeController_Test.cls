@@ -190,7 +190,7 @@ public static void testClosureTest(){
         system.runAs(usr)
         {
             Test.startTest(); 
-            ASF_CreateCaseWithTypeController.getTypeSubTypeByCustomerDetails('CIBIL', 'Test','false','Interaction','Retail - Secured','{"accountLOB":"Wealth"}');
+            ASF_CreateCaseWithTypeController.getTypeSubTypeByCustomerDetails('CIBIL', 'Test','false','Interaction','Retail - Secured','{"accountLOB":"Wealth","businessUnit":"ABFL"}');
         }
         Test.stopTest();
         Integer count = [SELECT Count() FROM Account];

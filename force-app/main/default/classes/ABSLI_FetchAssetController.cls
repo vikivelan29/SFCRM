@@ -35,7 +35,7 @@ public with sharing class ABSLI_FetchAssetController {
         String allFieldApiNameString = String.join(fieldApiNamList,',');
         String escapeSingleQuotes = String.escapeSingleQuotes(allFieldApiNameString);
 
-        String dynamicQuery     = 'SELECT ' + escapeSingleQuotes + ' FROM Asset WHERE Account.Id =:accountRecordId OR Interested_Party__c =:accountRecordId';
+        String dynamicQuery     = 'SELECT ' + escapeSingleQuotes + ' FROM Asset WHERE Account.Id =:accountRecordId OR Interested_Party__c =:accountRecordId WITH SECURITY_ENFORCED';
         System.debug(LoggingLevel.INFO,'***dynamicQuery:'+dynamicQuery);
         List<Sobject> assetRecLst = Database.query(dynamicQuery);
         System.debug(LoggingLevel.INFO,'***dynamicQueryResult:'+assetRecLst);

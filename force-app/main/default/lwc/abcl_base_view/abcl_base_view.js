@@ -20,6 +20,7 @@ export function invokeCore(apiId, payloadInfo) {
 					for (let i = 0; i < element.fieldsLeft.length; i++) {
 						for (let key in element.fieldsLeft[i]) {
 							console.log('***payloadk ==> '+payload[element.fieldsLeft[i][key]]);
+							console.log('key:'+key);
 							if (key=='value' && (typeof payload[element.fieldsLeft[i][key]] !== 'undefined' || (element.fieldsLeft[i][key] + '').indexOf('.') != -1)) {
 								// Check if payload contains .
 								let value;
@@ -40,6 +41,15 @@ export function invokeCore(apiId, payloadInfo) {
 								element.fieldsLeft[i][key] = value;
 								break;
 							}
+							// VIRENDRA - Added to set empty value when response JSON is not returning the Key.
+							else if (key=='value' && (typeof payload[element.fieldsLeft[i][key]] === 'undefined' || 
+							typeof payload[element.fieldsLeft[i][key]] === null)){
+								element.fieldsLeft[i][key] = '';
+							}
+							/*else{
+								element.fieldsLeft[i][key] = '';
+								break;
+							}*/
 						}
 					}
 
@@ -63,6 +73,12 @@ export function invokeCore(apiId, payloadInfo) {
 								// replace value from payload
 								element.fieldsRight[i][key] = value;
 								break;
+							}
+							// VIRENDRA - Added to set empty value when response JSON is not returning the Key.
+							else if (key=='value' && (typeof payload[element.fieldsRight[i][key]] == 'undefined' || 
+								typeof payload[element.fieldsRight[i][key]] == null)) {
+									element.fieldsRight[i][key] = '';
+									break;
 							}
 						}
 					}

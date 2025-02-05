@@ -103,6 +103,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
                         update paymentChecklist;
                     }
                     caseRec.MoveToNext__c = TRUE;
+                    caseRec.typeSubTypeMismatch__c=false;
                     update caseRec;
                 } 
                         /*ASF_Case_Category_Config__c categoryConfig = [Select Nature__c from ASF_Case_Category_Config__c 

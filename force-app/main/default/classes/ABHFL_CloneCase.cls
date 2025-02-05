@@ -92,7 +92,7 @@ public With Sharing class ABHFL_CloneCase{
                 Case cloneCaseRecord = new Case ();
                 cloneCaseRecord  = caseObj.clone(false,true,false,false);
                 cloneCaseRecord.Cloned_From__c = caseRec.Id;
-                cloneCaseRecord.ParentId = parentCaseId;
+                //cloneCaseRecord.ParentId = parentCaseId;   //commenting line to avoid parenting of cloning case with parentcaseid
                 cloneCaseRecord.ABHFL_Case_Detail__c = caseDetailsId;
                 cloneCaseRecord.CCC_External_Id__c = ebotResponseWrp.CASESUBTYPE;
                 cloneCaseRecord.Comments = ebotResponseWrp.COMMENT;

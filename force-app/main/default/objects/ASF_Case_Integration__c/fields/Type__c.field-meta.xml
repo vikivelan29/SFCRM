@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Type__c</fullName>
     <description>Can be blank for Framework Type if Integrations. Need to be populated for generic integrations like eBot</description>
-    <externalId>false</externalId>
     <label>Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
@@ -45,6 +44,31 @@
                 <fullName>Payment</fullName>
                 <default>false</default>
                 <label>Payment</label>
+            </value>
+            <value>
+                <fullName>CreateCRMPolicy</fullName>
+                <default>false</default>
+                <label>CreateCRMPolicy</label>
+            </value>
+            <value>
+                <fullName>OmniDoc</fullName>
+                <default>false</default>
+                <label>OmniDoc</label>
+            </value>
+            <value>
+                <fullName>NPSFEEDBACK</fullName>
+                <default>false</default>
+                <label>NPSFEEDBACK</label>
+            </value>
+            <value>
+                <fullName>CAMS</fullName>
+                <default>false</default>
+                <label>CAMS</label>
+            </value>
+            <value>
+                <fullName>SPRINKLR</fullName>
+                <default>false</default>
+                <label>SPRINKLR</label>
             </value>
             <value>
                 <fullName>eBOT Feedback</fullName>

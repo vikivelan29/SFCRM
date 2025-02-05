@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Case$Sub_Type_Text__c</field>
+    </columns>
+    <customDetailFormulas>
+        <calculatedFormula>IF(
+  AND(
+    DATEVALUE(Case.CreatedDate) &gt;= DATE(2022, 4, 1),
+    DATEVALUE(Case.CreatedDate) &lt; DATE(2023, 1, 1)
+  ),
+  &quot;Apr FY23&quot;,
+  IF(
+    AND(
+      DATEVALUE(Case.CreatedDate) &gt;= DATE(2023, 4, 1),
+      DATEVALUE(Case.CreatedDate) &lt; DATE(2024, 1, 1)
+    ),
+    &quot;Apr FY24&quot;,
+    &quot;Other&quot;
+  )
+)</calculatedFormula>
+        <dataType>Text</dataType>
+        <developerName>CDF1</developerName>
+        <label>Fisical Year</label>
+        <scale>2</scale>
+    </customDetailFormulas>
+    <description>ABSLI - Query &amp; Complaints Reporting Set - 2</description>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case$Asset.Plan_Name__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Cases grouped by Product</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Case_With_Policy_and_Branch_Masters__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Case$CreatedDate</dateColumn>
+        <endDate>2024-07-31</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2024-06-01</startDate>
+    </timeFrameFilter>
+</Report>

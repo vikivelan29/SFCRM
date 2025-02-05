@@ -191,4 +191,7 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
 
         return listOfRecordsAsMap;
     }
+    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+        return new List<Map<String,String>>();
+    }
 }

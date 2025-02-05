@@ -1,0 +1,56 @@
+<template>
+
+    <div class="slds-form__row">
+        <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                <label class="slds-checkbox_toggle slds-grid">
+                    <span class="slds-form-element__label slds-m-bottom_none">Send to registered mobile number</span>
+                    <input type="checkbox" name="checkbox-toggle-16" value="checkbox-toggle-16"
+                        aria-describedby="checkbox-toggle-16" checked="" onchange={handleToggle} />
+                    <span id="checkbox-toggle-16" class="slds-checkbox_faux_container">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-checkbox_on">Yes</span>
+                        <span class="slds-checkbox_off">No</span>
+                    </span>
+                </label>
+            </div>
+
+        </div>
+        <template if:true={sendToUnregistered}>
+            <div class="slds-form__item" role="listitem">
+                <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                    <lightning-input lwc:ref="unregisterednumber" type="tel" label="Unregistered Phone Number" pattern="[0-9]{10}"
+                    name="phone2" required class="validate" message-when-pattern-mismatch="Only numbers are allowed and upto 10 digit phone number."></lightning-input>
+                </div>
+            </div>
+        </template>
+        
+    </div>
+
+    <br>
+
+    <div class="slds-form">
+        <div class="slds-form-element slds-form-element_stacked">
+            <label class="slds-form-element__label" for="stacked-input-id-01">SMS Preview</label>
+            <div class="slds-form-element__control">
+                <div class="slds-theme_shade slds-p-around_small slds-m-top_medium">
+                    <lightning-formatted-rich-text value={templateBody}></lightning-formatted-rich-text>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="slds-modal__footer">
+        <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+            onclick={invokeCloseModal}>Cancel</button>
+        <button class="slds-button slds-button_brand" onclick={handleSend}>Send</button>
+    </div>
+
+    
+
+
+
+
+
+</template>

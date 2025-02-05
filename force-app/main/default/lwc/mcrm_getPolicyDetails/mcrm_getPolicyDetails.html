@@ -1,0 +1,25 @@
+<template>
+    <template lwc:if={hasData}>
+        <lightning-datatable key-field="id" data={data} columns={columns} hide-checkbox-column="true">
+        </lightning-datatable>
+    </template>
+    <template lwc:else>
+        <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+            <span class="slds-assistive-text">error</span>
+            <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small"
+                title="Description of icon when needed">
+                <lightning-icon icon-name="utility:error" alternative-text="Error" size="xx-small" title="Error"
+                    variant="inverse"></lightning-icon>
+            </span>
+            <template if:true={error}>
+                <p>{error}</p>
+            </template>
+            <template if:false={error}>
+                <h2>
+                    {label.MCRM_NoRecordsGetPolicyDetails}
+                </h2>
+            </template>
+            <div class="slds-notify__close"></div>
+        </div>
+    </template>
+</template>

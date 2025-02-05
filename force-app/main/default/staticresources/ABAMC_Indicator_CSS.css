@@ -1,0 +1,68 @@
+.nps-key {
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.nps-detractor {
+    color: red; 
+    text-align: center;
+}
+
+.nps-passive {
+    color: orange; 
+    text-align: center;
+}
+
+.nps-promoter {
+    color: green; 
+    text-align: center;
+}
+
+.col-container {
+    display: table;
+    width: 100%;
+    padding: 1px;
+    
+  }
+  .col {
+    display: table-cell;
+    table-layout: fixed;
+    padding: 16px;
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+.customcase-box {
+    height: 100px; 
+    border: 1px solid #d8dde6; 
+    border-radius: 5%;
+    padding: 20px; 
+    box-sizing: border-box; 
+    text-align: center;
+    
+}
+
+.customnps-box {
+    height: 100px; 
+    border: 1px solid #d8dde6; 
+    border-radius: 5%;
+    padding: 20px; 
+    box-sizing: border-box; 
+    
+}
+
+.text-6xl{
+    line-height:1;
+    padding: 10px;
+    text-align: center;
+}
+
+.npsHeading{
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+

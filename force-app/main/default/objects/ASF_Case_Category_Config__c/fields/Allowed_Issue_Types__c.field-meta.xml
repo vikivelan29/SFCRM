@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Allowed_Issue_Types__c</fullName>
     <description>Used to store allowed Issue Types that can be selected for the particular CCC External ID</description>
+    <externalId>false</externalId>
     <label>Allowed Issue Types</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

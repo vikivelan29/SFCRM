@@ -74,7 +74,7 @@ public class ASF_RecategoriseCaseControllerTest {
         ASF_Case_Category_Config__c config = [Select Id, CCC_External_Id__c from ASF_Case_Category_Config__c LIMIT 1];
         User userObj = [Select Id from User where Email='standarduser@testorg.com' LIMIT 1];
         System.runAs(userObj){
-            ASF_RecategoriseCaseController.getTypeSubTypeDataByCustomerType('CIBIL', '', 'false', 'Individual', config.CCC_External_Id__c, '');
+            ASF_RecategoriseCaseController.getTypeSubTypeDataByCustomerType('CIBIL', '', 'false', 'Individual', config.CCC_External_Id__c, '','');
         }
         Test.stopTest();
     }
@@ -196,7 +196,8 @@ public class ASF_RecategoriseCaseControllerTest {
             LastName = 'Lead',
             Company = 'Test Company',
             mobilephone = '1234567890',
-            Business_Unit__c = 'Payments'
+            Business_Unit__c = 'Payments',
+            PANNO__c = 'ABCDE1234E'
         );
         insert testLead;
         config.Business_Unit__c = 'Payments';

@@ -1,0 +1,119 @@
+<template>
+    <!-- Loading Spinner -->
+    <template lwc:if={loading}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <!-- SIP Table -->
+    <template if:true={noSIPDataFound}>
+        <div class="slds-text-color_error slds-p-around_medium">
+            <lightning-icon icon-name="utility:error" alternative-text="No data found" size="small" class="slds-m-right_x-small"></lightning-icon>
+            No SIP data found for the selected folio.
+        </div>
+    </template>
+
+    <template if:false={noSIPDataFound}>
+    <template lwc:if={showTable}>
+        <lightning-card title="SIP Details">
+            <div style="height: 200px; overflow-y: auto;">
+                <lightning-datatable
+                    key-field="id"
+                    data={paginatedSIPData}
+                    columns={sipColumns}
+                    hide-checkbox-column="true"
+                    sorted-by={sortedBySIP}
+                    sorted-direction={sortedDirectionSIP}
+                    onsort={handleSortSIP}
+                    data-id="sip"
+                    onrowaction={viewRecordSIP}>
+                </lightning-datatable>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="pagination-controls">
+                <lightning-button disabled={isFirstPageSIP} icon-name="utility:jump_to_left" label="First" class="slds-p-horizontal_x-small" alternative-text="first page" onclick={handleFirstPageSIP}></lightning-button>
+                <lightning-button disabled={isFirstPageSIP} icon-name="utility:chevronleft" label="Previous" alternative-text="Previous" onclick={handlePrevPageSIP}></lightning-button>
+                &nbsp;
+                <span class="slds-badge">{pageSIPInfo}</span>
+                &nbsp;
+                <lightning-button disabled={isLastPageSIP} icon-name="utility:chevronright" label="Next" alternative-text="Next" onclick={handleNextPageSIP} class="slds-p-horizontal_x-small" icon-position="right"></lightning-button>
+                <lightning-button disabled={isLastPageSIP} icon-name="utility:jump_to_right" label="Last" alternative-text="last page" onclick={handleLastPageSIP} icon-position="right"></lightning-button>
+             </div>
+        </lightning-card>
+    </template>
+</template>
+
+<template if:true={noHoldingsDataFound}>
+    <div class="slds-text-color_error slds-p-around_medium">
+        <lightning-icon icon-name="utility:error" alternative-text="No data found" size="small" class="slds-m-right_x-small"></lightning-icon>
+        No Holdings data found for the selected folio.
+    </div>
+</template>
+
+<template if:false={noHoldingsDataFound}>
+    <template lwc:if={showTable}>
+        <lightning-card title="Holdings Details" class="slds-m-top_medium">
+            <div style="height: 200px; overflow-y: auto;">
+                <lightning-datatable
+                    key-field="id"
+                    data={paginatedHoldingsData}
+                    columns={holdingsColumns}
+                    hide-checkbox-column="true"
+                    sorted-by={sortedByHoldings}
+                    sorted-direction={sortedDirectionHoldings}
+                    onsort={handleSortHoldings}
+                    data-id="holdings"
+                    onrowaction={viewRecordSIP}>
+                </lightning-datatable>
+            </div>
+
+            <div class="pagination-controls">
+                <lightning-button disabled={isFirstPageHoldings} icon-name="utility:jump_to_left" label="First" data-table-type="holdings" class="slds-p-horizontal_x-small" onclick={handleFirstPageHoldings}></lightning-button>
+                <lightning-button disabled={isFirstPageHoldings} icon-name="utility:chevronleft" label="Previous" data-table-type="holdings" onclick={handlePrevPageHoldings}></lightning-button>
+                &nbsp;
+                <span class="slds-badge">{pageHoldingsInfo}</span>
+                &nbsp;
+                <lightning-button disabled={isLastPageHoldings} icon-name="utility:chevronright" label="Next" data-table-type="holdings" class="slds-p-horizontal_x-small" onclick={handleNextPageHoldings}></lightning-button>
+                <lightning-button disabled={isLastPageHoldings} icon-name="utility:jump_to_right" label="Last" data-table-type="holdings" onclick={handleLastPageHoldings}></lightning-button>
+            </div>
+        </lightning-card>
+    </template>
+</template>
+
+  
+    <template lwc:if={noDataFound}>
+        <div class="slds-text-color_error slds-p-around_medium">
+            <lightning-icon icon-name="utility:error" alternative-text="No data found" size="small" class="slds-m-right_x-small"></lightning-icon>
+            No holdings data found for the selected folio.
+        </div>
+    </template>
+
+   
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium">{modalHeader}</h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div lwc:dom="manual" class="custom-table" data-id="table-content">
+                    </div>
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Okay" onclick={closeModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+   
+    
+</template>

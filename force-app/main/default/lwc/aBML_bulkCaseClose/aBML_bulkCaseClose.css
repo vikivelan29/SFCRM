@@ -1,0 +1,27 @@
+.inputAlign{
+    width: 30%;
+    margin-inline-start: auto;
+    float: right;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.action-button {
+    margin-bottom: 1rem;
+}
+
+.text-area {
+    width: 100%;
+}
+.section-content {
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}

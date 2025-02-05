@@ -5,7 +5,7 @@
     <name>Case Owner&apos;s Manager/Email when the SLA is breached</name>
     <style>none</style>
     <subject>TAT Breach for case {!Case.CaseNumber}</subject>
-    <textOnly>TAT Breached !! Escalated to  on {!Case.Escalated_Date_Time__c} Please take steps to wrap up this SR as quickly as possible.
+    <textOnly>TAT Breached !! Please take steps to wrap up this SR as quickly as possible.
 SR Details
 =============================================================================
 SR No.: {!Case.CaseNumber}

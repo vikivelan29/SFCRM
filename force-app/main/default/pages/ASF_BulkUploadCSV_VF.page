@@ -6,7 +6,7 @@
   <script>
      $Lightning.use("c:ASF_BulkUploadDownloadApp", function() {
          $Lightning.createComponent("c:aSF_BulkCsvUploadDownload",
-             {strURL:"{!$CurrentPage.URL}",strButtonName:"UploadCSVButton"},
+             {strURL:"{!$CurrentPage.URL}",strButtonName:"UploadCSVButton",objectApiName:"Case"},
              "compContainer",
              function(cmp) {
              }

@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 01-16-2025
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public without sharing class PAY_CustomerCreationListener {
     public static final Schema.SObjectField clientCodeField = Account.Fields.Client_Code__c;
     public static final Schema.SObjectField lob_clientCodeField = Account.Fields.LOB_Client_Code__c;
@@ -12,16 +19,19 @@ public without sharing class PAY_CustomerCreationListener {
         
         Map<String,List<Contact>> clientCodeVsContacts = new Map<String,List<Contact>>();
         for (PAY_Staging_Customer_to_Account__e event : newEvents) {
-            clientCodes.add(event.Merchant_Id__c);
+            if(event.Merchant_Id__c != null){
+                clientCodes.add(event.Merchant_Id__c);
+            }
+            
         }
-        
+        if(clientCodes != null || !clientCodes.isEmpty()){
         for(Contact c : [SELECT ID,FirstName,LastName,Line_Of_Business__c,MobilePhone,Email,Account.Client_Code__c FROM Contact WHERE Account.Client_Code__c =: clientCodes]){
             if(!clientCodeVsContacts.containsKey(c.Account.Client_Code__c)){
                 clientCodeVsContacts.put(c.Account.Client_Code__c,new List<Contact>());
             }
             clientCodeVsContacts.get(c.Account.Client_Code__c).add(c);
         }
-        
+        }
         for (PAY_Staging_Customer_to_Account__e event : newEvents) {
             if (event.Merchant_Contact_Payload__c != null) {
                 

@@ -6,6 +6,8 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceErrors } from 'c/asf_ldsUtils';
 
 //Fields
+import CASE_OBJECT from '@salesforce/schema/Case';
+import ASSETID_FIELD from '@salesforce/schema/Case.AssetId';
 import STAGE_FIELD from '@salesforce/schema/Case.Stage__c';
 import ID_FIELD from '@salesforce/schema/Case.Id';
 import CCC_FIELD from '@salesforce/schema/Case.CCC_External_Id__c';
@@ -20,10 +22,13 @@ import REJECTION_DETAILS from '@salesforce/schema/Case.Rejected_Reason__c';
 import REJECTION_REASON from '@salesforce/schema/Case.Rejection_Reason__c';
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
+import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
+import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 //import PRODUCT_FIELD from '@salesforce/schema/Case.Product__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c';
 import CASE_BUSINESSUNIT from '@salesforce/schema/Case.Business_Unit__c';
+import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 //import CASE_PRODUCT_FIELD from '@salesforce/schema/Case.Product_Name__c';
 
 //import SR_CATEGORY from '@salesforce/schema/Case.SR_Category__c';
@@ -32,12 +37,18 @@ import CASE_BUSINESSUNIT from '@salesforce/schema/Case.Business_Unit__c';
 import NEW_STAGE from '@salesforce/schema/Case.New_Stage_email_sent__c';
 //import CASE_ORIGIN from '@salesforce/schema/Case.Origin__c';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
+import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import POLICY_NO from '@salesforce/schema/ABSLIG_Case_Detail__c.Policy_ID__c';
+import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
+import ONEABC_CREATED_FIELD from '@salesforce/schema/Case.Created_by_ONEABC__c';
+import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
+import ONEABC_BU from '@salesforce/label/c.ABCD_ONEABC_BU'; 
 
 // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT.
 import CASE_PROSPECT_ID from '@salesforce/schema/Case.Lead__c';
 import CASE_FROM_PREFRAMEWORK_TO_FRAMEWORK from '@salesforce/schema/Case.Preframework_to_Framework_FromUI__c';
 
+import * as validator from 'c/asf_CreateCaseValidations';
 
 export class asf_Utility {
 
@@ -47,10 +58,13 @@ export class asf_Utility {
             getCaseRelatedObjNameApex({cccId : selected.CCC_External_Id__c})
             .then(async result => {
                 var caseRelObjName = result;
-                console.log('##a##'+JSON.stringify(caseRelObjName));
+                console.log('##rel obj name##'+JSON.stringify(caseRelObjName)+'issue type-'+parentJS.issueTypeVal);
                 const fields = {};
                 if(parentJS.isTransactionRelated){
                     fields[TRANSACTION_NUM.fieldApiName] = parentJS.transactionNumber;
+                }
+                if(parentJS.categoryTypeVal){
+                    fields[BSLI_CATEGORY_TYPE.fieldApiName] = parentJS.categoryTypeVal;
                 }
                 if(parentJS.policyNoValue){
                     fields[POLICY_NO.fieldApiName] = parentJS.policyNoValue;
@@ -110,9 +124,14 @@ export class asf_Utility {
         if(parentJS.noAutoCommValue){
             fields[NOAUTOCOMM_FIELD.fieldApiName] = parentJS.noAutoCommValue.join(';');
         }
-
-        if(parentJS.noAutoCommValue){
-            fields[NOAUTOCOMM_FIELD.fieldApiName] = parentJS.noAutoCommValue.join(';');
+        if(parentJS.ftrValue){
+            fields[FTR_FIELD.fieldApiName] = parentJS.ftrValue;
+        }
+        if((parentJS.businessUnit === ABSLI_BU || parentJS.selectedCccBu === ABSLI_BU) && parentJS.strChannelValue){
+            fields[CHANNEL_FIELD.fieldApiName] = parentJS.strChannelValue;
+        }
+        if((parentJS.businessUnit === ABSLI_BU || parentJS.selectedCccBu === ABSLI_BU) && parentJS.issueTypeVal != null){
+            fields[BSLI_ISSUE_TYPE.fieldApiName] = parentJS.issueTypeVal;
         }
 
        if(!parentJS.rejectCase){
@@ -130,6 +149,7 @@ export class asf_Utility {
        //fields[CASE_ORIGIN.fieldApiName] = parentJS.originValue;
        fields[TECHNICAL_SOURCE_FIELD.fieldApiName] = 'LWC';
        fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.businessUnitValue; 
+       fields[ASSETID_FIELD.fieldApiName] = parentJS.assetId;
        //fields[CASE_PRODUCT_FIELD.fieldApiName] = parentJS.assetProductName; 
        if(!parentJS.closeCase && !parentJS.rejectCase){
             fields['recordTypeId'] = recTypeId;
@@ -163,17 +183,65 @@ export class asf_Utility {
        if(contact){
            fields[CASE_CONTACT_FIELD.fieldApiName] = contact;
        }
-
+       //ONEABC CHANGE - START
+       /* SCENARIO 1 - LOGGED IN USER's BUSINESS UNIT IS ABCD, AND SELECTED CTST's BUSINESS UNIT IS ABCD
+                     - THEN SET CASE BUSINESS UNIT AS ABCD
+          SCENARIO 2 - LOGGED IN USER's BUSINESS UNIT IS ABCD, AND SELECTED CTST's BUSINESS UNIT IS ONEABC
+                     - THEN SET CASE BUSINESS UNIT AS ONEABC
+          SCENARIO 3 - LOGGED IN USER's BUSINESS UNIT IS ABCD, AND SELECTED CTST's BUSINESS UNIT IS NEITHER ABCD NOT ONEABC
+                     - THEN SET CASE BUSINESS UNIT AS SELECTED CUSTOMER's BUSINESS UNIT IF CUSTOMER IS NOT EMPTY.
+                     - IF CUSTOMER IS EMPTY THEN SET CASE BUSINESS UNIT AS CTST's BUSINESS UNIT.
+       */
+       if(parentJS.businessUnit === ABCD_BU && parentJS.selectedCccBu && (parentJS.selectedCccBu === ABCD_BU)){
+        fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.businessUnit;
+        }
+        else if(parentJS.businessUnit === ABCD_BU && parentJS.selectedCccBu && (parentJS.selectedCccBu === ONEABC_BU)){
+            //fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.businessUnit;
+            fields[CASE_BUSINESSUNIT.fieldApiName] = ONEABC_BU;
+        }
+        else if(parentJS.businessUnit === ABCD_BU && parentJS.selectedCccBu && (parentJS.selectedCccBu != ABCD_BU && 
+            parentJS.selectedCccBu != ONEABC_BU)){
+                if(parentJS.accountLOB !=null && parentJS.accountLOB != undefined && parentJS.accountLOB != '')
+                    fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.accountLOB;
+                else{
+                    fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.selectedCccBu;
+                }
+            }
+        if(parentJS.businessUnit === ABCD_BU){
+            fields[ONEABC_CREATED_FIELD.fieldApiName] = true;
+        }
+    ////ONEABC CHANGE - START
        // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT - 
        if(parentJS.prospectRecId != undefined && parentJS.prospectRecId != null && parentJS.prospectRecId != ''){
         fields[CASE_PROSPECT_ID.fieldApiName] = parentJS.prospectRecId;
        }
        // VIRENDRA - END PROSPECT HERE.
        console.log('####Fields##'+JSON.stringify(fields));
-       this.updateCaseJS(fields,parentJS);
+       this.updateCaseJS(fields,parentJS, selected);
    }
 
-    updateCaseJS(fields,parentJS){
+    async updateCaseJS(fields,parentJS, selected){
+        if(selected.Validation_method_during_creation__c){
+            const caseRecordForValidation = { apiName: CASE_OBJECT.objectApiName, fields: fields };
+            console.log('invoing validator'+JSON.stringify(caseRecordForValidation));
+            let methodName = selected.Validation_method_during_creation__c;
+            let validationResult = await validator[methodName](caseRecordForValidation,'account');
+            console.log('returned with dynamic method '+JSON.stringify(validationResult));
+            if(validationResult.isSuccess == false){
+                parentJS.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Oops! Validation error occured',
+                        message: validationResult.errorMessageForUser,
+                        variant: 'error'
+                    }),
+                );
+                parentJS.loaded = true;
+                parentJS.isNotSelected = true;
+                parentJS.createCaseWithAll = false;
+                return;
+            }
+            console.log('ending validator');
+        }
        const caseRecord = JSON.stringify(fields);
        updateCase({fields:caseRecord,isAsset:parentJS.withoutAsset})
            .then(result => {   
@@ -182,7 +250,7 @@ export class asf_Utility {
                parentJS.dispatchEvent(
                    new ShowToastEvent({
                        title: 'Success',
-                       message: 'SR Updated ',
+                       message: 'Case Updated', //ABSLAMC Bug199 Change SR to Case for all BUs
                        variant: 'success',
                    }),
                );

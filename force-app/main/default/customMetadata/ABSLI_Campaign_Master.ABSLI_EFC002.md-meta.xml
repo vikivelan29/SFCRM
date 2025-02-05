@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABSLI_EFC002</label>
+    <protected>false</protected>
+    <values>
+        <field>Campaign_Code__c</field>
+        <value xsi:type="xsd:string">EFC002</value>
+    </values>
+    <values>
+        <field>Campaign_Name__c</field>
+        <value xsi:type="xsd:string">Maturity AMJ CSE Exclusive</value>
+    </values>
+</CustomMetadata>

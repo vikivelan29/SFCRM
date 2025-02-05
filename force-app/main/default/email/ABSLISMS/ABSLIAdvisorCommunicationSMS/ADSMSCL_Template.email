@@ -1,0 +1,6 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body aria-readonly="false" style="height: auto; min-height: auto;">Your Customer {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} request for {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} registered with reference number {{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}} towards policy number {{{ASF_Communication_Log__c.SMS_Merge_Field4__c}}} has been {{{ASF_Communication_Log__c.SMS_Merge_Field5__c}}} .Regards, Aditya Birla Sun Life Insurance.</body>
+</html>

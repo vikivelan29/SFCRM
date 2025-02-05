@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABSLAMC_Metadata</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>Business_Unit__c</columns>
+    <columns>LOB__c</columns>
+    <columns>Lead_Type__c</columns>
+    <columns>Lead_Subtype__c</columns>
+    <columns>Track_conversion__c</columns>
+    <columns>Auto_Won_Days_Buffer__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Business_Unit__c</field>
+        <operation>equals</operation>
+        <value>ABSLAMC</value>
+    </filters>
+    <label>ABSLAMC Metadata</label>
+</ListView>

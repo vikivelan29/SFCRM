@@ -133,6 +133,11 @@ public with sharing class ASF_CloneCaseActionControllerTest {
         Case caseRec = [Select id from Case limit 1];
         Test.startTest();
         ASF_CloneCaseActionController.BooleanWithReasonWrapper result = ASF_CloneCaseActionController.isCaseCloneable(caseRec.Id);
+        try{
+        //Negative scenarion check exception
+        ASF_CloneCaseActionController.BooleanWithReasonWrapper result1 = ASF_CloneCaseActionController.isCaseCloneable(null);
+        }catch(exception e){
+        }
         Test.stopTest();
         Assert.isTrue(result.resultFlag, 'Expected true');
     }
@@ -212,7 +217,13 @@ public with sharing class ASF_CloneCaseActionControllerTest {
         fieldList.addAll(wrap2.fieldList);
         Test.startTest();
         ASF_CloneCaseActionController.CaseDetailWrapper result = ASF_CloneCaseActionController.fetchCaseDetailsWithExtension(fieldList, caseRec.Id);
-        Test.stopTest();
+        //check negative by passing the null as case record.
+        try{
+        ASF_CloneCaseActionController.CaseDetailWrapper result1 = ASF_CloneCaseActionController.fetchCaseDetailsWithExtension(fieldList, null);
+        }catch(exception e){
+            
+        }
+            Test.stopTest();
         Assert.isTrue(result.resultFlag, 'Expected true');
     }
 
@@ -271,7 +282,7 @@ public with sharing class ASF_CloneCaseActionControllerTest {
 
     @isTest
     static void test_createCloneCase_2(){
-        Case caseRec = [Select id from Case limit 1];
+        Case caseRec = [Select id, AssetId from Case limit 1];
         
         List<ASF_CloneCaseActionController.FieldWrapper> fieldList = new List<ASF_CloneCaseActionController.FieldWrapper>();
         ASF_CloneCaseActionController.FieldListWrapper wrap = ASF_CloneCaseActionController.fetchCCCSpecificFieldsToCopy(caseRec.Id);
@@ -291,5 +302,42 @@ public with sharing class ASF_CloneCaseActionControllerTest {
         catch(Exception e){
             //Assert.areEqual('List index out of bounds: 0', e.getMessage(), 'Expected List index out of bounds');
         }
+    }
+    
+    @isTest
+    static void test_createCloneCase_3(){
+        Case caseRec = [Select id, AssetId from Case limit 1];
+        
+        List<ASF_CloneCaseActionController.FieldWrapper> fieldList = new List<ASF_CloneCaseActionController.FieldWrapper>();
+        ASF_CloneCaseActionController.FieldListWrapper wrap = ASF_CloneCaseActionController.fetchCCCSpecificFieldsToCopy(caseRec.Id);
+        fieldList.addAll(wrap.fieldList);
+        ASF_CloneCaseActionController.FieldListWrapper wrap2 = ASF_CloneCaseActionController.fetchCommonFieldsToCopy();
+        fieldList.addAll(wrap2.fieldList);
+        ASF_CloneCaseActionController.CaseDetailWrapper result = ASF_CloneCaseActionController.fetchCaseDetailsWithExtension(fieldList, caseRec.Id);
+        caseRec.CCC_External_Id__c = 'Invalid';
+        update caseRec;
+        try{
+            Test.startTest();
+            Case cloneCaseRecord = result.caseRecord.clone(false, true, false, false);
+            SObject cloneExtnRecord = result.extnRecords.get('PAY_Payment_Detail__c').clone(false, true, false, false);
+            ASF_CloneCaseActionController.CaseDetailWrapper cloneresult = ASF_CloneCaseActionController.createCloneCaseV2(cloneCaseRecord, new Map<String,SObject>{'PAY_Payment_Detail__c'=>cloneExtnRecord}, caseRec.Id, caseRec.AssetId, '{"clientCode":"ABCD00","memberId":"ABCD"}');
+            Test.stopTest();
+        }
+        catch(Exception e){
+            //Assert.areEqual('List index out of bounds: 0', e.getMessage(), 'Expected List index out of bounds');
+        }
+    }
+    
+    @isTest
+    static void test_isCaseCloneable_4(){
+        Case caseRec = [Select id from Case limit 1];
+        ASF_Case_Category_Config__c config = [select id from ASF_Case_Category_Config__c limit 1];
+        caseRec.ASF_Is_Cloneable__c = false;
+        update caseRec;
+        
+        Test.startTest();
+        ASF_CloneCaseActionController.BooleanWithReasonWrapper result = ASF_CloneCaseActionController.isCaseCloneableV2(caseRec.Id);
+        Test.stopTest();
+        Assert.isNotNull(result.accountId, 'Expected some value in accountId');
     }
 }

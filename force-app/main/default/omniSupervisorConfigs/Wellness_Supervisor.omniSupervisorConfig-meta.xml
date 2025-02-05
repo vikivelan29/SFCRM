@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OmniSupervisorConfig xmlns="http://soap.sforce.com/2006/04/metadata">
+    <isTimelineHidden>false</isTimelineHidden>
+    <masterLabel>Wellness Supervisor</masterLabel>
+    <omniSupervisorConfigGroup>
+        <group>Wellness_Contact_Center_G</group>
+    </omniSupervisorConfigGroup>
+    <omniSupervisorConfigGroup>
+        <group>Wellness_Operations_G</group>
+    </omniSupervisorConfigGroup>
+    <omniSupervisorConfigProfile>
+        <profile>wellness crm base profile</profile>
+    </omniSupervisorConfigProfile>
+    <omniSupervisorConfigQueue>
+        <queue>Wellness_Contact_Center</queue>
+    </omniSupervisorConfigQueue>
+    <omniSupervisorConfigQueue>
+        <queue>Wellness_Operations</queue>
+    </omniSupervisorConfigQueue>
+    <skillVisibility>AllSkills</skillVisibility>
+</OmniSupervisorConfig>

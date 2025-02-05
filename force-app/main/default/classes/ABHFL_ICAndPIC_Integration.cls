@@ -92,7 +92,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
         List<Case> caseRecords = new List<Case>();
-        List<Case> downloadStpCases = new List<Case>();
+        //List<Case> downloadStpCases = new List<Case>();
 
         for(Case caseRec : caseRecs){
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
@@ -141,18 +141,21 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             result = checkHlOrNonHlValidation(caseRecord, result);
 
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD && caseRecord.Stage__c != ABHFL_Constants.RESOLVED){
-                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                /*caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
                     downloadStpCases.add(caseRecord);
                     //update caseRecord;
                 }
-                result = new ASF_IntegrationsController.IntegrationWrapper();
+                result = new ASF_IntegrationsController.IntegrationWrapper();*/
+                Case updatedCase = new Case(Id=caseRecord.Id);
+                updatedCase.Stage__c = ABHFL_Constants.RESOLVED;    
+                result.updatedCase = updatedCase;
             }
             resultMap.put(caseRecord.Id, result);
         }
-        if(downloadStpCases.size()>0){
+       /* if(downloadStpCases.size()>0){
             update downloadStpCases;
-        }
+        }*/
         return resultMap;
     }
 

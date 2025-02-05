@@ -2,8 +2,11 @@
 <CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Account_Compact_Layout</fullName>
     <fields>Name</fields>
-    <fields>BillingAddress</fields>
-    <fields>Website</fields>
-    <fields>OwnerId</fields>
+    <fields>Client_Code__c</fields>
+    <fields>Phone</fields>
+    <fields>Office_Email__c</fields>
+    <fields>Date_Of_Incorporation__c</fields>
+    <fields>Language_Preference__c</fields>
+    <fields>KYC_Done_Date__c</fields>
     <label>Account Compact Layout</label>
 </CompactLayout>

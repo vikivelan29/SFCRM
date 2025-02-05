@@ -49,7 +49,11 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
         }
 
         List<Case> newCaseList = new List<Case>();      
-
+        Set<ID>activeuserlst=new set<ID>();
+        for(User u: [Select Id from user where Isactive=true]){
+            activeuserlst.add(u.Id);
+        }
+        Id queuewhennospoc=[Select Id,Name from Group where type='Queue' AND Name='Unassigned Queue'].Id;
         //caseRec = [SELECT AssetId, AccountId, Account.Client_Code__c, Asset.LAN__c, Source__c, Technical_Source__c,  Nature__c FROM Case WHERE Id =: caseRec.Id];
         Map<Id, List<ABHFL_Case_Detail__c>> caseIdToAbhflCaseDetailMap = new Map<Id, List<ABHFL_Case_Detail__c>>();
 
@@ -67,14 +71,22 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
         }
 
         for(Case caseRec : caseRecords){
-            if(caseIdToAbhflCaseDetailMapSingle.containsKey(caseRec.Id)){
+          if(caseIdToAbhflCaseDetailMapSingle.containsKey(caseRec.Id)){
                 ABHFL_Case_Detail__c abhflCaseDetailList = caseIdToAbhflCaseDetailMapSingle.get(caseRec.Id);
                 Case newCase = ABHFL_CTSTHelper.createCases(caseRec.Account.Client_Code__c, null, 'hfl042', caseRec.Source__c, caseRec.Technical_Source__c, caseRec.Id, ASF_Constants.RT_FRAMEWORK);
                 newCase.AccountId = caseRec.AccountId;
                 newCase.ABHFL_Case_Detail__c = abhflCaseDetailList.Id;
                 newCase.Nature__c = caseRec.Nature__c;
                 newCase.AssetId = caseRec.AssetId;
-                newCase.OwnerId = caseRec.Asset.Branch__r.Branch_Queue_Id__c;
+                if(caseRec.AssetId!=Null){
+                  Id CRMSPOC=[select Branch__r.CRM_SPOC__c from asset WHERE Id =: caseRec.AssetId].Branch__r.CRM_SPOC__c;
+                   if(activeuserlst.contains(CRMSPOC)){
+                         newCase.OwnerId = CRMSPOC;     
+                        }
+                    else{
+                        newCase.OwnerId = queuewhennospoc;
+                        }
+                }
                 // newCase.AssetId = caseIdToRelatedAssets.get(caseRec.Id)[i].Asset__c;
                 newCaseList.add(newCase);
             }

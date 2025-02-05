@@ -1,0 +1,7 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear {{{ASF_Communication_Log__c.Contact_Name__c}}}, as you agree to continue the policy {{{ASF_Communication_Log__c.Policy_No__c}}}, {{{ASF_Communication_Log__c.Loan_Type__c}}} as per existing T&amp;C, click here to confirm {{{ASF_Communication_Log__c.Tiny_URL__c}}} .<br />
+Regards ABSLI</body>
+</html>

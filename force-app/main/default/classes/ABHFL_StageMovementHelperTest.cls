@@ -22,7 +22,7 @@ public class ABHFL_StageMovementHelperTest {
     
     @IsTest
     static void testStageMovement(){
-        List<Case> caseRecords = [Select id,CCC_External_Id__c from Case limit 1];
+        List<Case> caseRecords = [Select id,CCC_External_Id__c,Business_Unit__c from Case limit 1];
         List<Asset> assetRecords = [Select id from Asset limit 1];
         List<ASF_Case_Category_Config__c> caseCatCon = [SELECT Id, Additional_Email_Templates__c, Additional_SMS_Metadata__c FROM ASF_Case_Category_Config__c LIMIT 1];
         caseCatCon[0].Additional_Email_Templates__c = 'abc_template';

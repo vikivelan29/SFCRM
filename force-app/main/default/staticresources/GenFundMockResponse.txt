@@ -1,0 +1,57 @@
+{
+   "ALLOCATION_DETAILS": [
+      {
+         "ALLOCATION_TYPE": "Second year onward",
+         "DEST_FND_ID": "I0007",
+         "POL_ID": "003833763",
+         "ALLOCATION_PCT": "70.0000"
+      },
+      {
+         "ALLOCATION_TYPE": "Second year onward",
+         "DEST_FND_ID": "I0009",
+         "POL_ID": "003833763",
+         "ALLOCATION_PCT": "30.0000"
+      }
+   ],
+   "BFID_RESPONSE": {
+      "MORE-MESSAGES-IND": "N",
+      "MINIMUM_WITHDRAWAL_AMT": "2000.00", 
+      "ProcessCode": "00",
+      "POLICY_BILLED_TO_DATE": "2018-01-28",
+      "MINIMUM_LOAN_AMT": "50000.00", → Minimum Loan Amount to be populated from here.
+      "CSV_PAYABLE_HOLD_AMOUNT": "0.00",
+      "POLICY_BILL_MODE": "Direct Bill",
+      "FUND_DETAILS": "ROWID_11FUND_TYPE_1I0007NO_UNITS_11375.0320NAV_ON_EFFECTIVE_DATE_150.8150FUND_VALUE_169872.3488ALLOCATION_1070.0000FUND_NAME_1Individual Life - Maximiser             ROWID_22FUND_TYPE_2I0009NO_UNITS_2647.6900NAV_ON_EFFECTIVE_DATE_250.8150FUND_VALUE_232912.4134ALLOCATION_2030.0000FUND_NAME_2Individual Life - Income Advantage",
+      "WITHDRAWL_AMOUNT_AVAILABLE": "102784.76", 
+      "navdate": "Fund values displayed are as on 07-02-2042",
+      "MESSAGES-T": "NO RECORDS FOUND TO DISPLAY ~",
+      "LOAN_AMOUNT_AVAILED": "0.00",
+      "MESSAGES": "0NO RECORDS FOUND TO DISPLAY",
+      "ProcessMessage": "LSIR-RETURN-OK",
+      "MESSAGES-T_1": "NO RECORDS FOUND TO DISPLAY",
+      "CASH_SURRENDER_VALUE": "102784.76", 
+      "MAX_LOAD_AMOUNT_AVAILABLE": "1000000.00",
+      "POLICY_SA": "0.00",
+      "TOTAL_FUND_VALUE": "500000"
+   },
+   "FUND_DETAILS": [
+      {
+         "FND_ID": "I0007",
+         "TOT_UNITS": "1375.032000000",
+         "NAV": "488.915071130",
+         "POL_CSTAT_CD": "4",
+         "FUND_NAME": "Individual Life - Maximiser(ULIF01101/06/07BSLIINMAXI109)",
+         "POL_ID": "003833763",
+         "FUND_VALUE": "672273.868086026160000000"
+      },
+      {
+         "FND_ID": "I0009",
+         "TOT_UNITS": "647.690000000",
+         "NAV": "488.915071130",
+         "POL_CSTAT_CD": "4",
+         "FUND_NAME": "Individual Life - Income Advantage(ULIF01507/08/08BSLIINCADV109)",
+         "POL_ID": "003833763",
+         "FUND_VALUE": "316665.402420189700000000"
+      }
+   ]
+}

@@ -2,13 +2,10 @@
 public class ASF_CaseFileUploadTriggerHelper_Test {
 
     @testSetup
-    static void setupData(){
-        
+    static void setupData(){        
         ContentVersion cv = new ContentVersion(Title = 'Test Content',PathOnClient = 'test.pdf',VersionData = Blob.valueOf('Test Content'));
         insert cv;
-
         ASF_TestDataFactory.createCaseRecords(0);
-
         ContentDocumentLink cdl = new ContentDocumentLink(
             ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :cv.Id].ContentDocumentId,
             LinkedEntityId = [select Id from case LIMIT 1].Id,
@@ -49,7 +46,8 @@ public class ASF_CaseFileUploadTriggerHelper_Test {
         caseRec.Status = 'Closed';
         update caseRec;
         ContentDocumentLink cdl = [select Id from ContentDocumentLink where LinkedEntityId =: caseRec.Id LIMIT 1];
-        ContentDocumentLink cdlMsg = [select Id from ContentDocumentLink where LinkedEntity.type = 'EmailMessage' LIMIT 1];
+        //ContentDocumentLink cdlMsg = [select Id from ContentDocumentLink where LinkedEntity.type = 'EmailMessage' LIMIT 1];
+        ContentDocumentLink cdlMsg = [SELECT Id FROM ContentDocumentLink WHERE LinkedEntityId IN (SELECT Id FROM EmailMessage)];
         Assert.isNotNull(cdl);
         try {
             delete cdl;

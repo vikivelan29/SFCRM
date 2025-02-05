@@ -1,0 +1,23 @@
+{
+    "ReturnMessage": "Processed Successfully.",
+    "ReturnData": [
+        {
+            "name": "Aditi",
+            "channelType": "INSTAGRAM",
+            "channelId": "aditii.sanghii",
+            "followers": 759
+        },
+        {
+            "name": "Aditi",
+            "channelType": "INSTAGRAM",
+            "channelId": "8389373037758879",
+            "followers": 759
+        },
+        {
+            "name": "Parth  Dhabalia",
+            "channelType": "SPRINKLR_LIVE_CHAT",
+            "channelId": "P_400081133",
+            "followers": 0
+        }
+    ]
+}

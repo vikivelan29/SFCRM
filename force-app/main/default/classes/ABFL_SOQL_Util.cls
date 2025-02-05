@@ -54,7 +54,7 @@ public with sharing class ABFL_SOQL_Util {
     *********************************************************************************************************/
     public static Asset getAssetInfo(string assetid) {
       if(assetRec ==  null) {
-        assetRec = [SELECT Id, LAN__c, Account.PAN__c
+        assetRec = [SELECT Id, LAN__c, Account.PAN__c, Application_Number__c
                     FROM Asset 
                     WHERE Id =:assetid 
                     WITH SYSTEM_MODE

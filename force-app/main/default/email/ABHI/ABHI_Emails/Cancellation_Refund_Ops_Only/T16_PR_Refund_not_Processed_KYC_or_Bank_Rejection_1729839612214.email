@@ -1,0 +1,45 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear Customer /</span></span></span></span></span></span>{{{Case.Customer_name_formula__c}}},<br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Greetings from Aditya Birla Health Insurance Company Limited!!</span></span></span></span></span></span></p>
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">This communication is with reference to our earlier emails regarding your Proposal No. </span></span></span><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">{{{Case.Proposal_Number__c}}}. </span></span></span><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">The same has been </span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">{ Rejected / Cancelled / Declined }</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> and refund of the same is yet to be processed.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">A refund of INR { Gross Refund payable }* ( post calculation of deductibles ) is applicable and needs to be processed.</span></span></span></span></span></span><br />
+<br />
+<span style="font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve;">Despite repeated communications we are yet to receive the bank details from your end. Thus, we would like to inform you that the processing of your refund will be put on hold, if we do not receive these details within the next 24 hours.</span><br />
+<br />
+<span style="font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve;">We urge you to assist us { by replying to this mail } with the following:</span></p>
+
+<ul>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Scanned copy of a cancelled cheque bearing the Names of the Account Holders, Account No., IFS Code, branch details, etc. { at </span></span></span></span></span></span><a href="mailto:care.healthinsurance@adityabirlacapital.com" style="text-decoration:none"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#0000ff"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:underline"><span style="-webkit-text-decoration-skip:none"><span style="text-decoration-skip-ink:none">care.healthinsurance@adityabirlacapital.com</span></span></span></span></span></span></span></span></a><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> } from your registered email ID within 2 days of receipt of this communication.</span></span></span></span></span></span></li>
+</ul>
+<span style="font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve; text-align: justify;">We are unable to process your refund until we receive the mandatory documents.&nbsp;</span><br />
+<br />
+<span style="font-weight: 700; font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve; text-align: justify;">Please Note:</span>
+
+<ul>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">This is the Final Reminder communication from our end requesting for bank details. You are advised to adhere and respond to the same.</span></span></span></span></span></span></li>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">The size of the attachments cannot exceed 8 MB</span></span></span></span></span></span></li>
+</ul>
+<span style="font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve; text-align: justify;">Be rest assured, we will keep you updated on the progress of your refund using your registered contact details. To ensure you receive these updates, kindly update your contact information with us.</span><br />
+<br />
+<span style="font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve; text-align: justify;">For any further queries or concerns, please feel free to reach out to us. We’ll be glad to assist you.</span><br />
+<br />
+<span style="font-style: italic; font-family: Calibri, sans-serif; font-size: 7.5pt; white-space-collapse: preserve; text-align: justify;">** The refund amount has been calculated in adherence to the standard terms and conditions agreed upon during the purchase of your plan.</span>
+
+<div style="list-style-type:disc">
+<div style="line-height: 1.38; text-align: justify;">
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve;">Regards,</span><br />
+<span style="font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve;">Bilal</span><br />
+<span style="font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve;">Aditya Birla Health Insurance Co. Ltd.</span></p>
+</div>
+</div>
+
+<p style="line-height:1.3800000000000001; text-align:center"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:italic"><span style="text-decoration:none">This is an auto-generated email.</span></span></span></span></span></span></p>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Wellness_Leads</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>LEAD.EMAIL</columns>
+    <columns>LEAD.MOBILE_PHONE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Business_Unit__c</field>
+        <operation>equals</operation>
+        <value>Wellness</value>
+    </filters>
+    <label>Wellness Leads</label>
+    <sharedTo>
+        <group>Wellness_Contact_Center_G</group>
+        <group>Wellness_LOB_Admin_G</group>
+        <group>Wellness_Operations_G</group>
+    </sharedTo>
+</ListView>

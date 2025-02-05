@@ -2,8 +2,8 @@
 * @description       : This is the controller method for aSF_BulkCsvUploadDownload lwc
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 06-28-2024
-* @last modified by  : rsinghnagar@salesforce.com
+* @last modified on  : 23-Feb-24
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @SuppressWarnings('PMD.ApexSuggestUsingNamedCred')
 public without sharing class ASF_BulkCsvDownloadHelper {
@@ -14,7 +14,7 @@ public without sharing class ASF_BulkCsvDownloadHelper {
     /**
      * Description : This method is called when user clicks on the Download CSV for upload button
      * Input : operation name that user wishes to perform, current page url passed from VF, list of selected case IDs from list view,
-     *         User's current list view ID
+     * 		   User's current list view ID
      * Output : List of case field with values as per the chosen template to generate the csv file
      */
     public static Object generateCSVFileWithData(String strConfigName, String strURL, String strSelectedRecords, String strListViewId) {
@@ -51,6 +51,32 @@ public without sharing class ASF_BulkCsvDownloadHelper {
     }
 
     /**
+     * Description : This method is called when user clicks on the Download CTST button
+     * Input : operation name that user wishes to perform
+     * Output : List of case field with values as per the BU to generate the csv file
+     */
+    public static Object generateCSVFileWithCtst(String strConfigName) {
+        String strCSVFields = '';
+        List<Map<String,String>> resultSobjectList = new List<Map<String,String>>();
+        List<String> columnNames = new List<String>();
+        configMetaRec = ASF_Bulk_Row_to_Record_Converter_Config__mdt.getInstance(strConfigName);
+        strCSVFields = String.isNotBlank(configMetaRec.CTST_Query_Fields__c)? configMetaRec.CTST_Query_Fields__c:'';
+        columnNames = strCSVFields.split(',');
+        String businessUnit = String.isNotBlank(configMetaRec.Business_Unit__c)? configMetaRec.Business_Unit__c:'';
+
+        Type customType = Type.forName(configMetaRec.Apex_Class_Name__c);
+        ASF_BulkCSVToRecordConverter converter = (ASF_BulkCSVToRecordConverter)customType.newInstance();
+        resultSobjectList = converter.prepareCtstData(columnNames, businessUnit);
+        
+        // returns on field names if no data is present
+        if(resultSobjectList == null || resultSobjectList.isEmpty()){
+            return strCSVFields;
+        }
+
+        return resultSobjectList;
+    }
+
+    /**
      * Description : Returns the SOQL query for a given List view and Object Name
      * Input : Object API name and List View ID
      * Output : Returns the SOQL query for a given List view
@@ -72,7 +98,7 @@ public without sharing class ASF_BulkCsvDownloadHelper {
         }
         return query;
     }
-    
+	
     /**
      * Description : This method is used to display the final upload result
      * Input : current header ID

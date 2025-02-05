@@ -31,4 +31,14 @@
         <default>false</default>
         <label>Transgender</label>
     </standardValue>
+    <standardValue>
+        <fullName>M</fullName>
+        <default>false</default>
+        <label>M</label>
+    </standardValue>
+    <standardValue>
+        <fullName>F</fullName>
+        <default>false</default>
+        <label>F</label>
+    </standardValue>
 </StandardValueSet>

@@ -9,8 +9,9 @@ import userId from '@salesforce/user/Id';
 import { NavigationMixin } from 'lightning/navigation';
 import Case_Status from '@salesforce/schema/Case.Status';
 import Case_Stage from '@salesforce/schema/Case.Stage__c';
+import Case_Closed from '@salesforce/schema/Case.IsClosed';
 import { reduceErrors } from 'c/asf_ldsUtils';
-const fields = [Case_Owner, Case_Status, Case_Stage];
+const fields = [Case_Owner, Case_Status, Case_Stage, Case_Closed];
 
 
 import { registerRefreshContainer, unregisterRefreshContainer, REFRESH_COMPLETE, REFRESH_COMPLETE_WITH_ERRORS, REFRESH_ERROR } from 'lightning/refresh'
@@ -24,6 +25,11 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
     listRecords = {};
     @track hasRecord = false;
     isDisabled = true;
+    checklistStatuses = new Map();
+    statusVal;
+    wiredCaseResult;
+    
+
     get isAnyStageMatchChecklistPresent(){
         let output = false;
         if(this.accData){
@@ -38,18 +44,24 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
     }
     @api realFormData;
 
-    get options() {
+    defaultOptions(){
         return [
             { label: 'Pending', value: 'Pending' },
             { label: 'Completed', value: 'Completed' },
         ];
     }
+
+    get options() {
+        return this.statusVal;
+        
+    }
     @wire(getRecord, { recordId: '$recordId', fields })
-    gAcc({ data, error }) {
-        if (data) {
-            const onwerId = getFieldValue(data, Case_Owner);
-            const status = getFieldValue(data, Case_Stage);
-            this.isClosed = status == 'Closed' ? true : false;
+    wiredCases(result) {
+        this.wiredCaseResult = result;
+        if (result.data) {
+            const onwerId = getFieldValue(result.data, Case_Owner);
+            //const status = getFieldValue(result.data, Case_Stage);
+            this.isClosed = getFieldValue(result.data, Case_Closed);
             this.areDetailsVisible = onwerId == this.ownerIdCase;
         }
     }
@@ -58,14 +70,50 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         this.wiredAccountsResult = result;
         this.realFormData = { ... this.wiredAccountsResult.data };
         if (result.data) {
-            this.accData = result.data;
-            this.hasRecord = this.accData && this.accData.length > 0;
+            let tempAccData = result.data
+            this.hasRecord = tempAccData && tempAccData.length > 0;
+            let arr_tempProp = [];
+
+            for(var i = 0;i<tempAccData.length;i++){
+                let record = tempAccData[i];
+                let tempProp = {};
+                for(var k in  record){
+                    tempProp[k] = record[k];
+                }
+                
+                let arr_Status = tempAccData[i].Status_Picklist_Options__c != null ? tempAccData[i].Status_Picklist_Options__c.split(';') : [];
+                let statusOptions = [];
+                if(arr_Status.length > 0){
+                    arr_Status.forEach(element => {
+                        let a=  { label: element, value: element };
+                        statusOptions.push(a);
+                    });
+                    this.checklistStatuses[record.Id] = statusOptions;
+                    tempProp['StatusOptions']=statusOptions;
+                }
+                else{
+                    tempProp['StatusOptions']=this.defaultOptions();
+                }
+                arr_tempProp.push(tempProp);
+            }
+            this.accData = arr_tempProp;
         }
         else if (result.error) {
             this.error = result.error;
             this.hasRecord = false;
             this.accounts = undefined;
         }
+    }
+    handleOptionValues(event){
+        debugger;
+        let checklistId = event.target.getAttribute('data-id');
+        if(this.checklistStatuses[checklistId] != undefined){
+            this.statusVal =  this.checklistStatuses[checklistId];
+        }
+        else{
+            this.statusVal =  this.defaultOptions();
+        }
+
     }
     connectedCallback() {
 
@@ -93,9 +141,20 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         }
 
     }
-    handleSave(event) {
-        
+    async handleSave(event) {
         console.log('Refresh Apex called');
+        await refreshApex(this.wiredCaseResult);
+
+        if(this.isClosed){
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error updating record',
+                    message: 'The Case is already Closed',
+                    variant: 'error',
+                }),
+            ); 
+            return;
+        }
         updateMyCheckList({ updateChecklistRecords: this.listRecords }).then(result => {
             console.log('Refresh Apexsuccess called');
             refreshApex(this.wiredAccountsResult);

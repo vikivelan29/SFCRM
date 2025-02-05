@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>Read</caseAccessLevel>
+    <contactAccessLevel>Edit</contactAccessLevel>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>ABSLAMC RE Service Agents/Users</name>
+    <opportunityAccessLevel>None</opportunityAccessLevel>
+    <parentRole>ABSLAMC_RE_Executive_Leadership</parentRole>
+</Role>

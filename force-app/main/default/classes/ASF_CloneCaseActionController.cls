@@ -82,7 +82,7 @@ public with sharing class ASF_CloneCaseActionController {
         outerWrap.fieldList = new List<FieldWrapper>();
         try {
             Case caseRec = [SELECT Id, CCC_External_Id__c FROM Case WHERE Id =: caseId LIMIT 1];
-            List<ASF_Case_Category_Config__c> cccRecs = [SELECT Id, 
+            List<ASF_Case_Category_Config__c> cccRecs = [SELECT Id, is_FA_Mandatory__c,
                                                 (SELECT Id, FieldAPIName__c, ObjectAPIName__c FROM Case_Main_Configs__r
                                                 WHERE ASF_Is_Cloneable__c = TRUE) 
                                                 FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = :caseRec.CCC_External_Id__c];
@@ -91,6 +91,8 @@ public with sharing class ASF_CloneCaseActionController {
                 e.setMessage('Case Category Config is invalid');
                 throw e;
             }
+            
+            outerWrap.isFAMandatory = cccRecs[0].is_FA_Mandatory__c;
 
             for(ASF_Case_Field_Config__c field : cccRecs[0].Case_Main_Configs__r){
                 FieldWrapper wrap = new FieldWrapper();
@@ -235,7 +237,7 @@ public with sharing class ASF_CloneCaseActionController {
     }
 
     @AuraEnabled
-    public static CaseDetailWrapper createCloneCaseV2(Case cloneCaseRecord, Map<String, SObject> clonedCaseExtnRecords, Id originalCaseId, String assetId){
+    public static CaseDetailWrapper createCloneCaseV2(Case cloneCaseRecord, Map<String, SObject> clonedCaseExtnRecords, Id originalCaseId, String assetId, String inpArg){
         CaseDetailWrapper wrap = new CaseDetailWrapper();
         try {
 
@@ -261,24 +263,38 @@ public with sharing class ASF_CloneCaseActionController {
             cloneCaseRecord.AccountId = caseRec.AccountId;
             cloneCaseRecord.BusinessHoursId = caseRec.BusinessHoursId;
             if (assetId != 'NA'){
-                cloneCaseRecord.assetId = assetId;
+              cloneCaseRecord.assetId = assetId;
             }
            
             cloneCaseRecord.RecordTypeId = caseRec.RecordTypeId;
             for(String objectAPIName : clonedCaseExtnRecords.keySet()){
                 cloneCaseRecord.put(objectAPIName, (Id)clonedCaseExtnRecords.get(objectAPIName).get('Id'));
             }
+            if(String.isNotBlank(inpArg)){
+                Map<String,String> mInpArg = (Map<String,String>) JSON.deserialize(inpArg, Map<String,String>.Class);
+                if(mInpArg.containsKey('clientCode') && !String.isBlank(mInpArg.get('clientCode'))){
+                    cloneCaseRecord.Client_Code_Text__c = mInpArg.get('clientCode');
+                }
+                if(mInpArg.containsKey('memberId') && !String.isBlank(mInpArg.get('memberId'))){
+                    cloneCaseRecord.AccountId = mInpArg.get('memberId');
+                }
+                
+            }
             insert cloneCaseRecord;
 
             wrap.caseRecord = cloneCaseRecord;
             wrap.resultFlag = true;
             return wrap;
-        } catch (Exception e) {
-            AuraHandledException ex = new AuraHandledException(e.getMessage());
-            ex.setMessage(e.getMessage());
-            throw ex;
+        } catch (DMLException e) { 
+            String errMsg = '';
+             for (Integer i = 0; i < e.getNumDml(); i++) {
+               AuraHandledException ex = new AuraHandledException(e.getDmlMessage(i));
+               errMsg += e.getDmlMessage(i);
+               ex.setMessage(errMsg);
+               throw ex;
+            }
+            throw e;
         }
-
     }    
 
     @AuraEnabled(Cacheable=true)
@@ -321,6 +337,7 @@ public with sharing class ASF_CloneCaseActionController {
     @TestVisible class FieldListWrapper{
         @AuraEnabled public List<FieldWrapper> fieldList{get;set;}
         @AuraEnabled public String messageIfListIsEmpty{get;set;}
+        @AuraEnabled public Boolean isFAMandatory{get;set;}
     }
 
     @TestVisible class CaseDetailWrapper{

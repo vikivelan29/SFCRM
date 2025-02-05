@@ -1,0 +1,21 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;"><span style="font-size:10px;"><span style="font-family:Times New Roman,Times New Roman,Times,serif;"><span style="line-height:107%"><span lang="EN-IN">Hi,</span></span><br />
+<br />
+<span style="line-height:107%"><span lang="EN-IN">This is with reference to interaction {{{Case.CaseNumber}}}&nbsp;which was created on {{{Case.CreatedDate}}} and assigned to your team Surveillance&nbsp;on&nbsp;</span></span>{{{ABML_Case_Detail__c.Assigned_On__c}}}<br />
+<br />
+<span style="line-height:107%"><span lang="EN-IN">We are yet to receive feedback from you for the said interaction id.</span></span><br />
+<span style="line-height:107%"><span lang="EN-IN">Please login to the CRM for details. </span></span><br />
+<span style="line-height:107%"><span lang="EN-IN">Few case details given below for your reference.</span></span><br />
+<br />
+<span style="line-height:107%"><span lang="EN-IN">Customer –&nbsp;</span></span>{{{Case.Contact.Name}}}<br />
+<span style="line-height:107%"><span lang="EN-IN">TAT Deadline –&nbsp;</span></span>{{{ABML_Case_Detail__c.TAT_Deadline__c}}}<br />
+<span style="line-height:107%"><span lang="EN-IN">Assigned to User –&nbsp;</span></span>{{{ABML_Case_Detail__c.Assigned_User__c}}}<br />
+<br />
+<span style="line-height:107%"><span lang="EN-IN">Request you to do the needful.</span></span><br />
+<br />
+<span lang="EN-IN"><span style="line-height:107%">Warm Regards,<br />
+Assigned by Team: </span></span>{{{ABML_Case_Detail__c.AssignedOn_Team__c}}}</span></span></body>
+</html>

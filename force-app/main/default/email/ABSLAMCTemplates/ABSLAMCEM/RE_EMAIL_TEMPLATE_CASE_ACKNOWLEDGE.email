@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html style="overflow-y: hidden;">
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<table align="center" border="0" cellpadding="0" cellspacing="0" style="border:1px solid #000000;" width="620">
+	<tbody>
+		<tr>
+			<td style="padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px;">
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tbody>
+					<tr>
+						<td style="padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px;">
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody>
+								<tr>
+									<td align="left" valign="top" width="50">&nbsp;</td>
+									<td align="left" valign="top" width="520">
+									<table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 25px;font-style:normal;" valign="bottom">Dear Sir/Madam,</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">Greetings from Aditya Birla Sun Life AMC Ltd &ndash; Real Estate Investment Team!</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">This is an auto acknowledgment to let you know that we have registered your case {{{Case.CaseNumber}}}&nbsp;in our records.</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">Thank you for your patience.</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">Kindly note this interaction is being tracked through the given reference number, and we request you not to change the subject line for future correspondence pertaining to this query.</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">We value your association with us and thank you for choosing us as your investment partner. At Aditya Birla Sun Life AMC Ltd, we believe in the power of real estate investments to help you achieve your financial goals. By carefully selecting and managing real estate assets, you can enhance your portfolio&rsquo;s potential returns and secure your financial future.</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#202020; padding-top:20px; padding-right:0px; padding-bottom:10px; padding-left:0px; text-align:left; line-height: 25px;font-style:normal;" valign="bottom">Best Regards,<br />
+												Real Estate Investment Service Team<br />
+												Aditya Birla Sun Life AMC Ltd &ndash; Real Estate Investment Team</td>
+											</tr>
+										</tbody>
+									</table>
+									</td>
+									<td align="left" valign="top" width="50">&nbsp;</td>
+								</tr>
+							</tbody>
+						</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</body>
+</html>

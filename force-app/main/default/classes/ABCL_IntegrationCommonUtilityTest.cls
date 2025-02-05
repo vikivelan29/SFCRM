@@ -78,7 +78,7 @@ public class ABCL_IntegrationCommonUtilityTest {
     static void testTransferAttachments(){
         List<ASF_Case_Integration__c> caseIntegrationRecords = [SELECT Id, Case__c FROM ASF_Case_Integration__c LIMIT 1];
         Test.startTest();
-           // Boolean isSuccess = ABCL_IntegrationCommonUtility.transferAttachments(caseIntegrationRecords[0]);
+            Boolean isSuccess = ABCL_IntegrationCommonUtility.transferAttachments(caseIntegrationRecords[0]);
         Test.stopTest();
         System.assertEquals(1, caseIntegrationRecords.size(),'record found');          
     }
@@ -88,6 +88,16 @@ public class ABCL_IntegrationCommonUtilityTest {
         List<Case> caseRecords = [SELECT Id, No_Auto_Communication__c, AccountId, CCC_External_Id__c, ContactId FROM Case LIMIT 1];
         Test.startTest();
             Database.SaveResult eventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecords[0], 'dev_01', 'Dev_02', true);
+        	Map<Id, String>  emailTemplateMap = new map<Id, String>();
+        	emailTemplateMap.put(caseRecords[0].Id,'dev_01');
+            Map<Id, String>  smsTemplateMap = new map<Id, String>();
+            smsTemplateMap.put(caseRecords[0].Id,'Dev_02');
+            Map<Id, Boolean>  isTransferredMap = new map<Id, Boolean>();
+            isTransferredMap.put(caseRecords[0].Id,true);
+        	List<Database.SaveResult> eventResultBulk = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecords, 
+                                                                                                                emailTemplateMap,
+                                                                                                                smsTemplateMap,
+                                                                                                                isTransferredMap);
         Test.stopTest();
         System.assertEquals(true,eventResult.IsSuccess(),'fetched');
     }

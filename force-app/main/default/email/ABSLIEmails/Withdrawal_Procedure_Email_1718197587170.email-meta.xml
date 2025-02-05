@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Withdrawal Procedure</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Withdrawal Procedure Email</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Withdrawal Procedure</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

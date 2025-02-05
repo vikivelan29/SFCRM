@@ -130,12 +130,13 @@ public class ASF_CaseUIController_Test{
             FirstName = 'Test',
             LastName = 'Lead',
             Company = 'Test Company',
-            mobilephone = '1234567890'
+            mobilephone = '1234567890',
+            PANNO__c = 'ABCDE1234E'
         );
         insert testLead;
         Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
         Id assetId = [select Id from Asset where accountId =: wrapper[0].recordId LIMIT 1].Id;
-        ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false);
+        ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false,'{"customerBu":"ABFL"}');
         //ASF_CaseUIController.updateCRN(testLead.Id,assetId,cs.Id,'2333423',false);
         ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','','{"accountLOB":"ABFL"}');
         //ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','','{"accountLOB":"ABFL"}');
@@ -160,7 +161,8 @@ public class ASF_CaseUIController_Test{
             FirstName = 'Test',
             LastName = 'Lead',
             Company = 'Test Company',
-            mobilephone = '1234567890'
+            mobilephone = '1234567890',
+            PANNO__c = 'ABCDE1234E'
         );
         ASF_CaseUIController.CreateProspectAndUpdateOnCase(cs,testLead2);
         System.assertEquals(null, relObjName, 'not equal to null');
@@ -173,20 +175,21 @@ public class ASF_CaseUIController_Test{
         Id [] fixedSearchResults= new Id[1];
         fixedSearchResults[0] = acc.Id;
         Test.setFixedSearchResults(fixedSearchResults);
-        
+        ASF_CaseUIController.conAssetWrapper conWrapper = ASF_CaseUIController.getMatchingContacts(acc.Id);
         List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
         //Asset asst = [SELECT Id, AccountId FROM Asset];
         Lead testLead = new Lead(
             FirstName = 'Test',
             LastName = 'Lead',
             Company = 'Test Company',
-            mobilephone = '1234567890'
+            mobilephone = '1234567890',
+            PANNO__c = 'ABCDE1234E'
         );
         insert testLead;
         Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
         Id assetId = [select Id from Asset where accountId =: wrapper[0].recordId LIMIT 1].Id;
         //ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false);
-        ASF_CaseUIController.updateCRN(testLead.Id,assetId,cs.Id,'2333423',false);
+        ASF_CaseUIController.updateCRN(testLead.Id,assetId,cs.Id,'2333423',false,'');
         //ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','','{"accountLOB":"ABFL"}');
         ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','','{"accountLOB":"ABFL"}');
         
@@ -222,6 +225,7 @@ public class ASF_CaseUIController_Test{
         Lead leadRecord = new Lead();
         leadRecord.MobilePhone  = '9855494949';
         leadRecord.LastName = 'test';
+        leadRecord.PANNO__c = 'ABCDE1234E';
         insert caseRecord;
         //insert leadRecord;
         //caseRecord.Lead__c =leadRecord.Id;

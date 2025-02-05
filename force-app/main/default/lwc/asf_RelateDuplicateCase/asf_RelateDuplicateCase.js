@@ -17,6 +17,8 @@ import BUSINESS_UNIT_FIELD from '@salesforce/schema/Case.Business_Unit__c'
 import IS_DUPLICATE_FIELD from '@salesforce/schema/Case.Is_Duplicate__c'
 import USER_ID from '@salesforce/user/Id';
 import { lanLabels } from 'c/asf_ConstantUtility';
+import ONEABC_BU from '@salesforce/label/c.ABCD_ONEABC_BU';
+import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
 
 export default class Asf_RelateDeduplicateCase extends LightningElement {
     @api recordId;
@@ -49,7 +51,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
             };
             this.parentCaseId = getFieldValue(data, PARENTCASEID_FIELD);
             this.businessUnit = getFieldValue(data, BUSINESS_UNIT_FIELD);
-            this.lanErrorMessage = lanLabels[this.businessUnit].RELATE_DUP_LAN_ERRORMSG != null? lanLabels[this.businessUnit].RELATE_DUP_LAN_ERRORMSG : lanLabels["DEFAULT"].RELATE_DUP_LAN_ERRORMSG;
+            this.lanErrorMessage = lanLabels[this.businessUnit]?.RELATE_DUP_LAN_ERRORMSG || lanLabels["DEFAULT"].RELATE_DUP_LAN_ERRORMSG;
             this.ownerValidation();
         } else if (error) {
             console.error('Error loading record', error);
@@ -112,8 +114,8 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
             isValid = false;
             this.showToastMessage('Error!', 'You cannot choose a closed case as parent', 'error');
         }
-        else if(this.wiredCurrentRec.Lan && this.wiredCurrentRec.Lan != null && this.wiredCurrentRec.Lan != 'NA' && this.wiredCurrentRec.Lan != ''
-                && this.wiredCurrentRec.Lan != this.wiredParentRec.Lan){
+        else if(this.wiredCurrentRec.Lan && this.wiredCurrentRec.Lan != null && this.wiredCurrentRec.Lan != 'NA' && this.wiredCurrentRec.Lan != '' && this.wiredCurrentRec.BusinessUnit != ABCD_BU
+            && this.wiredCurrentRec.BusinessUnit != ONEABC_BU && this.wiredCurrentRec.Lan != this.wiredParentRec.Lan){
             isValid = false;
             this.showToastMessage('Error!', this.lanErrorMessage, 'error');
         }

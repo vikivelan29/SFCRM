@@ -70,9 +70,14 @@ public without sharing class ASF_EmailMessageHelper {
         if(!caseIds.isEmpty()){
             existingCases = fetchCaseDetails(caseIds);
             for(Case caseRec : existingCases){
+                /*
                 if(caseRec.IsClosed && (caseRec.Is_Reopen_Allowed__c == false || (caseRec.Is_Reopen_Allowed__c == true && 
                  !(caseRec.ClosedDate != null && caseRec.Reopen_Days__c != null 
                   && System.today().daysBetween(caseRec.ClosedDate.date()) <= caseRec.Reopen_Days__c)))){
+                    bNewCaseByReplyToCloseCase = true;
+                }
+*/
+                if(caseRec.IsClosed){
                     bNewCaseByReplyToCloseCase = true;
                 }
             }
@@ -136,9 +141,9 @@ public without sharing class ASF_EmailMessageHelper {
                    //&& (caseRec.RecordTypeId == ASF_Constants.RT_FRAMEWORK){
                        //&& caseRec.Nature__c == 'Complaint'){
                        //if closed, check if reopen allowed or not
-                       if(caseRec.Is_Reopen_Allowed__c == true){
+                       if(buSpecificReopenCheck(caseRec)){
                            // if allowed, check if reopen days expired or not
-                           if(caseRec.ClosedDate != null && caseRec.Reopen_Days__c != null 
+                           if(caseRec.ClosedDate != null && caseRec.Reopen_Days__c != null && caseRec.Business_Unit__c != 'ABHI' 
                               && System.today().daysBetween(caseRec.ClosedDate.date()) <= caseRec.Reopen_Days__c){
                                   // if not expired, reopen
                                   caseRec.Reopen_Reason__c = Label.ASF_Default_Reopen_Reason;
@@ -148,6 +153,13 @@ public without sharing class ASF_EmailMessageHelper {
                               }else{
                                   // else create new case and reparent EmailMessage
                                   Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
+                                   String winningEmailAddrOnEmail = caseIdToEmailMessageMap.get(caseRec.Id).Winning_Email__c;
+                                   newCase.SuppliedEmail = caseIdToEmailMessageMap.get(caseRec.Id).FromAddress;
+                                   if(mWinningEmailDetails.containsKey(winningEmailAddrOnEmail)){
+                                       ASF_PriorityEmailAddressesByBU__mdt onEmailMdt = mWinningEmailDetails.get(winningEmailAddrOnEmail);
+                                       //newCase.Sent_to_EBOT__c = onEmailMdt.Send_to_EBOT__c;
+                                       newCase.Origin = onEmailMdt.Case_Origin__c ;
+                                   }
                                   oldCaseIdToNewCaseMap.put(caseRec.Id, newCase);
                                   //firstOwnerToOldCases = populateMap(caseRec, firstOwnerToOldCases);
                                   // VIRENDRA - 10 April 2024 - ADDED STATIC VARIABLE TO SET TO TRUE.
@@ -224,7 +236,15 @@ public without sharing class ASF_EmailMessageHelper {
             newCase.OwnerId = mQueueDevNameVsId.get(queueDevNameToEmail.get(caseIdToEmailMessageMap.get(closedCase.Id).Winning_Email__c));
         }
         newCase.Subject = caseIdToEmailMessageMap.get(closedCase.Id).Subject;
-        newCase.Description = caseIdToEmailMessageMap.get(closedCase.Id).TextBody;
+       //Added by EY - Start
+        string emailBody = caseIdToEmailMessageMap.get(closedCase.Id).TextBody;
+        if(emailBody.length() >= 32000){
+            newCase.Description = emailBody.substring(0,31999);
+        }
+        else{
+            newCase.Description = emailBody;
+        }
+        //Added by EY - End
         newCase.AccountId = closedCase.AccountId;
         newCase.ContactId = closedCase.ContactId;
         newCase.Origin = closedCase.Origin;
@@ -232,8 +252,18 @@ public without sharing class ASF_EmailMessageHelper {
         newCase.RecordTypeId = ASF_Constants.RT_INTERACTION;
         newCase.SuppliedEmail = closedCase.SuppliedEmail;
         newCase.SuppliedName = closedCase.SuppliedName;
-        newCase.Business_Unit__c = closedCase.Business_Unit__c;
+        //newCase.Business_Unit__c = closedCase.Business_Unit__c;
         return newCase;
     }   
+    
+    private static boolean buSpecificReopenCheck(Case caseRec){
+        boolean returnVal = caseRec.Is_Reopen_Allowed__c; // default value
+        
+        if((caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU || caseRec.Business_Unit__c == ABHI_Constants.ABHI )&& caseRec.Nature__c == 'Complaint'){
+            return false;
+        }
+        return returnVal;
+        
+    }
     
 }

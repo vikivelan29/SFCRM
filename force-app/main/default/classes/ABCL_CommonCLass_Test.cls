@@ -19,6 +19,7 @@ public with sharing class ABCL_CommonCLass_Test {
         caseList.add(new Case(Business_Unit__c = 'ABWM', Stage__c = 'Open'));
         caseList.add(new Case(Business_Unit__c = 'Payments', Stage__c = 'Open'));
         caseList.add(new Case(Business_Unit__c = 'ABSLIG', Stage__c = 'Open'));
+        caseList.add(new Case(Business_Unit__c = 'ABML', Stage__c = 'Open'));//Added by EY
         insert caseList;
     }
 
@@ -93,7 +94,7 @@ public with sharing class ABCL_CommonCLass_Test {
       Test.stopTest();
 
       // Validate bypass validation logic
-      System.assertEquals(true, result, 'true');
+      System.assertEquals(true, result, 'false');
     }
 
     @SuppressWarnings('PMD.UnusedLocalVariable')

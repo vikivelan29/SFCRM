@@ -1,0 +1,76 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p style="line-height:1.2"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear </span></span></span></span></span></span>{{{Case.Customer_name_formula__c}}}<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">,</span></span></span></span></span></span></p>
+
+<p style="line-height:1.2; margin-left:48px; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Thank you for choosing Aditya Birla Health Insurance as your health-first partner. It has always been our mission to offer you the finest coverage and assistance, and we remain dedicated to being by your side whenever you require our support.</span></span></span></span></span></span></p>
+
+<p style="line-height: 1.2;"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We sincerely hope that you are progressing well in your recovery journey and experiencing improvement with each passing day.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We wish to inform you that the deductions mentioned in your Claim Settlement Letter are accurate and in line with the terms and conditions of your policy.<br />
+<br />
+In line with your service request dated </span></span></span></span></span></span>{{{Case.CreatedDate}}}<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">, we hereby share the detailed breakup for your reference.</span></span></span></span></span></span></p>
+&nbsp;
+
+<div>
+<table style="border:none; border-collapse:collapse" width="642">
+	<colgroup>
+		<col width="151" />
+		<col width="151" />
+		<col width="151" />
+		<col width="189" />
+	</colgroup>
+	
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:151px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Claim Amount</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">(INR)</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:151px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Approved Amount</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">(INR)</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:151px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Deductions Amount</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">(INR)</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:189px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Deductions Reason</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:151px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&lt;</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="background-color:#ffff00"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">49,428.08/-&gt;</span></span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:151px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&lt;</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="background-color:#ffff00"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">32,304.08/-&gt;</span></span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:151px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&lt;</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="background-color:#ffff00"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">17,124.00/-&gt;</span></span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:189px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&lt;</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="background-color:#ffff00"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">mention Deduction Reasons in detail</span></span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> &gt;</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+	
+</table>
+</div>
+&nbsp;
+
+<p style="line-height:1.2"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Please refer the attached Claim settlement letter with complete details for reference.&nbsp;</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Considering above, we are marking your service request 'Resolved'; assuring you of best services always.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Regards,</span></span></span></span></span></span><br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Aditya Birla Health Insurance Co. Ltd.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Wishing you a speedy recovery.</span></span></span></span></span></span></p>
+<br />
+<br />
+&nbsp;</body>
+</html>

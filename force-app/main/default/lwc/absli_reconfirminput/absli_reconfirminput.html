@@ -1,0 +1,48 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 08-29-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+        class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h1 class="slds-modal__title slds-hyphenate">
+                    Confirm Value</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium">
+                <template if:true={countryCodeVisibilty}>
+                    <lightning-combobox
+                        required
+                        class="slds-m-top_small"
+                        name="options"
+                        label="Country Code"
+                        placeholder="Country Code"
+                        options={options}
+                        onchange={handleCountryCodeOptionChange}>
+                    </lightning-combobox>
+                </template>
+                <lightning-input data-id="originalInput" required type="password" class="slds-m-top_small confirmation" label="Enter Value"
+                    data-field-name={fieldNameToSearch} onchange={handleOriginalTextChange}></lightning-input>
+                <lightning-input data-id="confirmInput" type={confirmFieldType} required class="slds-m-top_small" label="Re enter value"
+                    onchange={handleConfirmTextChange}></lightning-input>
+                <template if:true={isMobileNumberError}>
+                    <div class="slds-text-color_error slds-m-top_small">Invalid Mobile Number for selected Country Code. India - 10 digits, Other - 15 digits</div>
+                </template>
+                <template if:true={showConfirmationError}>
+                    <div class="slds-text-color_error slds-m-top_small">The values entered do not match. Please ensure both fields contain the same value.</div>
+                </template>          
+            </div>
+            <div class="slds-modal__footer">
+                <lightning-button class="slds-m-around_small" label="Cancel"
+                    onclick={cancelConfirmFieldPopup}></lightning-button>
+                <lightning-button class="slds-m-around_small" label="Save" onclick={varifyConfirmFieldPopup}
+                    disabled={bConfirmationTextNotMatching}></lightning-button>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>

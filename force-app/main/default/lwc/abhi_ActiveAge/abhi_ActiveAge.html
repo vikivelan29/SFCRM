@@ -1,0 +1,28 @@
+<template>
+
+    <!--<lightning-card variant="narrow">-->
+        <!--<h1 slot="title">Active Age Details</h1> -->
+
+        <template lwc:if={showRecords}>
+            <c-abfl_-data-table-with-pagination columns={columns}
+															table-data={data} page-size = {label.pageSize}
+                                                            onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
+        </template>
+
+        <div slot="actions"  onkeyup={handleKeyUp} class="slds-p-horizontal_small slds-m-bottom_small slds-clearfix" style="width: 200px;">
+            <div class="slds-float_right slds-grid">
+
+                <!--<lightning-button-icon icon-name="utility:refresh"  alternative-text="Refresh" title="Refresh" style="margin-top:auto;" onclick={handleRefresh}></lightning-button-icon>-->
+
+                <div slot="footer"></div>
+            </div>
+        </div>
+        <template if:true={displayError}>
+            <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                {errorMessages}
+            </div>
+        </template> 
+    <!--</lightning-card>-->
+    
+</template>

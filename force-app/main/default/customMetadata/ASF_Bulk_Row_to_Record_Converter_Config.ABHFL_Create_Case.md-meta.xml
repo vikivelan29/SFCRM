@@ -15,12 +15,20 @@
         <value xsi:type="xsd:string">ABHFL</value>
     </values>
     <values>
+        <field>CTST_Query_Fields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Custom_Permission_for_Access__c</field>
         <value xsi:type="xsd:string">Bulk_Case_Create</value>
     </values>
     <values>
         <field>Display_Label__c</field>
         <value xsi:type="xsd:string">Bulk Create Case</value>
+    </values>
+    <values>
+        <field>FieldApiName__c</field>
+        <value xsi:type="xsd:string">CaseNumber</value>
     </values>
     <values>
         <field>Fields_Name__c</field>
@@ -33,6 +41,10 @@
     <values>
         <field>Order__c</field>
         <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
+        <field>Run_Assignment_Rule_on_Create__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>SOQL_Where_Clause__c</field>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABHFL_Mandatory_Field_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(ISPICKVAL($User.Business_Unit__c ,&apos;ABHFL&apos;), OR(ISBLANK(Preferred_Communication__c), ISBLANK(TEXT(ABHFL_Prospect_Type__c)) , ISBLANK(Requested_Loan_Amount__c), ISBLANK(TEXT(LeadSource)),ISBLANK(TEXT(Sub_Source__c))))</errorConditionFormula>
+    <errorMessage>Please fill the mandatory fields : Lead Source, Sub Source, Requested Loan Amount, Preferred Communication, Prospect Type</errorMessage>
+</ValidationRule>

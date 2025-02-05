@@ -4,8 +4,8 @@
 }
 .custom-footer{
     /*position:fixed;*/
-    position: relative;
-    margin-top: 150px;
+    position: absolute;
+    /*margin-top: 150px;*/
     display: flex;
     justify-content: right;
     padding: var(-lwc-spacingXSmall,0,0.5rem) 0;

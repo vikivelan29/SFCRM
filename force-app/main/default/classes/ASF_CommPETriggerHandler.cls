@@ -21,10 +21,14 @@ public without sharing class ASF_CommPETriggerHandler {
         Integer batchSize = getBatchSize();
         Set<Id> peIds = new Set<Id>();
         Map<integer,Map<String,Set<Id>>> mCaseVsMetadata = new Map<integer,Map<String,Set<Id>>>();
+        
         Set<integer> caseCustomMetadata = new Set<integer>();
         Map<Id,Id> mPEIdVsCaseId = new Map<Id,Id>();
         List<PE_Logger__c> subScriberList = new List<PE_Logger__c>();
         List<PE_Logger__c> peLoggerList = new List<PE_Logger__c>();
+        List<PE_Logger__c> allPeLoggerList = new List<PE_Logger__c>();
+        Map<String, List<PE_Logger__c>> mSObjectVsLoggerList = new Map<String,List<PE_Logger__c>>();
+        
         
         
         for(ASF_CommnunicationLog__e  event : newList){
@@ -41,7 +45,8 @@ public without sharing class ASF_CommPETriggerHandler {
                         }
                     }
                     Id idRecordId = Id.ValueOf(event.RecordID__c);
-                    if(idRecordId.getSobjectType() == Case.sObjectType){
+                    // Joshna - added Opportunity for extending framework to Renewals
+                    if(idRecordId.getSobjectType() == Case.sObjectType || idRecordId.getSobjectType() == Account.sObjectType || idRecordId.getSobjectType() == Opportunity.sObjectType){
                         if(!mCaseVsMetadata.containsKey(tempCompositeKeyHashCode)){
                             //mCaseVsMetadata.put(tempCompositeKeyHashCode,event.CustomMetadataName__c);
                             mCaseVsMetadata.put(tempCompositeKeyHashCode,new Map<String,Set<Id>>());
@@ -51,7 +56,6 @@ public without sharing class ASF_CommPETriggerHandler {
                         }
                         mCaseVsMetadata.get(tempCompositeKeyHashCode).get(event.CustomMetadataName__c).add(event.RecordID__c);
                     }
-                    
                     caseCustomMetadata.add(tempCompositeKeyHashCode);
                     
                     counter++;
@@ -63,8 +67,33 @@ public without sharing class ASF_CommPETriggerHandler {
         }
         
         if(peIds.size()>0){
-            peLoggerList = ASF_CommPETriggerQueryHandler.getPELoggerRecords(peIds,'Completed');
-            for(PE_Logger__c peL : peLoggerList){
+            allPeLoggerList = ASF_CommPETriggerQueryHandler.getPELoggerRecords(peIds,'Completed');
+            for(PE_Logger__c peLog : allPeLoggerList){
+                System.debug(peLog.Case__c);
+                if(peLog.Case__c !=null){
+                    if(!mSObjectVsLoggerList.containsKey('Case')){
+                        mSObjectVsLoggerList.put('Case', new List<PE_Logger__c>());
+                    }
+                    mSObjectVsLoggerList.get('Case').add(peLog);
+                }
+                // Joshna - added this else if block to extend framework for opportunities. This if block has to be before Account block as renewal
+                // loggers will have both account ID as well as opportunity ID
+                else if(peLog.Opportunity_ID__c != null){
+                    if(!mSObjectVsLoggerList.containsKey('Opportunity')){
+                        mSObjectVsLoggerList.put('Opportunity', new List<PE_Logger__c>());
+                    }
+                    mSObjectVsLoggerList.get('Opportunity').add(peLog);
+                }
+                else if((peLog.AccountId__c != null && peLog.AccountId__c != '') && (peLog.Case__c == '' || peLog.Case__c == null)){
+                    if(!mSObjectVsLoggerList.containsKey('Account')){
+                        mSObjectVsLoggerList.put('Account', new List<PE_Logger__c>());
+                    }
+                    mSObjectVsLoggerList.get('Account').add(peLog);
+                }
+            }
+            // Joshna - commented this line as it is a duplicate of allPeLoggerList query. Replacing all references of peLoggerList with allPeLoggerList
+            //peLoggerList = ASF_CommPETriggerQueryHandler.getPELoggerRecords(peIds,'Completed');
+            for(PE_Logger__c peL : allPeLoggerList){
                 String tempCompositeKey = peL.Case__c+'_'+peL.CustomMetadataName__c;
                 integer tempCompositeKeyHash = tempCompositeKey.hashCode();
                 if(!caseCustomMetadata.contains(tempCompositeKeyHash)){
@@ -87,8 +116,8 @@ public without sharing class ASF_CommPETriggerHandler {
         
         List<PE_Logger__c> updPELoggerStatus = new List<PE_Logger__c>();
         
-        if(mCaseVsMetadata.keySet().size()>0){
-            Map<Id,ASF_CommPETriggerHelper.responseWrapper> results = ASF_CommPETriggerHelper.executeContructor(peLoggerList);
+        if(mCaseVsMetadata.keySet().size()>0 && mSObjectVsLoggerList.containsKey('Case')){
+            Map<Id,ASF_CommPETriggerHelper.responseWrapper> results = ASF_CommPETriggerHelper.executeContructor(mSObjectVsLoggerList.get('Case'));
             System.debug(results);
             for(Id pLogId : results.keySet()){
                 PE_Logger__c peL = new PE_Logger__c(Id=pLogId);
@@ -109,12 +138,64 @@ public without sharing class ASF_CommPETriggerHandler {
                 updPELoggerStatus.add(peL);
             }
             
-            
-            if(updPELoggerStatus.size()>0){
+            // Joshna - commented this if block to move it outside if blocks and optimize DML count
+            /*if(updPELoggerStatus.size()>0){
                 update updPELoggerStatus;
+            }*/
+        }
+        if(mCaseVsMetadata.keySet().size()>0 && mSObjectVsLoggerList.containsKey('Account')){
+            Map<Id,ASF_AccountCommPETriggerHelper.responseWrapper> results = ASF_AccountCommPETriggerHelper.executeContructor(mSObjectVsLoggerList.get('Account'));
+            System.debug(results);
+            for(Id pLogId : results.keySet()){
+                PE_Logger__c peL = new PE_Logger__c(Id=pLogId);
+                if(results.get(pLogId).status == 'Success'){
+                    peL.status__c = 'Completed'; 
+                    peL.retry_PE__c=false;
+                }
+                else if(results.get(pLogId).status == 'Error'){
+                    peL.Status__c = 'Error';
+                    peL.Error_Message__c = results.get(pLogId).message;
+                    peL.Retry_Time__c = DateTime.now().addMinutes(15);
+                    peL.retry_PE__c=true;
+                }
+                else{
+                    peL.Retry_Time__c = DateTime.now().addMinutes(15);
+                    peL.retry_PE__c=true;                                 
+                }
+                updPELoggerStatus.add(peL);
+            }
+            
+            // Joshna - commented this if block to move it outside if blocks and optimize DML count
+            /*if(updPELoggerStatus.size()>0){
+                update updPELoggerStatus;
+            }*/
+        }
+        if(mCaseVsMetadata.keySet().size()>0 && mSObjectVsLoggerList.containsKey('Opportunity')){
+            Map<Id, ASF_OppCommPETriggerHelper.responseWrapper> results = ASF_OppCommPETriggerHelper.executeContructor(mSObjectVsLoggerList.get('Opportunity'));
+            for(Id pLogId : results.keySet()){
+                PE_Logger__c peL = new PE_Logger__c(Id=pLogId);
+                if(results.get(pLogId).status == 'Success'){
+                    peL.status__c = 'Completed'; 
+                    peL.retry_PE__c=false;
+                }
+                else if(results.get(pLogId).status == 'Error'){
+                    peL.Status__c = 'Error';
+                    peL.Error_Message__c = results.get(pLogId).message;
+                    peL.Retry_Time__c = DateTime.now().addMinutes(15);
+                    peL.retry_PE__c=true;
+                }
+                else{
+                    peL.Retry_Time__c = DateTime.now().addMinutes(15);
+                    peL.retry_PE__c=true;                                 
+                }
+                updPELoggerStatus.add(peL);
             }
         }
         
+        // Joshna - moved this outside the if blocks to optimize DML count
+        if(updPELoggerStatus.size()>0){
+            update updPELoggerStatus;
+        }
         
     }
     private static integer getBatchSize(){

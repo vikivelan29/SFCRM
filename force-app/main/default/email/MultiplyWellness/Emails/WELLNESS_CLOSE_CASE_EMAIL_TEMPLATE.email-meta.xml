@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Wellness - Email template used when case is closed.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CLOSE CASE EMAIL TEMPLATE Internal</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Closure of Your Request | Case number: {{{Case.CaseNumber}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

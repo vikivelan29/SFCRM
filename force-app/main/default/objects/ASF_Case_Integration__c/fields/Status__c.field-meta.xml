@@ -35,6 +35,11 @@
                 <default>false</default>
                 <label>Acknowledged</label>
             </value>
+            <value>
+                <fullName>BAD_REQUEST</fullName>
+                <default>false</default>
+                <label>BAD_REQUEST</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

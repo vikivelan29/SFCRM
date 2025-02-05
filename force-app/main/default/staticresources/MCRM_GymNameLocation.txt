@@ -1,0 +1,116 @@
+{
+    "operationStatus": "SUCCESS",
+    "serviceMessages": [
+        {
+            "systemCode": "JAVAPADMSERINF001",
+            "businessCode": "PADMSERINF001",
+            "businessDesc": "Records Found",
+            "serviceMessageType": "INFORMATION",
+            "messageTime": "2024-09-02T14:57:06.635+05:30"
+        }
+    ],
+    "responseMap": {
+        "resultsList": {
+            "partnerMethods": [
+                {
+                    "integrationMethodCode": "WEB",
+                    "integrationMethodName": "Web"
+                }
+            ],
+	    "id": "par1",
+            "partnerCode": "PAR-Amazon",
+            "partnerTypeCd": "NA",
+            "company": {
+                "entityName": "Amazon",
+                "entityDataSourceCode": "ABW",
+                "companyTypeDescr": "Pvt Ltd",
+                "registeredCompanynName": "Amazon",
+                "preferedCompanyName": "Amazon",
+                "tradingAs": "Amazon",
+                "country": {
+                    "countryCd": "IND",
+                    "countryDescr": "India",
+                    "countryDialCd": "91"
+                },
+                "companyRegistrationNo": ".",
+                "isVatRegistered": "N",
+                "companyWebsite": "www.amazon.in",
+                "effFromDate": "2016-11-21T00:00:00.000+05:30",
+                "effToDate": "2999-12-31T00:00:00.000+05:30",
+                "addresses": [
+                    {
+                        "addrTypeCode": "PHYSICAL",
+                        "addrLine1": "Brigade Gateway,8th floor",
+                        "addrLine2": "26/1, Dr. Rajkumar Road",
+                        "cityTown": "Malleshwaram",
+                        "country": {
+                            "countryCd": "IND",
+                            "countryDescr": "India",
+                            "countryDialCd": "91"
+                        },
+                        "provinceState": "Bangalore",
+                        "zipPostalCd": "560055",
+                        "entityDataSourceCode": "ABW"
+                    }
+                ],
+                "emailAddresses": [
+                    {
+                        "emailAddrTypeCode": "WORK",
+                        "emailAddr": "Nishant.Kumar@adityabirla.com"
+                    }
+                ],
+                "phones": [
+                    {
+                        "phoneTypeCode": "MOBILE",
+                        "extension": "0",
+                        "phoneNo": "8108880905",
+                        "areaCd": "",
+                        "country": {
+                            "countryCd": "IND",
+                            "countryDescr": "India",
+                            "countryDialCd": "91"
+                        }
+                    }
+                ],
+                "companyRoleDetails": [
+                    {
+                        "companyAgreementRefNo": "",
+                        "companyAgreementDesc": "",
+                        "dateOfAgreement": "2016-11-21T00:00:00.000+05:30",
+                        "effFromDate": "2016-11-21T00:00:00.000+05:30",
+                        "effToDate": "2999-12-31T00:00:00.000+05:30",
+                        "companyRoleCode": "PARTNER"
+                    }
+                ],
+                "companyCntctPersons": [
+                    {
+                        "companyContactPersonName": "Nishant",
+                        "companyContactPersonSurname": "Kumar",
+                        "emailAddress": "Nishant.Kumar@adityabirla.com",
+                        "landlineNumber": "",
+                        "mobilenumber": "8108880905",
+                        "faxNumber": "",
+                        "commTypeCode": "EMAIL",
+                        "companyContactPersonRoles": [
+                            {
+                                "roleCode": "CRM",
+                                "roleDescription": "CRM"
+                            }
+                        ]
+                    }
+                ],
+                "companyComments": [],
+                "companyIndustryTypes": [
+                    {
+                        "industryTypeCode": "ONLINESHOP"
+                    }
+                ]
+            },
+            "businessUnits": [],
+            "effFromDate": "2016-11-21T00:00:00.000+05:30",
+            "effToDate": "2999-12-31T00:00:00.000+05:30",
+            "status": "A",
+            "statusReason": "Active"
+        }
+    }
+}

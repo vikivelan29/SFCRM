@@ -1,0 +1,25 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear Customer / </span></span></span></span></span></span>{{{Case.Customer_name_formula__c}}}<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">,<br />
+<br />
+Greetings from Aditya Birla Health Insurance Company Limited!!<br />
+<br />
+Thank You for trusting Us with your Health Insurance needs and we assure you the best of our services.</span></span></span></span><br />
+<br />
+<span style="font-style: normal;"><span style="text-decoration: none;">This email is regarding a Service Request raised for </span></span></span></span>{{{Case.Sub_Type_Text__c}}}<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="font-style: normal;"><span style="text-decoration: none;">. We acknowledge the same with Service Request No. {{{Case.CaseNumber}}}<b>. </b></span></span><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Our team is working on processing your request.</span></span></span><br />
+<br />
+<span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Your Service Request is expected to be resolved within </span></span></span><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">{ TAT }</span></span></span><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> business days.</span></span></span><br />
+<br />
+<span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">Please Note:</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> All Service Requests are tracked by the SR Number. It is advised to quote the same for all future communications and to avoid raising duplicate or multiple requests of similar nature.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Wishing you good health and prosperity.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Stay Active, Stay Healthy</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Regards,</span></span></span></span></span></span><br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Aditya Birla Health Insurance Co. Ltd.</span></span></span></span></span></span></p>
+</body>
+</html>

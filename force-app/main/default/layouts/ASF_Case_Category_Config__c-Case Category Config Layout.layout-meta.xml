@@ -131,6 +131,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Validation_method_during_creation__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Is_FTR_Journey__c</field>
             </layoutItems>
             <layoutItems>
@@ -552,6 +556,10 @@
         <fields>Manual_Approval__c</fields>
         <fields>Default_Queue__c</fields>
         <relatedList>ASF_Case_Stage_Config__c.Case_Category_Config__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>ASF_Case_Email_Config__c.Case_Category_Config__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
