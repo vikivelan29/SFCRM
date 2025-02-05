@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Case_Fields_To_Display__c</field>
-        <value xsi:type="xsd:string">Type_Text__c,Sub_Type_Text__c,Nature__c</value>
+        <value xsi:type="xsd:string">CaseNumber,Type_Text__c,Sub_Type_Text__c,Nature__c</value>
     </values>
     <values>
         <field>Field_To_Display__c</field>
-        <value xsi:type="xsd:string">Responded_on__c,Primary_Question_NPS__c,Primary_Comment__c,Case__c</value>
+        <value xsi:type="xsd:string">RespondedOn__c,Primary_Question_NPS__c,Primary_Comment__c</value>
     </values>
     <values>
         <field>Journey__c</field>
