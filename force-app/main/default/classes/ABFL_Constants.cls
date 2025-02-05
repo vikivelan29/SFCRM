@@ -9,6 +9,7 @@ name                Date                  Change Description
 @SuppressWarnings('PMD.PropertyNamingConventions')
 public with sharing class ABFL_Constants {
 	public static final string SUCCESS = 'Success';
+    public static final string FAILURE = 'Failure';
     public static final string BRE = 'BRE';
     public static final string ERROR = 'Error';  
     public static final string CANCELED = 'Canceled';
@@ -130,4 +131,5 @@ public with sharing class ABFL_Constants {
     public static ABFL_Constants getAllConstants() {
         return new ABFL_Constants();
     }
+    public static final List<String> STP_FAILURE_ASSIGNMENT_CTST = new List<String>{'SOA61219','WKC61219','AR61219','IC61219','rstrpi01'};
 }

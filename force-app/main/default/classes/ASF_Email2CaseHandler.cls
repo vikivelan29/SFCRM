@@ -2,15 +2,15 @@
 * @description       : Class is having all the E2C Validation of Email Boxes logic.
 * @author            : virendra
 * @group             : 
-* @last modified on  : 10-10-2024
-* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+* @last modified on  : 05-14-2024
+* @last modified by  : rsinghnagar@salesforce.com
 * Modifications Log
 * Ver   Date         Author                       Modification
 * 1.0   05-14-2024   rsinghnagar@salesforce.com   Initial Version
 **/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.ClassNamingConventions')
 public without sharing class ASF_Email2CaseHandler {
-    public static final List<String> BU_ALLOWING_BOT_REOPENED_CASE = new List<String>{'ABHFL','Payments','ABSLI','ABSLIG'};
+    public static final List<String> BU_ALLOWING_BOT_REOPENED_CASE = new List<String>{'ABHFL','Payments','ABSLI','ABSLIG','ABHI'};
         /**
 * @description : Exception
 **/
@@ -50,7 +50,7 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
             for(ASF_PriorityEmailAddressesByBU__mdt winningRec : [SELECT Id, Active__c, Priority_Index__c, 
                                                                   Business_Unit__c, Email2CaseAddress__c, 
                                                                   Default_Queue_Dev_Name__c, Send_to_EBOT__c,
-                                                                  Case_Business_Unit__c, Case_Origin__c
+                                                                  Case_Business_Unit__c, Case_Origin__c,Case_LOB__c
                                                                   FROM ASF_PriorityEmailAddressesByBU__mdt
                                                                   WHERE Email2CaseAddress__c =: winningEmailAddr])
             {
@@ -71,12 +71,16 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                     if(msg.ParentId.getSObjectType() == Case.sObjectType){
                         if(mWinningEmailDetailMdt.containsKey(msg.Winning_Email__c)){
                             String defaultQueueName = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Default_Queue_Dev_Name__c;
+                            String caseLineOfBusiness = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_LOB__c;
                             if(mCases.containsKey(msg.ParentId)){
                                 Case c = new Case(Id = msg.ParentId);
                                 c.EmailMessageIdentifier__c = msg.MessageIdentifier;
                                 c.Winning_Email__c = msg.Winning_Email__c; // populationg this Id for reporting purpose. US-PR970457-1272
                                 if(mQueueDevNameVsId.containsKey(defaultQueueName)){
                                     c.OwnerId = mQueueDevNameVsId.get(defaultQueueName);
+                                    if(caseLineOfBusiness != null && caseLineOfBusiness != ''){
+                                      c.Line_Of_Business__c = caseLineOfBusiness;  
+                                    }
                                 }
                                 if(!String.isBlank(mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Business_Unit__c)){
                                     c.Business_Unit__c = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Business_Unit__c; 
@@ -127,19 +131,27 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
         Set<Id> caseIds = new Set<Id>();
         
         Set<Id> allcaseIds = new Set<Id>();
-        
+        Set<String> emailroutAddId = new Set<String>();     // VSK
         String replyEmailBusinessUnit = '';
         
         for(EmailMessage msg : newList){
             if(msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType){
                 allcaseIds.add(msg.ParentId);
+emailroutAddId.add(msg.EmailRoutingAddressId);          // VSK
             }
         }
         
         Map<Id,AggregateResult> mCaseEmailMessageCount = new Map<Id,AggregateResult>([SELECT ParentId Id, COUNT(ID) countOfRec FROM EmailMessage WHERE ParentId =: allcaseIds
                                                                                       GROUP BY ParentId]);
         
+        Map<Id,EmailRoutingAddress> emailboxlist = new map<Id,EmailRoutingAddress> ([SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: emailroutAddId]);  // VSK
         
+        Map<Id,String> emailRoutingAdd = new Map<Id,String>();
+        for(EmailMessage msg : newList){
+            if(emailboxlist.containsKey(msg.EmailRoutingAddressId)){                                            // VSK
+                emailRoutingAdd.put(msg.Id,emailboxlist.get(msg.EmailRoutingAddressId).Address);                // VSK
+            }
+        }
         
         List<ASF_PriorityEmailAddressesByBU__mdt> priorityEmailMdt = ASF_PriorityEmailAddressesByBU__mdt.getAll().values();
         
@@ -203,6 +215,32 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                         integer idx = 0;
                         string priorityEmailAddress = '';
                         boolean bSendToEbot = false;
+
+                    // vikas starts here
+                        List<String> tempOldToAddressess = new List<String>(); 
+                        List<String> tempOldCcAddressess = new List<String>(); 
+                        //String emailRoutingAddress = [SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: msg.EmailRoutingAddressId].Address; //poc
+                        if(msg.ToAddress != null){
+                       		 tempOldToAddressess = msg.ToAddress.deleteWhitespace().split(';'); 
+                        }
+                        if (msg.CcAddress != null){
+                           tempOldCcAddressess = msg.CcAddress.deleteWhitespace().split(';'); 
+                        }
+                                        
+                        string ToAddressExtended = '';
+                        if(!tempOldToAddressess.contains(emailRoutingAdd.get(msg.Id)) && !tempOldCcAddressess.contains(emailRoutingAdd.get(msg.Id))){    
+                        	if(msg.CcAddress != null){
+                               ToAddressExtended  = emailRoutingAdd.get(msg.Id) + ';' + msg.CcAddress;  
+                            }else{
+                               ToAddressExtended = emailRoutingAdd.get(msg.Id); 
+                            }
+                        }
+                        if(ToAddressExtended != ''){
+                            msg.CcAddress = ToAddressExtended;  
+                        } 
+                        
+                        // vikas ends here
+                        
                         
                         Case c = mCases.get(msg.ParentId);
                         String caseBusinessUnit = (replyEmailBusinessUnit != null && replyEmailBusinessUnit != '') ? replyEmailBusinessUnit : c.Business_Unit__c;
@@ -223,7 +261,11 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                                     if(idx >= (Integer)mdt.Priority_Index__c || (idx == 0 && (Integer)mdt.Priority_Index__c > 0)){
                                         idx = (Integer)mdt.Priority_Index__c;
                                         priorityEmailAddress = mdt.Email2CaseAddress__c;
-                                        bSendToEbot = mdt.Send_to_EBOT__c;
+                                        if(mdt.Send_to_EBOT__c || mdt.Send_to_UNFYD__c){
+                                            bSendToEbot = true;
+                                        }else{
+                                            bSendToEbot=false;
+                                        }
                                         
                                     }
                                 }
@@ -235,7 +277,11 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                                     if(idx >= (Integer)mdt.Priority_Index__c || (idx == 0 && (Integer)mdt.Priority_Index__c > 0)){
                                         idx = (Integer)mdt.Priority_Index__c;
                                         priorityEmailAddress = mdt.Email2CaseAddress__c;
-                                        bSendToEbot = mdt.Send_to_EBOT__c;
+                                        if(mdt.Send_to_EBOT__c || mdt.Send_to_UNFYD__c){
+                                            bSendToEbot = true;
+                                        }else{
+                                            bSendToEbot=false;
+                                        }
                                         
                                     }
                                 }

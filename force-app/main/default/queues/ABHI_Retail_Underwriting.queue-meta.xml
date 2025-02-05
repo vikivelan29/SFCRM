@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <email>sudhirkumar.k@adityabirlacapital.com</email>
+    <name>ABHI Retail Underwriting</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>ABHI_Retail_Underwriting_G</publicGroup>
+        </publicGroups>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

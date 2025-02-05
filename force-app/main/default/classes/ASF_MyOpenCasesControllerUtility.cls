@@ -12,7 +12,7 @@ public with sharing class ASF_MyOpenCasesControllerUtility {
                                FROM Case 
                                WHERE Business_Unit__c =:userBu
                                AND AccountId != null
-                               AND OwnerId =:userId
+                               AND OwnerId =:userId AND IsClosed = False
                                AND Stage__c NOT IN ('Resolved','Unresolved') order by createddate desc];
         
         for(Case caseRec:caseList){

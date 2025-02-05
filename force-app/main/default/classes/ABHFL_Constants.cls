@@ -1,3 +1,4 @@
+
 /*********************************************************
 *Name           :   ABHFL_Constants
 *Author         :   Vishal Gangwar
@@ -33,6 +34,7 @@ public with sharing class ABHFL_Constants {
     public static final String FAILURE = 'Failure';
     public static final String COMPLETED = 'Completed';
     public static final String RESOLVED = 'Resolved';
+    public static final String REJECTED = 'Rejected';   //Added changes
     public static final String QUEUE= 'Queue';
     public static final String BRANCH = 'Branch';
     public static final String CRM = 'CRM';
@@ -124,6 +126,9 @@ public with sharing class ABHFL_Constants {
     public static String BITLY_SERVICE_NAME = 'ShortUrl';
     public static String BITLTY_INTEGRATION_NAME = 'Bitly_Url';
 
+    //Nature
+    public static String LowerNature='Complaint';
+    public static final List<String> HigherNature = new List<String>{'Request','Query'};
 
     //Constants for Statement Of Account
     public static String SOA_INTEGRATION_NAME = 'SOA_API';
@@ -152,7 +157,7 @@ public with sharing class ABHFL_Constants {
     public static String DSRA_LIEN_ID = 'AC123470';
     public static String ESCROW_STATEMENT_ID = 'hfl029';
     public static String NOC_REQUIRED_ID = 'hfl050';
-
+    public static final List<String> ALLLANCTSTs = new List<String>{'hfl045','hfl023'}; // added for PR970457-2288 by Yogesh EY
 
     
 

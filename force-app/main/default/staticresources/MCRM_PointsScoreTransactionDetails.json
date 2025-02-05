@@ -1,0 +1,27 @@
+{
+    "operationStatus": "SUCCESS",
+    "serviceMessages": [
+        {
+            "systemCode": "JAVAPSTXSERINF001",
+            "businessCode": "PSTXSERINF001",
+            "businessDesc": "Records Found",
+            "serviceMessageType": "INFORMATION",
+            "messageTime": "2024-11-21T16:34:41.081+05:30"
+        }
+    ],
+    "responseMap": {
+        "resultsList": [
+            {
+                "eventDate": "2021-06-01T00:00:00.000+05:30",
+                "pointsScoreActivity": "Have an Active Day",
+                "relatedPlan": "Flagship Plus",
+                "role": "Principal",
+                "pointsAllocated": 0.00,
+                "scoreAllocationType": "Zero",
+                "scoreAllocationReason": " Category Limit reached",
+                "customerId": 760633,
+                "memberName": "S  Prabhakaran"
+            }
+        ]
+    }
+}

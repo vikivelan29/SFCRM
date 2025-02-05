@@ -1,0 +1,18 @@
+{
+    "PolicyID": "",
+    "FIELD3": "",
+    "AppNo": "H23000001",
+    "alertID": "A6091",
+    "channel_ID": "Empanelment Portal",
+    "Req_Id": "1",
+    "Alert_Mode": "1",
+    "REF_NO": "17462089",
+    "EMLFLG": "0",
+    "STATUS": "0",
+    "field1": null,
+    "field2": null,
+    "field3": null,
+    "error": null,
+    "StatusCode": 1000,
+    "message": "Success"
+}

@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Closure of Your Request | Case number: {!relatedTo.CaseNumber}" recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="CLOSE CASE EMAIL TEMPLATE Internal"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

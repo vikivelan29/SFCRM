@@ -1,0 +1,27 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear </span></span></span></span></span></span>{{{Case.Customer_name_formula__c}}}<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">,<br />
+<br />
+We appreciate your trust in Aditya Birla Health Insurance as your chosen health partner and understand that this is a challenging and stressful time for you as you may be managing many responsibilities. However, despite our previous reminders, </span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">we have not yet received the necessary documents from your end.</span></span></span><br />
+<br />
+<span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Unfortunately, without the necessary documents, we're unable to move forward with your request. Consequently, the above-mentioned Service Request received on </span></span></span></span></span></span>{{{Case.CreatedDate}}}<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> has been rejected. You can find further details in the attached letter. We understand this may not be the outcome you were hoping for and we're here to assist you in any way we can to resolve this matter.<br />
+<br />
+We want to assure you that we are here to support you, but we need your assistance to navigate through these difficult times together. You are welcome to re-raise a Reimbursement Claim with the requested documents, and we will process it as quickly as possible.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Considering the above, we are closing your service request.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We hope you always stay in the best of health, however in case of any exigency in the future, you can opt for our Cashless Anywhere facility for a seamless and hassle-free claim experience.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">If you have any questions or need further assistance, please don't hesitate to reach out. We are here to support you.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Wishing you a speedy recovery.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Regards,</span></span></span></span></span></span><br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Aditya Birla Health Insurance Co. Limited</span></span></span></span></span></span></p>
+<br />
+<br />
+&nbsp;</body>
+</html>

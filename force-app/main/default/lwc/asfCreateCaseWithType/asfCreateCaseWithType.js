@@ -30,6 +30,7 @@ import SUB_SOURCE_FIELD from '@salesforce/schema/Case.Sub_Source__c';
 import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
+import ONEABC_CREATED_FIELD from '@salesforce/schema/Case.Created_by_ONEABC__c';
 import TRACK_ID from '@salesforce/schema/Case.Track_Id__c';
 import { getObjectInfos, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c';
@@ -55,9 +56,16 @@ import USER_ID from '@salesforce/user/Id';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 import updateCaseExtension from '@salesforce/apex/ABHFL_CTSTHelper.updateCaseExtension'
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
-import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
+import MCRM_BU from '@salesforce/label/c.Wellness_BU'; // PR970457-117 added MCRM_BU
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
+import ABHI_BU from '@salesforce/label/c.ABHI_BU'; 
+import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
+import ONEABC_BU from '@salesforce/label/c.ABCD_ONEABC_BU';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
+import ABHI_Track_Sources from '@salesforce/label/c.ABHI_Track_Sources';
+import ABCD_TrackId_Source from '@salesforce/label/c.ABCD_TrackId_Source';
 import { lanLabels } from 'c/asf_ConstantUtility';
+import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 import * as validator from 'c/asf_CreateCaseValidations';
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
@@ -161,6 +169,13 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     @api bsliRecTypeId;
     currentObj = CASE_OBJECT.objectApiName;
 
+    //ABHI
+    abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
+    
+    //ABCD
+    selectedCccBu;
+    aniRequired = true;
+
     
     //utility method
     showError(variant, title, error) {
@@ -176,12 +191,32 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
-           this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+           this.cols = lanLabels[this.businessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
+
+           // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
+           this.adjustAutoCommunications(undefined);
         } else if (error){
             console.log('error in get record--'+JSON.stringify(error));
         }
     }
 
+    // Rajendra Singh Nagar: PR1030924-209 - Added function
+    adjustAutoCommunications(data){
+        if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){
+            this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        }else{
+            if(data){
+                this.noAutoCommOptions = data.values.map(item => ({
+                    label: item.label,
+                    value: item.value
+                }));
+            }
+        }
+    }
+    
     connectedCallback() {
         console.log('accId ---> ' + this.accountId);
         console.log('assestid ---> ' + JSON.stringify(this.fieldToBeStampedOnCase));
@@ -252,10 +287,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     wiredPicklistValues({ error, data}) {
         if (data){
             if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
-                this.noAutoCommOptions = data.values.map(item => ({
-                    label: item.label,
-                    value: item.value
-                }));
+                this.adjustAutoCommunications(data);
 
                 this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
                 this.defaultRecTypeId = this.bsliRecTypeId;
@@ -304,7 +336,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         const inpArg = new Map();
 
         inpArg['accountLOB'] = this.accountLOB;
-
+        inpArg['businessUnit'] = this.primaryLOBValue;
         let strInpArg = JSON.stringify(inpArg);
 
         getAccountData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType, assetLob :this.lobAsset,inpArg : strInpArg })
@@ -389,6 +421,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if (selected) {
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
+            this.selectedCccBu = selected.Business_Unit__c;
 
             if(this.businessUnit === 'ABHFL'){
                 if(this.sourceFldValue == 'Call Center'){
@@ -397,8 +430,11 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 }
                 this.populateSubSourceFld();
             }
-            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
+            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU || this.businessUnit === ABHI_BU || this.businessUnit === ABCD_BU){
                 this.showAutoCommunication = false;
+            }
+            if(this.businessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
             }
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
@@ -407,12 +443,18 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
+        if(this.businessUnit === ABCD_BU && this.sourceFldValue.trim() === ABCD_TrackId_Source){
+            this.aniRequired = false;
+            this.isPhoneInbound = true;
+            this.showAniNumber = true;
+        }
         let bsliSourceList = ABSLI_Track_Sources.includes(',') ? ABSLI_Track_Sources.split(',') : ABSLI_Track_Sources;
         if((selected) && this.sourceFldValue && this.businessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
             this.isPhoneInbound = true;
             this.showAniNumber = true;
         }
-        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU))) {
+        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU) || (this.businessUnit === MCRM_BU)
+        || (this.businessUnit === ABCD_BU))) { // PR970457-117 added MCRM_BU
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
@@ -446,7 +488,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             this.boolShowDownloadCSV = false;
         }
         if (selected) {
-            if (selected && (selected[NATURE_FIELD.fieldApiName] == "All" || selected[SOURCE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(','))&& (this.businessUnit != 'ABFL')) {
+            if (selected && (selected[NATURE_FIELD.fieldApiName] == "All" || selected[SOURCE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(',')) && (this.businessUnit != 'ABFL' || this.selectedCccBu != 'ABFL')) {
                 console.log('tst2245' + JSON.stringify(selected));
                 this.boolAllChannelVisible = true;
                 this.boolAllSourceVisible = true;
@@ -669,6 +711,32 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         }
         if(this.primaryLOBValue != null && this.primaryLOBValue != undefined){
             fields[CASE_BUSINESSUNIT.fieldApiName] = this.primaryLOBValue; 
+        }
+        //ONEABC CHANGE - START
+       /* SCENARIO 1 - LOGGED IN USER's BUSINESS UNIT IS ABCD, AND SELECTED CTST's BUSINESS UNIT IS ABCD
+                     - THEN SET CASE BUSINESS UNIT AS ABCD
+          SCENARIO 2 - LOGGED IN USER's BUSINESS UNIT IS ABCD, AND SELECTED CTST's BUSINESS UNIT IS ONEABC
+                     - THEN SET CASE BUSINESS UNIT AS ONEABC
+          SCENARIO 3 - LOGGED IN USER's BUSINESS UNIT IS ABCD, AND SELECTED CTST's BUSINESS UNIT IS NEITHER ABCD NOT ONEABC
+                     - THEN SET CASE BUSINESS UNIT AS SELECTED CUSTOMER's BUSINESS UNIT IF CUSTOMER IS NOT EMPTY.
+                     - IF CUSTOMER IS EMPTY THEN SET CASE BUSINESS UNIT AS CTST's BUSINESS UNIT.
+       */
+       if(this.businessUnit === ABCD_BU && this.selectedCccBu && (this.selectedCccBu === ABCD_BU)){
+        fields[CASE_BUSINESSUNIT.fieldApiName] = this.businessUnit;
+        }
+        else if(this.businessUnit === ABCD_BU && this.selectedCccBu && (this.selectedCccBu === ONEABC_BU)){
+            fields[CASE_BUSINESSUNIT.fieldApiName] = ONEABC_BU;
+        }
+        else if(this.businessUnit === ABCD_BU && this.selectedCccBu && (this.selectedCccBu != ABCD_BU && 
+            this.selectedCccBu != ONEABC_BU)){
+                if(this.accountLOB !=null && this.accountLOB != undefined && this.accountLOB != '')
+                    fields[CASE_BUSINESSUNIT.fieldApiName] = this.accountLOB;
+                else{
+                    fields[CASE_BUSINESSUNIT.fieldApiName] = this.selectedCccBu;
+                }
+            }
+        if(this.businessUnit === ABCD_BU){
+            fields[ONEABC_CREATED_FIELD.fieldApiName] = true;
         }
         
         if (!this.flag) {
@@ -913,6 +981,16 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 this.isPhoneInbound = true;
                 this.showAniNumber = true;
             }
+            if(this.businessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                btnActive = false;
+                this.isPhoneInbound = true;
+            }
+            if(this.businessUnit === ABCD_BU && this.sourceFldValue.trim() === ABCD_TrackId_Source){
+                btnActive = false;
+                this.aniRequired = false;
+                this.isPhoneInbound = true;
+                this.showAniNumber = true;
+            }
         } else {
             btnActive = false;
         }
@@ -1084,10 +1162,13 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 isValid = false;
             }
             else if(inputField.value != null && inputField.value != undefined){
+                //added this check as ANI Number is not required for ONEABC
+                if(inputField.label != 'ANI Number' && this.aniRequired != true){
                 if(inputField.value.trim() == ''){
                     inputField.value = '';
                     inputField.reportValidity();
                     isValid = false;
+                    }
                 }
             }
         });
@@ -1149,6 +1230,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     handleAniNumber(event){
         this.aniNumber = event.target.value;
         if(this.businessUnit === ABSLI_BU && this.aniNumber != null && this.trackId != '' && this.trackId != null){
+            this.isNotSelected = false;
+        }
+        else if(this.businessUnit === ABCD_BU && this.trackId){
             this.isNotSelected = false;
         }
         else if(this.businessUnit != ABSLI_BU && this.aniNumber.length != 0){

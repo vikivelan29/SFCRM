@@ -1,0 +1,15 @@
+{
+    "ReturnCode": "0",
+    "ReturnMsg": "Success",
+    "data": {
+        "PAN": "AAAPS9860Q",
+        "PAN_AUM": "19887855.74044",
+        "CUSTOMER_SEGMENT": "SHNI",
+        "NATURE_OF_INVESTMENTS": "DEBT",
+        "LAST_TRANSACTED_DATE": "2022-09-30",
+        "LAST_TRANSACTED_FOLIO": "1019556274",
+        "CLIENT_TRANSACTION_STATUS": "INACTIVE",
+        "LAST_TRANSACTED_BROKER_ARN_NUMBER": "ARN-1017",
+        "LAST_TRANSACTED_BROKER_NAME": "RAJBIR SINGH"
+    }
+}

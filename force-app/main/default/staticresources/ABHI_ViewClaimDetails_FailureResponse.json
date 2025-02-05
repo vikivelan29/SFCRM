@@ -1,0 +1,9 @@
+{
+  "ResponseObj": {
+      "Code": "",
+      "Message": ""
+  },
+  "Response": [],
+  "StatusCode": 1001,
+  "Message": "Claim view Failure"
+}

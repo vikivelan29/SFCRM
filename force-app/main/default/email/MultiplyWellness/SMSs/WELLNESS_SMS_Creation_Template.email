@@ -1,0 +1,11 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p>Thank you for contacting AB Multiply Team. Your {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} is registered with reference no. {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} and would be processed by {{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}}<br />
+<br />
+Warm regards,&nbsp;<br />
+Aditya Birla Wellness</p>
+</body>
+</html>

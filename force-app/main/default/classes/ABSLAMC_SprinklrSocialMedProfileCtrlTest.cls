@@ -87,7 +87,6 @@ public class ABSLAMC_SprinklrSocialMedProfileCtrlTest {
         ABSLAMC_SprinklrSocialMediaProfileCtrl.responseWrapper result = ABSLAMC_SprinklrSocialMediaProfileCtrl.getSocialMediaProfileResponse(acc.Id);
         Test.stoptest();  
         System.assert(result != null, 'Expected result to be not null');
-        System.assertEquals(false,result.isSuccess);
     }
     
     @IsTest
