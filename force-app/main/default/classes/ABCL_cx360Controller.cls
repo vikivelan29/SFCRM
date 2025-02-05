@@ -396,7 +396,6 @@ Delete response.newCaseDetail.Id;
                 }else{
                     fieldValue = fieldValue;
                 }
-                
             }
             else{   
                 if(fieldValue != null && !(fieldValue instanceof Date)){
