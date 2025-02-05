@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Account_Info_Fields__c</field>
-        <value xsi:type="xsd:string">Client Code:Client_Code__c,Gender:PersonGenderIdentity,Phone Number:PersonMobilePhone,PAN Number:PAN__c,DOB/DOC:PersonBirthDate,Re-KYC Due Date:KYC_Done_Date__c,Email:PersonEmail,NACH Status:NACH_Status__c,Preferred Language:PreferredLanguage__pc,State:State__c</value>
+        <value xsi:type="xsd:string">Client Code:Client_Code__c,Gender:PersonGenderIdentity,Phone Number:PersonMobilePhone,PAN Number:PAN__c,DOB/DOC:PersonBirthDate,Re-KYC Due Date:Re_KYC_Due_Date__c,Preferred Language:Language_Preference__c,NACH Status:NACH_Status__c,Email:PersonEmail,State:State__c</value>
     </values>
     <values>
         <field>Business_Unit__c</field>

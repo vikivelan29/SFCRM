@@ -2,14 +2,6 @@
     <lightning-tabset class="slds-p-around_medium" active-tab-value={activeTabValue} onactive={handleTabChange}>
         <!-- LAN Tab -->
         <lightning-tab label="LAN" value="LAN">
-            <!-- <div class="slds-m-around_medium">
-                <lightning-datatable
-                    key-field="id"
-                    data={lanData}
-                    columns={lanColumns}
-                    >
-                </lightning-datatable>
-            </div> -->
             <lightning-card>
                 <div>
                     <lightning-datatable class="slds-resizable" key-field="id" data={recordsToDisplay} columns={columns} onrowselection={onSelectedRow}  min-column-width="155">

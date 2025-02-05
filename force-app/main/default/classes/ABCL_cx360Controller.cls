@@ -383,18 +383,16 @@ Delete response.newCaseDetail.Id;
             
             // Get the value from the queried record using the API name
             Object fieldValue = record.get(apiName);
-            if (label == 'DOB/DOC') {
+            if (label == 'DOB/DOC' && fieldValue != null){
                 fieldValue = ((Date)fieldValue).format();
             }
-            if(label == 'Customer Since'){
+            if(label == 'Customer Since' && fieldValue != null){
                 fieldValue = ((Datetime)fieldValue).date().format();
             }
             if(label == 'State'){
                 label = 'State,City';
                 if(record.get('City__c') != null && String.valueOf(record.get('City__c')) != ''){
                     fieldValue +=  ', ' + record.get('City__c');
-                }else{
-                    fieldValue = fieldValue;
                 }
                 
             }
