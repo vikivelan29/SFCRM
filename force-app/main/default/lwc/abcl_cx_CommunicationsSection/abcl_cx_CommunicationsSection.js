@@ -9,13 +9,13 @@ export default class Abcl_cx_CommunicationsSection extends NavigationMixin(Light
     showNoCommunicationsMessage = false;
     
     intColumns = [
-        { label: 'Name', fieldName: 'communication_channels__c', type: 'text' },
-        { label: 'Status', fieldName: 'Status__c', type: 'text' },
-        { label: 'Application Type', fieldName: 'Email_Subject__c', type: 'text' },
+        { label: 'Channel', fieldName: 'communication_channels__c', type: 'text' },
+        { label: 'Purpose', fieldName: 'Email_Subject__c', type: 'text' },
         {
-            label: 'Created Date', fieldName: 'CreatedDate', type: 'date',
+            label: 'Date', fieldName: 'CreatedDate', type: 'date',
             typeAttributes: { day: '2-digit', month: '2-digit', year: 'numeric' }
         },
+        { label: 'Status', fieldName: 'Status__c', type: 'text' }
     ];
 
     connectedCallback() {
@@ -37,15 +37,16 @@ export default class Abcl_cx_CommunicationsSection extends NavigationMixin(Light
     handleViewAll(event) {
         event.preventDefault();
         this[NavigationMixin.Navigate]({
-            type: 'standard__objectPage',
-            attributes: {
-                objectApiName: 'ASF_Communication_Log__c', // Replace with your object's API name
-                actionName: 'list'
-            },
-            state: {
-                filter: `Account__c = '${this.recordId}'` // Adjust field API name if different
-            }
-        });
+        type: 'standard__component',
+        attributes: {
+            componentName: 'force__dynamicRelatedListViewAll'
+        },
+        state: {
+            force__recordId: this.recordId, // Parent record (e.g., Account ID)
+            force__flexipageId: 'ABCL_4Col_Cx360', // Update with your actual FlexiPage ID
+            force__cmpId: 'lst_dynamicRelatedList7'
+        }
+     });
     }
 
 }

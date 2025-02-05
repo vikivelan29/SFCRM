@@ -4,58 +4,7 @@ import abclBusinessUnit from '@salesforce/label/c.ABCL_Business_Unit';
 
 export default class Abcl_cx_relationValueTabs extends LightningElement {
     @track activeTabValue = 'LAN'; // Default active tab
-    @track lanData = [
-        {
-            id: '1',
-            policyNumber: 'PN-0001234',
-            lanMapped: 'LNMUMHL-0717003302',
-            insuranceAmount: '₹6,00,000',
-            insuranceProvider: 'Star Insurance',
-            policyStartDate: '25-12-2023',
-            policyEndDate: '25-12-2024',
-        },
-        {
-            id: '2',
-            policyNumber: 'PN-00011235',
-            lanMapped: 'LNMUMHL-0717003303',
-            insuranceAmount: '₹50,000',
-            insuranceProvider: 'Aditya Insurance',
-            policyStartDate: '18-10-2023',
-            policyEndDate: '18-10-2024',
-        },
-    ];
-
-    @track insuranceData = [
-        {
-            id: '1',
-            policyNumber: 'PN-0001234',
-            lanMapped: 'LNMUMHL-0717003302',
-            insuredName: 'Dan Brown',
-            insuranceAmount: '₹6,00,000',
-            insuranceProvider: 'Star Insurance',
-            policyStartDate: '25-12-2023',
-            policyEndDate: '25-12-2024',
-        },
-        {
-            id: '2',
-            policyNumber: 'PN-00011235',
-            lanMapped: 'LNMUMHL-0717003303',
-            insuredName: 'Collin Hover',
-            insuranceAmount: '₹50,000',
-            insuranceProvider: 'Aditya Insurance',
-            policyStartDate: '18-10-2023',
-            policyEndDate: '18-10-2024',
-        },
-    ];
-
-    lanColumns = [
-        { label: 'Policy Number', fieldName: 'policyNumber' },
-        { label: 'LAN Mapped', fieldName: 'lanMapped' },
-        { label: 'Insurance Amount', fieldName: 'insuranceAmount' },
-        { label: 'Insurance Provider', fieldName: 'insuranceProvider' },
-        { label: 'Policy Start Date', fieldName: 'policyStartDate' },
-        { label: 'Policy End Date', fieldName: 'policyEndDate' },
-    ];
+    @track insuranceData = [];
 
     insuranceColumns = [
         { label: 'Policy Number', fieldName: 'policyNumber' },
@@ -66,13 +15,12 @@ export default class Abcl_cx_relationValueTabs extends LightningElement {
         { label: 'Policy Start Date', fieldName: 'policyStartDate' },
         { label: 'Policy End Date', fieldName: 'policyEndDate' },
     ];
-     @api recordId;
-
+    @api recordId;
     @track columns = [];
     @track assetRecords;
     @track infoObject = {};
     @track currentSelRecord = {};
-
+    
     isRenderDatatable = false;
     fieldMappingForCase;
     fieldToBeStampedOnCase;
@@ -91,7 +39,8 @@ export default class Abcl_cx_relationValueTabs extends LightningElement {
     handleTabChange(event) {
         this.activeTabValue = event.target.value;
     }
-        @wire(fetchAssets, { accountRecordId: '$recordId' })
+    
+    @wire(fetchAssets, { accountRecordId: '$recordId' })
     wiredAssets({ error, data }) {
         if (data) {
             this.assetRecords = data.assetRecords;
