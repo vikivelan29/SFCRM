@@ -271,7 +271,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Navigati
 
     addAndChangeAttributes(attrbObj) {
         let getLightningIcon = this.template.querySelector(attrbObj.dataId);
-        getLightningIcon.variant = attrbObj.variant;
+        // getLightningIcon.variant = attrbObj.variant;
     }
 
     addIconClass(dataId, iconClass) {
