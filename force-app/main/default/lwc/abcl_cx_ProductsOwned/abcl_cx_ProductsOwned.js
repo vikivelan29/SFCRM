@@ -1,11 +1,7 @@
 import { LightningElement,api,track,wire } from 'lwc';
-import getProductsOwned from '@salesforce/apex/ABCL_cx360Controller.getProductsOwned';
 import autoSelectAssetBUList from '@salesforce/label/c.ASF_List_of_BUs_To_AutoSelect_Single_Asset';
 import abclBusinessUnit from '@salesforce/label/c.ABCL_Business_Unit';
 import fetchAssets from "@salesforce/apex/Asf_FetchAssetRelatedToAccountController.fetchAssets";
-import BUSINESS_UNIT_FIELD from "@salesforce/schema/Account.Business_Unit__c";
-import { getRecord, getFieldValue } from "lightning/uiRecordApi";
-
 export default class Abcl_cx_ProductsOwned extends LightningElement {
     @api recordId;
     @track relatedAssets = [];
@@ -20,6 +16,7 @@ export default class Abcl_cx_ProductsOwned extends LightningElement {
     fieldToBeStampedOnCase;
     selectedAsset = {};
     buttonVariant="neutral";
+    multiplecheckboxes=[];
     connectedCallback() {
         console.log('Record Id Products Owned Section LWC:', this.recordId); // Log or use the recordId as needed
         
@@ -110,15 +107,14 @@ export default class Abcl_cx_ProductsOwned extends LightningElement {
     handleCheckboxChange(event){
             const selectedValue = event.target.value;
             this.selectedAsset = this.relatedAssets.find(asset => asset.Id === selectedValue);
-            const checkboxes = this.template.querySelectorAll('lightning-input[type="checkbox"]');
-
+            const checkboxes = this.template.querySelectorAll('[data-id="customCheckbox"]');
             // Loop through all checkboxes
             checkboxes.forEach((checkbox) => {
-                // Uncheck the checkbox if its value is not the selected value
-                if (checkbox.value !== selectedValue) {
+                if (checkbox.value != selectedValue) {
                     checkbox.checked = false;
                 }
             });
+            console.log('Last selected Asset>>',this.selectedAsset);
             this.infoObject.isAsset =  String( event.target.checked);
             this.infoObject.businessUnit = this.accBusinessUnit;
             this.setFieldMaapingOnCase(this.selectedAsset);
@@ -134,4 +130,6 @@ export default class Abcl_cx_ProductsOwned extends LightningElement {
             }
         }, 0);
     }
+
+    
 }
