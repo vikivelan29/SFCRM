@@ -57,6 +57,7 @@
                 <targetReference>Close_Related_Cases</targetReference>
             </connector>
             <label>Auto-closure of case after 24 hours</label>
+            <maxBatchSize>1</maxBatchSize>
             <offsetNumber>24</offsetNumber>
             <offsetUnit>Hours</offsetUnit>
             <recordField>Closure_Time__c</recordField>
