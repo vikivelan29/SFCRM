@@ -14,11 +14,8 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>ABFL_InvokeSTPProcess</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
-    <environments>Default</environments>
     <interviewLabel>ABFL STP Flow To Auto Close Case After 24 Hours {!$Flow.CurrentDateTime}</interviewLabel>
     <label>ABFL STP Flow To Auto Close Case After 24 Hours</label>
     <processMetadataValues>
