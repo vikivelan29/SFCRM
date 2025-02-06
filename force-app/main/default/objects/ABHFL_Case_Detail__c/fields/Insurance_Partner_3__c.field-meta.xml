@@ -41,6 +41,11 @@
                 <default>false</default>
                 <label>ICICI</label>
             </value>
+            <value>
+                <fullName>Bajaj Allianz</fullName>
+                <default>false</default>
+                <label>Bajaj Allianz</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
