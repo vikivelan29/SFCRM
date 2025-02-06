@@ -1908,4 +1908,11 @@
         <shortDescription>ABHFL_AssetRequiredErrMsgLabel</shortDescription>
         <value>Please select an asset to create the case</value>
     </labels>
+    <labels>
+        <fullName>ExpiryDay_For_Bitly_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ExpiryDay For Bitly URL</shortDescription>
+        <value>30</value>
+    </labels>
 </CustomLabels>
