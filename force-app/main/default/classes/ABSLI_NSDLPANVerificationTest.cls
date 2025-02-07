@@ -11,6 +11,7 @@ public class ABSLI_NSDLPANVerificationTest {
         conRec.Primary__c = true;
         update conRec;
         ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
+        caseDetail.PAN_Aadhar_seeding_status__c = 'Y';
         caseDetail.PAN_Number__c = 'CYIPP8888A';
         insert caseDetail;
         List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(2);
@@ -27,6 +28,16 @@ public class ABSLI_NSDLPANVerificationTest {
         }
         update integs;
     }
+    
+    
+    @IsTest
+    static void updatepanseedstatusTest(){
+        List<Case> caseList = [Select id,Account.IsPersonAccount,ABSLI_Case_Detail__r.PAN_Aadhar_seeding_status__c from Case where ABSLI_Case_Detail__r.PAN_Aadhar_seeding_status__c != ''];
+        for(Case caseRec : caseList){
+            ABSLI_NSDLPANVerification.updatepanseedstatus(caseRec.ABSLI_Case_Detail__r.PAN_Aadhar_seeding_status__c,caseRec.Id);
+        }
+    }
+        
     @IsTest
     static void getPanVerificationDetailsTest(){
         List<Case> caseList = [Select id,Account.IsPersonAccount from Case];
