@@ -77,3 +77,10 @@
 .clickable {
     cursor: pointer;
   }
+
+  .brandColoredButton{
+    --sds-c-button-brand-color-background: #C7222A;
+    --sds-c-button-brand-color-border: #C7222A;
+    --sds-c-button-brand-color-background-hover: #C7222A;
+    --sds-c-button-brand-color-border-hover: #C7222A;
+  }

@@ -8,21 +8,8 @@ const ACCOUNT_FIELDS = ['Account.Business_Unit__c','Account.Name','Account.Salut
 export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(LightningElement) {
 
     objectInfo;
-    fieldNames = [];
     @api recordId;
     name;
-    accountNumber;
-    gender;
-    phone;
-    pan;
-    dob;
-    reKycDueDate;
-    email;
-    nachStatus;
-    preferredLanguage;
-    state;
-    error;
-    email
     fields = []; // List of field API names from the field set
     accountData = {}; // Stores queried account field values
     businessUnit; // Business unit value fetched from the Account record

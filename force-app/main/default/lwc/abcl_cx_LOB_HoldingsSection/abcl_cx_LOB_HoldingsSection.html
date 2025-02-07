@@ -7,86 +7,64 @@
             </lightning-formatted-text>
 
         </div>
-        <div class="slider" style="height: fit-content;">
+        <div class="slider">
 
-            <div class="slds-grid slds-gutters slds-p-left_xx-small slds-p-right_xx-small" style="width: 15rem">
-                <template if:true={hasFinanceAssets}>
-                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
-                        <img src={abcl_FinanceLogo} class="logotile clickable" style="border: #C7222A 1px solid;"/>
-                    </div>
-                </template>
-                <template if:true={hasHealthInsurance}>
-                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
-                        <img src={abcl_healthInsuranceLogo} class="logotile clickable" style="border: #C7222A 1px solid;"/>
-                    </div>
-                </template>
-                <template if:true={hasHomeLoan}>
-                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
-                        <img src={abcl_homeLoanLogo} class="logotile clickable" style="border: #C7222A 1px solid;"/>
-                    </div>
-                </template>
-                <template if:true={hasLifeInsurance}>
-                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
-                        <img src={abcl_LifeInsuranceLogo} class="logotile clickable" style="border: #C7222A 1px solid;"/>
-                    </div>
-                </template>
-                <template if:true={hasMutualFunds}>
-                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
-                        <img src={abcl_AMC} class="logotile clickable" style="border: #C7222A 1px solid;"/>
-                    </div>
-                </template>
-                <template if:true={hasSecurities}>
-                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
-                        <img src={abcl_securitiesLogo} class="logotile clickable" style="border: #C7222A 1px solid;"/>
-                    </div>
-                </template>
-                <template if:true={hasDigital}>
-                    <div class="slds-col slds-size_1-of-5 slds-p-left_xx-small slds-p-top_xx-small slds-m-bottom_small slds-m-right_xx-large logotile">
-                        <img src={abcl_DigitalLogo} class="logotile clickable" style="border: #C7222A 1px solid;"/>
-                    </div>
-                </template>
+            <div class="slds-grid" style="width: 15rem;">
+                
                 <!--template if:true={hasFinanceAssets}>
-                    <div
-                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
-                        <img src={abcl_FinanceLogo} class="loblogo" />
+                    <p style="color:#C7222A;"><b>Aditya Birla Finance Ltd.</b></p>
+                </template>
+                <template if:true={hasHealthInsurance}>
+                    <p style="color:#C7222A;"><b>Aditya Birla Health Insurance Co. Ltd.</b></p>
+                </template>
+                <template if:true={hasHomeLoan}>
+                    <p style="color:#C7222A;"><b>Aditya Birla Health Housing Finance Ltd.</b></p>
+                </template>
+                <template if:true={hasLifeInsurance}>
+                    <p style="color:#C7222A;"><b>Aditya Birla Sun Life Insurance Co. Ltd.</b></p>
+                </template>
+                <template if:true={hasMutualFunds}>
+                    <p style="color:#C7222A;"><b>Aditya Birla Sun Life Mutual Fund</b></p>
+                </template>
+                <template if:true={hasSecurities}>
+                    <p style="color:#C7222A;"><b>Aditya Birla Money Ltd.</b></p>
+                </template>
+                <template if:true={hasDigital}>
+                    <p style="color:#C7222A;"><b>Aditya Birla Capital Digital Ltd.</b></p>
+                </template-->
+                <!--template if:true={hasFinanceAssets}>
+                    <!div class="slds-p-top_xx-small slds-p-bottom_xx-small slds-p-right_xx-small slds-p-left_xx-small">
+                        <img src={abcl_FinanceLogo} class="logotile clickable" style="border: #C7222A 1px solid;" title="Aditya Birla Finance Ltd."/>
                     </div>
                 </template>
                 <template if:true={hasHealthInsurance}>
-                    <div
-                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
-                        <img src={abcl_healthInsuranceLogo} class="loblogo" />
+                    <div class="slds-p-top_xx-small slds-p-bottom_xx-small slds-p-right_xx-small slds-p-left_xx-small">
+                        <img src={abcl_healthInsuranceLogo} class="logotile clickable" style="border: #C7222A 1px solid;" title="Aditya Birla Health Insu."/>
                     </div>
                 </template>
                 <template if:true={hasHomeLoan}>
-                    <div
-                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
-                        <div>
-                            <img src={abcl_homeLoanLogo} class="loblogo" />
-                        </div>
+                    <div class="slds-p-top_xx-small slds-p-bottom_xx-small slds-p-right_xx-small slds-p-left_xx-small">
+                        <img src={abcl_homeLoanLogo} class="logotile clickable" style="border: #C7222A 1px solid;" title="Aditya Birla Housing Finance Ltd."/>
                     </div>
                 </template>
                 <template if:true={hasLifeInsurance}>
-                    <div
-                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
-                        <img src={abcl_LifeInsuranceLogo} class="loblogo" />
+                    <div class="slds-p-top_xx-small slds-p-bottom_xx-small slds-p-right_xx-small slds-p-left_xx-small">
+                        <img src={abcl_LifeInsuranceLogo} class="logotile clickable" style="border: #C7222A 1px solid;" title="Aditya Birla Sun Life Insu."/>
                     </div>
                 </template>
                 <template if:true={hasMutualFunds}>
-                    <div
-                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
-                        <img src={abcl_AMC} class="loblogo" />
+                    <div class="slds-p-top_xx-small slds-p-bottom_xx-small slds-p-right_xx-small slds-p-left_xx-small">
+                        <img src={abcl_AMC} class="logotile clickable" style="border: #C7222A 1px solid;" title="Aditya Birla Mutual Funds"/>
                     </div>
                 </template>
                 <template if:true={hasSecurities}>
-                    <div
-                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
-                        <img src={abcl_securitiesLogo} class="loblogo" />
+                    <div class="slds-p-top_xx-small slds-p-bottom_xx-small slds-p-right_xx-small slds-p-left_xx-small">
+                        <img src={abcl_securitiesLogo} class="logotile clickable" style="border: #C7222A 1px solid;" title="Aditya Birla Money Ltd."/>
                     </div>
                 </template>
                 <template if:true={hasDigital}>
-                    <div
-                        class="slds-col slds-size_1-of-5 slds-box slds-m-left_xx-small slds-m-top_xx-small slds-m-bottom_xx-small custom-box">
-                        <img src={abcl_DigitalLogo} class="loblogo" />
+                    <div class="slds-p-top_xx-small slds-p-bottom_xx-small slds-p-right_xx-small slds-p-left_xx-small">
+                        <img src={abcl_DigitalLogo} class="logotile clickable" style="border: #C7222A 1px solid;" title="Aditya Birla Digital Ltd."/>
                     </div>
                 </template-->
             </div>
