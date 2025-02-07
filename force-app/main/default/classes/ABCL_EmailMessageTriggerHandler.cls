@@ -1,5 +1,5 @@
 /*********************************************************
-*Class        :  ABHFL_EmailMessageHandler
+*Class        :  ABCL_EmailMessageTriggerHandler
 *Author       :  Siddarth Jaitly
 *Created Date :  28/11/2023
 *Last Modified:  30/11/2023
@@ -18,6 +18,8 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         ASF_EmailMessageHelper.checkAndReopenClosedCases(newItems);
         
         RNWL_EmailMessageTriggerHandler.validateEmailCount(newItems);
+        //UNFYD email auto response
+        ASF_EmailMessageHelper.checkAndautoRespondUnfydCases(newItems);
         //added by Nikhil for template id and from address validation. Assigned by Abhijeet and Navin.
         if(Userinfo.getName() != 'ABCL Automation User'){
              ABCL_SendEmailValidation.verifyEmailTemplate(newItems);
