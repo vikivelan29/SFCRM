@@ -113,10 +113,13 @@ export default class Abcl_cx_ProductsOwned extends LightningElement {
                     checkbox.checked = false;
                 }
             });
-            console.log('Last selected Asset>>',this.selectedAsset);
-            this.infoObject.isAsset =  String( event.target.checked);
-            this.infoObject.businessUnit = this.accBusinessUnit;
-            this.setFieldMaapingOnCase(this.selectedAsset);
+            //this.selectedAsset = this.relatedAssets.find(asset => asset.Id === selectedValue);
+        this.selectedAsset = this.assetRecords.find(asset => asset.Id === selectedValue);
+        console.log('Selected Asset Details>>>',this.selectedAsset);
+        this.infoObject.isAsset = "true";
+        console.log('BU>>>1',this.accBusinessUnit);
+        this.infoObject.businessUnit = this.accBusinessUnit;
+        this.setFieldMaapingOnCase(this.selectedAsset);
     }
     renderedCallback() {
         // Target the lightning-button inside the child component

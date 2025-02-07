@@ -9,8 +9,8 @@ export default class Abcl_cx_CommunicationsSection extends NavigationMixin(Light
     showNoCommunicationsMessage = false;
     
     intColumns = [
-        { label: 'Channel', fieldName: 'communication_channels__c', type: 'text' },
-        { label: 'Purpose', fieldName: 'Email_Subject__c', type: 'text' },
+        { label: 'Log Name', fieldName: 'Name', type: 'text' },
+        { label: 'SMS Msg Body', fieldName: 'SMS_Msg_Body__c', type: 'text' },
         {
             label: 'Date', fieldName: 'CreatedDate', type: 'date',
             typeAttributes: { day: '2-digit', month: '2-digit', year: 'numeric' }
