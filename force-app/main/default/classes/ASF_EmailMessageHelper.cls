@@ -153,13 +153,6 @@ public without sharing class ASF_EmailMessageHelper {
                               }else{
                                   // else create new case and reparent EmailMessage
                                   Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
-                                   String winningEmailAddrOnEmail = caseIdToEmailMessageMap.get(caseRec.Id).Winning_Email__c;
-                                   newCase.SuppliedEmail = caseIdToEmailMessageMap.get(caseRec.Id).FromAddress;
-                                   if(mWinningEmailDetails.containsKey(winningEmailAddrOnEmail)){
-                                       ASF_PriorityEmailAddressesByBU__mdt onEmailMdt = mWinningEmailDetails.get(winningEmailAddrOnEmail);
-                                       //newCase.Sent_to_EBOT__c = onEmailMdt.Send_to_EBOT__c;
-                                       newCase.Origin = onEmailMdt.Case_Origin__c ;
-                                   }
                                   oldCaseIdToNewCaseMap.put(caseRec.Id, newCase);
                                   //firstOwnerToOldCases = populateMap(caseRec, firstOwnerToOldCases);
                                   // VIRENDRA - 10 April 2024 - ADDED STATIC VARIABLE TO SET TO TRUE.
@@ -265,8 +258,8 @@ public without sharing class ASF_EmailMessageHelper {
         return returnVal;
         
     }
-    
-    public static void checkAndautoRespondUnfydCases(List<emailMessage> newItems){
+//UNFYD methods
+public static void checkAndautoRespondUnfydCases(List<emailMessage> newItems){
         Map<Id,List<emailMessage> > casewithEmailMessage = new Map<Id,List<emailMessage> >();
         List<emailMessage> emList = new List<emailMessage>();
         List<case> autoResponseCases = new List<case>();
@@ -292,7 +285,6 @@ public without sharing class ASF_EmailMessageHelper {
             sendUNnfydEmailNotification(autoResponseCases);
         }
     }
-    
     public static void sendUNnfydEmailNotification(List<case> caseList){
     		Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             for(case c:caseList){
@@ -303,8 +295,9 @@ public without sharing class ASF_EmailMessageHelper {
                 mail.setWhatId(c.Id);
             	Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
             }
-
+ 
             // Set the static variable to true to prevent recursion
             ASF_EmailMessageHelper.isEmailSent = true;    
     }
+    
 }
