@@ -368,8 +368,14 @@ Delete response.newCaseDetail.Id;
             fldAPINames.add(fld.split(':')[1]);
         }
         
+        String franchiseField = '';
+        if(businessUnit == 'ABML'){
+            franchiseField = ', ABML_Client_Branch_Franchisee__pc ';
+        }
+        
         // Build the query string dynamically to include all field API names and additional City field
-        String queryString = 'SELECT ' + String.join(fldAPINames, ',') + ', City__c FROM Account WHERE Id = :recordId';
+        String queryString = 'SELECT ' + String.join(fldAPINames, ',') + ', City__c' + franchiseField + ' FROM Account WHERE Id = :recordId';
+        
         
         // Query the record
         sObject record = Database.query(queryString);
@@ -382,7 +388,15 @@ Delete response.newCaseDetail.Id;
             String label = fieldParts[0];
             
             // Get the value from the queried record using the API name
-            Object fieldValue = record.get(apiName);
+            Object fieldValue;
+            // Get the value from the queried record using the API name
+            if(apiName == 'ABML_Client_Branch_Franchisee__pr.Name'){
+                Id franchiseId = (Id) record.get('ABML_Client_Branch_Franchisee__pc');
+                fieldValue = getBranchFranchiseName(recordId, franchiseId);
+            }
+            else{
+                fieldValue = record.get(apiName);
+            }
             if (label == 'DOB/DOC' && fieldValue != null){
                 fieldValue = ((Date)fieldValue).format();
             }
@@ -560,4 +574,16 @@ Delete response.newCaseDetail.Id;
         public ABHFL_Case_Detail__c newCaseDetail;
     }
     
+
+    private static object getBranchFranchiseName(Id recordId, Id franchiseId){
+        Object fieldValue;
+        try{
+            account acc = [Select Name from account where Id = :franchiseId];
+            fieldValue = (Object)acc.Name;
+        }
+        catch(Exception e){
+			throw new AuraHandledException(e.getMessage());
+        }
+        return fieldValue;
+    }
 }
