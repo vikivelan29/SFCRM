@@ -224,58 +224,6 @@
         <enabled>true</enabled>
         <name>ShowSalesProspect</name>
     </customPermissions>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>abm.chenpremiumdesktest@adityabirlacapital.com</name>
-    </emailRoutingAddressAccesses>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>abm.corporateagenttest@adityabirlacapital.com</name>
-    </emailRoutingAddressAccesses>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>abm.cybersecuritytest@adityabirlacapital.com</name>
-    </emailRoutingAddressAccesses>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>abm.franchiseecaretest@adityabirlacapital.com</name>
-    </emailRoutingAddressAccesses>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>abm.obttest@adityabirlacapital.com</name>
-    </emailRoutingAddressAccesses>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>abml.tradingappstest@adityabirlacapital.com</name>
-    </emailRoutingAddressAccesses>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>abmlsit57@gmail.com</name>
-    </emailRoutingAddressAccesses>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>bhc.test-v@adityabirlacapital.com</name>
-    </emailRoutingAddressAccesses>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>carestocksandsecurities.test-v@adityabirlacapital.com</name>
-    </emailRoutingAddressAccesses>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>ceostocksandsecurities.test-v@adityabirlacapital.com</name>
-    </emailRoutingAddressAccesses>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>dpcare.test-v@adityabirlacapital.com</name>
-    </emailRoutingAddressAccesses>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>emailtocaseabml@gmail.com</name>
-    </emailRoutingAddressAccesses>
-    <emailRoutingAddressAccesses>
-        <enabled>true</enabled>
-        <name>stoptradestocksandsecurities.test-v@adityabirlacapital.com</name>
-    </emailRoutingAddressAccesses>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_Bank__c.ABML_Account_Number__c</field>
