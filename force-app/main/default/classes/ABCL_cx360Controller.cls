@@ -560,43 +560,4 @@ Delete response.newCaseDetail.Id;
         public ABHFL_Case_Detail__c newCaseDetail;
     }
     
-    @AuraEnabled(cacheable=true)
-
-    public static Map<String, Object> getAccountFields(String recordId) {
-
-        Map<String, Object> fieldValues = new Map<String, Object>();
-
-        Account a=getCustomerInfo(recordId);
-
-        String BU=a.Business_Unit__c;
-
-        List<String> ABHFL_Fields=New List<String>{'Customer_Since__c','Handle_With_Care_HWC__c','Business_Unit__c'};
-
-            List<String> ABML_Fields=New List<String>{'ABML_Activation_Date__c','ABML_Status__c','Sensitive_Customer__c','Business_Unit__c'};
-
-                try {
-
-                    String fields = String.join(ABHFL_Fields, ', ');
-
-                    String query = 'SELECT ' + fields + ' FROM Account WHERE Id = :recordId';
-
-                    Account account = Database.query(query);
-
-                    
-
-                    for (String field : ABHFL_Fields) {
-
-                        fieldValues.put(field, account.get(field));
-
-                    }
-
-                } catch (Exception e) {
-
-                    throw new AuraHandledException('Error fetching Account fields: ' + e.getMessage());
-
-                }
-
-        return fieldValues;
-
-    }
 }
