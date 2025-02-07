@@ -130,7 +130,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         this.languages = ABCL_CX_PREFERRED_LANGUAGE_ACCOUNT.split(',').map(item => item.trim()); //Added by Shagun
         getQuickActions({customerId: this.recordId}).then(result => {
             this.quickActions=result;
-            if(result){
+            if(result && result.length > 0){
                 this.showNoQuickActionMessage=false;
             }
             console.log('Quick Actions:', result);
