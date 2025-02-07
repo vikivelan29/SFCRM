@@ -37,7 +37,7 @@ public with sharing class ABHFL_Constants {
     //LOD Subtype External Id
     public static final String LOD_CCC_EXTERNALID = 'hfl042';
     //Language Preference External Id
-    public static final String LANG_CC_EXTERNALID = 'CCC-00001111';
+    public static final String LANG_CC_EXTERNALID = 'QRLTTRCHGMOR';
     //Generic Constants
     public static final String SUCCESS = 'Success';
     public static final String ERROR = 'Error';

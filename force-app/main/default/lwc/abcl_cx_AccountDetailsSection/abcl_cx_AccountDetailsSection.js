@@ -1,9 +1,9 @@
-import { LightningElement,api,track, wire } from 'lwc';
+import { LightningElement,api, wire } from 'lwc';
 import { getRecord } from 'lightning/uiRecordApi';
 import getAccountInfoFields from '@salesforce/apex/ABCL_cx360Controller.getAccountInfoFields';
 import { NavigationMixin} from 'lightning/navigation';
 import getHNIField from '@salesforce/apex/ABCL_cx360Controller.getHNIorHWCField';
-const ACCOUNT_FIELDS = ['Account.Business_Unit__c','Account.Name','Account.Salutation','Account.HNI_Customer__c'];
+const ACCOUNT_FIELDS = ['Account.Business_Unit__c','Account.Name','Account.Salutation'];
 
 export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(LightningElement) {
 
@@ -49,31 +49,10 @@ export default class Abcl_cx_AccountDetailsSection extends NavigationMixin(Light
 
     // Fetch fields from the appropriate field set based on Business Unit
     fetchFieldSet() {
-        const objectName = 'Account';
-        let fieldSetName;
-
-        // Determine the field set name based on the Business Unit
-        switch (this.businessUnit) {
-            case 'ABHFL':
-                fieldSetName = 'ABHFL_CX360_Fields';
-                break;
-            case 'ABML':
-                fieldSetName = 'ABML_CX360_Fields';
-                break;
-            default:
-                fieldSetName = 'ABHFL_CX360_Fields';
-        }
         // Call Apex method to get field set fields
         getAccountInfoFields({recordId: this.recordId, businessUnit: this.businessUnit, tileName:'Account Info'})
             .then((fields) => {
                 this.fields = fields; // Populate the fields array
-                /**this.fields = fields.map(row => {
-                    // Add 'clickable' column based on condition
-                    return {
-                        ...row,
-                        clickable: row.label === 'Client Code' // true if label is 'xyz', otherwise false
-                    };
-                });**/
             })
             .catch((error) => {
                 console.error('Error fetching field set fields:', error);

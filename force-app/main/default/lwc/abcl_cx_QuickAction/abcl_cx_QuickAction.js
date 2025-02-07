@@ -1,5 +1,4 @@
 import { LightningElement,api,track, wire } from 'lwc';
-import getProductsOwned from '@salesforce/apex/ABCL_cx360Controller.getProductsOwned';
 import getQuickActions from '@salesforce/apex/ABCL_cx360Controller.getQuickActions';
 import createCases from '@salesforce/apex/ABCL_cx360Controller.createCases';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -171,7 +170,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
     handleLANSelect(event) {
         const selectedRows = event.detail.selectedRows; // This provides an array of selected rows
         if (selectedRows.length > 0) {
-            this.selectedLANId = selectedRows[0].Id; // Assuming max-row-selection="1", there will be only one row
+            this.selectedLANId = selectedRows[0].LAN__r.Id; // Assuming max-row-selection="1", there will be only one row
             console.log('Selected Row ID:', this.selectedLANId);
             // Add any further logic here
         }
@@ -445,7 +444,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
 
     handleLanguageChange(event) {
         this.newLanguage = event.target.value;
-        if (this.newLanguage === this.currentLanguage) {
+        if ((this.newLanguage).toUpperCase() == (this.currentLanguage).toUpperCase()) {
             this.showToastMessage('Error', 'Preferred Language and Selected Language cannot be the same.', 'error', 'sticky');
             this.isButtonDisabled = true;
         } else {
@@ -481,7 +480,7 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
         
     }
 
-  /**
+    /** 
     @wire(getEmailTemplates)
         getEmailTemplates({ data, error }) {
             if (data) {
@@ -497,8 +496,8 @@ export default class Abcl_cx_QuickAction extends NavigationMixin(LightningElemen
             } else if (error) {
                 console.error('Error fetching email templates: ', error);
             }
-    }
-**/
+    }*/
+
     handleEmailChange(event) {
         try {
             console.log('@@@ handle template change target:', event.target.value); // Log selected value

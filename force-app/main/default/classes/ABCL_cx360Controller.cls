@@ -308,7 +308,7 @@ Delete response.newCaseDetail.Id;
             caseRecord.Preferred_Language__c=newSelectedLang;
             //caseRecord.Source__c= 'Inbound call';
             caseRecord.Business_Unit__c=ABHFL_Constants.BUSINESS_UNIT_ABHFL;
-            caseRecord.Stage__c='In-progress';
+            caseRecord.Stage__c='In Progress';
             caseRecord.Case_Stage_Change_Date__c = system.now();
             caseRecord.RecordTypeId=ASF_Constants.RT_FRAMEWORK;
             caseRecord.ABHFL_Case_Detail__c=caseDetailId;
@@ -396,6 +396,7 @@ Delete response.newCaseDetail.Id;
                 }else{
                     fieldValue = fieldValue;
                 }
+                
             }
             else{   
                 if(fieldValue != null && !(fieldValue instanceof Date)){
@@ -439,27 +440,6 @@ Delete response.newCaseDetail.Id;
             showHNI = true;
         }
         return showHNI;
-    }
-    
-    @AuraEnabled(cacheable=true)
-    public static Map<String, Object> getAccountFields(String recordId) {
-        Map<String, Object> fieldValues = new Map<String, Object>();
-        Account a=getCustomerInfo(recordId);
-        String BU=a.Business_Unit__c;
-        List<String> ABHFL_Fields=New List<String>{'Customer_Since__c','Handle_With_Care_HWC__c','Business_Unit__c'};
-            List<String> ABML_Fields=New List<String>{'ABML_Activation_Date__c','ABML_Status__c','Sensitive_Customer__c','Business_Unit__c'};
-                try {
-                    String fields = String.join(ABHFL_Fields, ', ');
-                    String query = 'SELECT ' + fields + ' FROM Account WHERE Id = :recordId';
-                    Account account = Database.query(query);
-                    
-                    for (String field : ABHFL_Fields) {
-                        fieldValues.put(field, account.get(field));
-                    }
-                } catch (Exception e) {
-                    throw new AuraHandledException('Error fetching Account fields: ' + e.getMessage());
-                }
-        return fieldValues;
     }
     
     @AuraEnabled
@@ -546,7 +526,7 @@ Delete response.newCaseDetail.Id;
     public static List<ASF_Communication_Log__c> getInteractionInfo(String customerId){
         List<ASF_Communication_Log__c> commLog= new List<ASF_Communication_Log__c>();
         try {
-            commLog = [Select id,account__c,communication_channels__c, Email_Subject__c, CreatedDate, Status__c from ASF_Communication_Log__c where account__c=:customerId ORDER BY CreatedDate DESC LIMIT 3];
+            commLog = [Select id,account__c,Name,SMS_Msg_Body__c,Status__c,CreatedDate from ASF_Communication_Log__c where account__c=:customerId ORDER BY CreatedDate DESC LIMIT 3];
             System.debug('@@@'+commLog);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());

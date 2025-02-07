@@ -21,6 +21,13 @@
             <componentInstance>
                 <componentName>abcl_cx_NextBestOffer</componentName>
                 <identifier>c_abcl_cx_NextBestOffer</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABHFL</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>y1</name>
@@ -273,10 +280,10 @@
                             <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>communication_channels__c</value>
+                            <value>Status__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Email_Subject__c</value>
+                            <value>SMS_Msg_Body__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CREATED_DATE</value>
