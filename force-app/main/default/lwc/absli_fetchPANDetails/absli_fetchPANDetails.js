@@ -14,6 +14,7 @@ import { CurrentPageReference } from 'lightning/navigation';
 
 import panVerification from '@salesforce/apex/ABSLI_NSDLPANVerification.verifyPANDetails';
 import getPanDetails from '@salesforce/apex/ABSLI_NSDLPANVerification.getPanVerificationDetails';
+import panseedingupdate from '@salesforce/apex/ABSLI_NSDLPANVerification.updatepanseedstatus';
 
 export default class Absli_fetchPANDetails extends LightningElement {
     @api recordId;
@@ -118,6 +119,23 @@ export default class Absli_fetchPANDetails extends LightningElement {
                     this.nsdlResponse = JSON.parse(result.responseStr).outputData[0];
                     this.showFetchResponse = true;
                     this.CancelBtnLbl = 'Deny';
+
+                      // field added by Yogesh for updating field 
+                     // Change made for PR970457-2823
+                     //Change start here
+                    if(this.nsdlResponse && this.nsdlResponse.seeding_status){
+                        panseedingupdate({ seedstatus : this.nsdlResponse.seeding_status, caseId: this.recordId})
+                        .then((result) => {
+                            console.log("Pan seed status updated successfully");
+                        })
+                        .catch(error => {
+
+                            console.log("Error occured while Pan seed status updation-->",JSON.stringify(error));
+
+                        })
+                    }
+
+                    // Change ends here
                     if(this.nsdlResponse && this.nsdlResponse.name == "Y" && this.nsdlResponse.dob == "Y" 
                         && this.nsdlResponse.pan_status == "E"){
                     this.isVerificationSuccessful = true;

@@ -40,6 +40,21 @@ public with sharing class ABSLI_NSDLPANVerification {
         update caseExtRec;
     }
     
+    // field added by Yogesh for updating field 
+    // Change made for PR970457-2823
+    @AuraEnabled
+   public static void updatepanseedstatus(String seedstatus, String caseId) {
+
+    if (seedstatus != '' && seedstatus != null) {
+        Case caseRecord = [Select ABSLI_Case_Detail__c, CCC_External_Id__c from Case where id =: caseId limit 1];
+        ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c);
+        caseDetail.PAN_Aadhar_seeding_status__c = seedstatus;
+        if (Schema.sObjectType.ABSLI_Case_Detail__c.isUpdateable()) {
+            update caseDetail;
+        }
+    }
+}
+
     @AuraEnabled
     public static PANVerificationResponseWrapper verifyPANDetails(String panInputWrapperStr, String caseId){
         try {
