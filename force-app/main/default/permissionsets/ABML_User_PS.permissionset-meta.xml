@@ -5,6 +5,22 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>ABCL_BaseViewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABCL_BaseViewController_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+	<classAccesses>
+        <apexClass>ABCL_cx360Controller</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABCL_CommonCLass</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABCL_EmailMessageTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -21,19 +37,23 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Abml_CaseCloseBulkHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Abml_CaseCloseBulkhandlerTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ABML_LegacyView</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABML_LegacyView_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABML_Listviewcallout</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABML_Listviewcallout_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABML_MockGenerator</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -133,6 +153,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_CaseUIController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_CommPETriggerHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -165,6 +189,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_FieldSetController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_GetCaseRelatedDetails</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -173,43 +201,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABML_Listviewcallout</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABML_Listviewcallout_Test</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABML_MockGenerator</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-	<classAccesses>
         <apexClass>ASF_UbonaAccountRetrieval</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-	<classAccesses>
-        <apexClass>ASF_CaseUIController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-	<classAccesses>
-        <apexClass>ASF_FieldSetController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-	<classAccesses>
-        <apexClass>ABCL_CommonCLass</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-	<classAccesses>
-        <apexClass>ABCL_BaseViewController</apexClass>
+    <classAccesses>
+        <apexClass>Abml_CaseCloseBulkHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABCL_BaseViewController_Test</apexClass>
+        <apexClass>Abml_CaseCloseBulkhandlerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <customPermissions>
@@ -233,11 +237,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_Bank__c.ABML_Bank_Branch__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-	<fieldPermissions>
-        <editable>true</editable>
-        <field>ABML_Bank__c.Bank_Unique__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -287,7 +286,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABML_Bank__c.Bank_Unique__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABML_Case_Detail__c.ABC_Cust_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABML_Case_Detail__c.ABML_SubSource__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -333,6 +342,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_Case_Detail__c.Case__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABML_Case_Detail__c.Cause_of_Complaint_R__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABML_Case_Detail__c.Cust_Service_Remarks__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -407,6 +426,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABML_Case_Detail__c.Mode_of_Reply__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABML_Case_Detail__c.Modified_On__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -465,11 +489,6 @@
         <field>ABML_Case_Detail__c.Send_Notification__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
-        <editable>true</editable>
-        <field>ABML_Case_Detail__c.ABML_SubSource__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_Case_Detail__c.TAT_Days__c</field>
@@ -520,39 +539,24 @@
         <field>ABML_Case_Detail__c.To_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
-		<editable>true</editable>
-		<field>ABML_Case_Detail__c.Cust_Service_Remarks__c</field>
-		<readable>true</readable>
-	</fieldPermissions>
-	<fieldPermissions>
-		<editable>true</editable>
-		<field>ABML_Case_Detail__c.Value_of_Claim__c</field>
-		<readable>true</readable>
-	</fieldPermissions>
-	<fieldPermissions>
-		<editable>true</editable>
-		<field>ABML_Case_Detail__c.Mode_of_Reply__c</field>
-		<readable>true</readable>
-	</fieldPermissions>
-	<fieldPermissions>
-		<editable>true</editable>
-		<field>ABML_Case_Detail__c.Cause_of_Complaint_R__c</field>
-		<readable>true</readable>
-	</fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABML_Case_Detail__c.Value_of_Claim__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_DP__c.ABML_Client_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
-        <field>ABML_DP__c.ABML_DP_ID__c</field>
+        <field>ABML_DP__c.ABML_DP_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABML_DP__c.ABML_DP_Code__c</field>
+        <field>ABML_DP__c.ABML_DP_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -600,21 +604,51 @@
         <field>ABML_LOA__c.ABML_Parent_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABML_LOA__c.LOA_Unique__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.ABML_Partner_Segmentation__c</field>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Account.PersonTitle</field>
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
-		<editable>true</editable>
-		<field>Account.ABML_Scheme__c</field>
-		<readable>true</readable>
-	</fieldPermissions>
+        <editable>false</editable>
+        <field>Account.PersonBirthdate</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Account.PersonEmail</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Account.PersonMobilePhone</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Account.PersonGenderIdentity</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Account.WhatsApp_Opt_in_status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Account.ABC_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Account.ABML_Sensitive__pc</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.ABML_Activation_Date__c</field>
@@ -752,6 +786,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Account.ABML_Partner_Segmentation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.ABML_Region_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -778,6 +817,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.ABML_SEBI_No__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.ABML_Scheme__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -815,11 +859,6 @@
         <field>Account.AccountNumber</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
-        <editable>true</editable>
-        <field>Account.Company_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.AccountSource</field>
@@ -848,6 +887,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Client_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Company_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1770,36 +1814,6 @@
         <field>Case.typeSubTypeMismatch__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
-    <editable>true</editable>
-    <field>Contact.ABML_Contract_Mode__c</field>
-    <readable>true</readable>
-</fieldPermissions>
-<fieldPermissions>
-    <editable>true</editable>
-    <field>Contact.ABML_Customer_Priority__c</field>
-    <readable>true</readable>
-</fieldPermissions>
-<fieldPermissions>
-    <editable>true</editable>
-    <field>Contact.ABML_Time__c</field>    
-    <readable>true</readable>
-</fieldPermissions>
-<fieldPermissions>
-    <editable>true</editable>
-    <field>Contact.ABML_Last_Trade_Date_COM__c</field>
-    <readable>true</readable>
-</fieldPermissions> 
-<fieldPermissions>
-    <editable>true</editable>
-    <field>Contact.ABML_Contact_Preference__c</field>
-    <readable>true</readable>
-</fieldPermissions> 
-<fieldPermissions>
-    <editable>true</editable>
-    <field>Contact.ABML_Last_Trade_Date_EQ__c</field>
-    <readable>true</readable>
-</fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.ABML_Aadhar_No__c</field>
@@ -1878,6 +1892,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.ABML_Client_Branch_Franchisee__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.ABML_Contact_Preference__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.ABML_Contract_Mode__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.ABML_Customer_Priority__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1972,6 +2001,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.ABML_Last_Trade_Date_COM__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.ABML_Last_Trade_Date_EQ__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.ABML_Last_Trade_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2057,12 +2096,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.ABML_Segment__c</field>
+        <field>Contact.ABML_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.ABML_Status__c</field>
+        <field>Contact.ABML_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2176,6 +2215,15 @@
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
+        <object>ABML_DP__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
         <object>ABML_LOA__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
@@ -2185,8 +2233,8 @@
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
-        <object>ABML_DP__c</object>
-        <viewAllRecords>false</viewAllRecords>
+        <object>ASF_Case_Category_Config__c</object>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
@@ -2215,15 +2263,6 @@
         <object>Contact</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-    <objectPermissions>
-        <allowCreate>false</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>ASF_Case_Category_Config__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
     <recordTypeVisibilities>
         <recordType>Account.ABML_Branch</recordType>
         <visible>true</visible>
@@ -2241,12 +2280,12 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-	<recordType>Lead.Sales</recordType>
-	<visible>true</visible>
+        <recordType>Lead.Sales</recordType>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Lead.Service</recordType>
-	<visible>true</visible>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>PersonAccount.ABML_BSB</recordType>
@@ -2266,10 +2305,6 @@
     </recordTypeVisibilities>
     <tabSettings>
         <tab>standard-Case</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-	<tabSettings>
-        <tab>standard-Lead</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>

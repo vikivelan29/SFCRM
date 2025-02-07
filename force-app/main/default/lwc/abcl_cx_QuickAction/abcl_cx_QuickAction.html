@@ -146,7 +146,7 @@
                         <!--Submit Button-->
                         <div class="slds-align--absolute-center slds-p-bottom_medium">
                             <lightning-button variant="brand" label="Create a Case" title="Create a Case"
-                                onclick={handleCreateCase}>
+                                onclick={handleCreateCase} class="brandColoredButton">
                             </lightning-button>
                         </div>
                     </template>
@@ -288,10 +288,10 @@
                 </div>
                 <div class="slds-modal__footer">
                     <lightning-button variant="brand" label="Create Case" onclick={createCasesForLAN}
-                        disabled={isButtonDisabled}>
+                        disabled={isButtonDisabled} class="brandColoredButton">
                     </lightning-button>
                     <button class="slds-button slds-button_neutral slds-m-left_small" onclick={closeModalPopUp}
-                        aria-label="Cancel">Cancel</button>
+                        aria-label="Cancel" style="color:#C7222A;">Cancel</button>
                     <!--template if:false={isButtonDisabled}>
                     <button class="slds-button slds-button_brand" onclick={handleCreateCase}>Create Case</button>
                     </template-->
