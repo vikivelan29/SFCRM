@@ -3,7 +3,7 @@
   overflow: hidden;
   overflow-y: auto;
   overflow-x: auto;
-  height: 13rem;
+  height: 4.1rem;
 }
 
 .slider::-webkit-scrollbar {
@@ -64,7 +64,7 @@
 
 .logotile {
   height: 50px;
-  max-width: 90px;
+  max-width: 50px;
 }
 
 .clickable {

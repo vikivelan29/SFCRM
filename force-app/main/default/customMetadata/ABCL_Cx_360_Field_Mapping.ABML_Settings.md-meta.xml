@@ -12,8 +12,7 @@ Email:PersonEmail,
 PAN Number:PAN__c,
 Phone Number:PersonMobilePhone,
 Gender:PersonGenderIdentity,
-Branch Relationship details:ABML_Client_Branch_Franchisee__pc,
-LOA Name:ABML_LOA_Name__pc</value>
+Branch Relationship details:ABML_Client_Branch_Franchisee__pc</value>
     </values>
     <values>
         <field>Business_Unit__c</field>
@@ -34,6 +33,6 @@ Client Account Status:ABML_Status__c</value>
     </values>
     <values>
         <field>HWC_Field__c</field>
-        <value xsi:type="xsd:string">ABML_Sensitive__c:true</value>
+        <value xsi:type="xsd:string">ABML_Sensitive__pc:Yes</value>
     </values>
 </CustomMetadata>
