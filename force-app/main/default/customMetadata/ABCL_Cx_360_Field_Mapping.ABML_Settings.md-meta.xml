@@ -12,7 +12,7 @@ Email:PersonEmail,
 PAN Number:PAN__c,
 Phone Number:PersonMobilePhone,
 Gender:PersonGenderIdentity,
-Branch Relationship details:ABML_Client_Branch_Franchisee__pc</value>
+Branch Relationship details:ABML_Client_Branch_Franchisee__pr.Name</value>
     </values>
     <values>
         <field>Business_Unit__c</field>
