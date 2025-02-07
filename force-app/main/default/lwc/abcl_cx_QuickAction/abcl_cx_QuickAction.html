@@ -43,7 +43,7 @@
                     <span class="slds-assistive-text">Cancel and close</span>
                 </button-->
                 <div class="slds-modal__header">
-                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">ONE Click Docs</h1>
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1" style="background-color: #C7222A; color: white">ONE Click Docs</h1>
                 </div>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                     <!--MODAL Boday-->
@@ -54,7 +54,7 @@
                     <template if:true={showLANs}>
                         <div class="slds-p-around_small" style="max-height: 300px;">
                             <lightning-datatable key-field="Id" data={assetRecords} columns={assetColumns}
-                                onrowselection={handleLANSelect} max-row-selection="1">
+                                onrowselection={handleLANSelect} max-row-selection="1" min-column-width="185">
                             </lightning-datatable>
                         </div>
 
@@ -64,7 +64,7 @@
                             <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
                                 <div class="slds-grid slds-align_absolute-center">
                                     <div class="slds-col slds-size_2-of-3">
-                                        <p>SOA</p>
+                                        <p>Statment Of Account</p>
                                     </div>
                                     <div class="slds-col slds-size_1-of-3 slds-text-align_right">
                                         <lightning-input type="checkbox" class="slds-m-right_x-small"
@@ -87,7 +87,7 @@
                             <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
                                 <div class="slds-grid slds-align_absolute-center">
                                     <div class="slds-col slds-size_2-of-3">
-                                        <p>IC</p>
+                                        <p>Interest Certificate</p>
                                     </div>
                                     <div class="slds-col slds-size_1-of-3 slds-text-align_right">
                                         <lightning-input type="checkbox" class="slds-m-right_x-small"
@@ -99,7 +99,7 @@
                             <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
                                 <div class="slds-grid slds-align_absolute-center">
                                     <div class="slds-col slds-size_2-of-3">
-                                        <p>PIC</p>
+                                        <p>Provisional Interest Certificate</p>
                                     </div>
                                     <div class="slds-col slds-size_1-of-3 slds-text-align_right">
                                         <lightning-input type="checkbox" class="slds-m-right_x-small"
@@ -110,7 +110,7 @@
                             <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
                                 <div class="slds-grid slds-align_absolute-center">
                                     <div class="slds-col slds-size_2-of-3">
-                                        <p>NDC</p>
+                                        <p>No Due Certificate</p>
                                     </div>
                                     <div class="slds-col slds-size_1-of-3 slds-text-align_right">
                                         <lightning-input type="checkbox" class="slds-m-right_x-small"
@@ -261,7 +261,7 @@
                     <span class="slds-assistive-text">Cancel and close</span>
                 </button-->
                 <div class="slds-modal__header">
-                    <h1 id="modal-heading-03" class="slds-modal__title slds-hyphenate" tabindex="-1">Language Preference
+                    <h1 id="modal-heading-03" class="slds-modal__title slds-hyphenate" tabindex="-1" style="background-color: #C7222A; color: white">Language Preference
                     </h1>
                 </div>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
