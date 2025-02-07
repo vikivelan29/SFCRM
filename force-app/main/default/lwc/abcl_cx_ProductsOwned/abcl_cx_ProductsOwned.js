@@ -13,7 +13,7 @@ export default class Abcl_cx_ProductsOwned extends LightningElement {
     totalNoOfRecordsInDatatable = 0;
     accBusinessUnit = "";
     @track infoObject = {};
-    fieldMappingForCase
+    fieldMappingForCase;
     fieldToBeStampedOnCase;
     selectedAsset = {};
     buttonVariant="neutral";
