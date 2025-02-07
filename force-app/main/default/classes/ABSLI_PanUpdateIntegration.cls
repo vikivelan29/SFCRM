@@ -170,7 +170,7 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
                     caseInt.Request__c  =  JSON.serialize(new PanUpdateRequest(transaction_no,source,
                                                                                   policyNumber,
                                                                                   panNumber,
-                                                                              caseRecord.Account.Client_Code__c));
+                                                                              caseRecord.Account.Client_Code__c,caseRecord.ABSLI_Case_Detail__r.PAN_Aadhar_seeding_status__c));
                     caseInt.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
                     caseInt.Do_Not_Retry_Integration__c = integ.Do_Not_Retry_Integration__c;
                     caseInt.Is_Validation_Success__c = true;
@@ -184,7 +184,7 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
                     caseIntOut.Request_Payload__c  =  JSON.serialize(new PanUpdateRequest(transaction_no,source,
                                                                                              policyNumber,
                                                                                              panNumber,
-                                                                                         caseRecord.Account.Client_Code__c));
+                                                                                         caseRecord.Account.Client_Code__c,caseRecord.ABSLI_Case_Detail__r.PAN_Aadhar_seeding_status__c));
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;
@@ -266,7 +266,7 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
         public updatePANDetails updatePANDetails{get;set;}
         
         public PanUpdateRequest(String caseNum,String src,
-                                   String policyNumber, String panNumber,String clientId)
+                                   String policyNumber, String panNumber,String clientId,string panseedstatus)
         {
             this.TRANS_NO = caseNum;
             updatePANDetails cls = new updatePANDetails();
@@ -275,6 +275,7 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
             cls.panNumber = panNumber;            
             cls.panValidationStatus = 'Y';
             cls.clientId = clientId;
+            cls.panSeedStatus = panseedstatus;    // parameter added by Yogesh for PR970457-2823.
             this.updatePANDetails = cls;
         }
     }
@@ -285,6 +286,7 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
         public string panNumber{get;set;}
         public string panValidationStatus{get;set;}
         public string clientId{get;set;}
+        public string panSeedStatus{get;set;}
     }
     
 }
