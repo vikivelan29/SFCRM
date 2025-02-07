@@ -26,9 +26,10 @@
 
 /* Handle */
 .slider::-webkit-scrollbar-thumb {
-  background: black;
+  background: gray;
   border-radius: 8px;
   cursor: pointer;
+  
 }
 
 /* Handle on hover */
