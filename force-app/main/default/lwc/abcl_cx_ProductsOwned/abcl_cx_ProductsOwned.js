@@ -66,7 +66,7 @@ export default class Abcl_cx_ProductsOwned extends LightningElement {
     
     handleCheckboxChange(event){
             const selectedValue = event.target.value;
-            this.selectedAsset = this.relatedAssets.find(asset => asset.Id === selectedValue);
+            //this.selectedAsset = this.relatedAssets.find(asset => asset.Id === selectedValue);
             const checkboxes = this.template.querySelectorAll('[data-id="customCheckbox"]');
             // Loop through all checkboxes
             checkboxes.forEach((checkbox) => {
@@ -74,7 +74,6 @@ export default class Abcl_cx_ProductsOwned extends LightningElement {
                     checkbox.checked = false;
                 }
             });
-            //this.selectedAsset = this.relatedAssets.find(asset => asset.Id === selectedValue);
         this.selectedAsset = this.assetRecords.find(asset => asset.Id === selectedValue);
         console.log('Selected Asset Details>>>',this.selectedAsset);
         this.infoObject.isAsset = "true";
