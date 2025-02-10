@@ -119,6 +119,26 @@
                 <default>false</default>
                 <label>Wife</label>
             </value>
+            <value>
+                <fullName>DINLW</fullName>
+                <default>false</default>
+                <label>Daughter in Law</label>
+            </value>
+            <value>
+                <fullName>GDAUG</fullName>
+                <default>false</default>
+                <label>Granddaughter</label>
+            </value>
+            <value>
+                <fullName>GSON</fullName>
+                <default>false</default>
+                <label>Grandson</label>
+            </value>
+            <value>
+                <fullName>PART</fullName>
+                <default>false</default>
+                <label>Partner</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
