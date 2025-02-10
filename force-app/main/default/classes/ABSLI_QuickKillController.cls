@@ -14,21 +14,21 @@ public with sharing class ABSLI_QuickKillController {
     /* THIS METHOD IS USED TO DELETE THE RECORD, WHEN SOMEONE PROCESS THE DYNAMINC LINK AND JUST BEFORE CLICKING ON SEND
 CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCELLING IT.
 */
-    @AuraEnabled (cacheable = false)
-    public static boolean deleteDraftLogs(String commLogId){
-        if(commLogId != null && commLogId != ''){
-            Id cLogId = Id.valueOf(commLogId);
-            ASF_Communication_Log__c cLog = new ASF_Communication_Log__c(Id=cLogId);
-            try{
-                delete cLog;
-            }
-            catch(exception ex){
-                return false;
-            }
-            return true;
-        }
-        return true;
-    }
+    // @AuraEnabled (cacheable = false)
+    // public static boolean deleteDraftLogs(String commLogId){
+    //     if(commLogId != null && commLogId != ''){
+    //         Id cLogId = Id.valueOf(commLogId);
+    //         ASF_Communication_Log__c cLog = new ASF_Communication_Log__c(Id=cLogId);
+    //         try{
+    //             delete cLog;
+    //         }
+    //         catch(exception ex){
+    //             return false;
+    //         }
+    //         return true;
+    //     }
+    //     return true;
+    // }
     
     /* THIS METHOD IS USED TO GET THE POLICY TABLES COLUMNS FOR QUICK LINKS. 
 * IN CASE OF MULTIPLE POLICIES, SERVICE AGENT IS SUPPOSED TO SELECT THE POLICY FIRST AND THEN PROCEED WITH
