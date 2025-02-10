@@ -57,9 +57,9 @@
                 <label>Agency Winback</label>
             </value>
             <value>
-                <fullName>Service Assurance S2S</fullName>
+                <fullName>DCB Win Back</fullName>
                 <default>false</default>
-                <label>Service Assurance S2S</label>
+                <label>DCB Win Back</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
