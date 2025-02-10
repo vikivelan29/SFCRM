@@ -4,7 +4,7 @@ import generateBitlyLink from "@salesforce/apex/ABSLI_QuickKillController.genera
 import sendCommunication from "@salesforce/apex/ABSLI_QuickKillController.sendCommunication";
 import getAllRelatedAssets from '@salesforce/apex/ABSLI_QuickKillController.getAllRelatedAssets';
 import getPolicyColumns from '@salesforce/apex/ABSLI_QuickKillController.getPolicyColumns';
-import deleteDraftLogs from '@salesforce/apex/ABSLI_QuickKillController.deleteDraftLogs';
+//import deleteDraftLogs from '@salesforce/apex/ABSLI_QuickKillController.deleteDraftLogs';
 import getCustomerPhoneNumber from '@salesforce/apex/ABSLI_QuickKillController.getCustomerPhoneNumber';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceErrors } from 'c/asf_ldsUtils';
@@ -62,6 +62,7 @@ export default class Absli_quickkill extends LightningElement {
     };
 
     filter = {};
+    debugger;
  
     @wire(getCustomerPhoneNumber, { recordId: "$recordId"})
     async wiredRecord({ error, data }) {
@@ -345,27 +346,27 @@ export default class Absli_quickkill extends LightningElement {
             this.controlGenerateLink = false;
         })
     }
-    async invokeCloseModal(){
-        if(this.cLogId != null && this.cLogId != undefined && this.cLogId != ''){
-            await deleteDraftLogs({commLogId : this.cLogId})
-            .then((result)=>{
-                if(result == true){
-                    console.log('Deleted Draft Communication Log.');
-                }
-                else{
-                    this.showError('error', 'Something went Wrong ! Please contact system administrator.');
-                }
-            })
-            .catch((error)=>{
-                this.showError('error', 'Something went Wrong ! ');
-            })
-        }
-        this.dispatchEvent(new CustomEvent('closepopup', {
-            detail: {
-                message: true
-            }
-        }));
-    }
+    // async invokeCloseModal(){
+    //     if(this.cLogId != null && this.cLogId != undefined && this.cLogId != ''){
+    //         await deleteDraftLogs({commLogId : this.cLogId})
+    //         .then((result)=>{
+    //             if(result == true){
+    //                 console.log('Deleted Draft Communication Log.');
+    //             }
+    //             else{
+    //                 this.showError('error', 'Something went Wrong ! Please contact system administrator.');
+    //             }
+    //         })
+    //         .catch((error)=>{
+    //             this.showError('error', 'Something went Wrong ! ');
+    //         })
+    //     }
+    //     this.dispatchEvent(new CustomEvent('closepopup', {
+    //         detail: {
+    //             message: true
+    //         }
+    //     }));
+    // }
     async invokeBitlyIntegration(commLogId,functionCode){
         debugger;
         await generateBitlyLink({cLogId : commLogId, funcCode : functionCode})
@@ -374,6 +375,7 @@ export default class Absli_quickkill extends LightningElement {
             this.showPreview = true;
             this.showLoading = false;
             this.bErrored = false;
+            this.sendCommunication(this.recordId);
         })
         .catch((error)=>{
             let errMsg = reduceErrors(error);
@@ -386,9 +388,9 @@ export default class Absli_quickkill extends LightningElement {
     get showSendButton(){
         return this.showPreview && !this.bErrored;
     }
-    handleSend(event){
-        this.sendCommunication(this.recordId);
-    }
+    // handleSend(event){
+    //     this.sendCommunication(this.recordId);
+    // }
     @api
     sendCommunication(parentRecordId){
 
