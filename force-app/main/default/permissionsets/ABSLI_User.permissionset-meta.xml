@@ -138,7 +138,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>ABSLI_Case_Detail__c.API_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -923,7 +923,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>ABSLI_Case_Detail__c.PAN_Aadhar_seeding_status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2844,6 +2844,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Asset.Processing_State__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Asset.Product2Id</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3189,11 +3194,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Branch_Master__c.Branch_State__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Branch_Master__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3293,18 +3293,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Bio_on_channel__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Bot_Feedback__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.CXO__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3318,16 +3308,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.ChannelId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.ChannelType__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Entity_Reference_No__c</field>
         <readable>true</readable>
@@ -3338,12 +3318,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Followers_on_channel__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Case.HWC__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3365,16 +3340,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Issue_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Name_on_channel__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Sentiments__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3644,31 +3609,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>EmailMessage.UNFYD_email__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
- <fieldPermissions>
-        <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.API_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-	<fieldPermissions>
-        <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.API_Error_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.API_Response_Message__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.API_Request__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.ABSLI_Lead_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3888,6 +3828,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.Policy_Channel__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Policy_Number__c</field>
         <readable>true</readable>
@@ -4095,11 +4040,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product2.Segment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>User.Manger_s_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <flowAccesses>
