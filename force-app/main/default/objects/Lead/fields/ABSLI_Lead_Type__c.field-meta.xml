@@ -58,6 +58,11 @@
                 <label>Agency Winback</label>
             </value>
             <value>
+                <fullName>Service Assurance S2S</fullName>
+                <default>false</default>
+                <label>Service Assurance S2S</label>
+            </value>
+            <value>
                 <fullName>DCB Win Back</fullName>
                 <default>false</default>
                 <label>DCB Win Back</label>
