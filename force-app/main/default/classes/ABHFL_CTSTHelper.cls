@@ -382,7 +382,7 @@ public static void updateOwnerToRecatUsr(List < Case > caseList, Map < Id, Case 
 				if(c.Is_Recategorise_Allowed__c && c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ){
                                 ASF_CaseTriggerModularHelper.invokeSLACalculationMethods(IdvsCase,oldCaseMap);         // added by vikas, After recategorisation, ovarall SLA should changed before marked as closed duplicate.
                                 }
-                                if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
+                                if(oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
                                     c.Stage__c = ASF_Constants.DUPLICATESTAGE;
                                     c.Status = ASF_Constants.DUPLICATESTATUS;
                                     c.Rejected_Reason__c = 'Duplicate Case';
