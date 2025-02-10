@@ -132,7 +132,7 @@ public class ABSLI_QuickKillController_Test {
         Test.startTest();
         ABSLI_QuickKillController.generateBitlyLink(log.Id,'ADDRU');
         ABSLI_QuickKillController.generateLink('ADDRU',testAccount.Id,testAsset.Id);
-        ABSLI_QuickKillController.deleteDraftLogs(log.Id);
+        //ABSLI_QuickKillController.deleteDraftLogs(log.Id);
         Test.stopTest();
         
 	}
