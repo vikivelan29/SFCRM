@@ -24,6 +24,7 @@ public class ABSLI_AfterInsertLogic_Test {
         
         //Create Case Extension record
         ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
+        caseDetail.Transaction_ID__c = '1234';
         insert caseDetail;
        
         //Create Case

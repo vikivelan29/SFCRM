@@ -2,9 +2,11 @@ public with sharing class ABSLI_AfterInsertLogic {
     public static void executeAfterInsertLogic(List<Case> newCases) {
         Map<Id, Case> mAbsliCases = new Map<Id, Case>();
         Map<Id, Case> mAbsliSurrenderWithdrawalCases = new Map<Id, Case>();
+        Set<Id> caseIdSet = new Set<Id>();
         for (Case caseRec : newCases) {
             if (caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU) {
                 mAbsliCases.put(caseRec.Id, caseRec);
+                caseIdSet.add(caseRec.Id);
             }
         }
         for (Case caseRec : newCases) {
@@ -19,9 +21,43 @@ public with sharing class ABSLI_AfterInsertLogic {
         if(mAbsliSurrenderWithdrawalCases.keySet().size()>0){
             ABSLI_AfterInsertLogic.populateTDSPAN(mAbsliSurrenderWithdrawalCases.values());
         }
-        
+        if(!caseIdSet.isEmpty()){
+            System.debug('newCases ' + newCases);
+            ABSLI_AfterInsertLogic.checkDuplicateTransactionID(caseIdSet,newCases);
+        }
     }
     
+    /*
+    JIRA Number: PR970457-2836
+    Developed By: EY Team
+    Date of Development: 07/02/2025
+    Description: To block duplicate cases inserted through API basis on Transaction_ID__c
+    */
+    public static void checkDuplicateTransactionID(Set<Id> caseIdSet, List<Case> newCases){
+        System.debug('caseIdSet' + caseIdSet);
+        Map<String,Case> transIdVsNewCaseMap = new Map<String,Case>();
+        for(Case newCase : [SELECT Id, caseNumber, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Transaction_ID__c FROM CASE WHERE Id IN :caseIdSet]){
+            if(newCase.ABSLI_Case_Detail__c != null && newCase.ABSLI_Case_Detail__r.Transaction_ID__c != null){
+                transIdVsNewCaseMap.put(newCase.ABSLI_Case_Detail__r.Transaction_ID__c,newCase);
+            }
+        }
+        System.debug('transIdVsNewCaseMap' + transIdVsNewCaseMap);
+        if(!transIdVsNewCaseMap.isEmpty()){
+            for(Case oldCase : [SELECT Id, CaseNumber, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Transaction_ID__c FROM CASE WHERE ABSLI_Case_Detail__r.Transaction_ID__c IN :transIdVsNewCaseMap.keySet()]){
+                System.debug('oldCase ' + oldCase);
+                if(oldCase.ABSLI_Case_Detail__c != null && oldCase.ABSLI_Case_Detail__r.Transaction_ID__c != null && !caseIdSet.contains(oldCase.Id)){
+                    System.debug('Old Case Found' + oldCase);
+                    for(Case dupCase : newCases){
+                        if(dupCase.Id == transIdVsNewCaseMap.get(oldCase.ABSLI_Case_Detail__r.Transaction_ID__c).Id){
+                            System.debug('dupCase ' + dupCase);
+                            dupCase.addError('Existing Case Available in CRM: ' + oldCase.CaseNumber);
+                        }
+                    }
+                }
+            }
+        } 
+    }
+
     private static void populateEntityRefNumber(Map<Id, Case> mAbsliCases){
         for(Case c : mAbsliCases.values()){
             Case updCase = new Case(Id = c.Id);

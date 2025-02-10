@@ -75,9 +75,9 @@
             </div>
         </div>
     </template>
-    <template if:true={showPreview}>
+    <!-- <template if:true={showPreview}>
         <template if:false={showLoading}>
-            <!-- <div class="slds-form" role="list">
+            <div class="slds-form" role="list">
             <div class="slds-form__row">
                 <div class="slds-form__item" role="listitem">
                     <div class="slds-form-element slds-form-element_stacked slds-is-editing">
@@ -106,7 +106,7 @@
                 </template>
 
             </div>
-        </div>-->
+        </div>
             <br>
             <div class="slds-form">
                 <div class="slds-form-element slds-form-element_stacked">
@@ -120,13 +120,13 @@
             </div>
         </template>
 
-    </template>
+    </template> -->
     <template if:true={showLoading}>
         <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
     </template>
     <div class="slds-modal__footer">
-        <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
-            onclick={invokeCloseModal}>Cancel</button>
+        <!-- <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+            onclick={invokeCloseModal}>Cancel</button> -->
         <template if:false={showPolicy}>
             <template if:true={selectedPolicyId}>
                 <button class="slds-button slds-button_brand" onclick={handleQuickLink}>Next To QuickLink</button>
@@ -140,12 +140,11 @@
             </div>
         </template>
         <template if:true={showGenerateLink}>
-            <button class="slds-button slds-button_brand" onclick={handleGenerateLinkPrev}>Generate Link &
-                Preview</button>
+            <button class="slds-button slds-button_brand" onclick={handleGenerateLinkPrev}>Send</button>
         </template>
-        <template if:true={showSendButton}>
+        <!-- <template if:true={showSendButton}>
             <button class="slds-button slds-button_brand" onclick={handleSend}>Send</button>
-        </template>
+        </template> -->
 
     </div>
 
