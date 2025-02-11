@@ -173,41 +173,6 @@
         <name>ShowSalesProspect</name>
     </customPermissions>
     <fieldPermissions>
-	<editable>true</editable>
-    <field>Account.PersonGenderIdentity</field>
-    <readable>true</readable>
-</fieldPermissions>
-<fieldPermissions>
-	<editable>true</editable>
-    <field>Account.Customer_Since__c</field>
-    <readable>true</readable>
-</fieldPermissions>
-<fieldPermissions>
-	<editable>true</editable>
-    <field>Account.HNI_Customer__c</field>
-    <readable>true</readable>
-</fieldPermissions>
-<fieldPermissions>
-	<editable>true</editable>
-    <field>Account.WhatsApp_Opt_in_status__c</field>
-    <readable>true</readable>
-</fieldPermissions>
-<fieldPermissions>
-	<editable>true</editable>
-    <field>Account.ABC_Consent__c</field>
-    <readable>true</readable>
-</fieldPermissions>
-    <fieldPermissions>
-	<editable>true</editable>
-    <field>Asset.Insured_Name__c</field>
-    <readable>true</readable>
-</fieldPermissions>
-<fieldPermissions>
-	<editable>true</editable>
-    <field>Case.Preferred_Language__c</field>
-    <readable>true</readable>
-</fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.ARR__c</field>
         <readable>true</readable>
@@ -355,22 +320,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.AWB_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    
- <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Complaint_Recategorization__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-	 <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Complaint_RCA__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-	 <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Complaint_Overall_SLA__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -536,6 +485,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Complaint_Investigation_Response_Json__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Complaint_Overall_SLA__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Complaint_RCA__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Complaint_Recategorization__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1429,6 +1393,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.ABC_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Account.Active_Date__c</field>
         <readable>true</readable>
@@ -1479,8 +1448,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Customer_Since__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Account.Customer_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Employee_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1491,6 +1470,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Fraud_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.HNI_Customer__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1531,6 +1515,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.PAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.PersonGenderIdentity</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1586,6 +1575,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Verticals__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.WhatsApp_Opt_in_status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1831,6 +1825,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.IFSC_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Insured_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2221,6 +2220,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.ParentId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Preferred_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2946,6 +2950,46 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product2.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.RespondedOn__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.Primary_Question_NPS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.Primary_Comment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.Case_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.Journey__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.LAN_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.Unique_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.LAN__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

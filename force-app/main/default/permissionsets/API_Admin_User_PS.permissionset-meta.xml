@@ -9110,6 +9110,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Survey_Response__c.Case_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Survey_Response__c.Client_Code_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9143,6 +9148,11 @@
         <field>Survey_Response__c.Invitation_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Survey_Response__c.Journey__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Survey_Response__c.L1_Driver__c</field>
@@ -9166,6 +9176,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Survey_Response__c.LAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Survey_Response__c.Unique_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9196,6 +9211,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Survey_Response__c.Responded_on__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Survey_Response__c.RespondedOn__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
