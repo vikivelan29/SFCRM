@@ -208,8 +208,9 @@ public with sharing class ABFL_EBOTCaseLogics {
                         ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'ABFL_PaytmAutorespon',null,false);
                      }
                      else if(!isRegistered){
-                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c ,null,false);
-                     	
+                         if(recCase.Business_Unit__c != 'ABFL'){
+                         	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c ,null,false);    
+                         }
                          if(recCase.Business_Unit__c == 'ABFL'){
                             if(recCase.AccountId == null){
                                 ABFL_WealthChatGeneratedCases.sendEmailWhenNotRegisteredCustomer(emailMessages,false);
