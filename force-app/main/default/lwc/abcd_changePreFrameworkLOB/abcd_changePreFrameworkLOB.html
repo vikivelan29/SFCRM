@@ -1,0 +1,54 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 12-17-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card>
+        <div class="title-container">
+            <h2 class="title-text">LOB Emails</h2>
+        </div>
+        <lightning-layout multiple-rows="true" class="search-container">
+            <lightning-layout-item padding="around-small" size="12">
+                <label class="slds-form-element__label search-label" for="searchInput">Search Email Box</label>
+                <div class="slds-form-element__control search-box">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="slds-input search-input" 
+                        placeholder="Enter Email Address/Business Unit/Queue" 
+                        oninput={handleSearchInputChange}/>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <lightning-layout-item padding="around-small" size="12">
+            <div class="table-container">
+                <lightning-datatable
+                    key-field="id"
+                    data={filteredData}
+                    columns={columns}
+                    onrowselection={getSelectedName}>
+                </lightning-datatable>
+            </div>
+        </lightning-layout-item>
+
+        <div class="footer-container">
+            <lightning-button 
+                variant="brand" 
+                label="Forward Case" 
+                title="Forward Case" 
+                onclick={handleForwardCase}
+                class="slds-m-left_x-small">
+            </lightning-button>
+            <lightning-button 
+                variant="neutral" 
+                label="Cancel" 
+                onclick={closeQuickAction}
+                class="slds-m-left_x-small">
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>
