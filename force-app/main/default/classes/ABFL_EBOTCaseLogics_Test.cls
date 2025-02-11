@@ -10,6 +10,7 @@
 **/
 @IsTest
 public class ABFL_EBOTCaseLogics_Test {
+  
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
     @testSetup
     static void setUpData(){
