@@ -157,7 +157,7 @@ public class ABFL_EBOTCaseLogics_Test {
              caseIntUpdate.Id = caseInt.Id;
             caseIntUpdate.Status__c = 'Success';
             caseIntUpdate.Response__c = '{"AUTOCLOSURE_IN_RR":"NO","CASEID":"00003974","CASESUBTYPE":"12345","COMMENT":"updatedd","CONFIDENCESCORE":"40.12","CUSTOMERNO":"1234566","ISATTACHMENTFLAG":"NO","ISMULTIPLELAN":"YES","ISREGISTEREDCUSTOMER":"YES","ISSMT":"YES","LAN":"122321321","LOB":"001","MOODSTAMP":"not sure","OWNERFULLNAME":"Shubham Sinha","PAYTMINTERACTIONID":"","PRIORITY":"low","AUTORESPONSEFLAG":"YES"}';
-            update caseIntUpdate;
+            //update caseIntUpdate;
               ABFL_Case_Detail__c objABFL = new ABFL_Case_Detail__c();
                 objABFL.Case__c = newCase.Id;
                 insert objABFL; 
@@ -220,4 +220,58 @@ public class ABFL_EBOTCaseLogics_Test {
         }
     }
         
+        PE_Logger__c createdPELogger = [SELECT Id, AccountId__c, CCCExternalId__c, Case__c, ContactId__c, PE_Name__c, Status__c, Send_To_Specific_Emails__c, Specific_To_Address__c, Email_Template_Name__c
+                                        FROM PE_Logger__c WHERE Case__c = :caseRec.Id LIMIT 1];
+        
+        
+        System.assertNotEquals(null, createdPELogger, 'PE_Logger__c record should be created.');
+        System.assertEquals(caseRec.CCC_External_Id__c, createdPELogger.CCCExternalId__c, 'CCCExternalId__c should match.');
+        System.assertEquals('CommunicationLog', createdPELogger.PE_Name__c, 'PE_Name__c should be "CommunicationLog".');
+        System.assertEquals(true, createdPELogger.Send_To_Specific_Emails__c, 'Send_To_Specific_Emails__c should be true.');
+        System.assertEquals(specificEmailId, createdPELogger.Specific_To_Address__c, 'Specific_To_Address__c should match.');
+        System.assertEquals(emailTemplate, createdPELogger.Email_Template_Name__c, 'Email_Template_Name__c should match.');
+    }    
+    @isTest
+    public static void testUpdateCaseDetailExtension() {
+ 
+        Case testCase = new Case();
+        testCase.Subject = 'Test Wealth Chat Cases';
+        testCase.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
+        testCase.Origin = ABFL_Constants.WMCHATCASEORIGIN;
+        insert testCase;
+
+        ABFL_EbotWrapper.EbotResponseWrapper mockResponse = new ABFL_EbotWrapper.EbotResponseWrapper();
+        mockResponse.CONFIDENCESCORE = '0.95';
+        mockResponse.AUTOCLOSURE_IN_RR = 'YES';
+        mockResponse.ISREGISTEREDCUSTOMER = 'Yes';
+        mockResponse.MOODSTAMP = 'Happy';
+        mockResponse.PRIORITY = 'High';
+        mockResponse.ISSMT = 'YES';
+        mockResponse.ISMULTIPLELAN = 'YES';
+        mockResponse.ISATTACHMENTFLAG = 'YES';
+        mockResponse.PAYTMINTERACTIONID = 'PT12345';
+        mockResponse.DISPOSITION = 'Resolved';
+
+        Test.startTest();
+        ABFL_EBOTCaseLogics.updateCaseDetailExtension(testCase.Id, mockResponse);
+        Test.stopTest();
+
+        ABFL_Case_Detail__c caseDetail = [SELECT Id, Case__c, ConfidenceScore__c, Autoclosure_IN_RR__c, 
+                                          IsRegisteredCustomer__c, Moodstamp__c, Priority__c, IsSMT__c, 
+                                          IsMultipleLAN__c, IsAttachmentFlag__c, PayTmInteractionId__c, Disposition__c 
+                                          FROM ABFL_Case_Detail__c WHERE Case__c = :testCase.Id LIMIT 1];
+
+        System.assertNotEquals(null, caseDetail, 'ABFL_Case_Detail__c record should be created.');
+        System.assertEquals(testCase.Id, caseDetail.Case__c, 'Case__c should match the created Case.');
+        System.assertEquals(0.95, caseDetail.ConfidenceScore__c, 'ConfidenceScore__c should match.');
+        System.assertEquals(true, caseDetail.Autoclosure_IN_RR__c, 'Autoclosure_IN_RR__c should be TRUE.');
+        System.assertEquals('Yes', caseDetail.IsRegisteredCustomer__c, 'IsRegisteredCustomer__c should be "Yes".');
+        System.assertEquals('Happy', caseDetail.Moodstamp__c, 'Moodstamp__c should be "Happy".');
+        System.assertEquals('High', caseDetail.Priority__c, 'Priority__c should be "High".');
+        System.assertEquals(true, caseDetail.IsSMT__c, 'IsSMT__c should be TRUE.');
+        System.assertEquals(true, caseDetail.IsMultipleLAN__c, 'IsMultipleLAN__c should be TRUE.');
+        System.assertEquals(true, caseDetail.IsAttachmentFlag__c, 'IsAttachmentFlag__c should be TRUE.');
+        System.assertEquals('PT12345', caseDetail.PayTmInteractionId__c, 'PayTmInteractionId__c should match.');
+        System.assertEquals('Resolved', caseDetail.Disposition__c, 'Disposition__c should match.');
+    }
 }
