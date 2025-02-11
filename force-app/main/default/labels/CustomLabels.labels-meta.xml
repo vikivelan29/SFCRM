@@ -28,7 +28,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_SprinklrUpdateBUs</shortDescription>
-        <value>ABSLAMC,ABHI,ONEABC,ABCD</value>
+        <value>ABSLAMC,ABHI,ONEABC,ABCD,ABFL,ABHFL</value>
     </labels>
     <labels>
         <fullName>ONEABC_Acc_Error_ABCD_Customer</fullName>

@@ -78,6 +78,12 @@ public with sharing class ABHFL_Constants {
     public static final String SOURCE_SYSTEM_API = 'SFDC';
     public static final String EXTERNAL_RECORD_TYPE = 'External';
     public static final String STP_REQUEST_TYPE_DOWNLOAD = 'Download';
+
+
+   //Sprinklr related constants (Added by Yogesh for [PR970457-2795] )
+    public static final String SPRINKLRINT = 'Sprinklr-UpdateCase';
+    public static final String SPRINKLR = 'SPRINKLR';
+    public static final String SPRINKLRAPI = 'Sprinklr-UpdateCase API';
     
     
     
