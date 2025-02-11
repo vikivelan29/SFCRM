@@ -8,6 +8,7 @@
 
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts, PMD.NcssMethodCount, PMD.StdCyclomaticComplexity')
 public with sharing class ABFL_WealthChatGeneratedCases {
+    
     /**
     * @param emailMessageList - list of EmailMessage records 
     * @description - this method extracts the Email & mobile from the Email Body & assign these to the Case.suppliedEmail & case.SuppliedPhone to send an Acknowledgment Email & SMS to the provided Email & Phone when the Case.Origin is ABWM Email
