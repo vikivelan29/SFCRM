@@ -159,7 +159,7 @@ public class ABFL_EBOTCaseLogics_Test {
              caseIntUpdate.Id = caseInt.Id;
             caseIntUpdate.Status__c = 'Success';
             caseIntUpdate.Response__c = '{"AUTOCLOSURE_IN_RR":"NO","CASEID":"00003974","CASESUBTYPE":"12345","COMMENT":"updatedd","CONFIDENCESCORE":"40.12","CUSTOMERNO":"1234566","ISATTACHMENTFLAG":"NO","ISMULTIPLELAN":"YES","ISREGISTEREDCUSTOMER":"YES","ISSMT":"YES","LAN":"122321321","LOB":"001","MOODSTAMP":"not sure","OWNERFULLNAME":"Shubham Sinha","PAYTMINTERACTIONID":"","PRIORITY":"low","AUTORESPONSEFLAG":"YES"}';
-            update caseIntUpdate;
+            //update caseIntUpdate;
               ABFL_Case_Detail__c objABFL = new ABFL_Case_Detail__c();
                 objABFL.Case__c = newCase.Id;
                 insert objABFL; 
