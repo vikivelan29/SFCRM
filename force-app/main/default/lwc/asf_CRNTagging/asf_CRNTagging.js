@@ -85,6 +85,8 @@ export default class Asf_CRNTagging extends LightningElement {
     selectedRecBu = '';
     caseRecType = '';
     selectedCustomerType = '';
+    typingTimer;
+    doneTypingInterval = 300;
 
     @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
     currentUserInfo({error, data}) {
@@ -175,17 +177,26 @@ export default class Asf_CRNTagging extends LightningElement {
     valChange(event) {
         this.isDisabledUpdateCaseButton = true;
         this.inpValue = event.target.value;
+        let isSearchAccount = false;
         if (this.inpValue && this.inpValue.length >= 2) {
             this.preSelectedRows = [];
             this.prestdAcctId = '';
             this.asstData = [];
-            this.SearchAccountHandler(event);
+            isSearchAccount = true;
+            //this.SearchAccountHandler(event);
         } else if (this.inpValue.length == 0) {
             this.preSelectedRows = [];
             this.prestdAcctId = '';
             this.asstData = [];
             this.inpValue = this.accountCrn;
-            this.SearchAccountHandler(event);
+            isSearchAccount = true;
+            //this.SearchAccountHandler(event);
+        }
+        if(isSearchAccount === true){
+            clearTimeout(this.typingTimer);
+            this.typingTimer = setTimeout(() => {
+                this.SearchAccountHandler(event);
+            }, this.doneTypingInterval);
         }
     }
 
@@ -265,18 +276,22 @@ export default class Asf_CRNTagging extends LightningElement {
             */
             if(this.loggedInUserBusinessUnit == ABCD_BU){
                 if(this.caseRecType != 'Framework'){
-                    if(this.caseBu == ABCD_BU && this.selectedRecBu != ABCD_BU){
+                   /* if(this.caseBu == ABCD_BU && this.selectedRecBu != ABCD_BU){
                         inpArg['customerBu'] = ONEABC_BU;
                     }
                     else if(this.caseBu == ONEABC_BU && this.selectedRecBu == ABCD_BU){
                         inpArg['customerBu'] = ABCD_BU;
+                    }*/
+                    if(this.caseBu == ABCD_BU && this.selectedRecBu != ABCD_BU){
+                        this.showError('error', 'Error Occured', ONEABC_Acc_Error_ABCD);
+                        return;
                     }
                 }else if(this.caseRecType === 'Framework'){
                     if(this.caseBu === ABCD_BU && this.selectedRecBu != ABCD_BU){
                         this.showError('error', 'Error Occured', ONEABC_Acc_Error_ABCD);
                         return;
                     }
-                    else if(this.caseBu === ONEABC_BU && (this.selectedRecBu === ABCD_BU && this.selectedCustomerType != 'Prospect')){
+                    else if(this.caseBu === ONEABC_BU && this.selectedRecBu != ONEABC_BU && !(this.selectedRecBu === ABCD_BU && this.selectedCustomerType === 'Prospect')){
                         this.showError('error', 'Error Occured', ONEABC_Acc_Error_Non_ABCD);
                         return;
                     }
