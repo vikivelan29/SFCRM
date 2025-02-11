@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8" ?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
@@ -24,19 +23,12 @@
         <shortDescription>ABHI_PolicyRequired_ErrMsg1</shortDescription>
         <value>Please enter Policy Number or Master Policy Number</value>
     </labels>
-    <labels>
-        <fullName>ASF_SprinklrUpdateBUs</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_SprinklrUpdateBUs</shortDescription>
-        <value>ABSLAMC,ABHI,ONEABC,ABCD,ABML,ABFL,ABHFL</value>
-    </labels>
         <labels>
         <fullName>ASF_SprinklrUpdateBUs</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_SprinklrUpdateBUs</shortDescription>
-        <value>ABSLAMC,ABHI,ONEABC,ABCD</value>
+        <value>ABSLAMC,ABHI,ONEABC,ABCD,ABFL,ABHFL</value>
     </labels>
     <labels>
         <fullName>ONEABC_Acc_Error_ABCD_Customer</fullName>
@@ -1801,35 +1793,6 @@
         <protected>false</protected>
         <shortDescription>ABCD_Business_Unit</shortDescription>
         <value>ABCD</value>
-     </labels>
-     <labels>
-        <fullName>ABML_LegacyPageSize</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABML_LegacyPageSize</shortDescription>
-        <value>10</value>
-    </labels>
-    <labels>
-        <fullName>MCRM_NoRecordsGetPolicyDetails</fullName>
-        <categories>Wellness</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MCRM No Records Get Policy Details</shortDescription>
-        <value>No records are available for display.</value>
-    </labels>
-    <labels>
-        <fullName>ABML_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABML_BU</shortDescription>
-        <value>ABML</value>
-    </labels>
-    <labels>
-        <fullName>SuppressCreateCase_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Used to Suppress Create Case button for BUs</shortDescription>
-        <value>Wellness</value>
     </labels>
     <labels>
         <fullName>ABCD_ONEABC_BU</fullName>
@@ -1879,12 +1842,12 @@
         <protected>false</protected>
         <shortDescription>ABCD_LitmusAppId</shortDescription>
         <value>kqzm_touchpoint</value>
-   </labels>
+    </labels>
     <labels>
         <fullName>ABHFL_EmailId_RequestClosure_Template_Id</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHFL EmailId RequestClosure Template Id </shortDescription>
+        <shortDescription>ABHFL EmailId RequestClosure  Template Id</shortDescription>
         <value>00XBi000000bx17MAA</value>
     </labels>
     <labels>
@@ -1902,19 +1865,12 @@
         <value>payments_indi_21,payments_indi_213,payments_indi_193</value>
     </labels>
     <labels>
-        <fullName>ABSLI_PIVC_Integration_CTST</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_PIVC_Integration_CTST</shortDescription>
-        <value>NBPC009,NBPC007,NBPC006,NBPC008,NBPC010,RPR001,NBRC004,NBPC012</value>
-   </labels>
-   <labels>
         <fullName>ABCL_CX_Preferred_language</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL CX Preferred language</shortDescription>
         <value>Bengali,English,Gujrati,Hindi,Kannnada,Marathi,Oriya,Punjabi,Tamil,Telegu</value>
-   </labels>
+    </labels>
     <labels>
         <fullName>ABHFL_AssetRequiredErrMsgLabel</fullName>
         <language>en_US</language>
