@@ -478,6 +478,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abml_getSprinklrSocialMediaProfile</componentName>
+                <identifier>c_abml_getSprinklrSocialMediaProfile</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-911d8738-ba0e-468a-b75b-f45846c2d28d</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-4e5f6c0b-1535-4dfd-82da-222ee7ceac05</value>
@@ -558,6 +568,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-911d8738-ba0e-468a-b75b-f45846c2d28d</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Social Profile</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab5</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
