@@ -26,6 +26,7 @@ public with sharing class ABHFL_Constants {
     public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
     //Amortization Subtype External Id
     public static final String Amort_CCC_EXTERNALID = 'hfl004';
+    //New Constants has been added for 360x
     //SOA Subtype
     public static final String SOA_CCC_EXTERNALID = 'hfl073';
     //IC Subtype External Id
@@ -37,8 +38,7 @@ public with sharing class ABHFL_Constants {
     //LOD Subtype External Id
     public static final String LOD_CCC_EXTERNALID = 'hfl042';
     //Language Preference External Id
-     public static final String LANG_CC_EXTERNALID = 'QRLTTRCHGMOR';
-    
+    public static final String LANG_CC_EXTERNALID = 'QRLTTRCHGMOR';
     //Generic Constants
     public static final String SUCCESS = 'Success';
     public static final String ERROR = 'Error';
@@ -47,6 +47,7 @@ public with sharing class ABHFL_Constants {
     public static final String FAILURE = 'Failure';
     public static final String COMPLETED = 'Completed';
     public static final String RESOLVED = 'Resolved';
+    public static final String REJECTED = 'Rejected';   //Added changes
     public static final String QUEUE= 'Queue';
     public static final String BRANCH = 'Branch';
     public static final String CRM = 'CRM';
@@ -78,8 +79,9 @@ public with sharing class ABHFL_Constants {
     public static final String SOURCE_SYSTEM_API = 'SFDC';
     public static final String EXTERNAL_RECORD_TYPE = 'External';
     public static final String STP_REQUEST_TYPE_DOWNLOAD = 'Download';
-    
-    //Sprinklr related constants (Added by Yogesh for )
+
+
+   //Sprinklr related constants (Added by Yogesh for [PR970457-2795] )
     public static final String SPRINKLRINT = 'Sprinklr-UpdateCase';
     public static final String SPRINKLR = 'SPRINKLR';
     public static final String SPRINKLRAPI = 'Sprinklr-UpdateCase API';
@@ -142,10 +144,11 @@ public with sharing class ABHFL_Constants {
     // Constants for Bitly
     public static String BITLY_SERVICE_NAME = 'ShortUrl';
     public static String BITLTY_INTEGRATION_NAME = 'Bitly_Url';
-    
+
     //Nature
     public static String LowerNature='Complaint';
     public static final List<String> HigherNature = new List<String>{'Request','Query'};
+
 
 
     //Constants for Statement Of Account
@@ -162,6 +165,7 @@ public with sharing class ABHFL_Constants {
     public static String DSRA_LIEN_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String ESCROW_STATEMENT_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String NOC_REQUIRED_EMAIL = 'Sharing_NOC_copy_with_customer_on_receipt_of_payment_1707970074046';
+    public static String ADDRESSCHANGE_REJECTION_EMAIL = 'ABHFL_AddressChange_Status_Email_1727254483228';
     //Constants for SMS.
     public static String ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_w_payment_Link_SL';
     public static String ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_wo_Payment_Link_SL';
@@ -169,15 +173,14 @@ public with sharing class ABHFL_Constants {
     public static String DSRA_LIEN_SMS = 'ABHFL_Query_Case_Closure';
     public static String ESCROW_STATEMENT_SMS = 'ABHFL_Query_Case_Closure';
     public static String NOC_REQUIRED_SMS = 'ABHFL_NOC_Required';
+    public static String ADDRESSCHANGE_REJECTION_SMS = 'ABHFL_AddressChange_SMS_1727259602449';
     
     //CCC External Id Constants
     public static String GST_INVOICE_ID = 'HFCRARGI';
     public static String DSRA_LIEN_ID = 'AC123470';
     public static String ESCROW_STATEMENT_ID = 'hfl029';
     public static String NOC_REQUIRED_ID = 'hfl050';
-
-
-    
+    public static final List<String> ALLLANCTSTs = new List<String>{'hfl045','hfl023'}; // added for PR970457-2288 by Yogesh
 
     @AuraEnabled(cacheable=true)
     public static ABHFL_Constants getAllConstants() {
