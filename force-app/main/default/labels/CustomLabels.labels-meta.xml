@@ -24,6 +24,13 @@
         <shortDescription>ABHI_PolicyRequired_ErrMsg1</shortDescription>
         <value>Please enter Policy Number or Master Policy Number</value>
     </labels>
+    <labels>
+        <fullName>ASF_SprinklrUpdateBUs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SprinklrUpdateBUs</shortDescription>
+        <value>ABSLAMC,ABHI,ONEABC,ABCD,ABML,ABFL,ABHFL</value>
+    </labels>
         <labels>
         <fullName>ASF_SprinklrUpdateBUs</fullName>
         <language>en_US</language>
