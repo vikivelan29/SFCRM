@@ -1,28 +1,23 @@
 @isTest
 public class ABML_SprinklrSocialMedProfileCtrlTest {
-
+ 
     @testSetup
     static void setupTestData() {
         Id recordTypeId = Account.SObjectType.getDescribe()
                      .getRecordTypeInfosByDeveloperName()
-                     .get('Non_Individual')
+                     .get('ABML_Franchisee')
                      .getRecordTypeId();
-        
         Account nonIndAcc = new Account (
         Name = 'Test User',
-        Business_Unit__c = 'ABSLAMC',
+        Business_Unit__c = 'ABML',
         RecordTypeId = recordTypeId);
-        
         insert nonIndAcc;
-        
         Contact con = new Contact(
         LastName = 'TestCon',
         Phone = '1789736567',
         Email = 'abc@def.com',
         AccountId = nonIndAcc.Id);
-        
         insert con;
-        
         // Insert an Account record for testing
         Account testAccount = new Account(
             FirstName = 'TestOne',
@@ -32,7 +27,6 @@ public class ABML_SprinklrSocialMedProfileCtrlTest {
             Business_Unit__c = 'ABML'
         );
         insert testAccount;
-        
          // Insert an Account record for testing
         Account testAccountOne = new Account(
             FirstName = 'TestTwo',
@@ -42,7 +36,6 @@ public class ABML_SprinklrSocialMedProfileCtrlTest {
             Business_Unit__c = 'ABML'
         );
         insert testAccountOne;
-        
         // Insert an Account record for testing
         Account testAccountTwo = new Account(
             FirstName = 'TestThree',
@@ -53,7 +46,6 @@ public class ABML_SprinklrSocialMedProfileCtrlTest {
         );
         insert testAccountTwo;
     }
-    
       // Mock for the callout response
     private class MockIntegrationCallout implements HttpCalloutMock {
         public HTTPResponse respond(HTTPRequest req) {
@@ -65,7 +57,6 @@ public class ABML_SprinklrSocialMedProfileCtrlTest {
             return res;
         }
     }
-    
     // Mock for the SIP error callout response
     private class MockIntegrationCalloutError implements HttpCalloutMock {
         public HTTPResponse respond(HTTPRequest req) {
@@ -76,32 +67,25 @@ public class ABML_SprinklrSocialMedProfileCtrlTest {
             return res;
         }
     }
-    
     @IsTest
     static void testGetSocialMediaResponseError() {
           Test.setMock(HttpCalloutMock.class, new MockIntegrationCalloutError());
-        
         Account acc = [Select Id from Account Where FirstName = 'TestOne' Limit 1];
-        
         Test.starttest();
         ABML_SprinklrSocialMediaProfileCtrl.responseWrapper result = ABML_SprinklrSocialMediaProfileCtrl.getSocialMediaProfileResponse(acc.Id);
         Test.stoptest();  
         System.assert(result != null, 'Expected result to be not null');
     }
-    
     @IsTest
     static void testGetSocialMediaResponseSuccess() {
           Test.setMock(HttpCalloutMock.class, new MockIntegrationCallout());
-        
         Account acc = [Select Id from Account Where FirstName = 'TestOne' Limit 1];
-        
         Test.starttest();
         ABML_SprinklrSocialMediaProfileCtrl.responseWrapper result = ABML_SprinklrSocialMediaProfileCtrl.getSocialMediaProfileResponse(acc.Id);
         Test.stoptest();  
         System.assert(result != null, 'Expected result to be not null');
         System.assertEquals(true,result.isSuccess);
     }
-    
     @IsTest
     static void testGetSocialMediaResponseSuccessBlankEmail() {
           Test.setMock(HttpCalloutMock.class, new MockIntegrationCallout());
@@ -112,7 +96,6 @@ public class ABML_SprinklrSocialMedProfileCtrlTest {
         System.assert(result != null, 'Expected result to be not null');
         System.assertEquals(true,result.isSuccess);
     }
-    
        @IsTest
     static void testGetSocialMediaResponseSuccessBlankPhone() {
           Test.setMock(HttpCalloutMock.class, new MockIntegrationCallout());
@@ -123,7 +106,6 @@ public class ABML_SprinklrSocialMedProfileCtrlTest {
         System.assert(result != null, 'Expected result to be not null');
         System.assertEquals(true,result.isSuccess);
     }
-    
       @IsTest
     static void testGetSocialMediaResponseSuccessNonIndAcc() {
           Test.setMock(HttpCalloutMock.class, new MockIntegrationCallout());
@@ -135,6 +117,6 @@ public class ABML_SprinklrSocialMedProfileCtrlTest {
         System.assert(result != null, 'Expected result to be not null');
         System.assertEquals(true,result.isSuccess);
     }
-
+ 
     
 }
