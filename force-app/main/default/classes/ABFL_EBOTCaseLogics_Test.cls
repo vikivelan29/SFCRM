@@ -10,6 +10,7 @@
 **/
 @IsTest
 public class ABFL_EBOTCaseLogics_Test {
+  
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
     @testSetup
     static void setUpData(){
@@ -133,6 +134,7 @@ public class ABFL_EBOTCaseLogics_Test {
            newCase.Origin = 'ABFL Email';
            newCase.Business_Unit__c  = 'ABFL'; 
            newCase.SuppliedEmail ='abc.de@hjash.com';
+           newCase.Winning_Email__c = 'care.finance@adityabirlacapital.com';
             insert newCase; 
        
        Task task1 = new Task(WhatId  = newCase.Id);
