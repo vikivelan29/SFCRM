@@ -219,7 +219,6 @@ public class ABFL_EBOTCaseLogics_Test {
             System.assertEquals('Success', caseIntUpdate.Status__c,'record found');          
         Test.stopTest(); 
         }
-    }
         
         PE_Logger__c createdPELogger = [SELECT Id, AccountId__c, CCCExternalId__c, Case__c, ContactId__c, PE_Name__c, Status__c, Send_To_Specific_Emails__c, Specific_To_Address__c, Email_Template_Name__c
                                         FROM PE_Logger__c WHERE Case__c = :caseRec.Id LIMIT 1];
