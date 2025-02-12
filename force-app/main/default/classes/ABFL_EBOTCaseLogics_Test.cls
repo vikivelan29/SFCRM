@@ -10,7 +10,6 @@
 **/
 @IsTest
 public class ABFL_EBOTCaseLogics_Test {
-  
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
     @testSetup
     static void setUpData(){
@@ -128,13 +127,12 @@ public class ABFL_EBOTCaseLogics_Test {
             
              Case newCase = new Case();
             newCase.Subject = 'Test Case Creations';
-            newCase.CCC_External_Id__c ='' ;
+            newCase.CCC_External_Id__c ='RSTASTNTMOR' ;
           newCase.Source__c =  'Email';
           newCase.Stage__c = 'Email';
            newCase.Origin = 'ABFL Email';
            newCase.Business_Unit__c  = 'ABFL'; 
            newCase.SuppliedEmail ='abc.de@hjash.com';
-           newCase.Winning_Email__c = 'care.finance@adityabirlacapital.com';
             insert newCase; 
        
        Task task1 = new Task(WhatId  = newCase.Id);
@@ -147,8 +145,10 @@ public class ABFL_EBOTCaseLogics_Test {
                 eMsg.ParentId = newCase.Id;
                 eMsg.CCAddress = 'test@test.com';
                 eMsg.BCCAddress = 'test@test.com';
-                eMsg.Winning_Email__c = 'abfssl.uatcaredigitalfinance@adityabirlacapital.com';
-                insert eMsg;
+                eMsg.ToAddress = 'care.finance@adityabirlacapital.com';
+                eMsg.Winning_Email__c = 'care.finance@adityabirlacapital.com';
+                List<EmailMessage> eMsgList = new List<EmailMessage>{eMsg};
+                insert eMsgList;
                 ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();    
                 caseInt.Case__c =newCase.Id;
                 caseInt.Status__c = 'Pending';
@@ -187,12 +187,12 @@ public class ABFL_EBOTCaseLogics_Test {
                   ABFL_EBOTCaseLogics.checkIsRegisteredCustomerNo(eMsg,newCase,ccc1,mockResponse,mdtEbotCase);
                   ABFL_EBOTCaseLogics.checkIsRegisteredCustomerYes(eMsg,newCase,ccc1,mockResponse,mdtEbotCase);
                   ABFL_EBOTCaseLogics.confidenceScoreAndSubtypeCheck(eMsg,newCase,ccc1,mockResponse,mdtEbotCase);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,true,true,true,true);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,true,true,true);                     
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,false,false,true);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,true,false,false);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,false,false,false);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,false,objABFL.Id,false,false,false,false);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,true,true,true,true,eMsgList);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,true,true,true,eMsgList);                     
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,false,false,true,eMsgList);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,true,false,false,eMsgList);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,false,false,false,eMsgList);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,false,objABFL.Id,false,false,false,false,eMsgList);
             System.assertEquals('Success', caseIntUpdate.Status__c,'record found');          
              Test.stopTest();            
             }
@@ -220,6 +220,21 @@ public class ABFL_EBOTCaseLogics_Test {
         Test.stopTest(); 
         }
     }
+    
+    @isTest
+    public static void testCreatePELogAndInvokeCommPEevent() {
+        Case caseRec = new Case();
+        caseRec.Subject = 'Test Wealth Chat Cases';
+        caseRec.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
+        caseRec.Origin = ABFL_Constants.WMCHATCASEORIGIN;
+        insert caseRec;
+
+        String emailTemplate = 'Sample_Template_Name';
+        String specificEmailId = 'test@example.com';
+
+        Test.startTest();
+        ABFL_EBOTCaseLogics.createPELogAndinvokeCommPEevent(caseRec, emailTemplate, specificEmailId);
+        Test.stopTest();
         
         PE_Logger__c createdPELogger = [SELECT Id, AccountId__c, CCCExternalId__c, Case__c, ContactId__c, PE_Name__c, Status__c, Send_To_Specific_Emails__c, Specific_To_Address__c, Email_Template_Name__c
                                         FROM PE_Logger__c WHERE Case__c = :caseRec.Id LIMIT 1];
