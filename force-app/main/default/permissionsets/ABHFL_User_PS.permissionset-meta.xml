@@ -117,10 +117,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ASF_CaseCommentTriggerHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ASF_CaseEditPageController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -130,14 +126,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CaseUIController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_CloneCCCController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_DownloadCCCController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -154,10 +142,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Asf_NpsIndicatiorController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -488,12 +472,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Complaint_Overall_SLA__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Complaint_RCA__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1393,11 +1377,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.ABC_Consent__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Account.Active_Date__c</field>
         <readable>true</readable>
@@ -1448,18 +1427,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.Customer_Since__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Account.Customer_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.Employee_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1470,11 +1439,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Fraud_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.HNI_Customer__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1510,11 +1474,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.PAN__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.PersonGenderIdentity</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1565,11 +1524,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Verticals__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.WhatsApp_Opt_in_status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1818,11 +1772,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Asset.Insured_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Interest_Basis__c</field>
         <readable>true</readable>
@@ -1960,11 +1909,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Payment_Mode__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Policy_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2159,6 +2103,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Case.Branch_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2189,11 +2138,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Case.Issue_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Case.LAN__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2220,11 +2164,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.ParentId</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Preferred_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3181,10 +3120,6 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>ASF_BulkUploadCSV_VF</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>ASF_DownloadCCC</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>
