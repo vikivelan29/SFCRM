@@ -1,0 +1,44 @@
+<template>
+    <lightning-card title={tabName}>
+        <template if:true={isLoading}>
+            <section class="slds-p-around_medium">
+                <lightning-spinner variant="brand" alternative-text="Loading" size="large"></lightning-spinner>
+            </section>
+        </template>
+
+        <template if:true={isrespdataaval}>
+            <section class="slds-p-around_medium">
+                <template if:true={surveyresponse}>
+                    <div class="slds-grid slds-grid_vertical-align-start slds-wrap">
+                        <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
+                            <h3 class="slds-text-heading_medium">Onboarding</h3>
+                            <lightning-datatable class="slds_datatable" data={surveyresponse} columns={columns} key-field="Id" min-column-width="185" 
+                                hide-checkbox-column>
+                            </lightning-datatable>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
+                            <h3 class="slds-text-heading_medium">Service</h3>
+                            <lightning-datatable data={surveyresponse1} columns={columns1} key-field="Id" min-column-width="185"
+                                hide-checkbox-column>
+                            </lightning-datatable>
+                        </div>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
+                        <h3 class="slds-text-heading_medium">Foreclosure</h3>
+                        <lightning-datatable data={surveyresponse2} columns={columns2} key-field="Id" min-column-width="185"
+                            hide-checkbox-column>
+                        </lightning-datatable>
+                    </div>
+                </template>
+
+                <template if:true={error}>
+                    <div class="slds-notify slds-notify_alert slds-alert_error">
+                        <div class="slds-var-p-horizontal_small">{errorMessage}</div>
+                    </div>
+                </template>
+            </section>
+        </template>
+    </lightning-card>
+</template>
