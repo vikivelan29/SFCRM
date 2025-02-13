@@ -10,11 +10,11 @@
       <div class="slds-p-around_medium">
           <div class="slds-grid slds-gutters sslds-wrap slds-grid_vertical-align-start">
               
-              <div class="slds-col slds-size_1-of-5">
+              <div class="slds-col slds-size_1-of-6">
                   <lightning-input label="Mobile Number" value={mobileNumber} onchange={handleMobileChange} type="tel" disabled></lightning-input>
               </div>
               
-              <div class="slds-col slds-size_1-of-5">
+              <div class="slds-col slds-size_1-of-6">
                   <lightning-radio-group name="transactionType"
                       label="Transaction Type"
                       options={options}
@@ -25,21 +25,21 @@
               </div>
 
               <template if:true={showDateFields}>
-                  <div class="slds-col slds-size_1-of-5">
+                  <div class="slds-col slds-size_1-of-6">
                       <lightning-input type="date" name="fromDate" label="From Date" value={fromDate} onchange={handleDateChange} required></lightning-input>
                   </div>
-                  <div class="slds-col slds-size_1-of-5">
+                  <div class="slds-col slds-size_1-of-6">
                       <lightning-input type="date" name="toDate" label="To Date" value={toDate} onchange={handleDateChange} required></lightning-input>
                   </div>
               </template>
               
              
               <template if:true={isButtonVisible}>
-                <div class="slds-col slds-size_1-of-5">
+                <div class="slds-col slds-size_2-of-6">
                     <div class="slds-form-element">
                         <label class="slds-form-element__label">&nbsp;</label>
                         <div class="slds-form-element__control">
-                            <lightning-button label="Get Transaction Details" variant="brand" onclick={getTransaction} class="slds-m-right_x-small slds-m-bottom_x-small"></lightning-button>
+                            <lightning-button label="Get Transaction Details" variant="brand" onclick={getTransaction} class="slds-m-right_x-small"></lightning-button>
                             <lightning-button label="Clear" variant="neutral" onclick={handleClear}></lightning-button>
                         </div>
                     </div>
