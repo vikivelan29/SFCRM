@@ -4,7 +4,6 @@
     <label>Lead Type</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <controllingField>Business_Unit__c</controllingField>
