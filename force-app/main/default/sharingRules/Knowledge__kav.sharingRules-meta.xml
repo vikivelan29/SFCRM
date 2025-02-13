@@ -36,5 +36,15 @@
             <group>ABSLAMC_ALL_Users</group>
         </sharedFrom>
     </sharingOwnerRules>
-
+     <sharingOwnerRules>
+        <fullName>ABHI_Knowledge_Sharing_Rule</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABHI Knowledge Sharing Rule</label>
+        <sharedTo>
+            <group>ABHI_Knowledge_G</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>ABHI_Knowledge_G</group>
+        </sharedFrom>
+    </sharingOwnerRules>
 </SharingRules>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cancellation_Reason__c</fullName>
+    <label>Cancellation Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Personal reasons</fullName>
+                <default>false</default>
+                <label>Personal reasons</label>
+            </value>
+            <value>
+                <fullName>Already has policy</fullName>
+                <default>false</default>
+                <label>Already has policy</label>
+            </value>
+            <value>
+                <fullName>Financial reasons</fullName>
+                <default>false</default>
+                <label>Financial reasons</label>
+            </value>
+            <value>
+                <fullName>Family reason</fullName>
+                <default>false</default>
+                <label>Family reason</label>
+            </value>
+            <value>
+                <fullName>Not happy with features</fullName>
+                <default>false</default>
+                <label>Not happy with features</label>
+            </value>
+            <value>
+                <fullName>Not happy with the service</fullName>
+                <default>false</default>
+                <label>Not happy with the service</label>
+            </value>
+            <value>
+                <fullName>Customer retained</fullName>
+                <default>false</default>
+                <label>Customer retained</label>
+            </value>
+            <value>
+                <fullName>Customer denied retention</fullName>
+                <default>false</default>
+                <label>Customer denied retention</label>
+            </value>
+            <value>
+                <fullName>sales false promise</fullName>
+                <default>false</default>
+                <label>sales false promise</label>
+            </value>
+            <value>
+                <fullName>Death of Proposer</fullName>
+                <default>false</default>
+                <label>Death of Proposer</label>
+            </value>
+            <value>
+                <fullName>Incorrect Issuance &amp; Rebooking of policies</fullName>
+                <default>false</default>
+                <label>Incorrect Issuance &amp; Rebooking of policies</label>
+            </value>
+            <value>
+                <fullName>Policy Features are different from what was communicated / Mis-selling /Fraud</fullName>
+                <default>false</default>
+                <label>Policy Features are different from what was communicated / Mis-selling /Fraud</label>
+            </value>
+            <value>
+                <fullName>Premium amount not as agreed/understood</fullName>
+                <default>false</default>
+                <label>Premium amount not as agreed/understood</label>
+            </value>
+            <value>
+                <fullName>Product/policy does not meet my expectations</fullName>
+                <default>false</default>
+                <label>Product/policy does not meet my expectations</label>
+            </value>
+            <value>
+                <fullName>Want to Opt for a different Health Plan from ABHI/ from another Insurance Company</fullName>
+                <default>false</default>
+                <label>Want to Opt for a different Health Plan from ABHI/ from another Insurance Company</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

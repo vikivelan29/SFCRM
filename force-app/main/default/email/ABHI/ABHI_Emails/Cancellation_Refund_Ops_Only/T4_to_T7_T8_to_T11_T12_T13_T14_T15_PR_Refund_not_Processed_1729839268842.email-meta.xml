@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>T4 to T7__T8 to T11__T12 &amp; T13__T14 &amp; T15__PR_Refund not Processed_KYC or Bank Rejection.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>T4 to T7__T8 to T11__T12 &amp; T13__T14 &amp; T15__PR_Refund not Processed_KYC or Bank</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Additional Information / Documents needed for initiating Refund for Application / Proposal No. {{{Case.Proposal_Number__c}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

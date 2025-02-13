@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABML_Sensitive__c</fullName>
+    <externalId>false</externalId>
+    <label>ABML Sensitive</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Yes</fullName>
+                <default>false</default>
+                <label>Yes</label>
+            </value>
+            <value>
+                <fullName>No</fullName>
+                <default>false</default>
+                <label>No</label>
+            </value>
+            <value>
+                <fullName>Not Sensitive</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Not Sensitive</label>
+            </value>
+            <value>
+                <fullName>Sensitive</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Sensitive</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

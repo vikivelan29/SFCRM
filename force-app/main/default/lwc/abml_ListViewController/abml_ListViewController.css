@@ -1,0 +1,11 @@
+.testAlign{
+    width: 30%;
+    font-weight: bold;
+    padding-bottom: inherit;
+}
+
+.inputAlign{
+    width: 30%;
+    margin-inline-start: auto;
+    float: right;
+}

@@ -1,0 +1,27 @@
+{
+  "info": {
+    "status": "SUCCESS",
+    "messageCode": "JAVASUCCESS0001",
+    "messageDesc": "Successfully fetch appointment history ",
+    "serviceMessageType": "INFORMATION"
+  },
+  "customerAppointments": [
+    {
+      "bookingId": 5905,
+      "bookingHistories": [
+        {
+          "id": 12806,
+          "status": "REQUEST RECEIVED",
+          "bookingSlot": "11 AM",
+          "comments": " Appointment booked successfully ",
+          "createdBy": "NareshM",
+          "appointmentDate": "2024-01-13",
+          "createdDate": "2024-01-12T17:48:43",
+          "fitnessCenterBranch": "Krishna Marg"
+        }
+      ]
+    }
+  ],
+  "StatusCode": "1000",
+  "Message": "Success"
+}

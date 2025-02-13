@@ -1,0 +1,58 @@
+<template>
+    <article class="slds-card slds-card_boundary">
+
+        <div class="slds-page-header slds-page-header_joined slds-page-header_bleed slds-shrink-none test-headerRegion slds-is-relative"
+            style="border-bottom: solid #c9c9c9 1px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-opportunity">
+                                <lightning-icon icon-name={label.iconName} alternative-text={label.commLabel} title={label.commLabel} size="small">
+                                </lightning-icon>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h2>
+                                        <span class="slds-page-header__title slds-truncate" style="font-size: 14px">{label.commLabel} ({countOfRecords})</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-no-flex">
+                            <div slot="actions"  onkeyup={handleKeyUp} class="slds-clearfix" style="width: 200px;">
+                                <div class="slds-float_right slds-grid">
+                                    <lightning-button-icon icon-name="utility:refresh"  alternative-text="Refresh" title="Refresh" style="margin-top:auto;" onclick={handleRefresh}></lightning-button-icon>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div lwc:if={isLoading} >
+            <div class="slds-backdrop" role="presentation"></div>
+                <div class="slds-fade-in-open slds-modal_large">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+        </div>
+
+        <div lwc:if = {displayError}>
+            <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                <span style="font-size: 0.90rem;">{message}</span> 
+            </div>
+            
+        </div>
+        <template lwc:if={showRecords}>
+            <c-abfl_-data-table-with-pagination columns={columns} class="dataTable"
+                                                            table-data={data} page-size = {label.pageSize}
+                                                            onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
+        </template>
+        
+    </article>
+</template>

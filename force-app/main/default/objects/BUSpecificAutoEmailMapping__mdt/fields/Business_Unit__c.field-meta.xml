@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Business_Unit__c</fullName>
+    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Business Unit</label>
     <required>false</required>
@@ -25,11 +26,6 @@
                 <label>ABFL</label>
             </value>
             <value>
-                <fullName>ABWM</fullName>
-                <default>false</default>
-                <label>ABWM</label>
-            </value>
-            <value>
                 <fullName>ABSLIG</fullName>
                 <default>false</default>
                 <label>ABSLIG</label>
@@ -43,6 +39,32 @@
                 <fullName>Wellness</fullName>
                 <default>false</default>
                 <label>Wellness</label>
+            </value>
+            <value>
+                <fullName>ABHI-RNWL</fullName>
+                <default>false</default>
+                <label>ABHI-RNWL</label>
+            </value>
+            <value>
+                <fullName>ABHI</fullName>
+                <default>false</default>
+                <label>ABHI</label>
+            </value>
+            <value>
+                <fullName>ABML</fullName>
+                <default>false</default>
+                <label>ABML</label>
+            </value>
+            <value>
+                <fullName>ABSLAMC</fullName>
+                <default>false</default>
+                <label>ABSLAMC</label>
+            </value>
+            <value>
+                <fullName>ABWM</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ABWM</label>
             </value>
         </valueSetDefinition>
     </valueSet>

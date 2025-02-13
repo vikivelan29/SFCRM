@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <email>prasad.yadav3@adityabirlacapital.com</email>
+    <name>ABHI RUG Policy Issuance</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>ABHI_RUG_Policy_Issuance_G</publicGroup>
+        </publicGroups>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

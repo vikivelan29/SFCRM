@@ -3,6 +3,7 @@
     <description>All LOB Admin</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Super Admin</label>
+    <permissionSets>ABCD_User</permissionSets>
     <permissionSets>ABFL_User_PS</permissionSets>
     <permissionSets>ABHFL_User_PS</permissionSets>
     <permissionSets>ABSLI_User</permissionSets>

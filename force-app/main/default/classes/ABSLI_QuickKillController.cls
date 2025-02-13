@@ -200,7 +200,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
         endPoint += 'PolicyNumber='+polNumber+'&';
         endPoint += 'FunctionCode='+funcCode+'&';  
         endPoint += 'Source=CRM&';
-        endPoint += 'TimeStamp='+ currentDateTime.Day()+currentDateTime.Month()+currentDateTime.Year()+currentDateTime.Hour()+currentDateTime.Minute()+currentDateTime.Second()+'000';
+        endPoint += 'TimeStamp='+ currentDateTime.format('dd')+currentDateTime.format('MM')+currentDateTime.Year()+currentDateTime.Hour()+currentDateTime.Minute()+currentDateTime.Second()+'000';
         Blob exampleIv = Blob.valueOf(Label.ABSLI_Ivkey);
         Blob key = Blob.ValueOf(Label.ABSLI_key);
         Blob data = Blob.valueOf(endPoint);

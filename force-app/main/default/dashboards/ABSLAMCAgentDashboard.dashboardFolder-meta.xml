@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DashboardFolder xmlns="http://soap.sforce.com/2006/04/metadata">
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>ABSLAMC_AIF_Service_Agents_Users</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>ABSLAMC_MF_Service_Agents_Users</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>ABSLAMC_PMS_Service_Agents_Users</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>ABSLAMC_RE_Service_Agents_Users</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <name>ABSLAMC Agent Dashboard</name>
+</DashboardFolder>

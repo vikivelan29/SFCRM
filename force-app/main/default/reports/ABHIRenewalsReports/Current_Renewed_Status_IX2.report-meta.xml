@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Case$CaseNumber</field>
+    </columns>
+    <customDetailFormulas>
+        <calculatedFormula>IF (
+    TODAY() &gt; Case.Renewal_Request__c.Policy_Lapse_Date__c,
+    &quot;Lapsed&quot;,
+    IF (
+        OR(ISPICKVAL(Case.Asset.Status, &quot;CN&quot;), ISPICKVAL(Case.Asset.Status, &quot;Cancelled&quot;)),
+        &quot;Cancelled&quot;,
+        IF (
+            ISPICKVAL(Case.Renewal_Request__c.StageName, &quot;Closed Won&quot;),
+            &quot;Renewed&quot;,
+            &quot;Pending&quot;
+        )
+    )
+)</calculatedFormula>
+        <dataType>Text</dataType>
+        <developerName>CDF1</developerName>
+        <label>Policy Status</label>
+        <scale>2</scale>
+    </customDetailFormulas>
+    <filter>
+        <criteriaItems>
+            <column>Case$Renewal_Request__c.StageName</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Open,In Progress,Paid,Closed Won,Closed Lost</value>
+        </criteriaItems>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>CDF1</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Month</dateGranularity>
+        <field>Case$CreatedDate</field>
+        <sortOrder>Desc</sortOrder>
+    </groupingsDown>
+    <name>SR Month Wise</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Renewal_SRs__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Case$Case_SLA_Threshold_1__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>
