@@ -347,20 +347,20 @@ export default class Absli_quickkill extends LightningElement {
         })
     }
     async invokeCloseModal(){
-        if(this.cLogId != null && this.cLogId != undefined && this.cLogId != ''){
-            await deleteDraftLogs({commLogId : this.cLogId})
-            .then((result)=>{
-                if(result == true){
-                    console.log('Deleted Draft Communication Log.');
-                }
-                else{
-                    this.showError('error', 'Something went Wrong ! Please contact system administrator.');
-                }
-            })
-            .catch((error)=>{
-                this.showError('error', 'Something went Wrong ! ');
-            })
-        }
+        // if(this.cLogId != null && this.cLogId != undefined && this.cLogId != ''){
+        //     await deleteDraftLogs({commLogId : this.cLogId})
+        //     .then((result)=>{
+        //         if(result == true){
+        //             console.log('Deleted Draft Communication Log.');
+        //         }
+        //         else{
+        //             this.showError('error', 'Something went Wrong ! Please contact system administrator.');
+        //         }
+        //     })
+        //     .catch((error)=>{
+        //         this.showError('error', 'Something went Wrong ! ');
+        //     })
+        // }
         this.dispatchEvent(new CustomEvent('closepopup', {
             detail: {
                 message: true
