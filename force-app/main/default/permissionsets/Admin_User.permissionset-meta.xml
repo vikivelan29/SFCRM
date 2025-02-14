@@ -9926,6 +9926,11 @@
         <field>ABSLI_Case_Detail__c.API_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>STG_Customer__c.Full_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Admin User</label>
     <objectPermissions>
