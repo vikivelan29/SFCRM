@@ -1,0 +1,66 @@
+{
+    "code": 20,
+    "dgTransactionInfo": {
+        "dgTransactionDetails": [
+            {
+                "transactionType": "BUY",
+                "amount": "5001.00",
+                "unit": "0.5893",
+                "transactionDate": "2024-12-14T06:23:47.912Z",
+                "transactionStatus": "confirmed"
+            },
+            {
+                "transactionType": "BUY",
+                "amount": "5001.00",
+                "unit": "0.5893",
+                "transactionDate": "2024-12-14T06:23:47.912Z",
+                "transactionStatus": "confirmed"
+            },
+            {
+                "transactionType": "BUY",
+                "amount": "5001.00",
+                "unit": "0.5893",
+                "transactionDate": "2024-12-14T06:23:47.912Z",
+                "transactionStatus": "confirmed"
+            },
+            {
+                "transactionType": "BUY",
+                "amount": "5001.00",
+                "unit": "0.5893",
+                "transactionDate": "2024-12-14T06:23:47.912Z",
+                "transactionStatus": "confirmed"
+            },
+            {
+                "transactionType": "BUY",
+                "amount": "5001.00",
+                "unit": "0.5893",
+                "transactionDate": "2024-12-14T06:23:47.912Z",
+                "transactionStatus": "confirmed"
+            },
+            {
+                "transactionType": "BUY",
+                "amount": "5001.00",
+                "unit": "0.5893",
+                "transactionDate": "2024-12-14T06:23:47.912Z",
+                "transactionStatus": "confirmed"
+            },
+            {
+                "transactionType": "BUY",
+                "amount": "5001.00",
+                "unit": "0.5893",
+                "transactionDate": "2024-12-14T06:23:47.912Z",
+                "transactionStatus": "confirmed"
+            },
+            {
+                "transactionType": "BUY",
+                "amount": "5001.00",
+                "unit": "0.5893",
+                "transactionDate": "2024-12-14T06:23:47.912Z",
+                "transactionStatus": "confirmed"
+            }
+        ],
+        "portFolioBalance": "0.3767"
+    },
+    "message": "Data Retrieved Successfully.",
+    "status": "Success"
+}

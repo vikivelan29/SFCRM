@@ -1,0 +1,20 @@
+.custom-modal {
+    max-width: 90vw !important; 
+    width: 90vw !important;
+    max-height: 90vh !important; 
+}
+
+.slds-modal__content {
+    max-height: 70vh; 
+    overflow-y: auto;
+}
+
+.custom-datatable {
+    max-height: 60vh; 
+    overflow-y: auto;
+    min-width: 100%;
+}
+
+.slds-table {
+    table-layout: auto !important;
+}

@@ -11,6 +11,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public static final String STRING_SEMI_COLON =';';
     public static final String STRING_COMMA =',';
     public static final String STRING_NORECORDERROR = System.Label.ASF_Case_NoRecordMessage; 
+    private static String accountBu = '';
     
     /****************************************************************************************************************
     * @description  Gets the Source tagged to User and its Relavant Channel list.     
@@ -23,7 +24,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         String source = '';
         String subSource = ''; 
         Map<String, String> sourceToSubsource = new Map<String, String>();
-        User objUser = [SELECT Id, LOB__c,Business_Unit__c, Source_Code__c FROM User WHERE Id =: UserInfo.getUserId() WITH SYSTEM_MODE LIMIT 1 ];
+        User objUser = [SELECT Id, LOB__c,Business_Unit__c, Source_Code__c, Is_ORM_User__c  FROM User WHERE Id =: UserInfo.getUserId() WITH SYSTEM_MODE LIMIT 1 ];
         String userSourceCode = objUser.Source_Code__c;
         String strLOB = String.isNotBlank(objUser.Business_Unit__c) ? objUser.Business_Unit__c.trim() :'';
         LOBMappingDetails__mdt choosenOneMTD;  
@@ -34,6 +35,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         }
             
         objCaseDetailsWrapper.userBu = strLOB;
+        objCaseDetailsWrapper.isORMUser = objUser.Is_ORM_User__c;
         
         List<LOBMappingDetails__mdt> lstLOBMapping = new List<LOBMappingDetails__mdt>();
         
@@ -116,6 +118,13 @@ public with sharing class ASF_CreateCaseWithTypeController {
     @AuraEnabled(Cacheable = true)
     public static CaseDetailsWrapper getTypeSubTypeByCustomerDetails(String keyword ,string asssetProductType,string isasset,String accRecordType,string assetLob,String inpArg) {
         CaseDetailsWrapper returnVal = new CaseDetailsWrapper();
+        //Fetch current account's BU
+        if(String.isNotBlank(inpArg)){
+            Map<String,String> mInpArg = (Map<String,String>) JSON.deserialize(inpArg, Map<String,String>.Class);
+            if(mInpArg.containsKey('accountLOB')){
+                accountBu = mInpArg.get('accountLOB');
+            }
+        } 
         returnVal = getAccountDataByCustomerType(keyword ,asssetProductType,isasset,accRecordType,assetLob); 
         //List<ASF_Case_Category_Config__c> finalValues = new List<ASF_Case_Category_Config__c>();
         String loggedInUsersBU = returnVal.userBu;
@@ -169,15 +178,18 @@ public with sharing class ASF_CreateCaseWithTypeController {
         map<id,ASF_Case_Category_Config__c> searchResults;
         set<ASF_Case_Category_Config__c> cccset= new set<ASF_Case_Category_Config__c>();
         
-        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c,LOB__c,Allowed_Issue_Types__c,Show_FTR_Flag_on_Creation__c, Validation_method_during_creation__c,Tool_Tip__c  ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
-
-            'FROM ASF_Case_Category_Config__c WHERE Process__c=\'Case\' AND Quick_Kill__c = false AND'; //PR1030924-46 filter out CCC records where quick_kill checkbox is checked
+        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c,LOB__c,Allowed_Issue_Types__c,Show_FTR_Flag_on_Creation__c, Validation_method_during_creation__c,Tool_Tip__c,Applicable_for_OneABC__c ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
+            'FROM ASF_Case_Category_Config__c WHERE Process__c=\'Case\' AND Quick_Kill__c = false AND';  //PR1030924-46 filter out CCC records where quick_kill checkbox is checked
         
         if(accRecordType != null && accRecordType != '' && userBu == 'Payments'){
             dynamicQuery += ' Custom_Segment__c  = \''+String.escapeSingleQuotes(accRecordType)+'\' AND';
         }
-
-       if(isasset == 'true'){
+        
+        if(accountBu == ASF_Constants.ONEABC_BU){
+            dynamicQuery += ' Show_On_ONEABC_Customer_Only__c = true AND ('+
+                'Sub_Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')';
+        }
+        else if(isasset == 'true'){
             dynamicQuery += ' Only_CRN_Mandatory__c = true AND ('+
                 'Sub_Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')';
             
@@ -226,7 +238,8 @@ public with sharing class ASF_CreateCaseWithTypeController {
                    } 
                 else if((userBu.equalsIgnoreCase(ASF_Constants.ABCD_BU) && ccc.Applicable_for_OneABC__c == true) ||
                        (userBu.equalsIgnoreCase(ASF_Constants.ABCD_BU) && String.isNotBlank(ccc.Business_Unit__c) 
-                   && ccc.Business_Unit__c.equalsIgnoreCase(ASF_Constants.ONEABC_BU))){
+                   && ccc.Business_Unit__c.equalsIgnoreCase(ASF_Constants.ONEABC_BU)) ||
+                       (userBu.equalsIgnoreCase(ASF_Constants.ABCD_BU) && objCaseDetailsWrapper.isORMUser == true)){
                        cccset.add(searchResults.get(cccId));
                    }
                 
@@ -253,6 +266,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         @AuraEnabled public List<ASF_OptionsWrapper> lstChannel;
         @AuraEnabled public Boolean boolNoData;
         @AuraEnabled public String strErrorMessage;
+        @AuraEnabled public Boolean isORMUser;
         private list<string> exclusionBus;
         private string userBu;
         
@@ -267,6 +281,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
             boolNoData = false;
             strErrorMessage = ASF_Constants.STRING_BLANK;
             exclusionBus= new list<string>();
+            isORMUser = false;
             userBu = '';
         }
     }

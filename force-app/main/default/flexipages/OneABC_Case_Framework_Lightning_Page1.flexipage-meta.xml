@@ -132,7 +132,7 @@
                         <valueListItems>
                             <value>Case.EscalateCase</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND (3 OR 4)</booleanFilter>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsEscalated}</leftValue>
                                     <operator>EQUAL</operator>
@@ -142,16 +142,6 @@
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Nature__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Request</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Nature__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Query</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -1365,6 +1355,86 @@
             <fieldInstance>
                 <fieldItem>Record.ABCD_Case_Detail__r.Other__c</fieldItem>
                 <identifier>RecordABCD_Case_Detail_rOther_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.HWC__c</fieldItem>
+                <identifier>RecordHWC_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CXO__c</fieldItem>
+                <identifier>RecordCXO_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sentiments__c</fieldItem>
+                <identifier>RecordSentiments_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Name_on_channel__c</fieldItem>
+                <identifier>RecordName_on_channel_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ChannelType__c</fieldItem>
+                <identifier>RecordChannelType_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ChannelId__c</fieldItem>
+                <identifier>RecordChannelId_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Followers_on_channel__c</fieldItem>
+                <identifier>RecordFollowers_on_channel_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Bio_on_channel__c</fieldItem>
+                <identifier>RecordBio_on_channel_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-e47a0c84-34eb-46d1-832c-1547039c1a8b</name>
