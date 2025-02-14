@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
         <apexClass>ABCL_BaseViewController</apexClass>
@@ -37,33 +37,8 @@
         <name>Case_Ownership_Management</name>
     </customPermissions>
     <fieldPermissions>
-	<editable>true</editable>
-    <field>Account.NACH_Status__c</field>
-    <readable>true</readable>
-</fieldPermissions>
-<fieldPermissions>
-	<editable>true</editable>
-    <field>Account.Re_KYC_Due_Date__c</field>
-    <readable>true</readable>
-</fieldPermissions>
-<fieldPermissions>
-	<editable>true</editable>
-    <field>Asset.Insured_Name__c</field>
-    <readable>true</readable>
-</fieldPermissions>
-<fieldPermissions>
-	<editable>true</editable>
-    <field>Case.Preferred_Language__c</field>
-    <readable>true</readable>
-</fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>ABCLLogRecording__c.Reason__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.IDProofType__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -658,6 +633,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Location_Master__c.Alternate_SPOC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.Account_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -873,8 +853,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ABHFL_Case_Detail__c.Complaint_Investigation_Response_Json__c</field>
+        <field>ABHFL_Case_Detail__c.Complaint_Investigation_Response_Json__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1529,6 +1508,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.API_Error_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.API_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.API_Request__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.API_Response_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABSLI_Case_Detail__c.Approver_Remarks__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1794,11 +1793,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Applicable_for_OneABC__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ASF_Case_Category_Config__c.ASF_Is_Cloneable__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1849,6 +1843,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Applicable_for_OneABC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ASF_Case_Category_Config__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1859,12 +1858,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Documentation_Type__c</field>
+        <field>ASF_Case_Category_Config__c.DMS_Folder_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.DMS_Folder_Id__c</field>
+        <field>ASF_Case_Category_Config__c.Documentation_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1904,44 +1903,37 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Holding_Response_Email_Template_1__c</field>
+        <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template_1__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Holding_Response_Email_Template_2__c</field>
+        <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template_2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Holding_Response_Email_Template_4__c</field>
+        <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template_4__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Holding_Response_Email_Template__c</field>
+        <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Holding_Response_SMS_Metadata__c</field>
+        <field>ASF_Case_Category_Config__c.Holding_Response_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Holding_Response_SMS_Template_1__c</field>
+        <field>ASF_Case_Category_Config__c.Holding_Response_SMS_Template_1__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Holding_Response_SMS_Template_4__c</field>
+        <field>ASF_Case_Category_Config__c.Holding_Response_SMS_Template_4__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2001,8 +1993,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field
-    >ASF_Case_Category_Config__c.Multiple_Child_Component_Name__c</field>
+        <field>ASF_Case_Category_Config__c.Multiple_Child_Component_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2047,20 +2038,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Override_Closed_communication__c</field>
+        <field>ASF_Case_Category_Config__c.Override_Closed_communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Override_Open_communication__c</field>
+        <field>ASF_Case_Category_Config__c.Override_Open_communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Override_Rejected_communication__c</field>
+        <field>ASF_Case_Category_Config__c.Override_Rejected_communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2100,14 +2088,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Recategorisation_SMS_Metadata__c</field>
+        <field>ASF_Case_Category_Config__c.Recategorisation_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Rejected_Case_Email_Template__c</field>
+        <field>ASF_Case_Category_Config__c.Rejected_Case_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2132,8 +2118,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Resolved_Case_Email_Template__c</field>
+        <field>ASF_Case_Category_Config__c.Resolved_Case_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2143,8 +2128,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Resolved_Duplicate_Case_Email_Template__c</field>
+        <field>ASF_Case_Category_Config__c.Resolved_Duplicate_Case_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2159,26 +2143,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.SR_Classification_filter_field__c</field>
+        <field>ASF_Case_Category_Config__c.SR_Classification_filter_field__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.SR_Classification_filter_value__c</field>
+        <field>ASF_Case_Category_Config__c.SR_Classification_filter_value__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Send_Closed_stage_communications__c</field>
+        <field>ASF_Case_Category_Config__c.Save_to_Next_Stage__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Send_Duplicate_stage_communications__c</field>
+        <field>ASF_Case_Category_Config__c.Send_Closed_stage_communications__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Send_Duplicate_stage_communications__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2193,14 +2178,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Send_Recategorisation_Communication__c</field>
+        <field>ASF_Case_Category_Config__c.Send_Recategorisation_Communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Send_Rejected_stage_communications__c</field>
+        <field>ASF_Case_Category_Config__c.Send_Rejected_stage_communications__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2215,8 +2198,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Category_Config__c.Send_open_stage_communications__c</field>
+        <field>ASF_Case_Category_Config__c.Send_open_stage_communications__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2257,11 +2239,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ASF_Case_Category_Config__c.Validation_method_during_creation__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Save_to_Next_Stage__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2856,8 +2833,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_Case_Stage_Config__c.Backward_Last_Action_User_Queue__c</field>
+        <field>ASF_Case_Stage_Config__c.Backward_Last_Action_User_Queue__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3412,11 +3388,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Communication_Log__c.Error_Message__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ASF_FieldConfigurationRecord__c.API_Input__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3592,8 +3563,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field
-    >ASF_FieldConfigurationRecord__c.Small_Device_Column_Width__c</field>
+        <field>ASF_FieldConfigurationRecord__c.Small_Device_Column_Width__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4177,6 +4147,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.IDProofType__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Account.Income__c</field>
         <readable>true</readable>
@@ -4294,6 +4269,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.MMI_Customer_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.NACH_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4499,6 +4479,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Rating</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Re_KYC_Due_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4944,11 +4929,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.Beneficiary_Details__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-     <fieldPermissions>
-        <editable>true</editable>
-        <field>Asset.Branch__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5559,6 +5539,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.InstallDate</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Insured_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6708,6 +6693,111 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Bureau_History__c.Bureau_Enquiry_Date_1__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Bureau_Enquiry_Date_2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Bureau_Enquiry_Date_3__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Bureau_Enquiry_Date_4__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Bureau_Enquiry_Date_5__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Bureau_Enquiry_Type_1__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Bureau_Enquiry_Type_2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Bureau_Enquiry_Type_3__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Bureau_Enquiry_Type_4__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Bureau_Enquiry_Type_5__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Business_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Current_Interest_rate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Decile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Difference_in_bucket__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.LAN_Diff_with_floor_rate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.LAN_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.LAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Offer_discount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Offer_for_FL_Agent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Offer_for_TL_Retention__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Bureau_History__c.Offer_for_TL_Retention_limited_to_200bps__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.ABFL_Case_Detail__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7374,6 +7464,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Pre_framework_SLA__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Preferred_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8217,13 +8312,13 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Customer_Member_Mapping__c.Is_Chronic__c</field>
+        <editable>false</editable>
+        <field>Customer_Member_Mapping__c.Alternate_Mobile_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Primary_email_ID__c</field>
+        <editable>true</editable>
+        <field>Customer_Member_Mapping__c.Is_Chronic__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8233,7 +8328,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Alternate_Mobile_Number__c</field>
+        <field>Customer_Member_Mapping__c.Primary_email_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9443,16 +9538,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>STG_Customer__c.Birthdate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>STG_Customer__c.PAN_No__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>STG_Customer__c.ABC_Cust_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9464,6 +9549,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>STG_Customer__c.B2C_First_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>STG_Customer__c.Birthdate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9528,6 +9618,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>STG_Customer__c.PAN_No__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>STG_Customer__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9553,21 +9648,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Survey_Response__c.Customer_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Survey_Response__c.Customer_Phone__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Survey_Response__c.Sub_LOB__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Survey_Response__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9589,6 +9669,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Survey_Response__c.Customer_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Survey_Response__c.Customer_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Survey_Response__c.Customer_Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9659,6 +9749,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Survey_Response__c.Responded_on__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Survey_Response__c.Sub_LOB__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9901,38 +9996,21 @@
         <field>WellnessCaseDetail__c.Resolution_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.API_Request__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.API_Error_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-     <fieldPermissions>
-        <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.API_Response_Message__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABFL_Location_Master__c.Alternate_SPOC__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-     <fieldPermissions>
-        <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.API_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>STG_Customer__c.Full_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Admin User</label>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ABCD_Case_Detail__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -9949,6 +10027,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>ABCL_Integration_Event__e</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ABCL_Observability__e</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10003,6 +10090,42 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>ABHI_Case_Detail__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ABML_Bank__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ABML_Case_Detail__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ABML_DP__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ABML_LOA__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10272,7 +10395,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>ApiAnomalyEventStore</object>
+        <object>AppAnalyticsQueryRequest</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10281,7 +10404,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>AppAnalyticsQueryRequest</object>
+        <object>ApprovalSubmission</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10308,7 +10431,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>AsyncRequestResponseEvent</object>
+        <object>Async_Transaction_Event__e</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10317,7 +10440,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Async_Transaction_Event__e</object>
+        <object>AuthDomainStatusEvent</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10380,6 +10503,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Bureau_History__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>BusinessBrand</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -10407,7 +10539,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>CalcMatrixColumnRange</object>
+        <object>CRM_to_UNFYD_Email_Event__e</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10416,79 +10548,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>CalcProcStepRelationship</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>CalculationMatrix</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>CalculationMatrixColumn</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>CalculationMatrixRow</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>CalculationMatrixVersion</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>CalculationProcedure</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>CalculationProcedureStep</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>CalculationProcedureVariable</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>CalculationProcedureVersion</object>
+        <object>CRM_to_UNFYD_Feedback_Event__e</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10524,7 +10584,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>CaseServiceProcess</object>
+        <object>Case_Integration_Outbound__e</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10533,7 +10593,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Case_Integration_Outbound__e</object>
+        <object>Case_Integration_Response__e</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10722,15 +10782,6 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>CredentialStuffingEventStore</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>Customer</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -10785,6 +10836,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>DelegatedAccount</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Dispositions__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -10830,34 +10890,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>EngagementAttendee</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>EngagementChannelType</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>EngagementInteraction</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>EngagementTopic</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10884,43 +10917,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>ExpressionSet</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>ExpressionSetObjectAlias</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>ExpressionSetVersion</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>Global_Stage_Movement__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>GuestUserAnomalyEventStore</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10975,15 +10972,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Individual</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>IntegrationProviderDef</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -11074,15 +11062,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Macro</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Non_Individual_Contacts_Dataload__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -11289,33 +11268,6 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>RecordActnSelItemExtrc</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>RecordAlert</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>ReportAnomalyEventStore</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>STG_Customer__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -11361,15 +11313,6 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>SemanticModel</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>ServiceContract</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -11379,7 +11322,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>ServiceResource</object>
+        <object>ServiceOpPriorityConfig</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -11388,7 +11331,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>SessionHijackingEventStore</object>
+        <object>ServiceResource</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -11433,15 +11376,6 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>SvcCatalogItemDependency</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>SvcCatalogReqRelatedItem</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -11478,7 +11412,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>ASF_Case_Email_Config__c</object>
+        <object>WebCartDocument</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -11505,25 +11439,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>WorkOrder</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>ASF_Case_Email_Config__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>WorkStepTemplate</object>
+        <object>WorkPlan</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -11550,7 +11466,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>bar__Backup_Object__c</object>
+        <object>spr_sf__SocialPersona__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -11559,7 +11475,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>bar__Backup_Policy__c</object>
+        <object>spr_sf__SocialPost__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -11568,61 +11484,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>bar__Log__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>datadetect__CS_Scan_Result__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>datadetect__Data_Detect_Field__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>datadetect__Data_Detect_Object__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>datadetect__Data_Detect_Schedule__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>datadetect__Run_Log__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>datadetect__Scan_Log__c</object>
+        <object>spr_sf__Transcript__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <recordTypeVisibilities>

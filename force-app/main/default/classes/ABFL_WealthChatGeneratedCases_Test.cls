@@ -121,6 +121,7 @@ public class ABFL_WealthChatGeneratedCases_Test {
         email.Headers = 'teestheader';
         email.ReplyToEmailMessageId = null;
         insert email;
+        
         Map<String, String> emailTemplateMap = new Map<String, String>();
         emailTemplateMap.put('winning@example.com', 'ABFL_FIRST_TAT_COMMUNICATION_DIGITAL');
         

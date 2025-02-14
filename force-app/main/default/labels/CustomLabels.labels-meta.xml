@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8" ?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
@@ -30,13 +29,6 @@
         <protected>false</protected>
         <shortDescription>ASF_SprinklrUpdateBUs</shortDescription>
         <value>ABSLAMC,ABHI,ONEABC,ABCD,ABML,ABFL,ABHFL</value>
-    </labels>
-        <labels>
-        <fullName>ASF_SprinklrUpdateBUs</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_SprinklrUpdateBUs</shortDescription>
-        <value>ABSLAMC,ABHI,ONEABC,ABCD</value>
     </labels>
     <labels>
         <fullName>ONEABC_Acc_Error_ABCD_Customer</fullName>
