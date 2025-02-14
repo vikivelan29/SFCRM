@@ -55,6 +55,7 @@ export default class Abcd_customerVAS extends LightningElement
                         this.loyaltyRewards = loyaltyRewards;
                     }
                 }
+                this.isLoading = false;
             }
             this.isLoading = false;
         })
