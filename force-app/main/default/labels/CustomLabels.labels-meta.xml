@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8" ?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
@@ -1926,13 +1925,6 @@
         <value>You cannot enter year before the Present Activate date on Account</value>
     </labels>
     <labels>
-        <fullName>ABCD_LitmusAppId</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCD_LitmusAppId</shortDescription>
-        <value>kqzm_touchpoint</value>
-   </labels>
-    <labels>
         <fullName>ABHFL_EmailId_RequestClosure_Template_Id</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1961,20 +1953,6 @@
         <value>NBPC009,NBPC007,NBPC006,NBPC008,NBPC010,RPR001,NBRC004,NBPC012</value>
    </labels>
    <labels>
-        <fullName>ABCL_CX_Preferred_language</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCL CX Preferred language</shortDescription>
-        <value>Bengali,English,Gujrati,Hindi,Kannnada,Marathi,Oriya,Punjabi,Tamil,Telegu</value>
-   </labels>
-    <labels>
-        <fullName>ABHFL_AssetRequiredErrMsgLabel</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL_AssetRequiredErrMsgLabel</shortDescription>
-        <value>Please select an asset to create the case</value>
-    </labels>
-    <labels>
         <fullName>ExpiryDay_For_Bitly_URL</fullName>
         <language>en_US</language>
         <protected>false</protected>
