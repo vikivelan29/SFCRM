@@ -1314,7 +1314,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ExpiryDay For Bitly URL</shortDescription>
-        <value>2</value>
+        <value>30</value>
     </labels>
     <labels>
         <fullName>FA_Mandatory</fullName>
