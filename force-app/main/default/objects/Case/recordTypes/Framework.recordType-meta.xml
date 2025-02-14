@@ -1318,6 +1318,14 @@
             <fullName>Wellness Email</fullName>
             <default>false</default>
         </values>
+		<values>
+            <fullName>ABML Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABCD Email</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Priority</picklist>
