@@ -135,7 +135,8 @@ public with sharing class ABFL_WealthChatGeneratedCases {
                   List<String> templateDevList = new List<String>{'ABFL_FIRST_TAT_COMMUNICATION_DIGITAL','ABFL_ACCOUNT_RELATED','ABFL_CLOSE_CASE_EMAIL_TEMPLATE_DIGITAL_LENDING'};
                   //if(!isAccPresent){
                   //  templateDevList.remove(1);
-                  //}          
+                  //} 
+                           
                   // Send the communication
                   for(String templateDevName: templateDevList){
                         ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(caseObj, templateDevName, caseObj.SuppliedEmail, '', '');
