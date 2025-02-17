@@ -19,5 +19,6 @@ public without sharing class ONEABC_Constants {
     public static string REQUEST_NATURE = 'Request'; 
     public static string COMPLAINT_NATURE = 'Complaint';
     public static string ONEABC_BU = 'ONEABC';
+    public static string ABCD_BU = 'ABCD';
 
 }
