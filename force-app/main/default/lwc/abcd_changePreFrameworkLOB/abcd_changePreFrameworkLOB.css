@@ -45,14 +45,3 @@
     background-color: #f3f2f2;
     border-top: 1px solid #d8dde6;
 }
-.custom-modal-height {
-    max-height: 400px; 
-    overflow-y: auto; 
-}
-.custom-modal-height .slds-card__header {
-    padding-bottom: 10px; 
-}
-
-.custom-modal-height .footer-container {
-    margin-top: 10px; 
-}
