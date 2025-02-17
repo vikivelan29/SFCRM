@@ -26,7 +26,7 @@ public class ABCD_LegacyViewController_Test {
         User adminUser = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND isActive = true LIMIT 1];
         System.runAs(adminUser) {
             Test.startTest();
-            ABCD_LegacyViewController.ResponseWrapper response = ABCD_LegacyViewController.getLegacyData('1234567890', 'test@test.com');
+            ABCD_LegacyViewController.ResponseWrapper response = ABCD_LegacyViewController.getLegacyData('1234567890', 'test@test.com','','');
             Test.stopTest();
             System.assertEquals(0, response.statusCode);
             System.assertEquals(null, response.legacyCaseResponse);
