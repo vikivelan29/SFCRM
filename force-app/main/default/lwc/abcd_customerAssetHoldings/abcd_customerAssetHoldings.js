@@ -55,6 +55,7 @@ export default class Abcd_customerInfoView extends LightningElement
                         this.pcDetails = resp.holdingsAssetsInfo.pcDetails;
                     }
                 }
+                this.isLoading = false;
             }
             this.isLoading = false;
         })

@@ -10,6 +10,8 @@ export default class Abcd_CustomerLiabilities extends LightningElement {
     @track plDetails;
     @track blDetails;
     @track hflDetails;
+    @track glDetails;
+
 
     connectedCallback(){
         this.fetchCustomerLiabilities();
