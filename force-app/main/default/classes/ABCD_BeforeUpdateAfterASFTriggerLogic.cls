@@ -60,11 +60,25 @@ public class ABCD_BeforeUpdateAfterASFTriggerLogic {
         
     public static void validtionABCDFields(List<Case> ABCDCases, Map<Id, Case> oldMap,Map<Id, Case> newMap){
         if(!ABCDCases.isEmpty()){
+            Set<String> caseDetailIds = new Set<String>();
+            for (Case caseRec : newMap.values()) {
+                if (caseRec.ABCD_Case_Detail__c != null) {
+                    caseDetailIds.add(caseRec.ABCD_Case_Detail__c);
+                }
+            }
+            Map<Id, ABCD_Case_Detail__c> caseDetailMap = new Map<Id, ABCD_Case_Detail__c>();
+            for (ABCD_Case_Detail__c detail : [SELECT Id,Customer_Sentiment_As_per_Agent__c FROM ABCD_Case_Detail__c WHERE Id IN :caseDetailIds]) {
+                caseDetailMap.put(detail.Id, detail);
+            }
             for (Case caseRec : ABCDCasesAdditionalFields.values()) {
                 Case caseError = newMap.get(caseRec.Id); 
-                 if(caseError.Source__c == 'Call Center' && (caseError.ABCD_Case_Detail__r.Customer_Sentiment_As_per_Agent__c == '' || caseError.ABCD_Case_Detail__r.Customer_Sentiment_As_per_Agent__c == NULL)){
-                    caseError.addError('Please fill Customer Sentiment.');
+                 if(caseError.Source__c == 'Call Center'){
+                     ABCD_Case_Detail__c caseDetail = caseDetailMap.get(caseRec.ABCD_Case_Detail__c);
+                     if(caseDetail.Customer_Sentiment_As_per_Agent__c == '' || caseDetail.Customer_Sentiment_As_per_Agent__c == NULL){
+                         caseError.addError('Please fill Customer Sentiment.');
                      newMap.put(caseRec.Id,caseError);
+                         
+                     }
                 }
             }
         }
