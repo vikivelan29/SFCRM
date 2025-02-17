@@ -1204,6 +1204,12 @@
                 <label>Survival benefit not proceed/ Delay</label>
             </value>
             <value>
+                <fullName>post call- complain</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>post call- complain</label>
+            </value>
+                        <value>
                 <fullName>Refund status</fullName>
                 <default>false</default>
                 <label>Refund status</label>
@@ -1339,16 +1345,6 @@
                 <label>Revival Payment Stop</label>
             </value>
             <value>
-                <fullName>Waivered</fullName>
-                <default>false</default>
-                <label>Waivered</label>
-            </value>
-            <value>
-                <fullName>Surrendered</fullName>
-                <default>false</default>
-                <label>Surrendered</label>
-            </value>
-                        <value>
                 <fullName>Accrued Bonus related</fullName>
                 <default>false</default>
                 <label>Accrued Bonus related</label>
@@ -1717,11 +1713,6 @@
                 <fullName>Policy related details</fullName>
                 <default>false</default>
                 <label>Policy related details</label>
-            </value>
-             <value>
-                <fullName>Waiver</fullName>
-                <default>false</default>
-                <label>Waiver</label>
             </value>
             <value>
                 <fullName>Accrued Bonus/Additions Value Related</fullName>
