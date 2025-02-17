@@ -8,10 +8,16 @@ public class ABCD_DGTransactionHistoryController {
     
         try {
             TransactionHistoryRequest payload = new TransactionHistoryRequest();
-            payload.mobileNumber = mobileNumber;
-            payload.emailID = emailID;
+            if (String.isNotBlank(customerID)) {
+                payload.customerID = customerID;
+                payload.mobileNumber = '';
+                payload.emailID = '';
+            } else {
+                payload.customerID = '';
+                payload.mobileNumber = mobileNumber;
+                payload.emailID = emailID;
+            }
             payload.startDate = startDate;
-            payload.customerID = customerID;
             payload.toDate = toDate;
     
             String integrationName = 'ABCD_Get_DG_Transactions';

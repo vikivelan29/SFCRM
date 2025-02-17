@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 12-04-2024
+  @last modified on  : 02-14-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -38,13 +38,14 @@
                         </lightning-datatable>
                     </div>
                 </template>
-                <template if:true={apifetchError}>
+                <template if:true={showManualInput}>
                     <div class="slds-p-around_medium">
                         <lightning-input 
                             label="Account Holding #"
                             value={holdingNumber}
                             onchange={handleInputChange}
-                            class="slds-m-bottom_medium">
+                            class="slds-m-bottom_medium"
+                            disabled={disableAccountHolding}>
                         </lightning-input>
                     </div>
                     </template>
@@ -53,6 +54,10 @@
                 <template if:true={apifetchError}>
                         <div class="slds-text-color_error slds-p-around_medium">{apiFetchErroText}</div>
                 </template>
+
+                <template if:true={prospectError}>
+                    <div class="slds-text-color_error slds-p-around_medium">{prospectErrorText}</div>
+            </template>
                 
                 <template if:true={showFetchResponse}>
                          <!-- Placeholder for Fetch Response -->
