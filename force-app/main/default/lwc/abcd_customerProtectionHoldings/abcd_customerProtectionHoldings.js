@@ -37,7 +37,6 @@ export default class Abcd_customerProtectionHoldings extends LightningElement
                         this.miDetails = resp.holdingsProtectionInfo.miDetails;
                     }
                 }
-                this.isLoading = false;
             }
             this.isLoading = false;
         })
