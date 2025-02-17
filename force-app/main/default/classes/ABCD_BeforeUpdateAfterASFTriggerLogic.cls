@@ -22,10 +22,10 @@ public class ABCD_BeforeUpdateAfterASFTriggerLogic {
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             Map<Id,Case> frameworkCases = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
             for(Case caseRec : frameworkCases.values()){
-                if(caseRec.Business_Unit__c == ONEABC_Constants.ONEABC_BU){
+                if(caseRec.Business_Unit__c == ONEABC_Constants.ONEABC_BU || caseRec.Business_Unit__c == ONEABC_Constants.ABCD_BU){
                     oneABCCases.put(caseRec.Id,caseRec);
                 }
-                if(caseRec.Business_Unit__c == 'ABCD'){
+                if(caseRec.Business_Unit__c == ONEABC_Constants.ABCD_BU){
                     ABCDCases.put(caseRec.Id,caseRec);
                 }
             }
@@ -49,7 +49,6 @@ public class ABCD_BeforeUpdateAfterASFTriggerLogic {
         if(!oneABCCases.isEmpty()){
             for (Case caseRec : oneABCCasesAdditionalFields.values()) {
                 Case caseError = newMap.get(caseRec.Id);                
-        		// Check if the Case record is related to ABSLI business unit
                 if (caseError.Stage__c == 'Unresolved')  {
                        	   caseError.addError('OneABC Cases cannot be Unresolved.');
                            newMap.put(caseRec.Id,caseError);

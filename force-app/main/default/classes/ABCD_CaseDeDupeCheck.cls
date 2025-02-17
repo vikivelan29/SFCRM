@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 12-27-2024
+ * @last modified on  : 02-17-2025
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ABCD_CaseDeDupeCheck {
@@ -56,6 +56,9 @@ public class ABCD_CaseDeDupeCheck {
          
         for(String key : mChannelVsCases.keySet()){
             if(key == 'ONEABC'){
+                duplicateCheck(mChannelVsCases.get(key), oldList);
+            }
+            if(key == 'ABCD'){
                 duplicateCheck(mChannelVsCases.get(key), oldList);
             }
         } 
