@@ -50,7 +50,7 @@ public class ABCD_BeforeUpdateAfterASFTriggerLogic {
             for (Case caseRec : oneABCCasesAdditionalFields.values()) {
                 Case caseError = newMap.get(caseRec.Id);                
                 if (caseError.Stage__c == 'Unresolved')  {
-                       	   caseError.addError('OneABC Cases cannot be Unresolved.');
+                       	   caseError.addError('Cases cannot be Unresolved.');
                            newMap.put(caseRec.Id,caseError);
                     	
                 	}
@@ -72,7 +72,7 @@ public class ABCD_BeforeUpdateAfterASFTriggerLogic {
             }
             for (Case caseRec : ABCDCasesAdditionalFields.values()) {
                 Case caseError = newMap.get(caseRec.Id); 
-                 if(caseError.Source__c == 'Call Center'){
+                 if(caseError.Source__c == 'Call Center' && (caseError.Nature__c == 'Request' || caseError.Nature__c == 'Complaint')){
                      ABCD_Case_Detail__c caseDetail = caseDetailMap.get(caseRec.ABCD_Case_Detail__c);
                      if(caseDetail.Customer_Sentiment_As_per_Agent__c == '' || caseDetail.Customer_Sentiment_As_per_Agent__c == NULL){
                          caseError.addError('Please fill Customer Sentiment.');
