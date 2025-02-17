@@ -99,6 +99,7 @@ export default class abcd_getAccuontHolding extends LightningElement {
                     }
                 }    
                 else{
+                    this.apiFetchErroText = 'Please proceed manully entering data.'
                     this.apifetchError =true;
                     this.apiFetchErroText = result.errorMessage + ' ' + this.apiFetchErroText;
                     this.disableInput = false;
