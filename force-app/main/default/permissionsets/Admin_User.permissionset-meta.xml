@@ -9538,6 +9538,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>STG_Customer__c.HNI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>STG_Customer__c.ABC_Cust_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
