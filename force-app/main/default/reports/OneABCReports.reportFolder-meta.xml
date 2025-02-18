@@ -5,5 +5,5 @@
         <sharedTo>ABCD_Lead</sharedTo>
         <sharedToType>RoleAndSubordinates</sharedToType>
     </folderShares>
-    <name>OneABC Reports</name>
+    <name>OneABC/ABCD Reports</name>
 </ReportFolder>
