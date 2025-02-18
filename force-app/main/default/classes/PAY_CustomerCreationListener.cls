@@ -60,6 +60,8 @@ public without sharing class PAY_CustomerCreationListener {
                 newAccount.Line_Of_Business__pc = event.Line_of_Business__c;
                 newAccount.PersonBirthdate = event.Birthdate__c;
                 newAccount.PAN__c = event.PAN_No__c;
+                newAccount.HNI_Customer__c = event.HNI__c;
+                newAccount.Full_Name__pc = event.Full_Name__c;
                 
             } else if (event.Customer_Type__c == 'Non-Individual') {
                 newAccount.RecordTypeId = getRecordTypeId('Non-Individual');

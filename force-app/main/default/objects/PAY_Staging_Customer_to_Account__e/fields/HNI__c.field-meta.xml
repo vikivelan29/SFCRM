@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HNI__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field is used in ABCD Customer Creation.</description>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>HNI</label>
+    <type>Checkbox</type>
+</CustomField>
