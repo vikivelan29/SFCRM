@@ -17,7 +17,7 @@ public with sharing class ABCD_SFLMSIntegration {
             evt.ObjectApiName__c ='Lead';
             sfLMSWrapper retCls = new sfLMSWrapper(ld.FirstName,ld.LastName,ld.Email,
                                                   ld.Function__c,ld.MobilePhone,ld.PIN_Code__c,ld.Product_Category__c ,
-                                                  ld.ONEABC_Lead_Source__c,ld.Sub_Source__c,ld.City__c,ld.Remarks__c);
+                                                  'Service to Sales(S2S)','Inbound leads (through service requests)',ld.City__c,ld.Remarks__c);
             String responseText = JSON.serialize(retCls);
             responseText = responseText.replace('Address_PostalCode', 'Address__PostalCode__s');
             responseText = responseText.replace('Product_Category', 'Product_Category__c');
@@ -65,7 +65,7 @@ public with sharing class ABCD_SFLMSIntegration {
             this.Address_PostalCode = postalCode;
             this.Product_Category = prodCategory;
             this.LeadSource = ldSource;
-            this.Sub_Source = '';
+            this.Sub_Source = subSource;
             this.Address_City = addrCity;
             this.central_team_remarks = remarks;
         }
