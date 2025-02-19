@@ -132,7 +132,7 @@
                         <valueListItems>
                             <value>Case.EscalateCase</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND (3 OR 4)</booleanFilter>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsEscalated}</leftValue>
                                     <operator>EQUAL</operator>
@@ -142,16 +142,6 @@
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Nature__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Request</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Nature__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Query</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
