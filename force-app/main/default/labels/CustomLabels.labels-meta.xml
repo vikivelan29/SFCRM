@@ -1952,4 +1952,18 @@
         <shortDescription>ABSLI_PIVC_Integration_CTST</shortDescription>
         <value>NBPC009,NBPC007,NBPC006,NBPC008,NBPC010,RPR001,NBRC004,NBPC012</value>
    </labels>
+    <labels>
+        <fullName>ASF_SprinklrUpdateBUs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SprinklrUpdateBUs</shortDescription>
+        <value>ABSLAMC,ABHI,ONEABC,ABCD,ABML,ABFL</value>
+    </labels>
+   <labels>
+        <fullName>ExpiryDay_For_Bitly_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ExpiryDay For Bitly URL</shortDescription>
+        <value>30</value>
+    </labels>
 </CustomLabels>
