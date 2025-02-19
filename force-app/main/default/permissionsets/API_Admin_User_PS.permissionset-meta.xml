@@ -10,21 +10,6 @@
     </customPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABCD_Case_Detail__c.LOB__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABCD_Case_Detail__c.Lead_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABCD_Case_Detail__c.Lead_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABCD_Case_Detail__c.Account_Holding__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -75,7 +60,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABCD_Case_Detail__c.LOB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABCD_Case_Detail__c.Latest_Notes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABCD_Case_Detail__c.Lead_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABCD_Case_Detail__c.Lead_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6999,6 +6999,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Bio_on_channel__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Case.BRE_Source__c</field>
         <readable>true</readable>
@@ -7075,6 +7080,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.ChannelId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.ChannelType__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Client_Code_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7096,6 +7111,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.ContactId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.CXO__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7160,6 +7180,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Followers_on_channel__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.FTR__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7181,6 +7206,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Has_Open_Tasks__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.HWC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7331,6 +7361,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Multiple_Child_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Name_on_channel__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7501,6 +7536,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Resolution_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Sentiments__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9155,6 +9195,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>STG_Customer__c.Birthdate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>STG_Customer__c.Customer_Since__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9181,6 +9226,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>STG_Customer__c.First_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>STG_Customer__c.Full_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>STG_Customer__c.HNI__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9215,22 +9270,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>STG_Customer__c.Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>STG_Customer__c.Birthdate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>STG_Customer__c.PAN_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
-        <field>STG_Customer__c.Full_Name__c</field>
+        <field>STG_Customer__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
