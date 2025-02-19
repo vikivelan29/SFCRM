@@ -1714,6 +1714,226 @@
                 <default>false</default>
                 <label>Policy related details</label>
             </value>
+            <value>
+                <fullName>Accrued Bonus/Additions Value Related</fullName>
+                <default>false</default>
+                <label>Accrued Bonus/Additions Value Related</label>
+            </value>
+            <value>
+                <fullName>Complaint - Post Cal1</fullName>
+                <default>false</default>
+                <label>Complaint - Post Cal1</label>
+            </value>
+            <value>
+                <fullName>Dob Changes/ Procedure Related</fullName>
+                <default>false</default>
+                <label>Dob Changes/ Procedure Related</label>
+            </value>
+            <value>
+                <fullName>Freelook Information/Cancellation Status</fullName>
+                <default>false</default>
+                <label>Freelook Information/Cancellation Status</label>
+            </value>
+            <value>
+                <fullName>Hold Refund Maturity/ Termination</fullName>
+                <default>false</default>
+                <label>Hold Refund Maturity/ Termination</label>
+            </value>
+            <value>
+                <fullName>Loan Payout Related</fullName>
+                <default>false</default>
+                <label>Loan Payout Related</label>
+            </value>
+            <value>
+                <fullName>Name Change/Correction Procedure Related</fullName>
+                <default>false</default>
+                <label>Name Change/Correction Procedure Related</label>
+            </value>
+            <value>
+                <fullName>Refund Cheque /RTGS/NEFT Related</fullName>
+                <default>false</default>
+                <label>Refund Cheque /RTGS/NEFT Related</label>
+            </value>
+            <value>
+                <fullName>Medical Report Requirement</fullName>
+                <default>false</default>
+                <label>Medical Report Requirement</label>
+            </value>
+            <value>
+                <fullName>Tele Fmr/Medical Report Tagging Status</fullName>
+                <default>false</default>
+                <label>Tele Fmr/Medical Report Tagging Status</label>
+            </value>
+            <value>
+                <fullName>Clarification Regarding Death Claim Refund</fullName>
+                <default>false</default>
+                <label>Clarification Regarding Death Claim Refund</label>
+            </value>
+            <value>
+                <fullName>Death Claim Payout Related</fullName>
+                <default>false</default>
+                <label>Death Claim Payout Related</label>
+            </value>
+            <value>
+                <fullName>Death Claim Related</fullName>
+                <default>false</default>
+                <label>Death Claim Related</label>
+            </value>
+            <value>
+                <fullName>Health Claim Policy Related</fullName>
+                <default>false</default>
+                <label>Health Claim Policy Related</label>
+            </value>
+            <value>
+                <fullName>Health Claim Payout Related</fullName>
+                <default>false</default>
+                <label>Health Claim Payout Related</label>
+            </value>
+            <value>
+                <fullName>Other Claim Related Issue</fullName>
+                <default>false</default>
+                <label>Other Claim Related Issue</label>
+            </value>
+            <value>
+                <fullName>Clarification On Nri Policy</fullName>
+                <default>false</default>
+                <label>Clarification On Nri Policy</label>
+            </value>
+            <value>
+                <fullName>NRI Overseas Medicals Approval</fullName>
+                <default>false</default>
+                <label>NRI Overseas Medicals Approval</label>
+            </value>
+            <value>
+                <fullName>NRI GST Refund Related</fullName>
+                <default>false</default>
+                <label>NRI GST Refund Related</label>
+            </value>
+            <value>
+                <fullName>NRI Process Related</fullName>
+                <default>false</default>
+                <label>NRI Process Related</label>
+            </value>
+            <value>
+                <fullName>NRI Policy Related</fullName>
+                <default>false</default>
+                <label>NRI Policy Related</label>
+            </value>
+            <value>
+                <fullName>Others Concern Regarding Statements</fullName>
+                <default>false</default>
+                <label>Others Concern Regarding Statements</label>
+            </value>
+            <value>
+                <fullName>Others Concern Regarding Renewal Payment</fullName>
+                <default>false</default>
+                <label>Others Concern Regarding Renewal Payment</label>
+            </value>
+            <value>
+                <fullName>Outstanding Premium Amount</fullName>
+                <default>false</default>
+                <label>Outstanding Premium Amount</label>
+            </value>
+            <value>
+                <fullName>Renewal Due Date/Amount Related</fullName>
+                <default>false</default>
+                <label>Renewal Due Date/Amount Related</label>
+            </value>
+            <value>
+                <fullName>Others Concern Regarding policy details</fullName>
+                <default>false</default>
+                <label>Others Concern Regarding policy details</label>
+            </value>
+            <value>
+                <fullName>Others Concern Regarding Redressal</fullName>
+                <default>false</default>
+                <label>Others Concern Regarding Redressal</label>
+            </value>
+            <value>
+                <fullName>Others Reinstatement Related</fullName>
+                <default>false</default>
+                <label>Others Reinstatement Related</label>
+            </value>
+            <value>
+                <fullName>Clarification On Surrender Value Related</fullName>
+                <default>false</default>
+                <label>Clarification On Surrender Value Related</label>
+            </value>
+            <value>
+                <fullName>Others Concern regarding Surrender</fullName>
+                <default>false</default>
+                <label>Others Concern regarding Surrender</label>
+            </value>
+            <value>
+                <fullName>Surrender Payout</fullName>
+                <default>false</default>
+                <label>Surrender Payout</label>
+            </value>
+            <value>
+                <fullName>Others Concern Regarding Fund</fullName>
+                <default>false</default>
+                <label>Others Concern Regarding Fund</label>
+            </value>
+            <value>
+                <fullName>Call Back Request</fullName>
+                <default>false</default>
+                <label>Call Back Request</label>
+            </value>
+            <value>
+                <fullName>Clarification On Unclear Emails</fullName>
+                <default>false</default>
+                <label>Clarification On Unclear Emails</label>
+            </value>
+            <value>
+                <fullName>Customer Out Calling</fullName>
+                <default>false</default>
+                <label>Customer Out Calling</label>
+            </value>
+            <value>
+                <fullName>Transfer Call To Other Lobs</fullName>
+                <default>false</default>
+                <label>Transfer Call To Other Lobs</label>
+            </value>
+            <value>
+                <fullName>Opt Related Issue</fullName>
+                <default>false</default>
+                <label>Opt Related Issue</label>
+            </value>
+            <value>
+                <fullName>Others Concern Regarding Website</fullName>
+                <default>false</default>
+                <label>Others Concern Regarding Website</label>
+            </value>
+            <value>
+                <fullName>Taxation Related</fullName>
+                <default>false</default>
+                <label>Taxation Related</label>
+            </value>
+            <value>
+                <fullName>Others Raised Other Concern</fullName>
+                <default>false</default>
+                <label>Others Raised Other Concern</label>
+            </value>
+            <value>
+                <fullName>Policy Related Details required</fullName>
+                <default>false</default>
+                <label>Policy Related Details required</label>
+            </value>
+            <value>
+                <fullName>Clarification Regarding Documentation/ Investigation Related</fullName>
+                <default>false</default>
+                <label>Clarification Regarding Documentation/ Investigation Related</label>
+            </value>
+            <value>
+                <fullName>Surrender Win Back</fullName>
+                <default>false</default>
+                <label>Surrender Win Back</label>
+            </value>
+            <value>
+                <fullName>Surrender Reversal Request</fullName>
+                <default>false</default>
+                <label>Surrender Reversal Request</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
