@@ -2,8 +2,8 @@
 * @description       ABCD Customer Info 
 * @author            : aditya.mehrotra@salesforce.com
 * @group             : 
-* @last modified on  : 18-11-2024
-* @last modified by  : aditya.mehrotra@salesforce.com
+* @last modified on  : 02-19-2025
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 * Modifications Log
 * Ver   Date         Author                       Modification
 * 1.0   18-11-2024   aditya.mehrotra@salesforce.com   Initial Version
@@ -107,7 +107,7 @@ public without sharing class ABCD_CustomerInfoController {
     public static String getTabData(String tabLabel, String recordId){
         string response;
         Account accRec = [SELECT Id, Name, PersonMobilePhone, PersonEmail, Client_Code__c FROM Account WHERE Id=:recordId LIMIT 1];
-        String payload = JSON.serialize(new CustomerInfoRequest(accRec.Client_Code__c, accRec.PersonEmail, accRec.PersonMobilePhone));
+        String payload = JSON.serialize(new CustomerInfoRequest(accRec.Client_Code__c, '', ''));
         if (tabLabel == 'Asset Holdings'){
             ABCL_IntegrationCallout.IntegrationResponseWrapper assetHoldingsResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_Asset_Holdings',payload,null);
             if(assetHoldingsResponse.statusCode == 200 && String.isNotBlank(assetHoldingsResponse.responseBody)){

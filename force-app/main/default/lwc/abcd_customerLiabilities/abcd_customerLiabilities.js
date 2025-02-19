@@ -64,8 +64,10 @@ export default class Abcd_CustomerLiabilities extends LightningElement {
                         this.blDetails = blDetails;
                     }
                 }
+                this.isLoading = false;
             }
             this.isLoading = false;
+            
         })
         .catch((error) => {
             this.error = error;
