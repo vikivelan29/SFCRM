@@ -299,6 +299,16 @@
                 </visibilityRule>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.HNI_Customer__c</fieldItem>
+                <identifier>RecordHNI_Customer_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-698eeb99-a985-4ed5-977f-3dbcef7b9099</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -318,6 +328,16 @@
                         <rightValue>true</rightValue>
                     </criteria>
                 </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Business_Unit__c</fieldItem>
+                <identifier>RecordBusiness_Unit_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
