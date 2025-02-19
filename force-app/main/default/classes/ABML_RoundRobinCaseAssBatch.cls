@@ -12,7 +12,7 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
     public Database.QueryLocator start(Database.BatchableContext bc)
     {
         String query = 'SELECT Id, OwnerId, Owner.Name, Status, Business_Unit__c, Source__c FROM Case';
-        query += ' WHERE Status = \'New\' AND Business_Unit__c = \'ABML\' AND Source__c = \'Email\'';	
+        query += ' WHERE Status = \'New\' AND Business_Unit__c = \'ABML\' AND Source__c = \'Email\'';   
         System.debug(query);
         return Database.getQueryLocator(query);
     }
@@ -28,17 +28,23 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
             Date startDate = Date.valueOf(objOutOffice.StartDate);
             Date endDate = Date.valueOf(objOutOffice.Enddate);
             startDate = startDate.addDays(1);
+            System.debug('startDate is'+startDate);
+            System.debug('Enddate is'+Enddate);
             if(startDate == System.today() && endDate == System.today()){
                 mapOfTUserAvailability.put(objOutOffice.UserId, true);
+                System.debug('Inside if 1');
             }
             else if(startDate == System.today() && endDate > System.today()){
                 mapOfTUserAvailability.put(objOutOffice.UserId, false);
+                System.debug('Inside if 2');
             }
             else if(startDate < System.today() && endDate == System.today()){
                 mapOfTUserAvailability.put(objOutOffice.UserId, true);
+                System.debug('Inside if 3');
             }
             else if(startDate < System.today() && endDate > System.today()){//
                 mapOfTUserAvailability.put(objOutOffice.UserId, false);
+                System.debug('Inside if 4');
             }
         }
         
@@ -52,9 +58,9 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
         for (ABML_Round_Robin_Assignment__c record : customSettingRecords) {
             customSettingMap.put(record.Name, (Integer)record.ABML_Index__c);
         }
-        
+        System.debug('customSettingMap is'+customSettingMap);
         Map<String, List<String>> metaQueuedataMap = new Map<String, List<String>>();
-		Map<String, String> metaQueuedataMapAll = new Map<String, String>();                
+                             Map<String, String> metaQueuedataMapAll = new Map<String, String>();                
         Set<String> setOfGroupId = new Set<String>();
         Set<String> setOfUserId = new Set<String>();
         List<Case> lstCase = new List<Case>();
@@ -86,12 +92,14 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
                 String uId = String.valueOf(objGroupMember.UserOrGroupId);
                 
                 if(uId.startsWith('005') && mapOfTUserAvailability.containsKey(uId)){
+                    System.debug('Inside if 94');
                     if(mapOfTUserAvailability.get(uId) && (bh.MondayEndTime < currentTime || bh.MondayStartTime > currentTime)){
                         if (!metaQueuedataMap.containsKey(gId)) {
                             metaQueuedataMap.put(gId, new List<String>());
                         }
                         metaQueuedataMap.get(gId).add(uId); 
                     }
+                    System.debug('metaQueuedataMap is'+metaQueuedataMap);
                     
                 }  
                 else if(uId.startsWith('005') && !mapOfTUserAvailability.containsKey(uId)){
@@ -99,7 +107,8 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
                         metaQueuedataMap.put(gId, new List<String>());
                     }
                     metaQueuedataMap.get(gId).add(uId);
-                }  
+                } 
+                System.debug('else if metaQueuedataMap is'+metaQueuedataMap);
             }
         }
         
@@ -110,19 +119,35 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
                 String ownerId = String.valueOf(objCase.OwnerId);
                 String groupId = '';
                 if(metaQueuedataMapAll.containsKey(ownerId)){
-                	groupId = metaQueuedataMapAll.get(ownerId);
+                              groupId = metaQueuedataMapAll.get(ownerId);
                 }
                 List<String> lstUserIds = new List<String>();
                 if(metaQueuedataMap.containsKey(groupId)){
                     lstUserIds = metaQueuedataMap.get(groupId);
                 }
+                System.debug('lstUserIds is'+lstUserIds);
                 
                 if (lstUserIds != null && !lstUserIds.isEmpty()) {
-                    Integer currentIndex = customSettingMap.containsKey(objCase.Owner.Name) ? (Integer)customSettingMap.get(objCase.Owner.Name)  : 0 ;
-                    cObj.OwnerId = lstUserIds[currentIndex];
+                    //Integer currentIndex = customSettingMap.containsKey(objCase.Owner.Name) ? (Integer)customSettingMap.get(objCase.Owner.Name)  : 0 ;
+                    Integer currentIndex = (lstUserIds != null && lstUserIds.size() < 1) ? 0 
+    										: (customSettingMap.containsKey(objCase.Owner.Name) 
+        									? (Integer) customSettingMap.get(objCase.Owner.Name) 
+        									: 0);
+                    System.debug('@@@@'+customSettingMap.get(objCase.Owner.Name));
+                    System.debug('currentIndex is'+currentIndex);
+                    try{
+                        cObj.OwnerId = lstUserIds[currentIndex];
+                    }Catch(exception e){
+                        currentIndex = 0;
+                        cObj.OwnerId = lstUserIds[currentIndex];
+                        System.debug(e);
+                    }
                     // Update the current index
+                    if(lstUserIds.size()>1)
+                    {
                     currentIndex = Math.mod((currentIndex + 1), lstUserIds.size());
                     customSettingMap.put(objCase.Owner.Name, currentIndex);
+                    }
                  }
                  lstCase.add(cObj);
              }             

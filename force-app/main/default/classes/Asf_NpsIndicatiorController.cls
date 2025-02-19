@@ -34,5 +34,5 @@ public with sharing class Asf_NpsIndicatiorController {
         }
         return mapOfBusinessUnitToNpsScore; 
     }
-
 }
+
