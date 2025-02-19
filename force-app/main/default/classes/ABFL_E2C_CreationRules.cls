@@ -2,8 +2,8 @@
   * @description       : Logic to block creation of cases in certain scenerios
  * @author            : Rajender Kumar
  * @group             : 
- * @last modified on  : 03-27-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 10-10-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   01-02-2024   achuriwala@salesforce.com   Initial Version
@@ -24,11 +24,11 @@ public with sharing class ABFL_E2C_CreationRules {
         if(!emailMessages.isEmpty()){
             // Find eligible records
             Set<Id> caseIds = new Set<Id>();
-            Map<Id,EmailMessage> caseIdvsEmailMessage = new Map<Id,EmailMessage>();    // temporary logic added by vikas to block case creation from bounced emails.
+            //Map<Id,EmailMessage> caseIdvsEmailMessage = new Map<Id,EmailMessage>();    // temporary logic added by vikas to block case creation from bounced emails.
             for (EmailMessage email : emailMessages) {
                 // Check if the email is related to a case and is incoming
                 caseIds.add(email.ParentId);
-                caseIdvsEmailMessage.put(email.ParentId,email);   // added by vikas
+               //caseIdvsEmailMessage.put(email.ParentId,email);   // added by vikas
             }
 
             if (!caseIds.isEmpty()){
@@ -40,9 +40,9 @@ public with sharing class ABFL_E2C_CreationRules {
                     if (System.Label.ABCL_Case_Origin_for_E2C_Rules.split(',').contains(c.origin)) {
                         qualifiedCaseIds.add(c.Id);
                     }
-                    else if(caseIdvsEmailMessage.get(c.Id).FromAddress.contains('microsoftexchange')){          // added by vikas
-								qualifiedCaseIds.add(c.Id);                    // added by vikas
-                }  
+                   /*else if(caseIdvsEmailMessage.get(c.Id).FromAddress.contains('microsoftexchange')){          // added by vikas
+								abflCaseIds.add(c.Id);                                                               // added by vikas
+                }*/
                 }  
 
                 if (!qualifiedCaseIds.isEmpty()) {
@@ -125,7 +125,6 @@ public with sharing class ABFL_E2C_CreationRules {
      * @return Boolean 
      * @description -  Method to check the condition based on the operator
      ****************************************************************************/
-    
     private static Boolean creationNotAllowed(String operator, String expectedValue, String actualValue) {
         Boolean retVal=false;
         actualValue=actualValue.toLowerCase();
@@ -140,6 +139,7 @@ public with sharing class ABFL_E2C_CreationRules {
         }
         return retVal;
     }
+    
  /*********************************************************************************************************************************************************
      * @function - areAllWordsPresent
      * @param expectedValue - expected value from custom metadata.
