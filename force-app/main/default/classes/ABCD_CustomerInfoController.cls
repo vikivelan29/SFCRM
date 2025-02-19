@@ -107,7 +107,7 @@ public without sharing class ABCD_CustomerInfoController {
     public static String getTabData(String tabLabel, String recordId){
         string response;
         Account accRec = [SELECT Id, Name, PersonMobilePhone, PersonEmail, Client_Code__c FROM Account WHERE Id=:recordId LIMIT 1];
-        String payload = JSON.serialize(new CustomerInfoRequest(accRec.Client_Code__c,null, null));
+        String payload = JSON.serialize(new CustomerInfoRequest(accRec.Client_Code__c, accRec.PersonEmail, accRec.PersonMobilePhone));
         if (tabLabel == 'Asset Holdings'){
             ABCL_IntegrationCallout.IntegrationResponseWrapper assetHoldingsResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_Asset_Holdings',payload,null);
             if(assetHoldingsResponse.statusCode == 200 && String.isNotBlank(assetHoldingsResponse.responseBody)){
