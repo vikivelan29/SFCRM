@@ -290,11 +290,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABFL_Case_Detail__c.Caller_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABFL_Case_Detail__c.Cancellation_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -370,11 +365,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABFL_Case_Detail__c.Critical_Request__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABFL_Case_Detail__c.Customer_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -441,6 +431,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.Document_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Efforts_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -655,11 +650,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABFL_Case_Detail__c.PHD_Complaint_Source__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABFL_Case_Detail__c.Part_Payment_Effect__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -790,6 +780,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Retention_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.SL_LA_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -806,11 +801,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.Segment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABFL_Case_Detail__c.Social_Media__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -839,7 +829,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABFL_Case_Detail__c.UTRNo__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1020,11 +1010,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Account.ABC_Consent__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Account.ABWM_RM_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1044,7 +1029,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Account.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1056,11 +1041,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Client_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.Client_code_link_formula__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1094,11 +1074,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.Customer_Since__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Account.Customer_Status__c</field>
         <readable>true</readable>
@@ -1116,11 +1091,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Fraud_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.Handle_With_Care_HWC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1156,11 +1126,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.PAN__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.PersonGenderIdentity</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1224,11 +1189,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.WhatsApp_Opt_in_status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Asset.ARR__c</field>
         <readable>true</readable>
@@ -1270,16 +1230,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Assign_to_DM__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Balance_Tenure__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.Bank_Branch_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1296,11 +1246,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Branch_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Branch__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1420,11 +1365,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.ECS_Mandate_Registration_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.EMI_Cycle_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1525,17 +1465,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Loan_Amount__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.Loan_Disbursement_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Loan_EMI_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1784,11 +1714,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Branch_Master__c.CRM_SPOC__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Branch_Master__c.City__c</field>
         <readable>true</readable>
@@ -1910,12 +1835,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.BRE_Source__c</field>
+        <field>Case.Bio_on_channel__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.Bio_on_channel__c</field>
+        <field>Case.BRE_Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1955,11 +1880,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.CXO__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Case.Case_SLA_Threshold_1__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1980,17 +1900,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Case.Channel__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.ChannelId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.ChannelType__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Channel__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2028,6 +1948,11 @@
         <field>Case.Customer_name_formula__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.CXO__c</field>
+        <readable>true</readable>
+   </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.DB_Hours__c</field>
@@ -2085,12 +2010,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.HWC__c</field>
+        <field>Case.Has_Open_Tasks__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.Has_Open_Tasks__c</field>
+        <field>Case.HWC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2166,6 +2091,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Is_STP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Issue_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2385,6 +2315,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Case.Sentiments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.SLA_Broken_DateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2421,11 +2356,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Sent_to_EBOT__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Sentiments__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2581,11 +2511,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Business_Unit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Customer_Since__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2811,11 +2736,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>DMS_Files__c.Version_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>EmailMessage.UNFYD_email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3151,11 +3071,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>User.LOB__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>User.Manger_s_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
