@@ -2,7 +2,7 @@
 * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
- * @last modified on  : 02-17-2025
+ * @last modified on  : 12-19-2024
 * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ASF_CaseTriggerBUSpecificHandler {
@@ -56,7 +56,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                          ABHI_IGMSHelperMethods.associateAssetIgms(mapOfBUToCases.get(businessUnit));
                          ABHI_IGMSHelperMethods.associateCustomerForAPIFromPhoneNumber(mapOfBUToCases.get(businessUnit));
                     }
-                    if(businessUnit == 'ONEABC' || businessUnit == 'ABCD'){
+                    if(businessUnit == 'ONEABC'){
                         ABCD_CaseDeDupeCheck.runDuplicateCheck(mRecordTypeVsCases.get(frameworkRTId), new List<Case>());
                     }
                 }
@@ -194,9 +194,10 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 }
                 else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
                     ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                }
+                if(businessUnit == 'ONEABC'){
                     ABCD_BeforeUpdateAfterASFTriggerLogic.executeBeforeLogic(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABCD_CaseDeDupeCheck.runDuplicateCheck(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
-                    
                 }
             }
         }
