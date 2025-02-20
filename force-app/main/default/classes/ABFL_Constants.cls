@@ -34,6 +34,11 @@ public with sharing class ABFL_Constants {
     public static final String EMAIL_ENTITY = 'Email';
     public static final String LITMUS = 'Litmus';
     public static final String ENACH_INTEGRATION_METADATA = 'ABFL_Enach';
+
+    // Sprinklr related constant has added by Yogesh for [PR970457-2807].
+    public static final String SPRINKLRINT = 'Sprinklr-UpdateCase';
+    public static final String SPRINKLR = 'SPRINKLR';
+    public static final String SPRINKLRAPI = 'Sprinklr-UpdateCase API';
     
     public static final String DMS_METADATA = 'Asf_DMS_File_Datatable';
     public static final String DMS_GENERIC_ERROR = System.Label.ASF_ErrorMessage;
