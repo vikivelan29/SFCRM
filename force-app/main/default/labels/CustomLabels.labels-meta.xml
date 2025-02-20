@@ -1790,7 +1790,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_SprinklrUpdateBUs</shortDescription>
-        <value>ABSLAMC,ABHI,ONEABC,ABCD</value>
+        <value>ABSLAMC,ABHI,ONEABC,ABCD,ABFL</value>
     </labels>
         <fullName>ABSLI_PIVC_Integration_CTST</fullName>
         <language>en_US</language>
