@@ -4,6 +4,7 @@ global without sharing class ASF_UbonaAccountRetrieval{
         String soslSearchPhone = String.escapeSingleQuotes('*' + phone + '*');
         phone = '%'+phone+'%';
         phone = String.escapeSingleQuotes(phone);
+        String soslPhoneStr = '%'+phone;
 
         if(clientCode != null && clientCode != ''){
             accounts = [SELECT ID,Name,PersonMobilePhone,Phone FROM Account WHERE Client_Code__c = : clientCode AND Business_Unit__c = :lob];
@@ -19,7 +20,13 @@ global without sharing class ASF_UbonaAccountRetrieval{
                 for (List<sObject> each : searchResults) {
                     contacts.addAll((List<Contact>) each);
                 }
-            } else {
+            } else if(lob == 'ABCD'){
+                List<List<sObject>> searchResults = [FIND :soslSearchPhone IN PHONE FIELDS RETURNING Contact (ID, AccountId, Name, MobilePhone WHERE MobilePhone LIKE : soslPhoneStr)];
+                for (List<sObject> each : searchResults) {
+                    contacts.addAll((List<Contact>) each);
+                }
+            }
+            else {
                 contacts = [SELECT ID, AccountId, Name, MobilePhone FROM Contact WHERE MobilePhone Like : phone AND Account.Business_Unit__c = : lob];
             }
             for (Contact c : contacts) {
