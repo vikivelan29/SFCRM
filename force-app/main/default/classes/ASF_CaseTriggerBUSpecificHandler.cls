@@ -205,7 +205,8 @@ public class ASF_CaseTriggerBUSpecificHandler {
                         for(String businessUnit : mapOfBUToCases.keySet()){
 if(businessUnit == 'ABFL'){
                     ABFL_OwnerChangeWithLocation.updateSpocWrtLocation(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
-                    ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);                
+                    ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);   
+
 }
                 if(businessUnit == 'ABSLAMC'){
                     ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
