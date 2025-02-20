@@ -27,7 +27,7 @@
     <assignments>
         <name>Copy_1_of_Closed_Email_Template</name>
         <label>Closed Email Template</label>
-        <locationX>1810</locationX>
+        <locationX>1634</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>customMetadataName</assignToReference>
@@ -51,7 +51,7 @@
         <name>Copy_1_of_Open_Email_Template</name>
         <label>Open Email Template</label>
         <locationX>1106</locationX>
-        <locationY>674</locationY>
+        <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>customMetadataName</assignToReference>
             <operator>Assign</operator>
@@ -64,22 +64,6 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>PAYMENT_SR_CREATED</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Create_PE_Logger_Record</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Open</name>
-        <label>ABSLIG Open Email Template</label>
-        <locationX>1370</locationX>
-        <locationY>674</locationY>
-        <assignmentItems>
-            <assignToReference>customMetadataName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Label.ABSLIG_Acknowledgement_Email</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -110,6 +94,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Open_Email_Template_for_ABSLAMC</name>
+        <label>Open Email Template for ABSLAMC</label>
+        <locationX>1370</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>customMetadataName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Auto_Acknowledgement_Email</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_PE_Logger_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Rejection_Email_Template</name>
         <label>Rejection Email Template</label>
         <locationX>578</locationX>
@@ -133,49 +133,9 @@
         </connector>
     </assignments>
     <decisions>
-        <name>Business_Unit_Check</name>
-        <label>Business Unit Check</label>
-        <locationX>1370</locationX>
-        <locationY>566</locationY>
-        <defaultConnector>
-            <targetReference>Create_PE_Logger_Record</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Payment</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Payments</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Copy_1_of_Open_Email_Template</targetReference>
-            </connector>
-            <label>Payment</label>
-        </rules>
-        <rules>
-            <name>ABSLIG</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>ABSLIG</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Open</targetReference>
-            </connector>
-            <label>ABSLIG</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Check_case_status</name>
         <label>Check case status</label>
-        <locationX>1821</locationX>
+        <locationX>1678</locationX>
         <locationY>134</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -239,7 +199,7 @@
     <decisions>
         <name>Check_send_communication_configs</name>
         <label>Check send communication configs</label>
-        <locationX>1128</locationX>
+        <locationX>1018</locationX>
         <locationY>350</locationY>
         <defaultConnector>
             <targetReference>Stage_Checks</targetReference>
@@ -365,7 +325,7 @@
     <decisions>
         <name>Stage_Checks</name>
         <label>Stage Checks</label>
-        <locationX>1810</locationX>
+        <locationX>1590</locationX>
         <locationY>458</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -378,10 +338,39 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLAMC</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Business_Unit_Check</targetReference>
+                <targetReference>Copy_1_of_Open_Email_Template</targetReference>
             </connector>
             <label>Open - Stage</label>
+        </rules>
+        <rules>
+            <name>Open_Stage_ABSLAMC</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CaseRecordPrior</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLAMC</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Open_Email_Template_for_ABSLAMC</targetReference>
+            </connector>
+            <label>Open - Stage ABSLAMC</label>
         </rules>
         <rules>
             <name>Copy_1_of_Resolved_Stage</name>
@@ -398,6 +387,13 @@
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>Resolved</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLAMC</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -422,12 +418,21 @@
                     <stringValue>Rejected</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLAMC</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Create_PE_Logger_Record</targetReference>
             </connector>
             <label>Rejection - Stage</label>
         </rules>
     </decisions>
+    <description>Changes related to ABSLAMC open stage communication added</description>
+    <environments>Default</environments>
     <formulas>
         <name>PE_UniqueID</name>
         <dataType>String</dataType>
@@ -457,8 +462,8 @@
     <recordCreates>
         <name>Create_PE_Logger_Record</name>
         <label>Create PE Logger Record</label>
-        <locationX>1128</locationX>
-        <locationY>1034</locationY>
+        <locationX>1018</locationX>
+        <locationY>842</locationY>
         <connector>
             <targetReference>Invoke_PlatformEvent_Communication_Log</targetReference>
         </connector>
@@ -540,8 +545,8 @@
     <recordCreates>
         <name>Invoke_PlatformEvent_Communication_Log</name>
         <label>Invoke PlatformEvent - Communication Log</label>
-        <locationX>1128</locationX>
-        <locationY>1142</locationY>
+        <locationX>1018</locationX>
+        <locationY>950</locationY>
         <inputAssignments>
             <field>CCCExternalId__c</field>
             <value>
@@ -578,7 +583,7 @@
     <recordLookups>
         <name>Get_case_config</name>
         <label>Get case config</label>
-        <locationX>1128</locationX>
+        <locationX>1018</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -597,7 +602,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>1695</locationX>
+        <locationX>1552</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_case_status</targetReference>

@@ -87,7 +87,6 @@
             <assignToReference>EmailTempDevName</assignToReference>
             <name>templateName</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Case_creator_when_the_case_is_closed</name>
@@ -107,7 +106,6 @@
             </value>
         </inputParameters>
         <nameSegment>Case.Case_creator_when_the_case_is_closed</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Case_owner_when_the_case_is_assigned</name>
@@ -127,7 +125,6 @@
             </value>
         </inputParameters>
         <nameSegment>Case.Case_owner_when_the_case_is_assigned</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
@@ -799,7 +796,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Case_status</name>
-            <conditionLogic>(1 OR 2 OR 3) AND  4 AND (5 OR 6)</conditionLogic>
+            <conditionLogic>(1 OR 2 OR 3) AND  4 AND (5 OR 6 OR 7)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
@@ -840,6 +837,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>ABSLIG</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLAMC</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -1257,7 +1261,7 @@
             <label>Send Recat Flag True</label>
         </rules>
     </decisions>
-    <description>Added new description</description>
+    <description>Added ABSLAMC business unit check in communication of Interaction case.</description>
     <environments>Default</environments>
     <formulas>
         <name>IntegrationUserName</name>
