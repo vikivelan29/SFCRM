@@ -287,7 +287,7 @@ export default class Absli_quickkill extends LightningElement {
             { label: 'Download Document', value: 'TCD' },
             { label: 'Email ID Update', value: 'EU' },
             { label: 'e-NACH STP', value: 'ENACH' },
-            { label: 'FATCA update', value: 'FD' },
+            //{ label: 'FATCA update', value: 'FD' },    // Commented by Archit for [WO0000000414446]
             { label: 'Fund Switch/Premium Redirection', value: 'FS' },
             { label: 'Loan Repayment', value: 'LR' },
             { label: 'Mobile Number Update', value: 'CNU' },
