@@ -109,6 +109,26 @@
                 <default>false</default>
                 <label>ONEABC</label>
             </value>
+            <value>
+                <fullName>ABCD PIFA</fullName>
+                <default>false</default>
+                <label>ABCD PIFA</label>
+            </value>
+            <value>
+                <fullName>ABCD Branch Servicing</fullName>
+                <default>false</default>
+                <label>ABCD Branch Servicing</label>
+            </value>
+            <value>
+                <fullName>ABCD GRO</fullName>
+                <default>false</default>
+                <label>ABCD GRO</label>
+            </value>
+            <value>
+                <fullName>ABCD Email Servicing</fullName>
+                <default>false</default>
+                <label>ABCD Email Servicing</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
