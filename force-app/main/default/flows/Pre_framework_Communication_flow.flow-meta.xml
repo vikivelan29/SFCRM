@@ -2,6 +2,22 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>59.0</apiVersion>
     <assignments>
+        <name>Assignment_8</name>
+        <label>ABSLAMC Open Email Template</label>
+        <locationX>1634</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>customMetadataName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Auto_Acknowledgement_Email</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_PE_Logger_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Closed_Email_Template</name>
         <label>Closed Email Template</label>
         <locationX>314</locationX>
@@ -27,7 +43,7 @@
     <assignments>
         <name>Copy_1_of_Closed_Email_Template</name>
         <label>Closed Email Template</label>
-        <locationX>1810</locationX>
+        <locationX>2074</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>customMetadataName</assignToReference>
@@ -110,22 +126,6 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Open_Email_Template_for_ABSLAMC</name>
-        <label>Open Email Template for ABSLAMC</label>
-        <locationX>1370</locationX>
-        <locationY>566</locationY>
-        <assignmentItems>
-            <assignToReference>customMetadataName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Auto_Acknowledgement_Email</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Create_PE_Logger_Record</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Rejection_Email_Template</name>
         <label>Rejection Email Template</label>
         <locationX>578</locationX>
@@ -151,7 +151,7 @@
     <decisions>
         <name>Business_Unit_Check</name>
         <label>Business Unit Check</label>
-        <locationX>1370</locationX>
+        <locationX>1502</locationX>
         <locationY>566</locationY>
         <defaultConnector>
             <targetReference>Create_PE_Logger_Record</targetReference>
@@ -187,11 +187,26 @@
             </connector>
             <label>ABSLIG</label>
         </rules>
+        <rules>
+            <name>ABSLAMC</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLAMC</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assignment_8</targetReference>
+            </connector>
+            <label>ABSLAMC</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Check_case_status</name>
         <label>Check case status</label>
-        <locationX>1821</locationX>
+        <locationX>2002</locationX>
         <locationY>134</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -255,7 +270,7 @@
     <decisions>
         <name>Check_send_communication_configs</name>
         <label>Check send communication configs</label>
-        <locationX>1128</locationX>
+        <locationX>1227</locationX>
         <locationY>350</locationY>
         <defaultConnector>
             <targetReference>Stage_Checks</targetReference>
@@ -381,7 +396,7 @@
     <decisions>
         <name>Stage_Checks</name>
         <label>Stage Checks</label>
-        <locationX>1810</locationX>
+        <locationX>2008</locationX>
         <locationY>458</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -394,39 +409,10 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
-            <conditions>
-                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>ABSLAMC</stringValue>
-                </rightValue>
-            </conditions>
             <connector>
                 <targetReference>Business_Unit_Check</targetReference>
             </connector>
             <label>Open - Stage</label>
-        </rules>
-        <rules>
-            <name>Open_Stage_ABSLAMC</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>CaseRecordPrior</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>ABSLAMC</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Open_Email_Template_for_ABSLAMC</targetReference>
-            </connector>
-            <label>Open - Stage ABSLAMC</label>
         </rules>
         <rules>
             <name>Copy_1_of_Resolved_Stage</name>
@@ -443,13 +429,6 @@
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>Resolved</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>ABSLAMC</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -474,19 +453,13 @@
                     <stringValue>Rejected</stringValue>
                 </rightValue>
             </conditions>
-            <conditions>
-                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>ABSLAMC</stringValue>
-                </rightValue>
-            </conditions>
             <connector>
                 <targetReference>Create_PE_Logger_Record</targetReference>
             </connector>
             <label>Rejection - Stage</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>PE_UniqueID</name>
         <dataType>String</dataType>
@@ -516,7 +489,7 @@
     <recordCreates>
         <name>Create_PE_Logger_Record</name>
         <label>Create PE Logger Record</label>
-        <locationX>1128</locationX>
+        <locationX>1227</locationX>
         <locationY>1034</locationY>
         <connector>
             <targetReference>Invoke_PlatformEvent_Communication_Log</targetReference>
@@ -599,7 +572,7 @@
     <recordCreates>
         <name>Invoke_PlatformEvent_Communication_Log</name>
         <label>Invoke PlatformEvent - Communication Log</label>
-        <locationX>1128</locationX>
+        <locationX>1227</locationX>
         <locationY>1142</locationY>
         <inputAssignments>
             <field>CCCExternalId__c</field>
@@ -637,7 +610,7 @@
     <recordLookups>
         <name>Get_case_config</name>
         <label>Get case config</label>
-        <locationX>1128</locationX>
+        <locationX>1227</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -656,7 +629,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>1695</locationX>
+        <locationX>1876</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_case_status</targetReference>
