@@ -799,7 +799,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Case_status</name>
-            <conditionLogic>(1 OR 2 OR 3) AND  4 AND (5 OR 6 OR 7))</conditionLogic>
+            <conditionLogic>(1 OR 2 OR 3) AND  4 AND (5 OR 6 OR 7)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
