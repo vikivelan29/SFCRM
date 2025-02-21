@@ -1,7 +1,7 @@
 public class ABCD_DGTransactionHistoryController {
     
     @AuraEnabled
-    public static TransactionHistoryResult getTransactions(String mobileNumber, String customerID, String emailID, Date startDate, Date toDate) {
+    public static TransactionHistoryResult getTransactions(String mobileNumber, String customerID, String emailID, String startDate, String toDate) {
         List<TransactionRecord> transactionRecords = new List<TransactionRecord>();
         Boolean isSuccess = false;
         String errorMessage = null;
@@ -17,8 +17,17 @@ public class ABCD_DGTransactionHistoryController {
                 payload.mobileNumber = mobileNumber;
                 payload.emailID = emailID;
             }
-            payload.startDate = startDate;
-            payload.toDate = toDate;
+            if(startDate == NULL){
+            	payload.startDate = '';    
+            }else{
+                payload.startDate = startDate;    
+            }
+            if(toDate == NULL){
+            	payload.toDate = '';    
+            }else{
+                payload.toDate = toDate;    
+            }
+            
     
             String integrationName = 'ABCD_Get_DG_Transactions';
             String serializedPayload = JSON.serialize(payload);
@@ -55,8 +64,8 @@ public class ABCD_DGTransactionHistoryController {
         public String mobileNumber;
         public String emailID;
         public String customerID;
-        public Date startDate;
-        public Date toDate;
+        public String startDate;
+        public String toDate;
     }
 
     public class TransactionInfo {
