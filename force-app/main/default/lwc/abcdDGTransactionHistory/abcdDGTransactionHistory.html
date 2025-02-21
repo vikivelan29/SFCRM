@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 02-17-2025
+  @last modified on  : 02-21-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -42,7 +42,13 @@
                 </div>
               </template>
           </div>
+          <template if:true={isLoading}>
+            <div class="slds-backdrop" role="presentation"></div>
 
+            <div class="slds-fade-in-open  slds-modal_large">
+                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+            </div>
+        </template>
           <!-- Transaction Table -->
           <template if:true={showTransactionTable}>
               <div class="slds-p-top_medium slds-p-bottom_medium">
