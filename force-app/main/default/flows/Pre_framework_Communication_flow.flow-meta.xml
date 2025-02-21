@@ -110,6 +110,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Open_Email_Template_for_ABSLAMC</name>
+        <label>Open Email Template for ABSLAMC</label>
+        <locationX>1370</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>customMetadataName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Auto_Acknowledgement_Email</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_PE_Logger_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Rejection_Email_Template</name>
         <label>Rejection Email Template</label>
         <locationX>578</locationX>
@@ -378,10 +394,39 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLAMC</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Business_Unit_Check</targetReference>
             </connector>
             <label>Open - Stage</label>
+        </rules>
+        <rules>
+            <name>Open_Stage_ABSLAMC</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CaseRecordPrior</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLAMC</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Open_Email_Template_for_ABSLAMC</targetReference>
+            </connector>
+            <label>Open - Stage ABSLAMC</label>
         </rules>
         <rules>
             <name>Copy_1_of_Resolved_Stage</name>
@@ -398,6 +443,13 @@
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>Resolved</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLAMC</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -420,6 +472,13 @@
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>Rejected</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CaseRecord.Business_Unit__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLAMC</stringValue>
                 </rightValue>
             </conditions>
             <connector>
