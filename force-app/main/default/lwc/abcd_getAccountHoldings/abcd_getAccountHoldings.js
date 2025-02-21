@@ -32,6 +32,7 @@ export default class abcd_getAccuontHolding extends LightningElement {
     @track holdingNumber = '';
     @track apiReturnedNone = false;
     @track disableAccountHolding = false;
+    @track isLoading = false;
     
 
     @wire(CurrentPageReference) pageRef;
@@ -76,6 +77,7 @@ export default class abcd_getAccuontHolding extends LightningElement {
     }
     async invokegetAccountHoldingCallout() {
         debugger;
+            this.isLoading = true;
             await getAccountHoldings({ customerId: this.clientCode, lob: this.selectedFunction})
             .then((result) => {
                 if (result.isSuccess) {
@@ -97,6 +99,7 @@ export default class abcd_getAccuontHolding extends LightningElement {
                         this.disableInput = true;
                         this.apifetchError = false;
                     }
+                    this.isLoading = false;
                 }    
                 else{
                     this.apiFetchErroText = 'Please proceed manully entering data.'
@@ -109,10 +112,12 @@ export default class abcd_getAccuontHolding extends LightningElement {
                         message: result.errorMessage,
                         variant: "error",
                     });
+                    this.isLoading = false;
                 }
             })
             .catch((error) => {
                 console.log(error);
+                this.isLoading = false;
             })
 
         
