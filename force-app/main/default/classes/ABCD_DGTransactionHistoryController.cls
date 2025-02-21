@@ -9,13 +9,13 @@ public class ABCD_DGTransactionHistoryController {
         try {
             TransactionHistoryRequest payload = new TransactionHistoryRequest();
             if (String.isNotBlank(customerID)) {
-                payload.customerID = customerID;
+                payload.customerId = customerID;
                 payload.mobileNumber = '';
-                payload.emailID = '';
+                payload.emailId = '';
             } else {
-                payload.customerID = '';
+                payload.customerId = '';
                 payload.mobileNumber = mobileNumber;
-                payload.emailID = emailID;
+                payload.emailId = emailID;
             }
             if(startDate == NULL){
             	payload.startDate = '';    
@@ -23,9 +23,9 @@ public class ABCD_DGTransactionHistoryController {
                 payload.startDate = startDate;    
             }
             if(toDate == NULL){
-            	payload.toDate = '';    
+            	payload.endDate = '';    
             }else{
-                payload.toDate = toDate;    
+                payload.endDate = toDate;    
             }
             
     
@@ -62,10 +62,10 @@ public class ABCD_DGTransactionHistoryController {
     
     public class TransactionHistoryRequest {
         public String mobileNumber;
-        public String emailID;
-        public String customerID;
+        public String emailId;
+        public String customerId;
         public String startDate;
-        public String toDate;
+        public String endDate;
     }
 
     public class TransactionInfo {
