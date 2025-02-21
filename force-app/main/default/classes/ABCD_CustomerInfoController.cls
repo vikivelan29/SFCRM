@@ -73,6 +73,13 @@ public without sharing class ABCD_CustomerInfoController {
                 Account accountToInsert = new Account();
                 if(customerData != null){
                     accountToInsert.LastName = customerData.customerName;
+                    accountToInsert.Full_Name__pc = customerData.customerName;
+                    if(customerData.customerName.substringAfterLast(' ') != null){
+                        accountToInsert.LastName = customerData.customerName.substringAfterLast(' ');
+                    }
+                    if(customerData.customerName.substringBeforeLast(' ') != null){
+                        accountToInsert.FirstName = customerData.customerName.substringBeforeLast(' ');
+                    }
                     accountToInsert.PersonMobilePhone = customerData.mobileNumber;
                     accountToInsert.PersonEmail = customerData.emailId;
                     accountToInsert.PAN__c = customerData.pan;
@@ -81,6 +88,7 @@ public without sharing class ABCD_CustomerInfoController {
                     accountToInsert.Business_Unit__c = System.Label.ABCD_Business_Unit;
                     accountToInsert.Line_of_Business__pc = System.Label.ABCD_Business_Unit;
                     accountToInsert.Business_Unit__pc = System.Label.ABCD_Business_Unit;
+                    accountToInsert.HNI_Customer__c = false;
                     if(systemUser.size()>0){
                         accountToInsert.OwnerId = systemUser[0].Id;
                     }
@@ -131,7 +139,7 @@ public without sharing class ABCD_CustomerInfoController {
         }
         return response;
     }
-
+    
     public class CustomerInfoRequest{
         String customerId;
         String emailId ;
