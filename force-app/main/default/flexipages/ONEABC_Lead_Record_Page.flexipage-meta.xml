@@ -316,6 +316,26 @@
                 <identifier>RecordSFLMS_Status_Change_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SFLMS_Lead_owner__c</fieldItem>
+                <identifier>RecordSFLMS_Lead_owner_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SFLMS_Sub_disposition__c</fieldItem>
+                <identifier>RecordSFLMS_Sub_disposition_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b33423f6-9cd8-4aeb-a19e-a7b733c3eb30</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -338,6 +358,26 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Push_To_LMS_Date__c</fieldItem>
                 <identifier>RecordPush_To_LMS_Date__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SFLMS_Disposition__c</fieldItem>
+                <identifier>RecordSFLMS_Disposition_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SFLMS_Disposition_Change_DateTime__c</fieldItem>
+                <identifier>RecordSFLMS_Disposition_Change_DateTime_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-60dd630e-32bb-44b0-93a0-f56307fdc134</name>
