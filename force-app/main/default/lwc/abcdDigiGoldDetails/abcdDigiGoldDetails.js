@@ -11,7 +11,20 @@ export default class AbcdDigiGoldDetails extends LightningElement {
     @api accountRecordId;;
     @track clientCode;
     @track mobileNumber;
-    @track emailID; 
+    @track emailID;
+    @api status;
+    @api apiMessage;
+    
+    get displayError(){
+        if(this.status != 'Success'){
+            return true;
+        }
+        return false;
+    }
+
+    get displayNoData() {
+        return this.status === 'Success' && (!this.dgdetails || this.dgdetails.length === 0 || this.dgdetails == null);
+    }
 
     @wire(getRecord, { recordId: '$accountRecordId', fields: [CLIENT_CODE,MOBILE_NUMBER,EMAIL_ID] })
     wiredRecord({ data, error }) {

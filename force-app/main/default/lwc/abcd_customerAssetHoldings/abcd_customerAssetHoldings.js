@@ -13,6 +13,8 @@ export default class Abcd_customerInfoView extends LightningElement
     @track dsDetails;
     @track dmDetails;
     @track pcDetails;
+    @track status;
+    @track apiMessage;
 
     connectedCallback(){
         this.fetchAssetHoldings();
@@ -29,6 +31,8 @@ export default class Abcd_customerInfoView extends LightningElement
             if (data) {
                 let resp = JSON.parse(data);
                 if(resp.status == 'Success'){
+                    this.status = resp.status;
+                    this.apiMessage = resp.message;
                     if(resp.holdingsAssetsInfo.mfDetails){
                         this.mfDetails = resp.holdingsAssetsInfo.mfDetails;
                     }
@@ -56,6 +60,8 @@ export default class Abcd_customerInfoView extends LightningElement
                     }
                 }
                 this.isLoading = false;
+                this.status = resp.status;
+                this.apiMessage = resp.message;
             }
             this.isLoading = false;
         })

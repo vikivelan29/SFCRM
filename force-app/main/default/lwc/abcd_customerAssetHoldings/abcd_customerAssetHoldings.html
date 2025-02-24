@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 02-12-2025
+  @last modified on  : 02-24-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -100,10 +100,10 @@
                 </template>
             </div>
         </template>-->
-        <c-abcd-portfolio-track-details pcdetails={pcDetails}></c-abcd-portfolio-track-details>
-        <c-abcd-mutual-fund-details mfdetails={mfDetails}></c-abcd-mutual-fund-details>
-        <c-abcd-digi-gold-details account-record-id={recordId} dgdetails={dgDetails}></c-abcd-digi-gold-details>
-        <c-abcd-deposit-details dsdetails={dsDetails}></c-abcd-deposit-details>
-        <c-abcd-demat-details dmdetails={dmDetails}></c-abcd-demat-details>
+        <c-abcd-portfolio-track-details pcdetails={pcDetails} status={status} api-message={apiMessage}></c-abcd-portfolio-track-details>
+        <c-abcd-mutual-fund-details mfdetails={mfDetails} status={status} api-message={apiMessage}>></c-abcd-mutual-fund-details>
+        <c-abcd-digi-gold-details account-record-id={recordId} dgdetails={dgDetails} status={status} api-message={apiMessage}> </c-abcd-digi-gold-details>
+        <c-abcd-deposit-details dsdetails={dsDetails} status={status} api-message={apiMessage}></c-abcd-deposit-details>
+        <c-abcd-demat-details dmdetails={dmDetails} status={status} api-message={apiMessage}></c-abcd-demat-details>
     </div>
 </template>
