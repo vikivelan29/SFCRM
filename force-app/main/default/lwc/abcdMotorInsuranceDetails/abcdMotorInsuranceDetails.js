@@ -44,4 +44,16 @@ const columns = [
 export default class AbcdMotorInsuranceDetails extends LightningElement {
     @api midetails;
     columns = columns;
+    @api status;
+    @api apiMessage;
+    get displayError(){
+        if(this.status != 'Success'){
+            return true;
+        }
+        return false;
+    }
+
+    get displayNoData() {
+        return this.status === 'Success' && (!this.midetails || this.midetails.length === 0 || this.midetails == null);
+    }
 }

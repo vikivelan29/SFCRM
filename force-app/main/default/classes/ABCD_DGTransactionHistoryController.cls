@@ -1,7 +1,7 @@
 public class ABCD_DGTransactionHistoryController {
     
     @AuraEnabled
-    public static TransactionHistoryResult getTransactions(String mobileNumber, String customerID, String emailID, Date startDate, Date toDate) {
+    public static TransactionHistoryResult getTransactions(String mobileNumber, String customerID, String emailID, String startDate, String toDate) {
         List<TransactionRecord> transactionRecords = new List<TransactionRecord>();
         Boolean isSuccess = false;
         String errorMessage = null;
@@ -9,16 +9,25 @@ public class ABCD_DGTransactionHistoryController {
         try {
             TransactionHistoryRequest payload = new TransactionHistoryRequest();
             if (String.isNotBlank(customerID)) {
-                payload.customerID = customerID;
+                payload.customerId = customerID;
                 payload.mobileNumber = '';
-                payload.emailID = '';
+                payload.emailId = '';
             } else {
-                payload.customerID = '';
+                payload.customerId = '';
                 payload.mobileNumber = mobileNumber;
-                payload.emailID = emailID;
+                payload.emailId = emailID;
             }
-            payload.startDate = startDate;
-            payload.toDate = toDate;
+            if(startDate == NULL){
+            	payload.startDate = '';    
+            }else{
+                payload.startDate = startDate;    
+            }
+            if(toDate == NULL){
+            	payload.endDate = '';    
+            }else{
+                payload.endDate = toDate;    
+            }
+            
     
             String integrationName = 'ABCD_Get_DG_Transactions';
             String serializedPayload = JSON.serialize(payload);
@@ -53,10 +62,10 @@ public class ABCD_DGTransactionHistoryController {
     
     public class TransactionHistoryRequest {
         public String mobileNumber;
-        public String emailID;
-        public String customerID;
-        public Date startDate;
-        public Date toDate;
+        public String emailId;
+        public String customerId;
+        public String startDate;
+        public String endDate;
     }
 
     public class TransactionInfo {

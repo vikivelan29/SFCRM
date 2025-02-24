@@ -2,8 +2,8 @@
 * @description       ABCD Customer Info 
 * @author            : aditya.mehrotra@salesforce.com
 * @group             : 
-* @last modified on  : 18-11-2024
-* @last modified by  : aditya.mehrotra@salesforce.com
+* @last modified on  : 02-19-2025
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 * Modifications Log
 * Ver   Date         Author                       Modification
 * 1.0   18-11-2024   aditya.mehrotra@salesforce.com   Initial Version
@@ -73,6 +73,13 @@ public without sharing class ABCD_CustomerInfoController {
                 Account accountToInsert = new Account();
                 if(customerData != null){
                     accountToInsert.LastName = customerData.customerName;
+                    accountToInsert.Full_Name__pc = customerData.customerName;
+                    if(customerData.customerName.substringAfterLast(' ') != null){
+                        accountToInsert.LastName = customerData.customerName.substringAfterLast(' ');
+                    }
+                    if(customerData.customerName.substringBeforeLast(' ') != null){
+                        accountToInsert.FirstName = customerData.customerName.substringBeforeLast(' ');
+                    }
                     accountToInsert.PersonMobilePhone = customerData.mobileNumber;
                     accountToInsert.PersonEmail = customerData.emailId;
                     accountToInsert.PAN__c = customerData.pan;
@@ -81,6 +88,7 @@ public without sharing class ABCD_CustomerInfoController {
                     accountToInsert.Business_Unit__c = System.Label.ABCD_Business_Unit;
                     accountToInsert.Line_of_Business__pc = System.Label.ABCD_Business_Unit;
                     accountToInsert.Business_Unit__pc = System.Label.ABCD_Business_Unit;
+                    accountToInsert.HNI_Customer__c = false;
                     if(systemUser.size()>0){
                         accountToInsert.OwnerId = systemUser[0].Id;
                     }
@@ -107,7 +115,7 @@ public without sharing class ABCD_CustomerInfoController {
     public static String getTabData(String tabLabel, String recordId){
         string response;
         Account accRec = [SELECT Id, Name, PersonMobilePhone, PersonEmail, Client_Code__c FROM Account WHERE Id=:recordId LIMIT 1];
-        String payload = JSON.serialize(new CustomerInfoRequest(accRec.Client_Code__c,null, null));
+        String payload = JSON.serialize(new CustomerInfoRequest(accRec.Client_Code__c, '', ''));
         if (tabLabel == 'Asset Holdings'){
             ABCL_IntegrationCallout.IntegrationResponseWrapper assetHoldingsResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_Asset_Holdings',payload,null);
             if(assetHoldingsResponse.statusCode == 200 && String.isNotBlank(assetHoldingsResponse.responseBody)){
@@ -131,7 +139,7 @@ public without sharing class ABCD_CustomerInfoController {
         }
         return response;
     }
-
+    
     public class CustomerInfoRequest{
         String customerId;
         String emailId ;

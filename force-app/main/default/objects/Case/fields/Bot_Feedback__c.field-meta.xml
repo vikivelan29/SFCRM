@@ -61,6 +61,7 @@
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>ABFL</controllingFieldValue>
+            <controllingFieldValue>ABCD</controllingFieldValue>
             <controllingFieldValue>ABHFL</controllingFieldValue>
             <controllingFieldValue>ONEABC</controllingFieldValue>
             <controllingFieldValue>ABWM</controllingFieldValue>
@@ -69,6 +70,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABFL</controllingFieldValue>
+            <controllingFieldValue>ABCD</controllingFieldValue>
             <controllingFieldValue>ABHFL</controllingFieldValue>
             <controllingFieldValue>ONEABC</controllingFieldValue>
             <controllingFieldValue>ABWM</controllingFieldValue>
@@ -77,6 +79,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABFL</controllingFieldValue>
+            <controllingFieldValue>ABCD</controllingFieldValue>
             <controllingFieldValue>ABHFL</controllingFieldValue>
             <controllingFieldValue>ONEABC</controllingFieldValue>
             <controllingFieldValue>ABWM</controllingFieldValue>

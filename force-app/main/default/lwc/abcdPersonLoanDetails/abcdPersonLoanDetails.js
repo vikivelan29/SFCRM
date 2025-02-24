@@ -99,4 +99,16 @@ const columns = [
 export default class AbcdPersonLoanDetails extends LightningElement {
     @api pldetails;
     columns = columns;
+    @api status;
+    @api apiMessage;
+    get displayError(){
+        if(this.status != 'Success'){
+            return true;
+        }
+        return false;
+    }
+
+    get displayNoData() {
+        return this.status === 'Success' && (!this.pldetails || this.pldetails.length === 0 || this.pldetails == null);
+    }
 }

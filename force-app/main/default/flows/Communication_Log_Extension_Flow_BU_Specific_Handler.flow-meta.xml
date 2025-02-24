@@ -25,7 +25,7 @@
         </rules>
         <rules>
             <name>ABCD</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
             <conditions>
                 <leftValueReference>cccRecord.Business_Unit__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -35,6 +35,13 @@
             </conditions>
             <conditions>
                 <leftValueReference>CurrentRecord.Account.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABCD</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CurrentRecord.Lead__r.Business_Unit__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>ABCD</stringValue>
