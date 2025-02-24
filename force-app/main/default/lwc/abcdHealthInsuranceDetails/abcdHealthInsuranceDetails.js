@@ -94,4 +94,16 @@ const columns = [
 export default class AbcdHealthInsuranceDetails extends LightningElement {
     @api hidetails;
     columns = columns;
+    @api status;
+    @api apiMessage;
+    get displayError(){
+        if(this.status != 'Success'){
+            return true;
+        }
+        return false;
+    }
+
+    get displayNoData() {
+        return this.status === 'Success' && (!this.hidetails || this.hidetails.length === 0 || this.hidetails == null);
+    }
 }
