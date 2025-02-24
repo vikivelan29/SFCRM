@@ -11,6 +11,8 @@ export default class Abcd_customerProtectionHoldings extends LightningElement
     @track liDetails;
     @track hiDetails;
     @track miDetails;
+    @track status;
+    @track apiMessage;
 
     connectedCallback(){
         this.fetchProtectionHoldings();
@@ -27,6 +29,8 @@ export default class Abcd_customerProtectionHoldings extends LightningElement
             if (data) {
                 let resp = JSON.parse(data);
                 if(resp.status == 'Success'){
+                    this.status = resp.status;
+                    this.apiMessage = resp.message;
                     if(resp.holdingsProtectionInfo.liDetails){
                         this.liDetails = resp.holdingsProtectionInfo.liDetails;
                     }
@@ -37,6 +41,9 @@ export default class Abcd_customerProtectionHoldings extends LightningElement
                         this.miDetails = resp.holdingsProtectionInfo.miDetails;
                     }
                 }
+                this.status = resp.status;
+                this.apiMessage = resp.message;
+                this.isLoading = false;
             }
             this.isLoading = false;
         })
