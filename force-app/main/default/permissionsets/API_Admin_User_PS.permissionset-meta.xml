@@ -10,6 +10,21 @@
     </customPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABCD_Case_Detail__c.LOB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABCD_Case_Detail__c.Lead_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABCD_Case_Detail__c.Lead_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABCD_Case_Detail__c.Account_Holding__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9911,6 +9926,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>STG_Customer__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>STG_Customer__c.Birthdate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>STG_Customer__c.PAN_No__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>STG_Customer__c.Full_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -1,0 +1,14 @@
+{
+    "code": 20,
+    "message": "Data Retrieved Successfully.",
+    "status": "Success",
+    "basicInfo": {
+        "customerName": "Akshaya M",
+        "mobileNumber": "8149459311",
+        "customerId": 275780,
+        "emailId": "akshay123@gmail.com",
+        "age": 31,
+        "dob": "1993-10-25",
+        "pan": "ABDPM0450E"
+    }
+}
