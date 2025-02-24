@@ -82,5 +82,13 @@
                 </div>
             </template>
         </template>
+       <!-- Added By Yogesh EY(ABCL) start[PR970457-2195]-->
+        <template if:true={showdetailsbuttonhide}>
+            <div class="buttonview">
+                <lightning-button label="Show Details" onclick={handleClick} variant="brand"
+                   ></lightning-button>
+            </div>
+        </template>
+        <!-- Added By Yogesh EY(ABCL) ends[PR970457-2195]-->
     </lightning-card>
 </template>

@@ -1,4 +1,3 @@
-
 /**
  * @description       : 
  * @author            : ABHFL Team
@@ -13,6 +12,8 @@
 public class ABHFL_CTSTHelper_Test {
      @TestSetup
     static void testData(){
+        
+        Id recordTypeId = [SELECT Id FROM RecordType WHERE SObjectType = 'Case' AND DeveloperName = 'Framework' LIMIT 1].Id;
         //Create Account
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
         Contact  cont = ASF_TestDataFactory.insertContact('Test 1@', '');
@@ -50,6 +51,10 @@ public class ABHFL_CTSTHelper_Test {
         caseRecList[0].AssetId = astRec.Id;
         caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
+        caseRecList[0].CCC_External_Id__c = 'CCC-CC-CCLTD-01';
+        caseRecList[0].Recategorisation_Reason__c = 'Testing1234';
+        caseRecList[0].Nature__c = 'Request';
+        //caseRecList[0].RecordTypeId = recordTypeId;
        // caseRecList[0].Business_Unit__c = 'ABHFL';
         
         
@@ -123,6 +128,24 @@ public class ABHFL_CTSTHelper_Test {
         system.debug('test class debug Aditya:'+caseList[1].isClosed);
         ABHFL_CTSTHelper.runDuplicateCheckForUpdate(caseList, oldCaseMap);
         //update caseList[0];
+    }
+    
+    @Istest
+    static void testDedupeForRecat(){
+       
+        Id recordTypeId = [SELECT Id FROM RecordType WHERE SObjectType = 'Case' AND DeveloperName = 'Framework' LIMIT 1].Id;
+        List<Case> caseList = [SELECT Id, AccountId, AssetId, Asset.LAN__c, ABHFL_Case_Detail__c, CCC_External_Id__c,Business_Unit__c,isClosed,Recategorisation_Reason__c,Nature__c,RecordTypeId FROM Case WHERE Business_Unit__c='ABHFL' and ABHFL_Case_Detail__c!=null];
+		caseList[0].Recategorisation_Reason__c = 'Test123';
+        caseList[0].Nature__c = 'Complaint';
+        caseList[0].CCC_External_Id__c = 'CCC-CC-CCLTD-02';
+        caseList[0].RecordTypeId = recordTypeId;
+        update caseList[0];
+        System.debug('@@caseList'+caseList[0]);
+        System.debug('@@caseList--new'+caseList);
+        Map<Id, Case> oldCaseMap1 = new Map<Id, Case>();
+        oldCaseMap1.put(caseList[0].Id,caseList[0]);
+        ABHFL_CTSTHelper.runDuplicateCheckForRecat(caseList, oldCaseMap1);
+ 
     }
     
     @IsTest
@@ -242,8 +265,10 @@ public class ABHFL_CTSTHelper_Test {
         Test.stopTest();
 
         // Verify the results
-        // System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.get(caseRecord.Id).OwnerId);
+        //System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.get(caseRecord.Id).OwnerId);
     }
+
+
 
     @isTest
     static void testAssignCaseToAOMROM() {

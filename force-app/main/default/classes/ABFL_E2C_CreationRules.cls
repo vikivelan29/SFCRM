@@ -53,9 +53,9 @@ public with sharing class ABFL_E2C_CreationRules {
 			if (metadataMap.containsKey(emailMsg.Winning_Email__c)) {
                             List<String> senderAndccList = new List<String>();
                             senderAndccList.add(emailMsg.FromAddress);
-                            if(!String.isBlank(emailMsg.CcAddress)){
+                           /* if(!String.isBlank(emailMsg.CcAddress)){
                                 senderAndccList.addAll(emailMsg.CcAddress.replaceAll('\\s', '').split(';'));
-                            }
+                            }*/
                             // Get creation rules for the mailbox and check conditions
                             for (E2C_Creation_Rules__mdt metadata : metadataMap.get(emailMsg.Winning_Email__c)) {
                                 // Check conditions and throw an error if needed

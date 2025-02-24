@@ -7,6 +7,11 @@ public class ABFL_CreateCaseWithTypeControllerHelper {
             mInpArg = (Map<String,String>) JSON.deserialize(inpArg, Map<String,String>.Class);
             system.debug('valuemInpArg '+mInpArg);
         }
+        if(mInpArg.containsKey('requestFrom')){
+            if(mInpArg.get('requestFrom') == 'Lead' || mInpArg.get('requestFrom') == 'Recat'){
+                return cccList;
+            }
+        }
         for(ASF_Case_Category_Config__c ccc : cccList){
             //IF ACCOUNT LOB IS WEALTH THEN ONLY RETURN WEALTH CTSTs, OTHERWISE RETURN ALL FROM PARENT METHOD.
             if(mInpArg.containsKey('accountLOB')){
