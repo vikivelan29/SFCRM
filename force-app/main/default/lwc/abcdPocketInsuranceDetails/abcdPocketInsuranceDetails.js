@@ -31,17 +31,17 @@ export default class AbcdPocketInsuranceDetails extends LightningElement {
         .then((result) => {
             this.isLoading = false;
             this.showDataTable = true;
-            this.columnName(result);
+           // this.columnName(result);
        
             if(result.status==='Success'){
                 this.columnName(result);
             }
-          /*  else if (result.StatusCode ==1000 && result.serviceMessages[0].businessDesc!=null) {
+            else if (result.status === 'Failure' ) {
                 this.showDataTable = false;
-                this.errorMessage = result.serviceMessages[0].businessDesc;
+                this.errorMessage = result.message;
                 this.displayError = true;
 
-            }*/
+            }
           
            })
            .catch((error) => {

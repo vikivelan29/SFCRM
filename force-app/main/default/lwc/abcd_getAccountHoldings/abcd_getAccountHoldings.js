@@ -103,6 +103,7 @@ export default class abcd_getAccuontHolding extends LightningElement {
                     this.apifetchError =true;
                     this.apiFetchErroText = result.errorMessage + ' ' + this.apiFetchErroText;
                     this.disableInput = false;
+                    this.showAcceptBtn = true;
                     this.showToast({
                         title: "Error",
                         message: result.errorMessage,
