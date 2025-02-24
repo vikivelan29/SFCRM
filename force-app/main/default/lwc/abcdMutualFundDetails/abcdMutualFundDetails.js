@@ -54,12 +54,28 @@ const columns = [
 export default class AbcdMutualFundDetails extends LightningElement {
     @api mfdetails;
     columns = columns;
-    
+    @api status;
+    @api apiMessage;
+    @api mftransactionDisable = false;
+
     @track selectedRecord;
     showPopup = false;
 
+    
+    get displayError(){
+        if(this.status != 'Success'){
+            return true;
+        }
+        return false;
+    }
+
+    get displayNoData() {
+        return this.status === 'Success' && (!this.mfdetails || this.mfdetails.length === 0 || this.mfdetails == null);
+    }
+
     connectedCallback() {
         console.log('Processed mfdetails:', JSON.stringify(this.mfdetails));
+        this.mftransactionDisable = true;
         setTimeout(() => {
             if (this.mfdetails) {
                 this.mfdetails = {
@@ -79,6 +95,7 @@ export default class AbcdMutualFundDetails extends LightningElement {
         const selectedRows = event.detail.selectedRows;
         if (selectedRows.length > 0) {
             this.selectedRecord = selectedRows[0].folioNumber;
+            this.mftransactionDisable = false;
         }
     }
 
