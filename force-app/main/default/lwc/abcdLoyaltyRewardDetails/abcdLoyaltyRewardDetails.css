@@ -1,0 +1,10 @@
+.custom-modal {
+    max-width: 90vw !important; 
+    width: 90vw !important;
+    max-height: 90vh !important; 
+}
+
+.slds-modal__content {
+    max-height: 70vh; /* Prevent content overflow */
+    overflow-y: auto;
+}
