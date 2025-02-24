@@ -24,7 +24,7 @@ export default class abcdDGTransactionHistory extends LightningElement {
     get options() {
         return [
             { label: 'Last 5 transactions', value: 'last5' },
-            { label: 'Custom Filter', value: 'custom' }
+            { label: 'Date Filter', value: 'custom' }
         ];
     }
     
