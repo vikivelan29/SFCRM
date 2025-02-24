@@ -12,6 +12,7 @@ export default class AbcdLoyaltyRewardDetails extends LightningElement {
     closePopup() {
         this.showPopup = false;
     }
+
     @api status;
     @api apiMessage;
     get displayError(){

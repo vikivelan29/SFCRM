@@ -1,10 +1,9 @@
-// childComponent.js
 import { LightningElement, api, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 import getTrasanctionDetails from '@salesforce/apex/ABCD_DGTransactionHistoryController.getTransactions';
 
-export default class abcdDGTransactionHistory extends LightningElement {
+export default class AbcdLoylatyTransactionHistory extends LightningElement {
     @api mobileNumber;
     @track customerID;  
     @track selectedOption = 'last5'; 
@@ -17,8 +16,7 @@ export default class abcdDGTransactionHistory extends LightningElement {
     @track currentPage = 1;
     @track pageSize = 5;
     @api clientid;
-    @api emailId;
-    @track isLoading = false; 
+    @api emailId; 
     
 
     get options() {
@@ -90,7 +88,6 @@ export default class abcdDGTransactionHistory extends LightningElement {
 
     async getTransaction(){
         try {
-                this.isLoading = true;
                 const result = await getTrasanctionDetails({
                     mobileNumber: this.mobileNumber,
                     customerID : this.clientid,
@@ -116,15 +113,12 @@ export default class abcdDGTransactionHistory extends LightningElement {
                     }
         
                     this.transactionDetails = transactions;
-                    this.isLoading = false;
                 } else {
                     this.showToast('Error', result.errorMessage || 'Error fetching transactions', 'error');
-                    this.isLoading = false;
                 }
             
         } catch (error) {
             this.showToast('Error', error.body ? error.body.message : error.message, 'error');
-            this.isLoading = false;
         }
 
     }
@@ -133,7 +127,7 @@ export default class abcdDGTransactionHistory extends LightningElement {
         return [
             { label: 'Transaction Type', fieldName: 'transactionType', type: 'text', cellAttributes: { alignment: 'right' }, minWidth: 150 },
             { label: 'Amount', fieldName: 'amount', type: 'currency', cellAttributes: { alignment: 'right' }, minWidth: 150 },
-            { label: 'Units', fieldName: 'unit', type: 'number', cellAttributes: { alignment: 'right' }, minWidth: 150 },
+            { label: 'Units', fieldName: 'unit', type: 'currency', cellAttributes: { alignment: 'right' }, minWidth: 150 },
             { label: 'Date of Transaction', fieldName: 'transactionDate', type: 'date', minWidth: 150 },
             { label: 'Transaction Status', fieldName: 'transactionStatus', type: 'text', wrapText: true, minWidth: 150 }
         ];
