@@ -22,10 +22,10 @@
   
                 <template if:true={showDateFields}>
                     <div class="slds-col slds-size_1-of-5">
-                        <lightning-input type="date" name="fromDate" label="From Date" value={fromDate} onchange={handleDateChange} required></lightning-input>
+                        <lightning-input type="date" name="fromDate" label="From Date" value={startDate} onchange={handleStartDateChange} required></lightning-input>
                     </div>
                     <div class="slds-col slds-size_1-of-5">
-                        <lightning-input type="date" name="toDate" label="To Date" value={toDate} onchange={handleDateChange} required></lightning-input>
+                        <lightning-input type="date" name="toDate" label="To Date" value={endDate} onchange={handleEndDateChange} required></lightning-input>
                     </div>
                 </template>
                 <template if:true={isButtonVisible}>
@@ -40,9 +40,15 @@
                   </div>
                 </template>
             </div>
+            <template if:true={isLoading}>
+                <div class="slds-backdrop" role="presentation"></div>
+                <div class="slds-fade-in-open slds-modal_large">
+                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                </div>
+            </template> 
   
             <!-- Transaction Table -->
-            <template if:true={showTransactionTable}>
+            <template if:true={showDataTable}>
                 <div class="slds-p-top_medium slds-p-bottom_medium">
                     <lightning-datatable
                         key-field="transactionId"
@@ -55,7 +61,7 @@
                 </div>
   
                 <!-- Pagination Controls -->
-                <div class="slds-m-top_medium slds-grid slds-grid_align-center">
+                <!-- <div class="slds-m-top_medium slds-grid slds-grid_align-center">
                     <lightning-button 
                         label="Previous" 
                         onclick={handlePrevPage} 
@@ -71,8 +77,14 @@
                         disabled={bDisableNext} 
                         class="slds-m-left_x-small">
                     </lightning-button>
-                </div>
+                </div> -->
             </template>
+            <template if:true={displayError}>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                    <span style="font-size: 0.90rem;">{errorMessage}</span> 
+                </div>
+              </template>
         </div>
     </lightning-card>
   </template>
