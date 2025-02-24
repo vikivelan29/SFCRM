@@ -10,6 +10,8 @@ export default class Abcd_customerVAS extends LightningElement
     @track dheDetails;
     @track csDetails;
     @track loyaltyRewards;
+    @track status;
+    @track apiMessage;
 
     connectedCallback(){
         this.fetchVASHoldings();
@@ -26,6 +28,8 @@ export default class Abcd_customerVAS extends LightningElement
             if (data) {
                 let resp = JSON.parse(data);
                 if(resp.status == 'Success'){
+                    this.status = resp.status;
+                    this.apiMessage = resp.message;
                     if(resp.holdingsVASInfo.dheDetails){
                         let dheDetails = resp.holdingsVASInfo.dheDetails;
                         if(dheDetails.lastScanDate){
@@ -55,6 +59,9 @@ export default class Abcd_customerVAS extends LightningElement
                         this.loyaltyRewards = loyaltyRewards;
                     }
                 }
+                this.status = resp.status;
+                this.apiMessage = resp.message;
+                this.isLoading = false;
             }
             this.isLoading = false;
         })

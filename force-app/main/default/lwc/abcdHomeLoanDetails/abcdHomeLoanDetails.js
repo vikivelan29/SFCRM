@@ -105,4 +105,17 @@ const columns = [
 export default class AbcdHomeLoanDetails extends LightningElement {
     @api hfldetails;
     columns = columns;
+
+    @api status;
+    @api apiMessage;
+    get displayError(){
+        if(this.status != 'Success'){
+            return true;
+        }
+        return false;
+    }
+
+    get displayNoData() {
+        return this.status === 'Success' && (!this.hfldetails || this.hfldetails.length === 0 || this.hfldetails == null);
+    }
 }

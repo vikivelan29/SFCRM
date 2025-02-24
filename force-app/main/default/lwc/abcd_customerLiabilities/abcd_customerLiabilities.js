@@ -11,6 +11,10 @@ export default class Abcd_CustomerLiabilities extends LightningElement {
     @track blDetails;
     @track hflDetails;
     @track glDetails;
+    @track isLoading = false;
+    @track status;
+    @track apiMessage;
+
 
 
     connectedCallback(){
@@ -29,6 +33,8 @@ export default class Abcd_CustomerLiabilities extends LightningElement {
                 let resp = JSON.parse(data);
                 if(resp.status == 'Success'){
                     if(resp.holdingsLiabilitiesInfo.plDetails){
+                        this.status = resp.status;
+                        this.apiMessage = resp.message;
                         let plDetails = resp.holdingsLiabilitiesInfo.plDetails;
                         if(plDetails.holdingsDetails){
                             for(let i=0; i<plDetails.holdingsDetails.length;i++){
@@ -62,8 +68,12 @@ export default class Abcd_CustomerLiabilities extends LightningElement {
                         this.blDetails = blDetails;
                     }
                 }
+                this.isLoading = false;
+                this.status = resp.status;
+                this.apiMessage = resp.message;
             }
             this.isLoading = false;
+            
         })
         .catch((error) => {
             this.error = error;

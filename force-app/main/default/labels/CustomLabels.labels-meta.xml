@@ -1785,7 +1785,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCD Complaint Creation Email Template</shortDescription>
-        <value>ABCD_Complaint_Creation_Internal</value>
+        <value>ABCD_Complaint_Internal_Email</value>
     </labels>
     <labels>
         <fullName>ABCD_Business_Unit</fullName>

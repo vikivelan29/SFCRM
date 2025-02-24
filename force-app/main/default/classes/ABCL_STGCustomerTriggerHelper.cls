@@ -68,6 +68,10 @@ public without sharing class ABCL_STGCustomerTriggerHelper {
             stgCustomerEvt.Birthdate__c = Date.ValueOf(customer.Birthdate__c);
         if(customer.PAN_No__c != null)
             stgCustomerEvt.Pan_No__c = customer.PAN_No__c;
+        if(customer.Full_Name__c != null)
+            stgCustomerEvt.Full_Name__c = customer.Full_Name__c;
+        if(customer.HNI__c)
+            stgCustomerEvt.HNI__c = customer.HNI__c;
         
         
         return stgCustomerEvt;

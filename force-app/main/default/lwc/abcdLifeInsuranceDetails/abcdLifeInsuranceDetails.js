@@ -90,4 +90,17 @@ const columns = [
 export default class AbcdLifeInsuranceDetails extends LightningElement {
     @api lidetails;
     columns = columns;
+
+    @api status;
+    @api apiMessage;
+    get displayError(){
+        if(this.status != 'Success'){
+            return true;
+        }
+        return false;
+    }
+
+    get displayNoData() {
+        return this.status === 'Success' && (!this.lidetails || this.lidetails.length === 0 || this.lidetails == null);
+    }
 }

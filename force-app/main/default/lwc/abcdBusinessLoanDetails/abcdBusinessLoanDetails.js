@@ -99,4 +99,16 @@ const columns = [
 export default class AbcdBusinessLoanDetails extends LightningElement {
     @api bldetails;
     columns = columns;
+    @api status;
+    @api apiMessage;
+    get displayError(){
+        if(this.status != 'Success'){
+            return true;
+        }
+        return false;
+    }
+
+    get displayNoData() {
+        return this.status === 'Success' && (!this.bldetails || this.bldetails.length === 0 || this.bldetails == null);
+    }
 }

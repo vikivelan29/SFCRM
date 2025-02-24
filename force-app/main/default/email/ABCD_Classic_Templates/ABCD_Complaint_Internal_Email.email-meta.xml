@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ABCD Complaint Internal Email</name>
+    <style>none</style>
+    <subject>Urgent - High Priority Case Notification - {!Case.CaseNumber}</subject>
+    <textOnly>Aditya Birla Capital
+
+
+This is an auto generated mail regarding a Priority Case / VIP Case / Handle with Care Case.
+
+Please prioritize this case accordingly and take all necessary steps to address it without delay.
+
+It is imperative that we allocate resources and attention to this case promptly to ensure swift resolution and mitigate any potential impact on our operations.
+
+Case Number: {!Case.CaseNumber}
+Source: {!Case.Source__c}
+Case Type:{!Case.Type_Text__c}
+Case Sub Type: {!Case.Sub_Type_Text__c}
+Case Link: View Case
+Case Description: 
+{!Case.Description}
+
+Please prioritize this case accordingly and take all necessary steps to address it without delay.
+
+Best regards,
+
+Team Customer Service
+This is a system-generated email. Please don’t reply to this ID.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
