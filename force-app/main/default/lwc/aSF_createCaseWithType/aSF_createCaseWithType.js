@@ -207,7 +207,12 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
 
     get saveBtnVisibility() {
-        return (this.isNotSelectedReject || this.isNotSelected || this.isCloseWithoutCRNFlow);
+        if(this.businessUnit != ABCD_BU){
+            return (this.isNotSelectedReject || this.isNotSelected || this.isCloseWithoutCRNFlow);
+        }else{
+            return (this.isNotSelected || this.isCloseWithoutCRNFlow);
+        }
+        
     }
 
     get saveAndCloseBtnVisibility() {
@@ -215,7 +220,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         if (this.isCloseWithoutCRNFlow === true && this.isNotSelected === false) {
             return false;
         }
-        else {
+        else if(this.businessUnit === ABCD_BU){
+            return (this.isNotSelected || this.rejectBtnCalled || (!this.isFTRJourney));
+        }
+        else{
             return (this.isNotSelectedReject || this.isNotSelected || this.rejectBtnCalled || (!this.isFTRJourney));
         }
 
@@ -501,7 +509,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         let cccExternalId = '';
 
-        if (this.caseRec.fields.AmIOwner__c.value == true) {
+        if (this.caseRec.fields.AmIOwner__c.value == true && this.businessUnit != ABCD_BU) {
             this.isNotSelectedReject = false;
         }
 
