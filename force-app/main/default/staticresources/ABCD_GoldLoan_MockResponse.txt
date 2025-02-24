@@ -1,0 +1,54 @@
+{
+    "goldLoanInfo": {
+        "goldLoanDetails": [
+            {
+                "loanAccountNumber": null,
+                "loanStartDate": "2023-12-14",
+                "loanEndDate": "2023-12-28",
+                "tenor": "21",
+                "lastDisbursedDate": "2023-12-14",
+                "nextInstallmentDate": "2023-12-14",
+                "loanType": "New",
+                "businessLOB": "Gold Loan Lead Journey",
+                "disbursementDate": null,
+                "sanctionDate": null,
+                "sanctionAmount": null,
+                "rateOfInterest": null,
+                "emi": null
+            },
+            {
+                "loanAccountNumber": null,
+                  "loanStartDate": "2023-12-14",
+                "loanEndDate": "2023-12-28",
+                "tenor": "21",
+                "lastDisbursedDate": "2023-12-14",
+                "nextInstallmentDate": "2023-12-14",
+                "loanType": "Existing",
+                "businessLOB": "Gold Loan Renewal Journey",
+                "disbursementDate": null,
+                "sanctionDate": null,
+                "sanctionAmount": null,
+                "rateOfInterest": null,
+                "emi": null
+            },
+            {
+                "loanAccountNumber": null,
+                "loanStartDate": "2023-12-14",
+                "loanEndDate": "2023-12-28",
+                "tenor": "21",
+               "lastDisbursedDate": "2023-12-14",
+                "nextInstallmentDate": "2023-12-14",
+                "loanType": "Refinance",
+                "businessLOB": "Gold Loan Refinancing Journey",
+                "disbursementDate": null,
+                "sanctionDate": null,
+                "sanctionAmount": null,
+                "rateOfInterest": null,
+                "emi": null
+            }
+        ]
+    },
+    "code": 20,
+    "message": "Data Retrieved Successfully.",
+    "status": "Success"
+}

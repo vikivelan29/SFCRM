@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 02-13-2025
+  @last modified on  : 02-17-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -10,11 +10,7 @@
       <div class="slds-p-around_medium">
           <div class="slds-grid slds-gutters sslds-wrap slds-grid_vertical-align-start">
               
-              <div class="slds-col slds-size_1-of-6">
-                  <lightning-input label="Mobile Number" value={mobileNumber} onchange={handleMobileChange} type="tel" disabled></lightning-input>
-              </div>
-              
-              <div class="slds-col slds-size_1-of-6">
+              <div class="slds-col slds-size_1-of-5">
                   <lightning-radio-group name="transactionType"
                       label="Transaction Type"
                       options={options}
@@ -25,17 +21,17 @@
               </div>
 
               <template if:true={showDateFields}>
-                  <div class="slds-col slds-size_1-of-6">
+                  <div class="slds-col slds-size_1-of-5">
                       <lightning-input type="date" name="fromDate" label="From Date" value={fromDate} onchange={handleDateChange} required></lightning-input>
                   </div>
-                  <div class="slds-col slds-size_1-of-6">
+                  <div class="slds-col slds-size_1-of-5">
                       <lightning-input type="date" name="toDate" label="To Date" value={toDate} onchange={handleDateChange} required></lightning-input>
                   </div>
               </template>
               
              
               <template if:true={isButtonVisible}>
-                <div class="slds-col slds-size_2-of-6">
+                <div class="slds-col slds-size_2-of-5">
                     <div class="slds-form-element">
                         <label class="slds-form-element__label">&nbsp;</label>
                         <div class="slds-form-element__control">

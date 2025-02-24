@@ -24,6 +24,9 @@ public with sharing class ASF_SendPreFrameworkCaseToLOB {
         c.Sent_to_EBOT__c = priorityEmail.Send_to_EBOT__c;
         c.Origin = priorityEmail.Case_Origin__c;
         c.OwnerId = newOwnerId;
+        c.AccountId = null;
+        c.ContactId = null;
+        c.AssetId = null;
         try{
             update c;
             
