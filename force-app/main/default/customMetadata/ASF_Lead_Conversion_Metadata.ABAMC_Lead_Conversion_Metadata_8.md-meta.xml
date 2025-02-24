@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Auto_Won_Days_Buffer__c</field>
-        <value xsi:type="xsd:double">30.0</value>
+        <value xsi:type="xsd:double">90.0</value>
     </values>
     <values>
         <field>Business_Unit__c</field>
@@ -13,6 +13,10 @@
     <values>
         <field>LOB__c</field>
         <value xsi:type="xsd:string">MF</value>
+    </values>
+    <values>
+        <field>Lead_Sub__c</field>
+        <value xsi:type="xsd:string">Activity - TRO SIP Expiry</value>
     </values>
     <values>
         <field>Lead_Subtype__c</field>
