@@ -129,7 +129,18 @@ export default class abcdDGTransactionHistory extends LightningElement {
             { label: 'Transaction Type', fieldName: 'transactionType', type: 'text', cellAttributes: { alignment: 'right' }, minWidth: 150 },
             { label: 'Amount', fieldName: 'amount', type: 'currency', cellAttributes: { alignment: 'right' }, minWidth: 150 },
             { label: 'Units', fieldName: 'unit', type: 'number', cellAttributes: { alignment: 'right' }, minWidth: 150 },
-            { label: 'Date of Transaction', fieldName: 'transactionDate', type: 'date', minWidth: 150 },
+            { 
+                label: 'Date of Transaction', 
+                fieldName: 'transactionDate', 
+                type: 'date', 
+                typeAttributes: { 
+                    year: "numeric", 
+                    month: "2-digit", 
+                    day: "2-digit", 
+                    timeZone: "UTC"
+                }, 
+                minWidth: 150 
+            },
             { label: 'Transaction Status', fieldName: 'transactionStatus', type: 'text', wrapText: true, minWidth: 150 }
         ];
     }
