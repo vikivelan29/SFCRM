@@ -15,7 +15,9 @@ const FUNCTION_OPTIONS = [
     { label: 'Gold Loan', value: 'GL' },
     { label: 'Pocket Insurance', value: 'PI' },
     { label: 'App Pages', value: 'AP' },
-    { label: 'Elite Case Royalty Rewards', value: 'EC' }
+    { label: 'Elite Case Royalty Rewards', value: 'EC' },
+    { label: 'Digi Silver', value: 'DS' },
+    { label: 'LAMF (Loan Against Mutual Fund) ', value: 'LAMF' }
 ];
 
 export { FUNCTION_OPTIONS };

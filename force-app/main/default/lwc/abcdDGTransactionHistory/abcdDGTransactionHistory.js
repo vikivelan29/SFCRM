@@ -109,12 +109,6 @@ export default class abcdDGTransactionHistory extends LightningElement {
                         transactionDate: txn.transactionDate,
                         transactionStatus: txn.transactionStatus
                     }));
-
-                    if (this.selectedOption === 'last5') {
-                        transactions = transactions.slice(-5); // Get the last 5 transactions
-                        this.currentPage =1;
-                    }
-        
                     this.transactionDetails = transactions;
                     this.isLoading = false;
                 } else {
