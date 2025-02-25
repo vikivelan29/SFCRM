@@ -117,24 +117,37 @@ public without sharing class ABCD_CustomerInfoController {
         Account accRec = [SELECT Id, Name, PersonMobilePhone, PersonEmail, Client_Code__c FROM Account WHERE Id=:recordId LIMIT 1];
         String payload = JSON.serialize(new CustomerInfoRequest(accRec.Client_Code__c, '', ''));
         if (tabLabel == 'Asset Holdings'){
-            ABCL_IntegrationCallout.IntegrationResponseWrapper assetHoldingsResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_Asset_Holdings',payload,null);
-            if(assetHoldingsResponse.statusCode == 200 && String.isNotBlank(assetHoldingsResponse.responseBody)){
-                response = assetHoldingsResponse.responseBody;
-            }
+           
+                ABCL_IntegrationCallout.IntegrationResponseWrapper assetHoldingsResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_Asset_Holdings',payload,null);
+                if(assetHoldingsResponse.statusCode == 200 && String.isNotBlank(assetHoldingsResponse.responseBody)){
+                    response = assetHoldingsResponse.responseBody;
+                }
+            	if (assetHoldingsResponse.statusCode != 200) {
+                	throw new CalloutException('Callout failed with status code: ' + assetHoldingsResponse.statusCode + ' and response: ' + assetHoldingsResponse.responseBody);
+            	}
         } else if(tabLabel == 'Liabilities'){
             ABCL_IntegrationCallout.IntegrationResponseWrapper liabilitiesResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_Liabilities_Holdings',payload,null);
             if(liabilitiesResponse.statusCode == 200 && String.isNotBlank(liabilitiesResponse.responseBody)){
                 response = liabilitiesResponse.responseBody;
+            }
+            if (liabilitiesResponse.statusCode != 200) {
+                	throw new CalloutException('Callout failed with status code: ' + liabilitiesResponse.statusCode + ' and response: ' + liabilitiesResponse.responseBody);
             }
         } else if(tabLabel == 'Protection'){
             ABCL_IntegrationCallout.IntegrationResponseWrapper protectionResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_Protection_Holdings',payload,null);
             if(protectionResponse.statusCode == 200 && String.isNotBlank(protectionResponse.responseBody)){
                 response = protectionResponse.responseBody;
             }
+            if (protectionResponse.statusCode != 200) {
+                	throw new CalloutException('Callout failed with status code: ' + protectionResponse.statusCode + ' and response: ' + protectionResponse.responseBody);
+            }
         } else if(tabLabel == 'VAS'){
             ABCL_IntegrationCallout.IntegrationResponseWrapper vasResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_VAS_Holdings',payload,null);
             if(vasResponse.statusCode == 200 && String.isNotBlank(vasResponse.responseBody)){
                 response = vasResponse.responseBody;
+            }
+            if (vasResponse.statusCode != 200) {
+                	throw new CalloutException('Callout failed with status code: ' + vasResponse.statusCode + ' and response: ' + vasResponse.responseBody);
             }
         }
         return response;

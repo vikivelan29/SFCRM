@@ -52,6 +52,13 @@ export default class Abcd_customerVAS extends LightningElement
         .catch((error) => {
             this.error = error;
             this.isLoading = false;
+            if (error && error.body && error.body.message) {
+                this.apiMessage = error.body.message;
+            } else if (error && error.message) {
+                this.apiMessage = error.message;
+            } else {
+                this.apiMessage = 'An unexpected error occurred. Please try later or contact your admin';
+            }
         });
 
     }
