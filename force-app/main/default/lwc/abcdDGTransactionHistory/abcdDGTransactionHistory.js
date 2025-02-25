@@ -111,6 +111,7 @@ export default class abcdDGTransactionHistory extends LightningElement {
                     }));
                     this.transactionDetails = transactions;
                     this.isLoading = false;
+                    this.currentPage = 1;
                 } else {
                     this.showToast('Error', result.errorMessage || 'Error fetching transactions', 'error');
                     this.isLoading = false;
