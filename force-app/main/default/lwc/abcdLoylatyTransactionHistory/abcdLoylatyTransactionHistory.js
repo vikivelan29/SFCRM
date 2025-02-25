@@ -14,6 +14,7 @@ export default class AbcdLoylatyTransactionHistory extends LightningElement {
     @track transactionDetails = [];
     showTransactionTable = false;
     @track showDataTable = false;
+    @track displayError = false;
     @track currentPage = 1;
     @track pageSize = 5;
     @api clientid;
@@ -93,6 +94,7 @@ export default class AbcdLoylatyTransactionHistory extends LightningElement {
         this.showTransactionTable = false;
         this.showDataTable = false;
         this.currentPage = 1;
+        this.displayError = false;
     }
 
     @api openModal(recordId) {
