@@ -44,13 +44,23 @@
               <div class="slds-form-element slds-form-element_readonly">
                   <span class="slds-form-element__label">Last Scan Date</span>
                   <div class="slds-form-element__control">
-                      <div class="slds-form-element__static">{dhedetails.lastScanDate}</div>
+                      <lightning-formatted-date-time value={dhedetails.lastScanDate} year="numeric"
+                                                month="2-digit"
+                                                day="2-digit"
+                                                time-zone="UTC" 
+                                                class="slds-form-element__static">
+                                                </lightning-formatted-date-time>
                   </div>
               </div>
               <div class="slds-form-element slds-form-element_readonly">
                 <span class="slds-form-element__label">New Scan Date</span>
                 <div class="slds-form-element__control">
-                    <div class="slds-form-element__static">{dhedetails.newScanDate}</div>
+                    <lightning-formatted-date-time value={dhedetails.newScanDate} year="numeric"
+                                                month="2-digit"
+                                                day="2-digit"
+                                                time-zone="UTC"
+                                                class="slds-form-element__static">
+                                                </lightning-formatted-date-time>
                 </div>
             </div>
             <div class="slds-form-element slds-form-element_readonly">
