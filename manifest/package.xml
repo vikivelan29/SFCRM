@@ -1,42 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>Asf_Dynamic_Datatable_Child.appLastDownLoadDate</members>
-		<members>Asf_Dynamic_Datatable_Child.appVersionWithCustomer</members>
-		<members>Asf_Dynamic_Datatable_Child.deviceName</members>
-		<members>Asf_Dynamic_Datatable_Child.lastOTPDate</members>
-		<members>Asf_Dynamic_Datatable_Child.lastSIMBindingDate</members>
-		<members>Asf_Dynamic_Datatable_Child.lastDeviceBindingDate</members>
-		<members>Asf_Dynamic_Datatable_Child.appUninstalledDate</members>
-		<members>Asf_Dynamic_Datatable_Child.applicationNumber</members>
-		<members>Asf_Dynamic_Datatable_Child.policyNumber</members>
-		<members>Asf_Dynamic_Datatable_Child.policyStatus</members>
-		<members>Asf_Dynamic_Datatable_Child.policyTerm</members>
-		<members>Asf_Dynamic_Datatable_Child.policyIssuanceDate</members>
-		<members>Asf_Dynamic_Datatable_Child.policyMaturityDate</members>
-		<members>Asf_Dynamic_Datatable_Child.coverName</members>
-		<members>Asf_Dynamic_Datatable_Child.insuredAmount</members>
-		<members>Asf_Dynamic_Datatable_Child.premiumAmount</members>
-		<members>Asf_Dynamic_Datatable_Child.premiumMode</members>
-		<members>Asf_Dynamic_Datatable_Child.policyType</members>
-		<members>Asf_Dynamic_Datatable_Child.policyPlanName</members>
-		<members>Asf_Dynamic_Datatable_Child.policyQuoteNumber</members>
-		<members>Asf_Dynamic_Datatable_Child.lastPremiumPaymentDate</members>
-		<members>Asf_Dynamic_Datatable_Child.loanAccountNumber</members>
-		<members>Asf_Dynamic_Datatable_Child.Loan_Start_Date</members>
-		<members>Asf_Dynamic_Datatable_Child.Loan_End_Date</members>
-		<members>Asf_Dynamic_Datatable_Child.Tenor</members>
-		<members>Asf_Dynamic_Datatable_Child.lastDisbursedDate</members>
-		<members>Asf_Dynamic_Datatable_Child.emi</members>
-		<members>Asf_Dynamic_Datatable_Child.nextInstallmentDate</members>
-		<members>Asf_Dynamic_Datatable_Child.loanType</members>
-		<members>Asf_Dynamic_Datatable_Child.businessLOB</members>
-		<members>Asf_Dynamic_Datatable_Child.disbursementDate</members>
-		<members>Asf_Dynamic_Datatable_Child.sanctionDate</members>
-		<members>Asf_Dynamic_Datatable_Child.sanctionAmount</members>
-		<members>Asf_Dynamic_Datatable_Child.rateOfInterest</members>
-
-		<name>CustomMetadata</name>
+		<members>ABCD_Classic_Templates</members>
+		<name>EmailFolder</name>
+	</types>
+	<types>
+		<members>ABCD_Classic_Templates/ABCD_Complaint_Internal_Email</members>
+		<name>EmailTemplate</name>
 	</types>
 	<version>60.0</version>
 </Package>
