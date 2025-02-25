@@ -1,7 +1,7 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
-import getTrasanctionDetails from '@salesforce/apex/ABCD_DGTransactionHistoryController.getTransactions';
+import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
+import getTrasanctionDetails from '@salesforce/apex/ABCD_Loyalty_Rewards.getRoyaltyRewardsDetails';
 
 export default class AbcdLoylatyTransactionHistory extends LightningElement {
     @api mobileNumber;
@@ -13,11 +13,18 @@ export default class AbcdLoylatyTransactionHistory extends LightningElement {
     @track isModalOpen = false;
     @track transactionDetails = [];
     showTransactionTable = false;
+    @track showDataTable = false;
+    @track displayError = false;
     @track currentPage = 1;
     @track pageSize = 5;
     @api clientid;
     @api emailId; 
-    
+    @api recordId;
+    startDate;
+    endDate;
+    columns;
+    @track recordTable = []; 
+
 
     get options() {
         return [
@@ -25,10 +32,8 @@ export default class AbcdLoylatyTransactionHistory extends LightningElement {
             { label: 'Date Filter', value: 'custom' }
         ];
     }
-    
-    handleMobileChange(event){
-        this.mobileNumber = event.target.value;
-    }
+   
+  
 
     handleOptionChange(event) {
         this.selectedOption = event.detail.value;
@@ -47,22 +52,37 @@ export default class AbcdLoylatyTransactionHistory extends LightningElement {
     
     validateDates() {
         const today = new Date().toISOString().split('T')[0];
-        if (this.fromDate && this.fromDate > today) {
+        if (this.startDate && this.startDate > today) {
             this.showToast('Error', 'From Date cannot be greater than today.', 'error');
-            this.fromDate = '';
+            this.startDate = '';
         }
-        if (this.toDate && this.toDate < this.fromDate) {
+        if (this.endDate && this.endDate < this.startDate) {
             this.showToast('Error', 'To Date cannot be earlier than From Date.', 'error');
-            this.toDate = '';
+            this.endDate = '';
         }
     }
-    
+     /* validateDates() {
+        if (this.startDate && this.endDate) {
+            const start = new Date(this.startDate);
+            const end = new Date(this.endDate);
+
+            if (end < start) {
+                this.displayErrorSearch = true;
+                this.errorMessageSearch= 'End Date cannot be earlier than Start Date.';
+            } else {
+                this.displayErrorSearch = false;
+            }
+        } else {
+            this.displayErrorSearch = false; // Hide error if one of the dates is missing
+        }
+    }
+    */
     showToast(title, message, variant) {
         this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
     }
     
     get isButtonVisible() {
-        return this.selectedOption === 'last5' || (this.fromDate && this.toDate);
+        return this.selectedOption === 'last5' || (this.startDate && this.endDate);
     }
     
     handleClear() {
@@ -72,7 +92,9 @@ export default class AbcdLoylatyTransactionHistory extends LightningElement {
         this.toDate = '';
         this.transactionDetails = [];
         this.showTransactionTable = false;
+        this.showDataTable = false;
         this.currentPage = 1;
+        this.displayError = false;
     }
 
     @api openModal(recordId) {
@@ -86,55 +108,65 @@ export default class AbcdLoylatyTransactionHistory extends LightningElement {
         this.isModalOpen = false;
     }
 
-    async getTransaction(){
-        try {
-                const result = await getTrasanctionDetails({
-                    mobileNumber: this.mobileNumber,
-                    customerID : this.clientid,
-                    emailID : this.emailId,
-                    startDate: this.selectedOption === 'last5' ? null : this.fromDate,
-                    toDate: this.selectedOption === 'last5' ? null : this.toDate
-                });
-                if (result.isSuccess) {
-                    debugger
-                    this.showTransactionTable = true;
-                    console.log('Fetched Transactions:', JSON.stringify(result.dgTransactionDetails));
-                    let transactions = result.dgTransactionDetails.map(txn => ({
-                        transactionType: txn.transactionType,
-                        amount: txn.amount,
-                        unit: txn.unit,
-                        transactionDate: txn.transactionDate,
-                        transactionStatus: txn.transactionStatus
-                    }));
+    
+    async getTransaction() {
+        this.displayError = false;
+        const result = await getTrasanctionDetails({
+            accountId:this.recordId,
+            fromDate:  this.startDate,
+            toDate:  this.endDate
+        })
+        .then((result) => {
+            this.isLoading = false;
+            this.showDataTable = true;
+           // this.columnName(result);
+       
+            if(result.StatusCode=== 400){
+                this.columnName(result);
+            }
+            else if (result.StatusCode != 400 ) {
+                this.showDataTable = false;
+                this.errorMessage = result.message;
+                this.displayError = true;
 
-                    if (this.selectedOption === 'last5') {
-                        transactions = transactions.slice(-5); // Get the last 5 transactions
-                        this.currentPage =1;
-                    }
-        
-                    this.transactionDetails = transactions;
-                } else {
-                    this.showToast('Error', result.errorMessage || 'Error fetching transactions', 'error');
-                }
-            
-        } catch (error) {
-            this.showToast('Error', error.body ? error.body.message : error.message, 'error');
-        }
+            }
+          
+           })
+           .catch((error) => {
+            console.log('Error----> ',JSON.stringify(error));
+            this.isLoading = false;
+            this.showDataTable = false;
+            this.displayError = true;
+            if ( error.body != null) {
+                this.errorMessage =   error.body.message;
+            } else if(this.apiFailure){
+                this.errorMessage = this.apiFailure;
+            }
+            else{
+                this.errorMessage = 'An unknown error occured, please contact your admin'
+            }
 
-    }
-
-    get transactionColumns() {
-        return [
-            { label: 'Transaction Type', fieldName: 'transactionType', type: 'text', cellAttributes: { alignment: 'right' }, minWidth: 150 },
-            { label: 'Amount', fieldName: 'amount', type: 'currency', cellAttributes: { alignment: 'right' }, minWidth: 150 },
-            { label: 'Units', fieldName: 'unit', type: 'currency', cellAttributes: { alignment: 'right' }, minWidth: 150 },
-            { label: 'Date of Transaction', fieldName: 'transactionDate', type: 'date', minWidth: 150 },
-            { label: 'Transaction Status', fieldName: 'transactionStatus', type: 'text', wrapText: true, minWidth: 150 }
-        ];
-    }
+        });
+    } 
+   
 
     get totalPages() {
         return Math.ceil(this.transactionDetails.length / this.pageSize);
+    }
+    columnName(apiResponse) {
+        getColumns({ configName: 'ABCD_Loyalty_Rewards' })
+        .then(result => {
+           // console.log('columns----> ' + JSON.stringify(result));
+            this.columns = result.map(column => ({
+                label: column.MasterLabel,
+                fieldName: column.Api_Name__c,
+                type: column.Data_Type__c,
+            }));
+            this.processResponse(apiResponse);
+        })
+        .catch(error => {
+            console.error('Error fetching columns:',  JSON.stringify(error));
+        });
     }
 
     get paginatedTransactions() {
@@ -159,5 +191,59 @@ export default class AbcdLoylatyTransactionHistory extends LightningElement {
     }
     get bDisableNext() {
         return this.currentPage == this.totalPages;
+    }
+    processResponse(response) {
+        //console.log('operationStatus ', response);
+        this.recordTable = [];  
+        
+        if (response && response.StatusCode === 400) {
+
+            const responseData = response.ReturnData;  
+            console.log('operationStatusss ', responseData);
+
+                if (responseData && responseData.length > 0) {
+                this.recordTable = responseData.map(detail => ({
+                    CustomerID: detail.CustomerID,
+                    LR_coins_latest_accrual_date: detail.LR_coins_latest_accrual_date,
+                    LR_coins_latest_earned_coins: detail.LR_coins_latest_earned_coins,
+                    LR_coins_latest_transaction_amount: detail.LR_coins_latest_transaction_amount,
+                    OrderDescription: detail.OrderDescription,
+                    Productname: detail.Productname,
+                    RedemptionRequestID: detail.RedemptionRequestID,
+                    RequestDate: detail.RequestDate,
+                    cash_purchase: detail.cash_purchase,
+                    channel: detail.channel,
+                    offer_id: detail.offer_id,
+                    points: detail.points,
+                    points_redeemed: detail.points_redeemed,
+                    source: detail.source,
+                    total_amount: detail.total_amount,
+                    transaction_amount: detail.transaction_amount,
+                    transaction_date: detail.transaction_date,
+                    transaction_type: detail.transaction_type,
+                    unique_customer_id: detail.unique_customer_id
+                }));
+            } else {
+                console.error('No data found in the response.');
+                this.error = 'No valid data available.';
+            }
+        } else {
+            console.error('Status code not 400 or no response.');
+            this.error = 'No valid response from API';
+        }
+    }    
+    handleStartDateChange(event) {
+        this.startDate = event.target.value;
+        console.log('startdate ',this.startDate);
+        this.validateDates();
+    }
+    
+
+    // Event handler for the end date change
+    handleEndDateChange(event) {
+        this.endDate = event.target.value;
+        console.log('startdate ',this.endDate);
+        this.validateDates();
+
     }
 }

@@ -1,8 +1,9 @@
 import { LightningElement,api,track } from 'lwc';
 
 export default class AbcdLoyaltyRewardDetails extends LightningElement {
+    @api recordId;
     @api loyaltyrewards;
-        @track showPopup = false;
+    @track showPopup = false;
     
 
     openTransactionPopUp(event){

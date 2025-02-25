@@ -4,6 +4,7 @@ public class ONEABC_CreateCaseWithTypeHelper {
         String accountLob = '';
         String accountBu = '';
         String reqFrom = ''; 
+        String closeCaseWithoutCust = '';
         Map<String, String> buMapping = new Map<String,String>{
             'ABWM'=>'Wealth',
             'ABSLAMC'=>'AMC'
@@ -19,6 +20,9 @@ public class ONEABC_CreateCaseWithTypeHelper {
             }
             if(mInpArg.containsKey('businessUnit')){
                 accountBu = mInpArg.get('businessUnit');
+            }
+            if(mInpArg.containsKey('closeCaseWithoutCusButton')){
+                closeCaseWithoutCust = mInpArg.get('closeCaseWithoutCusButton');
             }
         }
         for(ASF_Case_Category_Config__c cccRec : cccList){ 
@@ -37,6 +41,10 @@ public class ONEABC_CreateCaseWithTypeHelper {
                 if(reqFrom == 'Lead' && (cccRec.Business_Unit__c.equalsIgnoreCase(ASF_Constants.ONEABC_BU) || 
                                          cccRec.Business_Unit__c.equalsIgnoreCase(ASF_Constants.ABCD_BU))){
                     returnVal.add(cccRec);
+                }
+            } else if(String.isNotBlank(closeCaseWithoutCust) && closeCaseWithoutCust == 'true'){
+                if(cccRec.Business_Unit__c.equalsIgnoreCase(ASF_Constants.ABCD_BU)){
+                	returnVal.add(cccRec);
                 }
             }
         }
