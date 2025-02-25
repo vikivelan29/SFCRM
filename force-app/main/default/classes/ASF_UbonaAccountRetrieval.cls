@@ -19,7 +19,13 @@ global without sharing class ASF_UbonaAccountRetrieval{
                 for (List<sObject> each : searchResults) {
                     contacts.addAll((List<Contact>) each);
                 }
-            } else {
+            } else if(lob == 'ONEABC'){
+                List<List<sObject>> searchResults = [FIND :soslSearchPhone IN PHONE FIELDS RETURNING Contact (ID, AccountId, Name, MobilePhone WHERE MobilePhone LIKE : soslPhoneStr)];
+                for (List<sObject> each : searchResults) {
+                    contacts.addAll((List<Contact>) each);
+                }
+            }
+            else {
                 contacts = [SELECT ID, AccountId, Name, MobilePhone FROM Contact WHERE MobilePhone Like : phone AND Account.Business_Unit__c = : lob];
             }
             for (Contact c : contacts) {
