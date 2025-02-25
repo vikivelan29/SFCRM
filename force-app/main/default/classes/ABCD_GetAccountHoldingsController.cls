@@ -38,7 +38,7 @@ public class ABCD_GetAccountHoldingsController {
                     errorMessage = response != null ? response.message : 'Unexpected response structure';
                 }
             } else {
-                errorMessage = 'Invalid response from the external service';
+                errorMessage = 'Unexpected error, pls try again or contact your adminstrator';
             }
         } catch (Exception e) {
             System.debug('Error in getAccountHoldings: ' + e.getMessage());
