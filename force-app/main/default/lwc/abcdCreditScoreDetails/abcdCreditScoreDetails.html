@@ -45,25 +45,45 @@
         <div class="slds-form-element slds-form-element_readonly">
           <span class="slds-form-element__label">Experian Last Download Date</span>
           <div class="slds-form-element__control">
-            <div class="slds-form-element__static">{csdetails.experianLastDownloadedDate}</div>
+            <lightning-formatted-date-time value={csdetails.experianLastdownloadDate} year="numeric"
+                                                month="2-digit"
+                                                day="2-digit"
+                                                time-zone="UTC" 
+                                                class="slds-form-element__static">
+                                                </lightning-formatted-date-time>
           </div>
         </div>
         <div class="slds-form-element slds-form-element_readonly">
           <span class="slds-form-element__label">Equifax Last Download Date</span>
           <div class="slds-form-element__control">
-            <div class="slds-form-element__static">{csdetails.equifaxLastDownloadedDate}</div>
+            <lightning-formatted-date-time value={csdetails.equifaxLastdownloadDate} year="numeric"
+                                                month="2-digit"
+                                                day="2-digit"
+                                                time-zone="UTC" 
+                                                class="slds-form-element__static">
+                                                </lightning-formatted-date-time>
           </div>
         </div>
         <div class="slds-form-element slds-form-element_readonly">
           <span class="slds-form-element__label">Experian New Download Date</span>
           <div class="slds-form-element__control">
-            <div class="slds-form-element__static">{csdetails.experianNewDownloadedDate}</div>
+            <lightning-formatted-date-time value={csdetails.experianNewDownloadDate} year="numeric"
+                                                month="2-digit"
+                                                day="2-digit"
+                                                time-zone="UTC" 
+                                                class="slds-form-element__static">
+                                                </lightning-formatted-date-time>
           </div>
         </div>
         <div class="slds-form-element slds-form-element_readonly">
-          <span class="slds-form-element__label">Equifax Last Download Date</span>
+          <span class="slds-form-element__label">Equifax New Download Date</span>
           <div class="slds-form-element__control">
-            <div class="slds-form-element__static">{csdetails.equifaxNewDownloadedDate}</div>
+            <lightning-formatted-date-time value={csdetails.equifaxNewDownloadDate} year="numeric"
+                                                month="2-digit"
+                                                day="2-digit"
+                                                time-zone="UTC" 
+                                                class="slds-form-element__static">
+                                                </lightning-formatted-date-time>
           </div>
         </div>
         <div class="slds-form-element slds-form-element_readonly">
