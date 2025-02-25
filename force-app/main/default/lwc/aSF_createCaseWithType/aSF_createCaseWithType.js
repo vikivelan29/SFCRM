@@ -210,7 +210,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         if(this.businessUnit != ABCD_BU){
             return (this.isNotSelectedReject || this.isNotSelected || this.isCloseWithoutCRNFlow);
         }else{
-            return (this.isNotSelected || this.isCloseWithoutCRNFlow);
+            return (this.caseRec?.fields.AmIOwner__c.value === false || this.isNotSelected || this.isCloseWithoutCRNFlow);
         }
         
     }
@@ -221,8 +221,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             return false;
         }
         else if(this.businessUnit === ABCD_BU){
-            return (this.isNotSelected || this.rejectBtnCalled || (!this.isFTRJourney));
-        }
+            return (this.caseRec?.fields.AmIOwner__c.value === false || this.isNotSelected || this.rejectBtnCalled || (!this.isFTRJourney));
+        } 
         else{
             return (this.isNotSelectedReject || this.isNotSelected || this.rejectBtnCalled || (!this.isFTRJourney));
         }
