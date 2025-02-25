@@ -48,7 +48,7 @@ public class ABCD_DGTransactionHistoryController {
                     errorMessage = response != null ? response.message : 'Unexpected response structure';
                 }
             } else {
-                errorMessage = 'Invalid response from the external service';
+                errorMessage = 'Unexpected error, pls try again or contact your administrator';
             }
         } catch (Exception e) {
             System.debug('Error in getTransactions: ' + e.getMessage());
