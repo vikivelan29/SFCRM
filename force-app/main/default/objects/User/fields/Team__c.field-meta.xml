@@ -110,22 +110,22 @@
                 <label>ONEABC</label>
             </value>
             <value>
-                <fullName>ABCD PIFA</fullName>
+                <fullName>ABCD_PIFA</fullName>
                 <default>false</default>
                 <label>ABCD PIFA</label>
             </value>
             <value>
-                <fullName>ABCD Branch Servicing</fullName>
+                <fullName>ABCD_Branch_Servicing</fullName>
                 <default>false</default>
                 <label>ABCD Branch Servicing</label>
             </value>
             <value>
-                <fullName>ABCD GRO</fullName>
+                <fullName>ABCD_GRO</fullName>
                 <default>false</default>
                 <label>ABCD GRO</label>
             </value>
             <value>
-                <fullName>ABCD Email Servicing</fullName>
+                <fullName>ABCD_Email_Servicing</fullName>
                 <default>false</default>
                 <label>ABCD Email Servicing</label>
             </value>
