@@ -13,7 +13,7 @@ public with sharing class ABCD_AppPageDetails {
             AppPageInfoResponse responseWrapper = new AppPageInfoResponse();
             String integrationName = 'ABCD_App_Pages';
             Account accRec = [SELECT Id, Name, PersonMobilePhone, PersonEmail, Client_Code__c FROM Account WHERE Id=:accountId LIMIT 1];
-            String payload = JSON.serialize(new CustomerInfoRequest(accRec.PersonMobilePhone,accRec.PersonEmail,accRec.Client_Code__c));
+            String payload = JSON.serialize(new CustomerInfoRequest(accRec.Client_Code__c));
             ABCL_IntegrationCallout.accountId=accountId;
             ABCL_IntegrationCallout.IntegrationResponseWrapper appPageResp = ABCL_IntegrationCallout.executeCallout(integrationName, payload, null);
             system.debug('responsewrap '+appPageResp);            
@@ -30,9 +30,9 @@ public with sharing class ABCD_AppPageDetails {
         String mobileNumber;
         String emailId ;
         String customerId;
-        public CustomerInfoRequest(String mob, String email, String custId){
-            this.mobileNumber = mob;
-            this.emailId = email;
+        public CustomerInfoRequest( String custId){
+           // this.mobileNumber = mob;
+            //this.emailId = email;
             this.customerId = custId;
         }
     }
