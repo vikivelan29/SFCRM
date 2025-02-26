@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 02-24-2025
+  @last modified on  : 02-26-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -89,7 +89,12 @@
         <div class="slds-form-element slds-form-element_readonly">
           <span class="slds-form-element__label">Last Transaction Date</span>
           <div class="slds-form-element__control">
-            <div class="slds-form-element__static">{dgdetails.lastTransactionDate}</div>
+              <lightning-formatted-date-time value={dgdetails.lastTransactionDate} year="numeric"
+                  month="2-digit"
+                  day="2-digit"
+                  time-zone="UTC"
+                  class="slds-form-element__static">
+              </lightning-formatted-date-time>
           </div>
         </div>
         <div class="slds-form-element slds-form-element_readonly">
@@ -114,7 +119,12 @@
         <div class="slds-form-element slds-form-element_readonly">
           <span class="slds-form-element__label">Last Transaction Delivery Date</span>
           <div class="slds-form-element__control">
-            <div class="slds-form-element__static">{dgdetails.lastTransactionDeliveryDate}</div>
+            <lightning-formatted-date-time value={dgdetails.lastTransactionDeliveryDate} year="numeric"
+                                                month="2-digit"
+                                                day="2-digit"
+                                                time-zone="UTC"
+                                                class="slds-form-element__static">
+                                                </lightning-formatted-date-time>
           </div>
         </div>
       </div>

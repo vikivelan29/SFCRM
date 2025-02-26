@@ -48,7 +48,13 @@ const columns = [
                     {
                         fieldName: 'lastTransactionDate',
                         label: 'Last Transaction Date',
-                        type: 'date'
+                        type: 'date',
+                        typeAttributes: { 
+                            year: "numeric", 
+                            month: "2-digit", 
+                            day: "2-digit", 
+                            timeZone: "UTC"
+                        }
                     },
                 ];
 export default class AbcdMutualFundDetails extends LightningElement {
