@@ -10,6 +10,7 @@ public with sharing class ASF_SendPreFrameworkCaseToLOB {
     @AuraEnabled
     public static void updateCase(Id recId,Id priorityCMId){
         Id newOwnerId;
+        ASF_Constants.bypassOwnerChangeValidation = TRUE;
         ASF_PriorityEmailAddressesByBU__mdt priorityEmail = [SELECT Id, 
                                                              DeveloperName, MasterLabel, Label,Active__c, Business_Unit__c, Default_Queue_Dev_Name__c, Email2CaseAddress__c, 
                                                              Priority_Index__c, Send_to_EBOT__c, Case_Origin__c, Case_Business_Unit__c 
