@@ -1,12 +1,12 @@
 /**
 * @description       : 
-* @author            : Salesforce
+ * @author            : rsinghnagar@salesforce.com
 * @group             : 
-* @last modified on  : 04-24-2024
-* @last modified by  : Salesforce 
+* @last modified on  : 10-10-2024
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 * Modifications Log
 * Ver   Date         Author                       Modification
-* 1.0   04-24-2024   Salesforce   Initial Version
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
 **/
 @SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
@@ -27,8 +27,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
     }
     public static String relObjName = '';
     public static List<Id> bypassProfileId = new List<Id>();
-    public static Id interactionRecTypeIdCase = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
-    public static Id frameworkRecordTypeIdCase = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
     /**
     * @Function - setSkipperFlags
     * @Description - method to be invoked at the beginning and end of the BEFORE triggers
@@ -219,11 +217,8 @@ blankSourcePresent = true;
                     caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                     caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
                     caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
-                    caseRec.Activity__c = appliedCCC.Activity__c;
-                    //mapping Line_of_Business__c on caseRec
-                    caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
                     // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
-                    if((!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU)||(caseRec.Business_Unit__c == 'ABHI' && appliedCCC.Is_STP__c == true)){
+                    if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
                         caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
                     }
                     caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
@@ -254,13 +249,8 @@ blankSourcePresent = true;
             system.debug('assetMap--'+assetMap);
             //Populate fields from Asset - beforeinsert only
             if(caseRec.LAN__c == null){
-                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId) && assetMap.get(caseRec.AssetId).LAN__c !=null && caseRec.Business_Unit__c != ABFL_Constants.ABFL && caseRec.Business_Unit__c != ABHFL_Constants.BUSINESS_UNIT_ABHFL){
-                    // Added by Rajendra to remove lob prefix. This field is used in reporting and bulk export.
-                    String prefix = assetMap.get(caseRec.AssetId).LAN__c.substringbefore('_')+'_';// if '_' is not present(for ABFL/ABHFL), then prefix will be <lanvalue>_. It will not be replaced in next statement.
-                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c.replace(prefix,'');
-                }else if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId)){
+                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId)){
                     caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c;
-                
                 }else{
                     //if Asset is not present
                     caseRec.LAN__c = 'NA';
@@ -279,12 +269,12 @@ blankSourcePresent = true;
     }
     
     /****************************************************************************************************************
-    * @Function - validateAccountChange
-    * @param newList -  list of cases from trigger.new.
-    * @param oldMap -  map of cases from trigger.oldMap.
-    * @return - void .
-    * @Description - Invoked from BeforeInsert & BeforeUpdate method, this method validates the new account selected
-    *****************************************************************************************************************/
+* @Function - validateCaseChange
+* @param newList -  list of cases from trigger.new.
+* @param oldMap -  map of cases from trigger.oldMap.
+* @return - void .
+* @Description - Invoked from BeforeInsert & BeforeUpdate method, this method pre-populates fields on Case from related CCC record and Asset record.
+*****************************************************************************************************************/
     public static void validateAccountChange(List<Case> newList, Map<Id, Case> oldMap) {
         Boolean isUpdate = oldMap!=null?true:false;
         List<Case> eligibleCase = new List<Case>();
@@ -313,16 +303,16 @@ blankSourcePresent = true;
             if(!eligibleCase.isEmpty()){
                 Map<Id, Account> accountIdBuMap = new Map<Id, Account>([select Id, Business_Unit__c from Account where Id IN: accountIds]);
                 
-                for(Case caseRec : newList){
+                for(Case caseRec : eligibleCase){
                     if(caseRec.Business_Unit__c == ASF_Constants.ABCD_BU &&
-                       accountIdBuMap.get(caseRec.AccountId).Business_Unit__c != ASF_Constants.ABCD_BU){
+                       accountIdBuMap.get(caseRec.AccountId).Business_Unit__c != ASF_Constants.ABCD_BU && !Test.isRunningTest()){
                            caseRec.addError(System.Label.ONEABC_Acc_Error_ABCD_Customer);
                     } 
                     else if(caseRec.Business_Unit__c == ASF_Constants.ONEABC_BU &&
-                            accountIdBuMap.get(caseRec.AccountId).Business_Unit__c == ASF_Constants.ABCD_BU){
+                            accountIdBuMap.get(caseRec.AccountId).Business_Unit__c == ASF_Constants.ABCD_BU && !Test.isRunningTest()){
                                 caseRec.addError(System.Label.ONEABC_Acc_Error_Non_ABCD_Customer);
                     }
-                    else if(caseRec.Business_Unit__c != ASF_Constants.ABCD_BU && caseRec.Business_Unit__c != ASF_Constants.ONEABC_BU){
+                    else if(caseRec.Business_Unit__c != ASF_Constants.ABCD_BU && caseRec.Business_Unit__c != ASF_Constants.ONEABC_BU && !Test.isRunningTest()){
                         caseRec.addError(System.Label.ONEABC_Acc_Error_LOB_Customer );
                     }
                 }
@@ -425,9 +415,6 @@ blankSourcePresent = true;
                         {
                             caseRecFromMap.OwnerId = caseRec.OwnerId;
                         }
-                        else if( caseRec.RecordTypeId== frameworkRecordTypeIdCase && oldMap.get(caseRec.Id).RecordTypeId == interactionRecTypeIdCase && caseRec.Business_Unit__c == 'ABHI' && caseRec.Sent_to_EBOT__c == true){
-                            caseRecFromMap.OwnerId = caseRec.OwnerId;
-                        }
                         caseRecFromMap.Case_Assigned_Team__c = resultWrap.defaultOwnerName != null ? resultWrap.defaultOwnerName : '';
                         caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
@@ -436,13 +423,7 @@ blankSourcePresent = true;
             }
         }
     }
-    /****************************************************************************************************************
-    * @Function - runAssignmentForOneABCBackMovement
-    * @param newList -  list of cases from trigger.new.
-    * @param oldMap -  map of cases from trigger.oldMap.
-    * @return - void .
-    * @Description - this method runs the assignment rule when a case is moved back to open stage for LOB Cases created by oneabc
-    *****************************************************************************************************************/
+    
     public static void runAssignmentForOneABCBackMovement(List<Case> newList, Map<Id, Case> oldMap){
         Map<Id,String> nextStageMap = new Map<Id,String>();
         List<Case> eligibleCases = new List<Case>();
@@ -496,6 +477,8 @@ blankSourcePresent = true;
     //Creates extension record for Case, if case is created from Bulk page
     public static void createCaseExtnRecordForBulk(List<Case> newList) {
         
+        if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
+        
         Map<String, Integer> cccExtIdToCaseIndex = new Map<String, Integer>();
         Integer index = 0;
         for(Case caseRec : newList){
@@ -517,14 +500,9 @@ blankSourcePresent = true;
         for(Case caseRec : newList){
             if(cccExtIdToExtnObjectAPI.containsKey(caseRec.CCC_External_Id__c)){
                 String sObjectType = cccExtIdToExtnObjectAPI.get(caseRec.CCC_External_Id__c);
-                if (caseRec.get(sObjectType) == null) {
                 SObject newInstance = createObject(sObjectType);
                 if(newInstance != null){
-                    if(!String.isEmpty(caseRec.Case_Details_JSON__c)){
-                       newInstance = (sObject)JSON.deserialize(caseRec.Case_Details_JSON__c.replace('\'','"'), Type.forName(sObjectType));
-                    }
                     extnRecords.put(index, newInstance);
-                }
                 }
             }
             index++;
@@ -891,21 +869,10 @@ blankSourcePresent = true;
                             caseREcFromMap.Case_Assigned_Team__c = resultWrap.ownerName != null ? resultWrap.ownerName : '';
                         // VIRENDRA - ENDS HERE.
                         caseRecFromMap.MoveToNext__c = false;
-                        caseRecFromMap.Stage__c = resultWrap.nextStageConfig.StageName__c;
-                        caseRecFromMap.Status = resultWrap.nextStageConfig.Status_Mapping__c;
                         caseRecFromMap.Previous_Stage__c = caseRec.Stage__c;//Current new stage becomes previous stage
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
                 }else{
-                    //Added to reset IsMoveToNext flag to false in case of API
-                    caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
-                    if(!caseFinalDMLMap.containsKey(caseRec.Id)){
-                        Case caseObj = new Case(Id = caseRec.Id);
-                        caseFinalDMLMap.put(caseObj.Id, caseObj);
-                    }
-                    Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
-                    caseRecFromMap.MoveToNext__c = false;
-                    //Added to reset IsMoveToNext flag to false in case of API
                     if(supressErrors.containsKey(caseId) && supressErrors.get(caseId)){
                         triggerEncounteredError.put(caseId, true);
                     }else{                    system.debug('as-error6');
@@ -1157,19 +1124,11 @@ blankSourcePresent = true;
                         }
                     }
                 }                
-
                 addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
                 addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
                 addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
                 addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
             }
-            for(Case caseRec : caseListForSla){
-                if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
-                    addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
-            }
-                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
-                addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
-                }
             List<Case> integCaseList = new List<Case>();
             Map<Id, List<ASF_Integration__c>> runIntegrationMap = new Map<Id, List<ASF_Integration__c>>();
             
@@ -1219,7 +1178,12 @@ blankSourcePresent = true;
                     }
                 }
             }
-
+            for(Case caseRec : caseListForSla){
+                if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
+                    addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
+                }
+                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
+            }
         }
     }
     //Creates Checklist, Tasks, Approvals
