@@ -1707,7 +1707,7 @@ blankSourcePresent = true;
                 }
                 else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)
                       //ADDED ADDITIONAL CHECK TO BYPASS CROSS BU VAL FOR ABCD AND ONEABC
-                        && !((ASF_Constants.CROSS_BU_OWNER_VAL_BYPASS.contains(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)) && (ASF_Constants.CROSS_BU_OWNER_VAL_BYPASS.contains(newOwnerQueueIdNameMap.get(newOwnerId))))){
+                        && !((ASF_Constants.CROSS_BU_OWNER_VAL_BYPASS.contains(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)) && !ASF_Constants.bypassOwnerChangeValidation && (ASF_Constants.CROSS_BU_OWNER_VAL_BYPASS.contains(newOwnerQueueIdNameMap.get(newOwnerId))))){
                     c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
                 }
                 else if(!Test.isRunningTest() && oldOwnerId.startsWith('00G') && !queueIdNameMap.get(oldOwnerId).DeveloperName.startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)
