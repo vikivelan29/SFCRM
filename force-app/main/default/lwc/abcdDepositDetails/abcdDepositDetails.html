@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 02-24-2025
+  @last modified on  : 02-26-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -49,8 +49,13 @@
               </div>
               <div class="slds-form-element slds-form-element_readonly">
                 <span class="slds-form-element__label">Last Transaction Date</span>
-                <div class="slds-form-element__control">
-                    <div class="slds-form-element__static">{dsdetails.lastTransactionDate}</div>
+                  <div class="slds-form-element__control">
+                    <lightning-formatted-date-time value={dsdetails.lastTransactionDate} year="numeric"
+                        month="2-digit"
+                        day="2-digit"
+                        time-zone="UTC"
+                        class="slds-form-element__static">
+                    </lightning-formatted-date-time>
                 </div>
               </div>
               <div class="slds-form-element slds-form-element_readonly">
@@ -62,8 +67,13 @@
               <div class="slds-form-element slds-form-element_readonly">
                 <span class="slds-form-element__label">Withdrawal Date</span>
                 <div class="slds-form-element__control">
-                    <div class="slds-form-element__static">{dsdetails.withdrawalDate}</div>
-                </div>
+                  <lightning-formatted-date-time value={dsdetails.withdrawalDate} year="numeric"
+                      month="2-digit"
+                      day="2-digit"
+                      time-zone="UTC"
+                      class="slds-form-element__static">
+                  </lightning-formatted-date-time>
+              </div>
               </div>
               <div class="slds-form-element slds-form-element_readonly">
                 <span class="slds-form-element__label">Last Transaction Interest</span>
