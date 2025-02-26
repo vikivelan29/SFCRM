@@ -217,6 +217,7 @@ export default class AbcdLoylatyTransactionHistory extends LightningElement {
                     points: detail.points,
                     points_redeemed: detail.points_redeemed,
                     source: detail.source,
+                    lr_transaction_id: detail.lr_transaction_id,
                     total_amount: detail.total_amount,
                     transaction_amount: detail.transaction_amount,
                     transaction_date: detail.transaction_date,
