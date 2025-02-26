@@ -85,13 +85,23 @@
             <div class="slds-form-element slds-form-element_readonly">
                 <span class="slds-form-element__label">Last Loyalty Credit Date</span>
                 <div class="slds-form-element__control">
-                    <div class="slds-form-element__static">{loyaltyrewards.lastLoyaltyCreditDate}</div>
+                    <lightning-formatted-date-time value={loyaltyrewards.lastLoyaltyCreditDate} year="numeric"
+                                                month="2-digit"
+                                                day="2-digit"
+                                                time-zone="UTC" 
+                                                class="slds-form-element__static">
+                                                </lightning-formatted-date-time>
                 </div>
             </div>
             <div class="slds-form-element slds-form-element_readonly">
                 <span class="slds-form-element__label">Last Loyalty Credit Transaction</span>
                 <div class="slds-form-element__control">
-                    <div class="slds-form-element__static">{loyaltyrewards.lastLoyaltyCreditTransaction}</div>
+                    <lightning-formatted-date-time value={loyaltyrewards.lastLoyaltyCreditTransaction} year="numeric"
+                                                month="2-digit"
+                                                day="2-digit"
+                                                time-zone="UTC" 
+                                                class="slds-form-element__static">
+                                                </lightning-formatted-date-time>
                 </div>
             </div>
           </div>

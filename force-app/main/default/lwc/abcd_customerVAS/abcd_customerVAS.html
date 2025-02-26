@@ -1,3 +1,10 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 02-25-2025
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
 <template>
     <div class="slds-card_boundary">
         <div class="slds-page-header related-list-header">
@@ -93,9 +100,9 @@
                 </template>
             </div>
         </template>-->
-        <c-abcd-dhe-details dhedetails={dheDetails}></c-abcd-dhe-details>
-        <c-abcd-credit-score-details csdetails={csDetails}></c-abcd-credit-score-details>
-        <c-abcd-loyalty-reward-details record-id={recordId} loyaltyrewards={loyaltyRewards}></c-abcd-loyalty-reward-details>
+        <c-abcd-dhe-details dhedetails={dheDetails}  status={status} api-message={apiMessage}></c-abcd-dhe-details>
+        <c-abcd-credit-score-details csdetails={csDetails} status={status} api-message={apiMessage}></c-abcd-credit-score-details>
+        <c-abcd-loyalty-reward-details record-id={recordId} loyaltyrewards={loyaltyRewards} status={status} api-message={apiMessage}></c-abcd-loyalty-reward-details>
         <c-abcd-app-page-details record-id={recordId}></c-abcd-app-page-details> 
 
     </div>

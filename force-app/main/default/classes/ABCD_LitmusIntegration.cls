@@ -68,6 +68,7 @@ public with sharing class ABCD_LitmusIntegration {
                     mAccountPrimaryContact.put(c.AccountId,c);
                 } 
             }
+        }
 
             prospectMap = new Map<Id,Lead>([SELECT Id,Email,Name,MobilePhone FROM Lead WHERE Id IN : prospectIds]);
 
@@ -89,7 +90,6 @@ public with sharing class ABCD_LitmusIntegration {
                     litmusApiCasesList.add(c);
                 }
             }  
-        }
         if(litmusApiCasesList.size()>0){
             callLitmusAPI(litmusApiCasesList,mAccountPrimaryContact,prospectMap,cccIdToRecordsMap);
             Set<Id> caseDetailIds = new Set<Id>();

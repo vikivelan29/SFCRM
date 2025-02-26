@@ -32,30 +32,14 @@ export default class Abcd_customerVAS extends LightningElement
                     this.apiMessage = resp.message;
                     if(resp.holdingsVASInfo.dheDetails){
                         let dheDetails = resp.holdingsVASInfo.dheDetails;
-                        if(dheDetails.lastScanDate){
-                            let dtArr = dheDetails.lastScanDate.split('-');
-                            dheDetails.lastScanDate = dtArr.join('/');
-                        }
                         this.dheDetails = dheDetails;
                     }
                     if(resp.holdingsVASInfo.csDetails){
                         let csDetails = resp.holdingsVASInfo.csDetails;
-                        if(csDetails.lastdownloadDate){
-                            let dtArr = csDetails.lastdownloadDate.split('-');
-                            csDetails.lastdownloadDate = dtArr.join('/');
-                        }
                         this.csDetails = csDetails;
                     }
                     if(resp.holdingsVASInfo.loyaltyRewards){
                         let loyaltyRewards = resp.holdingsVASInfo.loyaltyRewards;
-                        if(loyaltyRewards.lastLoyaltyCreditDate){
-                            let dtArr = loyaltyRewards.lastLoyaltyCreditDate.split('-');
-                            loyaltyRewards.lastLoyaltyCreditDate = dtArr.join('/');
-                        }
-                        if(loyaltyRewards.lastLoyaltyCreditTransaction){
-                            let dtArr = loyaltyRewards.lastLoyaltyCreditTransaction.split('-');
-                            loyaltyRewards.lastLoyaltyCreditTransaction = dtArr.join('/');
-                        }
                         this.loyaltyRewards = loyaltyRewards;
                     }
                 }
@@ -68,6 +52,13 @@ export default class Abcd_customerVAS extends LightningElement
         .catch((error) => {
             this.error = error;
             this.isLoading = false;
+            if (error && error.body && error.body.message) {
+                this.apiMessage = error.body.message;
+            } else if (error && error.message) {
+                this.apiMessage = error.message;
+            } else {
+                this.apiMessage = 'An unexpected error occurred. Please try later or contact your admin';
+            }
         });
 
     }

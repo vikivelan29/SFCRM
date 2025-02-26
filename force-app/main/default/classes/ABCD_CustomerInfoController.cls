@@ -72,13 +72,12 @@ public without sharing class ABCD_CustomerInfoController {
             for(CustomerInfo customerData : customerDataList){
                 Account accountToInsert = new Account();
                 if(customerData != null){
-                    accountToInsert.LastName = customerData.customerName;
                     accountToInsert.Full_Name__pc = customerData.customerName;
-                    if(customerData.customerName.substringAfterLast(' ') != null){
-                        accountToInsert.LastName = customerData.customerName.substringAfterLast(' ');
+                    if(customerData.lastName != null){
+                        accountToInsert.LastName = customerData.lastName;
                     }
-                    if(customerData.customerName.substringBeforeLast(' ') != null){
-                        accountToInsert.FirstName = customerData.customerName.substringBeforeLast(' ');
+                    if(customerData.firstName != null){
+                        accountToInsert.FirstName = customerData.firstName;
                     }
                     accountToInsert.PersonMobilePhone = customerData.mobileNumber;
                     accountToInsert.PersonEmail = customerData.emailId;
@@ -88,7 +87,9 @@ public without sharing class ABCD_CustomerInfoController {
                     accountToInsert.Business_Unit__c = System.Label.ABCD_Business_Unit;
                     accountToInsert.Line_of_Business__pc = System.Label.ABCD_Business_Unit;
                     accountToInsert.Business_Unit__pc = System.Label.ABCD_Business_Unit;
-                    accountToInsert.HNI_Customer__c = false;
+					accountToInsert.HNI_Customer__c = false;
+                    if(customerData.hni == 'true')
+                        accountToInsert.HNI_Customer__c = true;
                     if(systemUser.size()>0){
                         accountToInsert.OwnerId = systemUser[0].Id;
                     }
@@ -117,24 +118,37 @@ public without sharing class ABCD_CustomerInfoController {
         Account accRec = [SELECT Id, Name, PersonMobilePhone, PersonEmail, Client_Code__c FROM Account WHERE Id=:recordId LIMIT 1];
         String payload = JSON.serialize(new CustomerInfoRequest(accRec.Client_Code__c, '', ''));
         if (tabLabel == 'Asset Holdings'){
-            ABCL_IntegrationCallout.IntegrationResponseWrapper assetHoldingsResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_Asset_Holdings',payload,null);
-            if(assetHoldingsResponse.statusCode == 200 && String.isNotBlank(assetHoldingsResponse.responseBody)){
-                response = assetHoldingsResponse.responseBody;
-            }
+           
+                ABCL_IntegrationCallout.IntegrationResponseWrapper assetHoldingsResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_Asset_Holdings',payload,null);
+                if(assetHoldingsResponse.statusCode == 200 && String.isNotBlank(assetHoldingsResponse.responseBody)){
+                    response = assetHoldingsResponse.responseBody;
+                }
+            	if (assetHoldingsResponse.statusCode != 200) {
+                	throw new CalloutException('Callout failed with status code: ' + assetHoldingsResponse.statusCode + ' and response: ' + assetHoldingsResponse.responseBody);
+            	}
         } else if(tabLabel == 'Liabilities'){
             ABCL_IntegrationCallout.IntegrationResponseWrapper liabilitiesResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_Liabilities_Holdings',payload,null);
             if(liabilitiesResponse.statusCode == 200 && String.isNotBlank(liabilitiesResponse.responseBody)){
                 response = liabilitiesResponse.responseBody;
+            }
+            if (liabilitiesResponse.statusCode != 200) {
+                	throw new CalloutException('Callout failed with status code: ' + liabilitiesResponse.statusCode + ' and response: ' + liabilitiesResponse.responseBody);
             }
         } else if(tabLabel == 'Protection'){
             ABCL_IntegrationCallout.IntegrationResponseWrapper protectionResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_Protection_Holdings',payload,null);
             if(protectionResponse.statusCode == 200 && String.isNotBlank(protectionResponse.responseBody)){
                 response = protectionResponse.responseBody;
             }
+            if (protectionResponse.statusCode != 200) {
+                	throw new CalloutException('Callout failed with status code: ' + protectionResponse.statusCode + ' and response: ' + protectionResponse.responseBody);
+            }
         } else if(tabLabel == 'VAS'){
             ABCL_IntegrationCallout.IntegrationResponseWrapper vasResponse = ABCL_IntegrationCallout.executeCallout('ABCD_Customer_VAS_Holdings',payload,null);
             if(vasResponse.statusCode == 200 && String.isNotBlank(vasResponse.responseBody)){
                 response = vasResponse.responseBody;
+            }
+            if (vasResponse.statusCode != 200) {
+                	throw new CalloutException('Callout failed with status code: ' + vasResponse.statusCode + ' and response: ' + vasResponse.responseBody);
             }
         }
         return response;
@@ -179,5 +193,13 @@ public without sharing class ABCD_CustomerInfoController {
         public String pan{get;set;}
         @AuraEnabled
         public String lob{get;set;}
+        @AuraEnabled
+        public String lastName{get;set;}
+        @AuraEnabled
+        public String firstName{get;set;}
+        @AuraEnabled
+        public String hni{get;set;}
+        @AuraEnabled
+        public String customerSince{get;set;}
     }
 }

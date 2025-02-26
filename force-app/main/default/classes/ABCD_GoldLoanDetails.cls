@@ -13,7 +13,7 @@ public with sharing class ABCD_GoldLoanDetails {
             GoldLoanResponse responseWrapper = new GoldLoanResponse();
             String integrationName = 'ABCD_Gold_Loan';
             Account accRec = [SELECT Id, Name, PersonMobilePhone, PersonEmail, Client_Code__c FROM Account WHERE Id=:accountId LIMIT 1];
-            String payload = JSON.serialize(new CustomerInfoRequest(accRec.PersonMobilePhone,accRec.PersonEmail,accRec.Client_Code__c));
+            String payload = JSON.serialize(new CustomerInfoRequest(accRec.Client_Code__c));
            // Map <String,String> mapUrlParam = new Map <String,String>(); 
              //mapUrlParam= ABHI_ActiveDaysDashboardController.buildParametersMap(customerID,null,null,integrationName);
             ABCL_IntegrationCallout.accountId=accountId;
@@ -32,9 +32,9 @@ public with sharing class ABCD_GoldLoanDetails {
         String mobileNumber;
         String emailId ;
         String customerId;
-        public CustomerInfoRequest(String mob, String email, String custId){
-            this.mobileNumber = mob;
-            this.emailId = email;
+        public CustomerInfoRequest( String custId){
+            //this.mobileNumber = mob;
+            //this.emailId = email;
             this.customerId = custId;
         }
     }
