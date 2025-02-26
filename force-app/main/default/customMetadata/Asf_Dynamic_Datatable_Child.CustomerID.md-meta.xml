@@ -6,7 +6,7 @@
         <field>Api_Name__c</field>
         <value xsi:type="xsd:string">CustomerID</value>
     </values>
-    <values>
+    <values>  
         <field>Asf_Dynamic_Datatable_Parent__c</field>
         <value xsi:type="xsd:string">ABCD_Loyalty_Rewards</value>
     </values>
