@@ -1,8 +1,9 @@
 import { LightningElement,api,track } from 'lwc';
 
 export default class AbcdLoyaltyRewardDetails extends LightningElement {
+    @api recordId;
     @api loyaltyrewards;
-        @track showPopup = false;
+    @track showPopup = false;
     
 
     openTransactionPopUp(event){
@@ -11,5 +12,18 @@ export default class AbcdLoyaltyRewardDetails extends LightningElement {
 
     closePopup() {
         this.showPopup = false;
+    }
+
+    @api status;
+    @api apiMessage;
+    get displayError(){
+        if(this.status != 'Success'){
+            return true;
+        }
+        return false;
+    }
+
+    get displayNoData() {
+        return this.status === 'Success' && (!this.loyaltyrewards || this.loyaltyrewards.length === 0 || this.loyaltyrewards == null);
     }
 }
