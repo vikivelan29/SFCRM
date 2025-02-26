@@ -23,22 +23,30 @@ const columns = [
                     {
                         fieldName: 'policyMaturityDate',
                         label: 'Policy Maturity Date',
-                        type: 'text',
-                        /*typeAttributes: {
+                        type: 'date',
+                        typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
-                        }*/
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
+                        }
                     },
                     {
                         fieldName: 'issueDate',
                         label: 'Policy Issuance Date',
-                        type: 'text',
-                        /*typeAttributes: {
+                        type: 'date',
+                        typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
-                        }*/
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
+                        }
                     },
                     {
                         fieldName: 'premiumAmount',
@@ -78,11 +86,15 @@ const columns = [
                     {
                         fieldName: 'lastPremiumPaymentDate',
                         label: 'Last Premium payment date',
-                        type: 'text',
+                        type: 'date',
                         typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
                         }
                     },
                     {
