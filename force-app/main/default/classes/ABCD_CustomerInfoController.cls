@@ -72,13 +72,12 @@ public without sharing class ABCD_CustomerInfoController {
             for(CustomerInfo customerData : customerDataList){
                 Account accountToInsert = new Account();
                 if(customerData != null){
-                    accountToInsert.LastName = customerData.customerName;
                     accountToInsert.Full_Name__pc = customerData.customerName;
-                    if(customerData.customerName.substringAfterLast(' ') != null){
-                        accountToInsert.LastName = customerData.customerName.substringAfterLast(' ');
+                    if(customerData.lastName != null){
+                        accountToInsert.LastName = customerData.lastName;
                     }
-                    if(customerData.customerName.substringBeforeLast(' ') != null){
-                        accountToInsert.FirstName = customerData.customerName.substringBeforeLast(' ');
+                    if(customerData.firstName != null){
+                        accountToInsert.FirstName = customerData.firstName;
                     }
                     accountToInsert.PersonMobilePhone = customerData.mobileNumber;
                     accountToInsert.PersonEmail = customerData.emailId;
@@ -88,7 +87,9 @@ public without sharing class ABCD_CustomerInfoController {
                     accountToInsert.Business_Unit__c = System.Label.ABCD_Business_Unit;
                     accountToInsert.Line_of_Business__pc = System.Label.ABCD_Business_Unit;
                     accountToInsert.Business_Unit__pc = System.Label.ABCD_Business_Unit;
-                    accountToInsert.HNI_Customer__c = false;
+					accountToInsert.HNI_Customer__c = false;
+                    if(customerData.hni == 'true')
+                        accountToInsert.HNI_Customer__c = true;
                     if(systemUser.size()>0){
                         accountToInsert.OwnerId = systemUser[0].Id;
                     }
@@ -192,5 +193,13 @@ public without sharing class ABCD_CustomerInfoController {
         public String pan{get;set;}
         @AuraEnabled
         public String lob{get;set;}
+        @AuraEnabled
+        public String lastName{get;set;}
+        @AuraEnabled
+        public String firstName{get;set;}
+        @AuraEnabled
+        public String hni{get;set;}
+        @AuraEnabled
+        public String customerSince{get;set;}
     }
 }
