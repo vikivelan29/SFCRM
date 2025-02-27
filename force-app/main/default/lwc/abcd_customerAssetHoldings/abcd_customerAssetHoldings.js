@@ -42,16 +42,16 @@ export default class Abcd_customerInfoView extends LightningElement
                     if(resp.holdingsAssetsInfo.dsDetails){
                         let dsDetails = resp.holdingsAssetsInfo.dsDetails;
                         if(dsDetails.lastTransactionDate){
-                            let dtArr = dsDetails.lastTransactionDate.split('-');
-                            dsDetails.lastTransactionDate =dtArr.join('/');
+                            //let dtArr = dsDetails.lastTransactionDate.split('-');
+                            //dsDetails.lastTransactionDate =dtArr.join('/');
                         }
                         this.dsDetails = dsDetails;
                     }
                     if(resp.holdingsAssetsInfo.dmDeatils){
                         let dmDeatils = resp.holdingsAssetsInfo.dmDeatils;
                         if(dmDeatils.accountOpeningDate){
-                            let dtArr = dmDeatils.accountOpeningDate.split('-');
-                            dmDeatils.accountOpeningDate =dtArr.join('/');
+                            //let dtArr = dmDeatils.accountOpeningDate.split('-');
+                            //dmDeatils.accountOpeningDate =dtArr.join('/');
                         }
                         this.dmDetails = dmDeatils;
                     }
