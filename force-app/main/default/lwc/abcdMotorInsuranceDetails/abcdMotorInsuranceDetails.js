@@ -18,12 +18,16 @@ const columns = [
                     {
                         fieldName: 'dateofPurchase',
                         label: 'Date of Purchase',
-                        type: 'text',
-                        /*typeAttributes: {
+                        type: 'date',
+                        typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
-                        }*/
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
+                        }
                     },
                     {
                         fieldName: 'vehicleNumber',
@@ -54,6 +58,6 @@ export default class AbcdMotorInsuranceDetails extends LightningElement {
     }
 
     get displayNoData() {
-        return this.status === 'Success' && (!this.midetails || this.midetails.length === 0 || this.midetails == null);
+        return this.status === 'Success' && (!this.midetails || this.midetails.length === 0 || this.midetails.holdingDetails == null);
     }
 }

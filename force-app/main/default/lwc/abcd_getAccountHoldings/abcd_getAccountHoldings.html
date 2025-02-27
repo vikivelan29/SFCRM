@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 02-21-2025
+  @last modified on  : 02-27-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -35,7 +35,7 @@
                     </div>
                 </template>
                 <template if:true={accountData}>
-                    <div class="slds-p-around_medium">
+                    <div class="slds-p-around_medium" style="max-height: 250px; overflow-y: auto;">
                         <lightning-datatable
                             key-field="id"
                             data={accountData}

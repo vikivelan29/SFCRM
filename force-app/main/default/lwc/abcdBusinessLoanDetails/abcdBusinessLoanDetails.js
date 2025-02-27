@@ -109,6 +109,6 @@ export default class AbcdBusinessLoanDetails extends LightningElement {
     }
 
     get displayNoData() {
-        return this.status === 'Success' && (!this.bldetails || this.bldetails.length === 0 || this.bldetails == null);
+        return this.status === 'Success' && (!this.bldetails || this.bldetails.length === 0 || this.bldetails.holdingDetails == null);
     }
 }

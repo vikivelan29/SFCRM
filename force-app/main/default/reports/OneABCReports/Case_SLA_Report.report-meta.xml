@@ -3,7 +3,19 @@
     <columns>
         <field>CASE_NUMBER</field>
     </columns>
-    <description>Summary Report on open cases Grouped by Category, Case Type and Sub Type</description>
+    <columns>
+        <field>Case.Type_Text__c</field>
+    </columns>
+    <columns>
+        <field>Case.Sub_Type_Text__c</field>
+    </columns>
+    <columns>
+        <field>OWNER</field>
+    </columns>
+    <columns>
+        <field>CREATED_DATEONLY</field>
+    </columns>
+    <description>SLA report on open cases grouped by SLA Range %</description>
     <filter>
         <criteriaItems>
             <column>Case.Business_Unit__c</column>
@@ -20,23 +32,18 @@
             <value>0</value>
         </criteriaItems>
     </filter>
-    <format>Summary</format>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case.SR_TAT_elapsed__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
         <field>Case.Nature__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>Case.Type_Text__c</field>
-        <sortOrder>Asc</sortOrder>
-    </groupingsDown>
-    <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>Case.Sub_Type_Text__c</field>
-        <sortOrder>Asc</sortOrder>
-    </groupingsDown>
-    <name>Summary-Category, Case Type and Sub Type</name>
+    <name>Case SLA Report</name>
     <params>
         <name>units</name>
         <value>h</value>
@@ -47,9 +54,9 @@
     </params>
     <reportType>CaseAsset@Case.ABCD_Case_Detail__c</reportType>
     <scope>organization</scope>
-    <showDetails>false</showDetails>
+    <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
-    <showSubTotals>false</showSubTotals>
+    <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
         <dateColumn>CREATED_DATEONLY</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>

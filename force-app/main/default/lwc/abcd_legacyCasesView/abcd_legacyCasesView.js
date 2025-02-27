@@ -110,6 +110,10 @@ export default class abcd_legacyCasesView extends LightningElement {
                         this.disabled = false;
                         this.showNotification("Error", this.leagcyCaseData.returnMessage, 'error');
                     }
+                    else if(this.leagcyCaseData.statusCode != 200){
+                        this.disabled = false;
+                        this.showNotification("Error", 'Unexpected Error, please try again or contact your admin','error');
+                    }
                 }).catch(error => {
                     debugger;
                     console.log('error ==> ', error);
