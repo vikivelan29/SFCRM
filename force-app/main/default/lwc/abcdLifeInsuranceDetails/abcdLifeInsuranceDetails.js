@@ -101,6 +101,6 @@ export default class AbcdLifeInsuranceDetails extends LightningElement {
     }
 
     get displayNoData() {
-        return this.status === 'Success' && (!this.lidetails || this.lidetails.length === 0 || this.lidetails == null);
+        return this.status === 'Success' && (!this.lidetails || this.lidetails.length === 0 || this.lidetails.holdingDetails == null);
     }
 }

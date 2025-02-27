@@ -116,6 +116,6 @@ export default class AbcdHealthInsuranceDetails extends LightningElement {
     }
 
     get displayNoData() {
-        return this.status === 'Success' && (!this.hidetails || this.hidetails.length === 0 || this.hidetails == null);
+        return this.status === 'Success' && (!this.hidetails || this.hidetails.length === 0 || this.hidetails.holdingDetails == null);
     }
 }

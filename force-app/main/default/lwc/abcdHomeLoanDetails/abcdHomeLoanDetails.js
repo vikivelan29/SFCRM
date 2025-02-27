@@ -116,6 +116,6 @@ export default class AbcdHomeLoanDetails extends LightningElement {
     }
 
     get displayNoData() {
-        return this.status === 'Success' && (!this.hfldetails || this.hfldetails.length === 0 || this.hfldetails == null);
+        return this.status === 'Success' && (!this.hfldetails || this.hfldetails.length === 0 || this.hfldetails.holdingDetails == null);
     }
 }
