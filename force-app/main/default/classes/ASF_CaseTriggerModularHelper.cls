@@ -59,7 +59,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                        skipperFlagMap.put(caseRec.Id, skippedItems);
                    }else if(String.isNotBlank(relObjName)){
                        Id fieldValue = (Id)caseRec.get(relObjName);
-            		   skipperFlagMap.put(fieldValue, skippedItems);
+                       skipperFlagMap.put(fieldValue, skippedItems);
                    }
                    caseRec.Feature_Skipper_Flag__c = '';
                }
@@ -1104,7 +1104,7 @@ blankSourcePresent = true;
                        caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                    }
             else if(caseRec.Technical_Source__c != null && caseRec.CCC_External_Id__c != null && isUpdate
-       				&& (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==true)){
+                    && (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==true)){
                        caseListForSla.add(caseRec);
                        newMap.put(caseRec.Id, caseRec);
                        caseStageMap.put(caseRec.Id, caseRec.Stage__c);
@@ -1707,7 +1707,7 @@ blankSourcePresent = true;
                 }
                 else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)
                       //ADDED ADDITIONAL CHECK TO BYPASS CROSS BU VAL FOR ABCD AND ONEABC
-                        && !((ASF_Constants.CROSS_BU_OWNER_VAL_BYPASS.contains(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)) && (ASF_Constants.CROSS_BU_OWNER_VAL_BYPASS.contains(newOwnerQueueIdNameMap.get(newOwnerId))))){
+                        && !((ASF_Constants.CROSS_BU_OWNER_VAL_BYPASS.contains(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)) && !ASF_Constants.bypassOwnerChangeValidation && (ASF_Constants.CROSS_BU_OWNER_VAL_BYPASS.contains(newOwnerQueueIdNameMap.get(newOwnerId))))){
                     c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
                 }
                 else if(!Test.isRunningTest() && oldOwnerId.startsWith('00G') && !queueIdNameMap.get(oldOwnerId).DeveloperName.startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)
