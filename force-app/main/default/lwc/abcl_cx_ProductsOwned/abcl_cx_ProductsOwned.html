@@ -5,53 +5,61 @@
             <div class="slds-grid">
                 <div class="slds-col">
                     <lightning-formatted-text style="color: white; font-size:0.9rem; font-family: Anek Latin"
-                value="Products Owned">
-            </lightning-formatted-text>
+                        value="Products Owned">
+                    </lightning-formatted-text>
                 </div>
-                    <div class="slds-p-right_small">
-                        <c-asf_-current-holdings field-to-be-stamped-on-case={fieldToBeStampedOnCase} info-object={infoObject} account-id={recordId} button-variant={buttonVariant}></c-asf_-current-holdings>
-                    </div>
-                
+                <div class="slds-p-right_small">
+                    <c-asf_-current-holdings field-to-be-stamped-on-case={fieldToBeStampedOnCase}
+                        info-object={infoObject} account-id={recordId} button-variant={buttonVariant}>
+                    </c-asf_-current-holdings>
+                </div>
+
             </div>
-            
+
             <!--lightning-button label="Create Case" title="Non-primary action" onclick={handleClick} class="slds-m-left_xx-large" style="height: 19px;"></lightning-button-->
             <!-- <button class="slds-button slds-button_neutral slds-m-left_xx-large" onclick={handleClick} style="height: 19px;">Create Case</button> -->
-            
+
         </div>
         <div class="slider">
             <!-- assets to be shown-->
-             <template if:true={showNoLANMessage}>
-                <p style="color:#991010;" class="slds-align--absolute-center slds-p-top_large"><b>No Products owned</b></p>
-             </template>
+            <template if:true={showNoLANMessage}>
+                <p style="color:#991010;" class="slds-align--absolute-center slds-p-top_large"><b>No Products owned</b>
+                </p>
+            </template>
             <template for:each={relatedAssets} for:item="asset">
                 <div key={asset.id} class="slds-box slds-theme_default slds-m-around_x-small">
                     <!-- Checkbox -->
                     <div class="slds-grid slds-wrap slds-m-around_x-xsmall">
-                        <div class="slds-p-top_xx-small slds-p-right_x-small slds-p-left_x-small slds-grid slds-align-items-center ">
-                           <div class="clickable slds-p-around_xx-small"  onclick={handleCheckboxChange}>
-                                <input 
-                                    type="checkbox" 
-                                    value={asset.Id} 
-                                    data-id="customCheckbox" 
-                                    class="clickable"
-                                />
+                        <div
+                            class="slds-p-top_xx-small slds-p-right_x-small slds-p-left_x-small slds-grid slds-align-items-center ">
+                            <div class="clickable slds-p-around_xx-small" onclick={handleCheckboxChange}>
+                                <input type="checkbox" value={asset.Id} data-id="customCheckbox" class="clickable" />
                             </div>
                             <span class="checkbox-label">
                                 {asset.FinalLabel}
                             </span>
-                            
+
                         </div>
-        
+
                         <!-- Content Section -->
                         <div class="slds-p-left_x-large">
-                            <p class="asset-details">Loan Status : {asset.LAN__r.Account_Status__c}</p>
-                            <p class="asset-details">Disbursal Status : {asset.LAN__r.Loan_Disbursement_Status__c}	</p>
-                            <p class="asset-details">Disbursed Amount :  <lightning-formatted-number 
-                                value={asset.LAN__r.Loan_Amount__c} 
-                                format-style="currency" 
-                                currency-code="INR">
-                            </lightning-formatted-number>
-                        </p>
+                            <template if:false={isABFL}>
+                                <p class="asset-details">Loan Status : {asset.LAN__r.Account_Status__c}</p>
+                                <p class="asset-details">Disbursal Status : {asset.LAN__r.Loan_Disbursement_Status__c}
+                                </p>
+                                <p class="asset-details">Disbursed Amount : <lightning-formatted-number
+                                        value={asset.LAN__r.Loan_Amount__c} format-style="currency" currency-code="INR">
+                                    </lightning-formatted-number>
+                                </p>
+                            </template>
+                            <template if:true={isABFL}>
+                                <p class="asset-details">Loan Status : {asset.LAN__r.Account_Status__c}</p>
+                                <p class="asset-details">No. of Installment Paid : </p>
+                                <p class="asset-details">EMI Amount : <lightning-formatted-number
+                                        value={asset.LAN__r.Loan_EMI_Amount__c} format-style="currency" currency-code="INR">
+                                    </lightning-formatted-number>
+                                </p>
+                            </template>
                         </div>
                     </div>
                 </div>
