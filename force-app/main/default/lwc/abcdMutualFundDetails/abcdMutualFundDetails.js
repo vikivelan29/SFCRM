@@ -70,7 +70,7 @@ export default class AbcdMutualFundDetails extends LightningElement {
     }
 
     get displayNoData() {
-        return this.status === 'Success' && (!this.mfdetails || this.mfdetails.length === 0 || this.mfdetails == null);
+        return this.status === 'Success' && (!this.mfdetails || this.mfdetails.length === 0 || this.mfdetails.holdingDetails == null);
     }
 
     connectedCallback() {

@@ -109,6 +109,6 @@ export default class AbcdPersonLoanDetails extends LightningElement {
     }
 
     get displayNoData() {
-        return this.status === 'Success' && (!this.pldetails || this.pldetails.length === 0 || this.pldetails == null);
+        return this.status === 'Success' && (!this.pldetails || this.pldetails.length === 0 || this.pldetails.holdingDetails == null);
     }
 }

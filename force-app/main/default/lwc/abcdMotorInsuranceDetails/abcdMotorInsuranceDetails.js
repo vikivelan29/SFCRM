@@ -58,6 +58,6 @@ export default class AbcdMotorInsuranceDetails extends LightningElement {
     }
 
     get displayNoData() {
-        return this.status === 'Success' && (!this.midetails || this.midetails.length === 0 || this.midetails == null);
+        return this.status === 'Success' && (!this.midetails || this.midetails.length === 0 || this.midetails.holdingDetails == null);
     }
 }
