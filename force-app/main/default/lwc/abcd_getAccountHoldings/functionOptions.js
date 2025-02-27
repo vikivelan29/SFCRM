@@ -18,7 +18,8 @@ const FUNCTION_OPTIONS = [
     { label: 'Elite Case Royalty Rewards', value: 'EC' },
     { label: 'Digi Silver', value: 'DS' },
     { label: 'LAMF (Loan Against Mutual Fund) ', value: 'LAMF' },
-    { label: 'Vehicle Track ', value: 'VT' }
+    { label: 'Vehicle Track ', value: 'VT' },
+    { label: 'NPS (National Pension Scheme)', value: 'NPS' }
 ];
 
 export { FUNCTION_OPTIONS };
