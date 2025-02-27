@@ -50,17 +50,37 @@ export default class AbcdLoylatyTransactionHistory extends LightningElement {
         this.validateDates();
     }
     
+
     validateDates() {
-        const today = new Date().toISOString().split('T')[0];
+        const today = new Date().toISOString().split('T')[0]; 
+        const startDateObj = new Date(this.startDate);  
+        const endDateObj = new Date(this.endDate); 
+    
         if (this.startDate && this.startDate > today) {
             this.showToast('Error', 'From Date cannot be greater than today.', 'error');
             this.startDate = '';
         }
-        if (this.endDate && this.endDate < this.startDate) {
+    
+        else if (this.endDate && this.endDate < this.startDate) {
             this.showToast('Error', 'To Date cannot be earlier than From Date.', 'error');
             this.endDate = '';
         }
+    
+       else if (this.endDate && endDateObj > new Date()) {
+            this.showToast('Error', 'To Date cannot be a future date.', 'error');
+            this.endDate = '';
+        }
+    
+      else  if (this.startDate && this.endDate) {
+            const timeDifference = endDateObj - startDateObj; 
+            const dayDifference = timeDifference / (1000 * 3600 * 24); 
+            if (dayDifference > 30) {
+                this.showToast('Error', 'The difference between From Date and To Date cannot be more than 30 days.', 'error');
+                this.endDate = ''; // Resetting  the end date
+            }
+        }
     }
+    
      /* validateDates() {
         if (this.startDate && this.endDate) {
             const start = new Date(this.startDate);
@@ -111,6 +131,7 @@ export default class AbcdLoylatyTransactionHistory extends LightningElement {
     
     async getTransaction() {
         this.displayError = false;
+        this.isLoading = true;
         const result = await getTrasanctionDetails({
             accountId:this.recordId,
             fromDate:  this.startDate,
