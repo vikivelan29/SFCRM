@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Fields_to_Fetch__c</field>
-        <value xsi:type="xsd:string">Loan #:LAN__r.LAN__c:url,Branch Name:LAN__r.Branch__r.Name,Loan Start Date:LAN__r.Loan_Start_Date__c:date,Loan End Date:LAN__r.Loan_End_Date__c:date,RM Code:LAN__r.RM_Code__c,Loan Amount:LAN__r.Loan_Amount__c:currency,LOB:LAN__r.LOB__c,Loan Type:LAN__r.Loan_Type__c</value>
+        <value xsi:type="xsd:string">Loan #:LAN__r.LAN__c:url,Product:LAN__r.ProductName__c,Loan Status:LAN__r.Status,Disbursement amount:LAN__r.Disbursal_Amount__c,Disbursement date:LAN__r.Disbursal_Date__c,EMI Amount:LAN__r.Loan_EMI_Amount__c,Last EMI deducted on:LAN__r.Paid_To_Date__c,First EMI Date:LAN__r.EMI_Start_Date__c,Last EMI date/Maturity date:LAN__r.EMI_End_Date__c,Tenure:LAN__r.Balance_Tenure__c,No.of installments paid:LAN__r.EMIs_paid__c</value>
     </values>
     <values>
         <field>Line_Of_Business__c</field>

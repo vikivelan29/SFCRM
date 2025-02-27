@@ -17,6 +17,8 @@ export default class Abcl_cx_ProductsOwned extends LightningElement {
     fieldToBeStampedOnCase;
     selectedAsset = {};
     buttonVariant="neutral";
+
+    isABFL = false; // added for ABFL c360 by Yogesh
     
     @wire(fetchAssets, { accountRecordId: '$recordId' })
     wiredAssets({ error, data }) {
@@ -27,6 +29,10 @@ export default class Abcl_cx_ProductsOwned extends LightningElement {
             this.showNoLANMessage=false;
             this.totalNoOfRecordsInDatatable = data.assetRecords.length;
             this.accBusinessUnit = data.accBusinessUnit;
+            // added below BU specific condition for ABFL c360 by Yogesh
+              if(this.accBusinessUnit == 'ABFL'){     
+                this.isABFL = true;
+            }
             this.setInfoObj();
             console.log('data returned--->',data);
             this.relatedAssets = data.assetRecords.map((asset) => {
