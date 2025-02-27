@@ -49,6 +49,9 @@ export default class abcdDGTransactionHistory extends LightningElement {
     
     validateDates() {
         const today = new Date().toISOString().split('T')[0];
+        const startDateObj = new Date(this.fromDate);  
+        const endDateObj = new Date(this.toDate); 
+    
         if (this.fromDate && this.fromDate > today) {
             this.showToast('Error', 'From Date cannot be greater than today.', 'error');
             this.fromDate = '';
@@ -56,6 +59,19 @@ export default class abcdDGTransactionHistory extends LightningElement {
         if (this.toDate && this.toDate < this.fromDate) {
             this.showToast('Error', 'To Date cannot be earlier than From Date.', 'error');
             this.toDate = '';
+        }
+        if (this.toDate && endDateObj > new Date()) {
+            this.showToast('Error', 'To Date cannot be a future date.', 'error');
+            this.toDate = '';
+        }
+    
+        if (this.fromDate && this.toDate) {
+            const timeDifference = endDateObj - startDateObj; 
+            const dayDifference = timeDifference / (1000 * 3600 * 24); 
+            if (dayDifference > 30) {
+                this.showToast('Error', 'The difference between From Date and To Date cannot be more than 30 days.', 'error');
+                this.toDate = '';
+            }
         }
     }
     
