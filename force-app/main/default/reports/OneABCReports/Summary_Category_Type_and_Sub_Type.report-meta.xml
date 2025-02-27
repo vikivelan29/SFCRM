@@ -36,7 +36,7 @@
         <field>Case.Sub_Type_Text__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Summary - Category, Type and Sub Type</name>
+    <name>Summary-Category, Case Type and Sub Type</name>
     <params>
         <name>units</name>
         <value>h</value>
