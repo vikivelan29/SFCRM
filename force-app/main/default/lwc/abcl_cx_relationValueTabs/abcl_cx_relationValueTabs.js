@@ -32,6 +32,8 @@ export default class Abcl_cx_relationValueTabs extends LightningElement {
     pageNumber = 1; //Page number    
     recordsToDisplay = []; //Records to be displayed on the page
 
+    ShowInsuranceData = true;
+
     customLabel = {
         abclBusinessUnit
     };
@@ -48,6 +50,9 @@ export default class Abcl_cx_relationValueTabs extends LightningElement {
             this.populateLwcDatatableData();
             this.totalNoOfRecordsInDatatable = data.assetRecords.length;
             this.accBusinessUnit = data.accBusinessUnit;
+        if(this.accBusinessUnit == 'ABFL' || this.accBusinessUnit == 'Wealth'){
+            this.ShowInsuranceData = false;
+        }
             this.setInfoObj();
 
             if(this.assetRecords.length > 0 && this.columns.length > 0) {

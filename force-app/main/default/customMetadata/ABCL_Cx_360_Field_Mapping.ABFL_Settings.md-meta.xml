@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABFL Settings</label>
+    <protected>false</protected>
+    <values>
+        <field>Account_Info_Fields__c</field>
+        <value xsi:type="xsd:string">Client Code:Client_Code__c,Phone Number:PersonMobilePhone,DOB/DOC:PersonBirthDate,Email:PersonEmail,Preferred Language:Language_Preference__c,Gender:PersonGenderIdentity,PAN Number:PAN__c,TAN Number:TAN_Number__c,GST Number:GST_Number__c,State:State__c</value>
+    </values>
+    <values>
+        <field>Business_Unit__c</field>
+        <value xsi:type="xsd:string">ABFL</value>
+    </values>
+    <values>
+        <field>Customer_Happiness_Fields__c</field>
+        <value xsi:type="xsd:string">Customer Since:Customer_Since__c,Employment Type:Employee_Code__c</value>
+    </values>
+    <values>
+        <field>Customer_consent_fields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>HNI_Field__c</field>
+        <value xsi:type="xsd:string">HNI_Customer__c:true</value>
+    </values>
+    <values>
+        <field>HWC_Field__c</field>
+        <value xsi:type="xsd:string">Handle_With_Care_HWC__c:Y</value>
+    </values>
+</CustomMetadata>
