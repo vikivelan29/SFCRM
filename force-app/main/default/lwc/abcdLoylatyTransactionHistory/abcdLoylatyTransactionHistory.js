@@ -131,6 +131,7 @@ export default class AbcdLoylatyTransactionHistory extends LightningElement {
     
     async getTransaction() {
         this.displayError = false;
+        this.isLoading = true;
         const result = await getTrasanctionDetails({
             accountId:this.recordId,
             fromDate:  this.startDate,
