@@ -32,7 +32,6 @@ export default class Abcd_customerInfoView extends LightningElement
                 let resp = JSON.parse(data);
                 if(resp.status == 'Success'){
                     this.status = resp.status;
-                    this.apiMessage = resp.message;
                     if(resp.holdingsAssetsInfo.mfDetails){
                         this.mfDetails = resp.holdingsAssetsInfo.mfDetails;
                     }
@@ -42,16 +41,12 @@ export default class Abcd_customerInfoView extends LightningElement
                     if(resp.holdingsAssetsInfo.dsDetails){
                         let dsDetails = resp.holdingsAssetsInfo.dsDetails;
                         if(dsDetails.lastTransactionDate){
-                            //let dtArr = dsDetails.lastTransactionDate.split('-');
-                            //dsDetails.lastTransactionDate =dtArr.join('/');
                         }
                         this.dsDetails = dsDetails;
                     }
                     if(resp.holdingsAssetsInfo.dmDeatils){
                         let dmDeatils = resp.holdingsAssetsInfo.dmDeatils;
                         if(dmDeatils.accountOpeningDate){
-                            //let dtArr = dmDeatils.accountOpeningDate.split('-');
-                            //dmDeatils.accountOpeningDate =dtArr.join('/');
                         }
                         this.dmDetails = dmDeatils;
                     }
@@ -59,9 +54,14 @@ export default class Abcd_customerInfoView extends LightningElement
                         this.pcDetails = resp.holdingsAssetsInfo.pcDetails;
                     }
                 }
-                this.isLoading = false;
-                this.status = resp.status;
-                this.apiMessage = resp.message;
+                else{
+                    this.status = resp.status;
+                    this.apiMessage = resp.message;
+                    this.isLoading = false;
+                }
+            }else{
+                this.status = 'failure';
+                this.apiMessage = 'An API Error Occured. Please try again or Contact your Admin.';
             }
             this.isLoading = false;
         })
@@ -69,9 +69,9 @@ export default class Abcd_customerInfoView extends LightningElement
             this.error = error;
             this.isLoading = false;
             if (error && error.body && error.body.message) {
-                this.apiMessage = error.body.message;
+                this.apiMessage = 'An API Error occured: '+ error.body.message;
             } else if (error && error.message) {
-                this.apiMessage = error.message;
+                this.apiMessage = 'An API Error occured: '+ error.message;
             } else {
                 this.apiMessage = 'An unexpected error occurred. Please try later or contact your admin';
             }

@@ -13,7 +13,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCD Data Not Found Message</shortDescription>
-        <value>Data Not Found.</value>
+        <value>Data not found.</value>
     </labels>
     <labels>
         <fullName>ABCD_TrackId_Source</fullName>

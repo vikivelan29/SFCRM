@@ -1,6 +1,6 @@
 import { LightningElement, api, track, wire} from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
-
+import DATANOTFOUND from "@salesforce/label/c.ABCD_Data_Not_Found_Message";
 import CLIENT_CODE from '@salesforce/schema/Account.Client_Code__c';
 import MOBILE_NUMBER from '@salesforce/schema/Account.PersonMobilePhone';  
 import EMAIL_ID from '@salesforce/schema/Account.PersonEmail';  
@@ -14,7 +14,7 @@ export default class AbcdDigiGoldDetails extends LightningElement {
     @track emailID;
     @api status;
     @api apiMessage;
-    
+    dataNotFoundMessage = DATANOTFOUND;
     get displayError(){
         if(this.status != 'Success'){
             return true;

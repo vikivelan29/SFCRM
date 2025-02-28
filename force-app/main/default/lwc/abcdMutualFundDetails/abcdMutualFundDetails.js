@@ -1,4 +1,5 @@
 import { LightningElement,api,track} from 'lwc';
+import DATANOTFOUND from "@salesforce/label/c.ABCD_Data_Not_Found_Message";
 const columns = [
                     {
                         fieldName: 'amcNames',
@@ -49,11 +50,14 @@ const columns = [
                         fieldName: 'lastTransactionDate',
                         label: 'Last Transaction Date',
                         type: 'date',
-                        typeAttributes: { 
-                            year: "numeric", 
-                            month: "2-digit", 
-                            day: "2-digit", 
-                            timeZone: "UTC"
+                        typeAttributes: {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
                         }
                     },
                 ];
@@ -63,7 +67,7 @@ export default class AbcdMutualFundDetails extends LightningElement {
     @api status;
     @api apiMessage;
     @api mftransactionDisable = false;
-
+    dataNotFoundMessage = DATANOTFOUND;
     @track selectedRecord;
     showPopup = false;
 

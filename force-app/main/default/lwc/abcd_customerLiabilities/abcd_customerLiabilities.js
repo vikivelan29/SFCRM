@@ -32,8 +32,8 @@ export default class Abcd_CustomerLiabilities extends LightningElement {
             if (data) {
                 let resp = JSON.parse(data);
                 if(resp.status == 'Success'){
-                    if(resp.holdingsLiabilitiesInfo.plDetails){
-                        this.status = resp.status;
+                    this.status = resp.status;
+                    if(resp.holdingsLiabilitiesInfo.plDetails){                        
                         let plDetails = resp.holdingsLiabilitiesInfo.plDetails;
                         if(plDetails.holdingsDetails){
                             for(let i=0; i<plDetails.holdingsDetails.length;i++){
