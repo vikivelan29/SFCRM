@@ -19,6 +19,9 @@ export default class abcdDGTransactionHistory extends LightningElement {
     @api clientid;
     @api emailId;
     @track isLoading = false; 
+    @track errorMessage = '';
+    @track displayError = false;
+
     
 
     get options() {
@@ -91,6 +94,7 @@ export default class abcdDGTransactionHistory extends LightningElement {
         this.transactionDetails = [];
         this.showTransactionTable = false;
         this.currentPage = 1;
+        this.displayError = false;
     }
 
     @api openModal(recordId) {
@@ -128,7 +132,11 @@ export default class abcdDGTransactionHistory extends LightningElement {
                     this.transactionDetails = transactions;
                     this.isLoading = false;
                     this.currentPage = 1;
+                    this.displayError = false;
                 } else {
+                    this.showTransactionTable = false;
+                    this.errorMessage = result.errorMessage;
+                    this.displayError = true;
                     this.showToast('Error', result.errorMessage || 'Error fetching transactions', 'error');
                     this.isLoading = false;
                 }

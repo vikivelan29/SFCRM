@@ -32,6 +32,7 @@ export default class abcd_legacyCasesView extends LightningElement {
     endDate;
     startDateRequired = false;
     endDateRequired = false;
+    @track displayNoData = false;
 
     
     label={
@@ -91,14 +92,16 @@ export default class abcd_legacyCasesView extends LightningElement {
                     this.leagcyCaseData = result;
                     console.log('Result1 ==> ', result);
                     this.isLoading = false;
-                    if (this.leagcyCaseData && this.leagcyCaseData.returnCode == '1' && this.leagcyCaseData.statusCode == 200) {
+                    if (this.leagcyCaseData && this.leagcyCaseData.returnCode == '1' && this.leagcyCaseData.statusCode == 200 && this.leagcyCaseData.legacyCaseResponse.length != 0) {
                         this.statusCode = this.leagcyCaseData.statusCode;
                         this.loaded = true;
                         this.displayTable = true;
                         this.data = this.leagcyCaseData.legacyCaseResponse;
                         this.disabled = false;
+                        this.displayNoData = false;
+                    
                     }
-                    else if (this.leagcyCaseData && this.leagcyCaseData.statusCode != 0 && (this.leagcyCaseData.returnCode == '2' || this.leagcyCaseData.returnMessage != null)) {
+                    else if (this.leagcyCaseData && this.leagcyCaseData.statusCode != 0 && (this.leagcyCaseData.returnCode == '2' && this.leagcyCaseData.returnMessage != null)) {
                         console.log('@@@Erro');
                         this.displayError = true;
                         this.loaded = true;
@@ -113,6 +116,11 @@ export default class abcd_legacyCasesView extends LightningElement {
                     else if(this.leagcyCaseData.statusCode != 200){
                         this.disabled = false;
                         this.showNotification("Error", 'Unexpected Error, please try again or contact your admin','error');
+                    }
+                    else if(this.leagcyCaseData.returnCode == 1 && this.leagcyCaseData.legacyCaseResponse.length == 0){
+                        this.displayNoData = true;
+                        this.displayTable = false;
+                        this.showNotification("Error", 'Data not Found','error');
                     }
                 }).catch(error => {
                     debugger;
@@ -149,6 +157,9 @@ export default class abcd_legacyCasesView extends LightningElement {
         this.startDateRequired = false;
         this.endDateRequired = false;
         this.showChildTable = false;
+        this.legacyCaseData = [];
+        this.displayTable = false;
+        this.displayNoData = false;
     }
 
     startDateChange(event)
