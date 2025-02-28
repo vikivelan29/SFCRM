@@ -34,7 +34,6 @@ export default class Abcd_CustomerLiabilities extends LightningElement {
                 if(resp.status == 'Success'){
                     if(resp.holdingsLiabilitiesInfo.plDetails){
                         this.status = resp.status;
-                        this.apiMessage = resp.message;
                         let plDetails = resp.holdingsLiabilitiesInfo.plDetails;
                         if(plDetails.holdingsDetails){
                             for(let i=0; i<plDetails.holdingsDetails.length;i++){
@@ -67,10 +66,14 @@ export default class Abcd_CustomerLiabilities extends LightningElement {
                         }
                         this.blDetails = blDetails;
                     }
+                }else{
+                    this.status = resp.status;
+                    this.apiMessage = resp.message;
                 }
                 this.isLoading = false;
-                this.status = resp.status;
-                this.apiMessage = resp.message;
+            }else{
+                this.status = 'failure';
+                this.apiMessage = 'An API Error Occured. Please try again or Contact your Admin.';
             }
             this.isLoading = false;
             
@@ -79,9 +82,9 @@ export default class Abcd_CustomerLiabilities extends LightningElement {
             this.error = error;
             this.isLoading = false;
             if (error && error.body && error.body.message) {
-                this.apiMessage = error.body.message;
+                this.apiMessage = 'An API Error occured: '+ error.body.message;
             } else if (error && error.message) {
-                this.apiMessage = error.message;
+                this.apiMessage = 'An API Error occured: '+ error.message;
             } else {
                 this.apiMessage = 'An unexpected error occurred. Please try later or contact your admin';
             }

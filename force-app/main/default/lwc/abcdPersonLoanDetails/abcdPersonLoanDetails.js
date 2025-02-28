@@ -1,4 +1,5 @@
 import { LightningElement,api } from 'lwc';
+import DATANOTFOUND from "@salesforce/label/c.ABCD_Data_Not_Found_Message";
 const columns = [
                     {
                         fieldName: 'loanAccountNumber',
@@ -8,22 +9,30 @@ const columns = [
                     {
                         fieldName: 'loanStartDate',
                         label: 'Loan Start Date',
-                        type: 'text',
-                        /*typeAttributes: {
+                        type: 'date',
+                        typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
-                        }*/
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
+                        }
                     },
                     {
                         fieldName: 'loanEndDate',
                         label: 'Loan End Date',
-                        type: 'text',
-                        /*typeAttributes: {
+                        type: 'date',
+                        typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
-                        }*/
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
+                        }
                     },
                     {
                         fieldName: 'tenor',
@@ -38,12 +47,16 @@ const columns = [
                     {
                         fieldName: '',
                         label: 'Next Installment Date',
-                        type: 'text',
-                        /*typeAttributes: {
+                        type: 'date',
+                        typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
-                        }*/
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
+                        }
                     },
                     {
                         fieldName: 'loanType',
@@ -58,32 +71,44 @@ const columns = [
                     {
                         fieldName: 'lastDisbursedAmount',
                         label: 'Disbursement Date',
-                        type: 'test',
-                        /*typeAttributes: {
+                        type: 'date',
+                        typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
-                        }*/
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
+                        }
                     },
                     {
                         fieldName: 'sanctionDate',
                         label: 'Loan Agreement Date',
-                        type: 'text',
-                        /*typeAttributes: {
+                        type: 'date',
+                        typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
-                        }*/
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
+                        }
                     },
                     {
                         fieldName: 'offerAcceptanceDate',
                         label: 'Offer Acceptance Date',
-                        type: 'text',
-                        /*typeAttributes: {
+                        type: 'date',
+                        typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
-                        }*/
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
+                        }
                     },
                     {
                         fieldName: 'sanctionAmount',
@@ -101,6 +126,7 @@ export default class AbcdPersonLoanDetails extends LightningElement {
     columns = columns;
     @api status;
     @api apiMessage;
+    dataNotFoundMessage = DATANOTFOUND;
     get displayError(){
         if(this.status != 'Success'){
             return true;
@@ -108,7 +134,8 @@ export default class AbcdPersonLoanDetails extends LightningElement {
         return false;
     }
 
-    get displayNoData() {
-        return this.status === 'Success' && (!this.pldetails || this.pldetails.length === 0 || this.pldetails.holdingDetails == null);
+    get displayNoData() {  
+
+        return !this.apiMessage && (!this.pldetails || !this.pldetails.holdingsDetails);
     }
 }
