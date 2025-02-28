@@ -160,6 +160,7 @@ export default class abcd_legacyCasesView extends LightningElement {
         this.legacyCaseData = [];
         this.displayTable = false;
         this.displayNoData = false;
+        this.disabled = false;
     }
 
     startDateChange(event)
