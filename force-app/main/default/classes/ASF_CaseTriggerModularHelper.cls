@@ -208,7 +208,7 @@ blankSourcePresent = true;
                     caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
                     
                     // EXECUTE ONLY WHEN RECORD TYPE IS CHANGED TO FRAMEWORK.
-                    if(frameworkRecordTypeId == caseRec.RecordTypeId){
+                    if(frameworkRecordTypeId == caseRec.RecordTypeId && !ABCD_BulkCloseCaseConverterUtility.requestFromBulkClose){
                         caseRec.Stage__c = appliedCCC.First_Stage__c;
                     }
                     caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
@@ -1852,7 +1852,7 @@ User will now be forced to go recategorize.
             if(oldMap != null && (caseRec.accountId != oldMap.get(caseRec.Id).accountId 
                                   || caseRec.assetId != oldMap.get(caseRec.Id).assetId ||caseRec.Lead__c != oldMap.get(caseRec.Id).Lead__c 
                                   || caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
-                                      if(runvalidateCCCOnUpdateFromEBOT(caseRec , oldMap.get(caseRec.Id))){
+                                      if(runvalidateCCCOnUpdateFromEBOT(caseRec , oldMap.get(caseRec.Id)) && !ABCD_BulkCloseCaseConverterUtility.requestFromBulkClose){
                                           modifiedCases.add(caseRec);  
                                           cccIds.add(caseRec.CCC_External_Id__c);
                                           if(caseRec.accountId != oldMap.get(caseRec.Id).accountId){

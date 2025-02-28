@@ -1,6 +1,8 @@
 @SuppressWarnings('PMD.ApexSOQLInjection')
 
 public with sharing class ABCD_BulkCloseCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
+    public static Boolean requestFromBulkClose = false;
+    
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
         //{'Case number':'00005150','Resolution Comments':'Unresolved'}
@@ -73,6 +75,8 @@ public with sharing class ABCD_BulkCloseCaseConverterUtility implements ASF_Bulk
                 
             if(caseNumberToCaseMap.get(caseNumber).CCC_External_Id__c == null){
                 caseRec.CCC_External_Id__c = 'ABCD_NonABC_00135';
+                caseRec.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
+                ABCD_BulkCloseCaseConverterUtility.requestFromBulkClose = true;
                 insert caseDetRec;
                 caseRec.ABCD_Case_Detail__c = caseDetRec.Id;
             }else{
