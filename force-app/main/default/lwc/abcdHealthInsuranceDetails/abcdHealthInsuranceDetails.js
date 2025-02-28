@@ -1,4 +1,5 @@
 import { LightningElement,api } from 'lwc';
+import DATANOTFOUND from "@salesforce/label/c.ABCD_Data_Not_Found_Message";
 const columns = [
                     {
                         fieldName: 'applicationNumber',
@@ -108,14 +109,17 @@ export default class AbcdHealthInsuranceDetails extends LightningElement {
     columns = columns;
     @api status;
     @api apiMessage;
+    dataNotFoundMessage = DATANOTFOUND;
     get displayError(){
         if(this.status != 'Success'){
             return true;
         }
         return false;
     }
+    
 
-    get displayNoData() {
-        return this.status === 'Success' && (!this.hidetails || this.hidetails.length === 0 || this.hidetails.holdingDetails == null);
+    get displayNoData() {  
+
+        return !this.apiMessage && (!this.hidetails || !this.hidetails.holdingsDetails);
     }
 }

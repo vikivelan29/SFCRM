@@ -1,4 +1,5 @@
 import { LightningElement,api } from 'lwc';
+import DATANOTFOUND from "@salesforce/label/c.ABCD_Data_Not_Found_Message";
 const columns = [
                     {
                         fieldName: 'policyType',
@@ -50,6 +51,7 @@ export default class AbcdMotorInsuranceDetails extends LightningElement {
     columns = columns;
     @api status;
     @api apiMessage;
+    dataNotFoundMessage = DATANOTFOUND;
     get displayError(){
         if(this.status != 'Success'){
             return true;
@@ -57,7 +59,8 @@ export default class AbcdMotorInsuranceDetails extends LightningElement {
         return false;
     }
 
-    get displayNoData() {
-        return this.status === 'Success' && (!this.midetails || this.midetails.length === 0 || this.midetails.holdingDetails == null);
+    get displayNoData() {  
+
+        return !this.apiMessage && (!this.midetails || !this.midetails.holdingsDetails);
     }
 }

@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 02-24-2025
+  @last modified on  : 02-28-2025
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -36,7 +36,7 @@
       <template if:true={displayNoData}>
         <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
             <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
-            <span style="font-size: 0.90rem;">No Data Found</span> 
+            <span style="font-size: 0.90rem;">{dataNotFoundMessage}</span> 
         </div>
       </template>
       <template if:true={midetails}>

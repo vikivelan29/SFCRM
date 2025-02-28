@@ -1,4 +1,5 @@
 import { LightningElement,api } from 'lwc';
+import DATANOTFOUND from "@salesforce/label/c.ABCD_Data_Not_Found_Message";
 const columns = [
                     {
                         fieldName: 'applicationNumber',
@@ -23,22 +24,30 @@ const columns = [
                     {
                         fieldName: 'maturityDate',
                         label: 'Policy Maturity Date',
-                        type: 'text',
-                        /*typeAttributes: {
+                        type: 'date',
+                        typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
-                        }*/
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
+                        }
                     },
                     {
                         fieldName: 'issueDate',
                         label: 'Policy Issuance Date',
-                        type: 'text',
-                        /*typeAttributes: {
+                        type: 'date',
+                        typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
-                        }*/
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
+                        }
                     },
                     {
                         fieldName: 'policyPremium',
@@ -73,12 +82,16 @@ const columns = [
                     {
                         fieldName: 'lastPremiumPaymentDate',
                         label: 'Last Premium payment date',
-                        type: 'text',
-                        /*typeAttributes: {
+                        type: 'date',
+                        typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
-                            year: "numeric"
-                        }*/
+                            year: "numeric",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second:"2-digit"
+                        }
                     },
                     /* Annual Premius already present as policy premium and hence not required here.
                     {
@@ -93,6 +106,7 @@ export default class AbcdLifeInsuranceDetails extends LightningElement {
 
     @api status;
     @api apiMessage;
+    dataNotFoundMessage = DATANOTFOUND;
     get displayError(){
         if(this.status != 'Success'){
             return true;
@@ -100,7 +114,8 @@ export default class AbcdLifeInsuranceDetails extends LightningElement {
         return false;
     }
 
-    get displayNoData() {
-        return this.status === 'Success' && (!this.lidetails || this.lidetails.length === 0 || this.lidetails.holdingDetails == null);
+    get displayNoData() {  
+
+        return !this.apiMessage && (!this.lidetails || !this.lidetails.holdingsDetails);
     }
 }

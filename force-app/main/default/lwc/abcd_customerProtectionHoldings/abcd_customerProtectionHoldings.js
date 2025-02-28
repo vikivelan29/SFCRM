@@ -30,7 +30,7 @@ export default class Abcd_customerProtectionHoldings extends LightningElement
                 let resp = JSON.parse(data);
                 if(resp.status == 'Success'){
                     this.status = resp.status;
-                    this.apiMessage = resp.message;
+                    //this.apiMessage = resp.message;
                     if(resp.holdingsProtectionInfo.liDetails){
                         this.liDetails = resp.holdingsProtectionInfo.liDetails;
                     }
@@ -40,10 +40,14 @@ export default class Abcd_customerProtectionHoldings extends LightningElement
                     if(resp.holdingsProtectionInfo.miDetails){
                         this.miDetails = resp.holdingsProtectionInfo.miDetails;
                     }
+                }else{
+                    this.status = resp.status;
+                    this.apiMessage = resp.message;
                 }
-                this.status = resp.status;
-                this.apiMessage = resp.message;
                 this.isLoading = false;
+            }else{
+                this.status = 'failure';
+                this.apiMessage = 'An API Error Occured. Please try again or Contact your Admin.';
             }
             this.isLoading = false;
         })
@@ -51,9 +55,9 @@ export default class Abcd_customerProtectionHoldings extends LightningElement
             this.error = error;
             this.isLoading = false;
             if (error && error.body && error.body.message) {
-                this.apiMessage = error.body.message;
+                this.apiMessage = 'An API Error occured: '+ error.body.message;
             } else if (error && error.message) {
-                this.apiMessage = error.message;
+                this.apiMessage = 'An API Error occured: '+ error.message;
             } else {
                 this.apiMessage = 'An unexpected error occurred. Please try later or contact your admin';
             }
